@@ -1,19 +1,32 @@
-# open-source-template
-Template project for open source projects from SingleStore
+# Overview
 
-## Usage
+`singlestore-go` is a collection of SingleStore Golang SDKs.
 
-1. [Sign up](https://www.singlestore.com/try-free/) for a free SingleStore license. This allows you
-   to run up to 4 nodes up to 32 gigs each for free. Grab your license key from
-   [SingleStore portal](https://portal.singlestore.com/?utm_medium=osm&utm_source=github) and set it as an environment
-   variable.
+## Management API
 
-   ```bash
-   export SINGLESTORE_LICENSE="singlestore license"
-   ```
+`management` is a Golang SDK for [SingleStore Management API](https://docs.singlestore.com/managed-service/en/developer-resources/management-api.html).
+
+The SDK may be fetched either as the latest version or as a fixed version.
+
+```bash
+# latest
+go get github.com/singlestore-labs/singlestore-go/management
+
+# fixed
+go get github.com/singlestore-labs/singlestore-go/management@v0.1.1
+```
+
+To import the SDK add the following line to your `*.go` file.
+
+```bash
+import "github.com/singlestore-labs/singlestore-go/management"
+```
+
+[Here](https://github.com/noprysk-ua/regions-lister) is a sample project that imports the SDK.
 
 ## Resources
 
-* [Documentation](https://docs.singlestore.com)
+* [Management API documentation](https://docs.singlestore.com/managed-service/en/developer-resources/management-api.html)
+* [Management API sample project](https://github.com/noprysk-ua/regions-lister)
 * [Twitter](https://twitter.com/SingleStoreDevs)
 * [SingleStore forums](https://www.singlestore.com/forum)

@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+root="$(git rev-parse --show-toplevel)"
+schema="${root}/management/management.yaml"
+
+cd "${root}"/management
+
+curl -sS https://api.singlestore.com/spec > ${schema}
+
+go install github.com/mikefarah/yq/v4@v4.23.1
+
+version="management/v$(cat ${schema} | yq .info.version)"
+
+echo "Updating the client to version ${version}..."
+
+cleanup() {
+    rm "${schema}"
+}
+trap cleanup EXIT
+
+go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.8.3
+output="${root}/management/management.go"
+oapi-codegen -package management -generate types,client -o "${output}" "${schema}"
+
+go mod tidy
+go build
+
+if [[ $(git status ${output} --porcelain) ]]; then
+    git config user.email "ci@singlestorelabs.com"
+    git config user.name "CI"
+    git add "${output}" go.mod go.sum
+    git commit -m "Updating the client to version ${version}" || true
+    git tag ${version}
+    git push origin ${version}
+    git push
+    echo "Successfully updated the client to version ${version}!"
+else
+    echo "The SDK is already up to date with the latest released version ${version}"
+fi

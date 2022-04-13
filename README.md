@@ -24,9 +24,12 @@ import "github.com/singlestore-labs/singlestore-go/management"
 
 [Here](https://github.com/noprysk-ua/regions-lister) is a sample project that imports the SDK.
 
+[Here](https://pkg.go.dev/github.com/singlestore-labs/singlestore-go/management) is Golang SDK documentation for the package.
+
 ## Resources
 
 * [Management API documentation](https://docs.singlestore.com/managed-service/en/developer-resources/management-api.html)
 * [Management API sample project](https://github.com/noprysk-ua/regions-lister)
 * [Twitter](https://twitter.com/SingleStoreDevs)
 * [SingleStore forums](https://www.singlestore.com/forum)
+* [Management API Golang SDK documentation](https://pkg.go.dev/github.com/singlestore-labs/singlestore-go/management)

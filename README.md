@@ -3,6 +3,7 @@
 `singlestore-go` is a collection of SingleStore Golang SDKs.
 
 ## Management API
+[![Go Reference](https://pkg.go.dev/badge/github.com/singlestore-labs/singlestore-go/management.svg)](https://pkg.go.dev/github.com/singlestore-labs/singlestore-go/management)
 
 `management` is a Golang SDK for [SingleStore Management API](https://docs.singlestore.com/managed-service/en/developer-resources/management-api.html).
 

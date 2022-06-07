@@ -49,9 +49,20 @@ const (
 	RegionProviderGCP RegionProvider = "GCP"
 )
 
+// Defines values for WorkspaceState.
+const (
+	WorkspaceStateACTIVE WorkspaceState = "ACTIVE"
+
+	WorkspaceStateFAILED WorkspaceState = "FAILED"
+
+	WorkspaceStatePENDING WorkspaceState = "PENDING"
+
+	WorkspaceStateTERMINATED WorkspaceState = "TERMINATED"
+)
+
 // Represents information related to a cluster
 type Cluster struct {
-	// A unique identifier for the cluster
+	// ID of the cluster
 	ClusterID string `json:"clusterID"`
 
 	// The timestamp of when the cluster was created
@@ -63,7 +74,7 @@ type Cluster struct {
 	// The timestamp of when the cluster will expire
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
-	// The list of allowed incoming IP addresses
+	// The list of allowed inbound IP addresses
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
 	// Name of the cluster
@@ -84,14 +95,14 @@ type Cluster struct {
 	// Size of the cluster (in units), such as 0.25 or 1.0
 	Units float32 `json:"units"`
 
-	// The SingleStore version
+	// The SingleStoreDB version
 	Version string `json:"version"`
 }
 
 // State of the cluster
 type ClusterState string
 
-// Represents the variables specified while creating a cluster
+// Represents the information specified while creating a cluster
 type ClusterCreate struct {
 	// The admin password for the cluster. The password must contain:
 	//
@@ -112,7 +123,7 @@ type ClusterCreate struct {
 	//   * "3h30m"
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
-	// A list of allowed CIDR ranges. An empty list indicates that all incoming requests are allowed.
+	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
 	FirewallRanges []string `json:"firewallRanges"`
 
 	// Name of the cluster
@@ -125,7 +136,7 @@ type ClusterCreate struct {
 	Size *string `json:"size,omitempty"`
 }
 
-// Represents the variables specified while updating a cluster
+// Represents the information specified while updating a cluster
 type ClusterUpdate struct {
 	// The admin password for the cluster. The password must contain:
 	//
@@ -144,7 +155,7 @@ type ClusterUpdate struct {
 	//   * "3h30m"
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
-	// A list of allowed CIDR ranges. An empty list indicates that all incoming requests are allowed.
+	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
 	// Name of the cluster
@@ -169,8 +180,116 @@ type Region struct {
 // Name of the provider
 type RegionProvider string
 
+// Represents information related to a workspace
+type Workspace struct {
+	// The timestamp of when the workspace was created
+	CreatedAt string `json:"createdAt"`
+
+	// Endpoint to connect to the workspace
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// Name of the workspace
+	Name string `json:"name"`
+
+	// Size of the workspace (in workspace size notation), such as S-00 or S-1
+	Size string `json:"size"`
+
+	// State of the workspace
+	State WorkspaceState `json:"state"`
+
+	// (If included in the output) The timestamp of when the workspace was terminated
+	TerminatedAt *string `json:"terminatedAt,omitempty"`
+
+	// ID of the workspace group
+	WorkspaceGroupID string `json:"workspaceGroupID"`
+
+	// ID of the workspace
+	WorkspaceID string `json:"workspaceID"`
+}
+
+// State of the workspace
+type WorkspaceState string
+
+// Represents the information specified while creating a workspace
+type WorkspaceCreate struct {
+	// Name of the workspace
+	Name string `json:"name"`
+
+	// Size of the workspace (in workspace size notation), such as S-1. The default value is "S-00".
+	Size *string `json:"size,omitempty"`
+
+	// ID of the workspace group
+	WorkspaceGroupID string `json:"workspaceGroupID"`
+}
+
+// Represents information related to a workspace group
+type WorkspaceGroup struct {
+	// The timestamp of when the workspace was created
+	CreatedAt string `json:"createdAt"`
+
+	// The list of allowed inbound IP addresses
+	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
+
+	// Name of the workspace group
+	Name string `json:"name"`
+
+	// ID of the region
+	RegionID string `json:"regionID"`
+
+	// (If included in the output) The timestamp of when the workspace group was terminated
+	TerminatedAt *string `json:"terminatedAt,omitempty"`
+
+	// ID of the workspace group
+	WorkspaceGroupID string `json:"workspaceGroupID"`
+}
+
+// Represents the information specified while creating a workspace group
+type WorkspaceGroupCreate struct {
+	// The admin password for the workspace group. The password must contain:
+	//
+	//   * At least 8 characters
+	//   * At least one uppercase character
+	//   * At least one lowercase character
+	//   * At least one number or special character
+	//
+	// If a password is not specified while creating a workspace group, a password is generated and returned in the response object.
+	AdminPassword *string `json:"adminPassword,omitempty"`
+
+	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
+	FirewallRanges []string `json:"firewallRanges"`
+
+	// Name of the workspace group
+	Name string `json:"name"`
+
+	// ID of the region where the new workspace group is created
+	RegionID string `json:"regionID"`
+}
+
+// Represents the information specified while updating a workspace group
+type WorkspaceGroupUpdate struct {
+	// The admin password for the workspace group. The password must contain:
+	//
+	//   * At least 8 characters
+	//   * At least one uppercase character
+	//   * At least one lowercase character
+	//   * At least one number or special character
+	AdminPassword *string `json:"adminPassword,omitempty"`
+
+	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
+	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
+
+	// Name of the workspace
+	Name *string `json:"name,omitempty"`
+}
+
 // ClusterId defines model for cluster-id.
 type ClusterId string
+
+// WorkspaceGroupID defines model for workspaceGroupID.
+type WorkspaceGroupID string
+
+// WorkspaceID defines model for workspaceID.
+type WorkspaceID string
 
 // GetV0betaClustersParams defines parameters for GetV0betaClusters.
 type GetV0betaClustersParams struct {
@@ -184,11 +303,50 @@ type PostV0betaClustersJSONBody ClusterCreate
 // PatchV0betaClustersClusterIdJSONBody defines parameters for PatchV0betaClustersClusterId.
 type PatchV0betaClustersClusterIdJSONBody ClusterUpdate
 
+// GetV1WorkspaceGroupsParams defines parameters for GetV1WorkspaceGroups.
+type GetV1WorkspaceGroupsParams struct {
+	// To include any terminated workspace groups, set to `true`
+	IncludeTerminated *bool `json:"includeTerminated,omitempty"`
+}
+
+// PostV1WorkspaceGroupsJSONBody defines parameters for PostV1WorkspaceGroups.
+type PostV1WorkspaceGroupsJSONBody WorkspaceGroupCreate
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDParams defines parameters for DeleteV1WorkspaceGroupsWorkspaceGroupID.
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDParams struct {
+	// To terminate a workspace group even if it has active workspaces, set to `true`
+	Force *bool `json:"force,omitempty"`
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDJSONBody defines parameters for PatchV1WorkspaceGroupsWorkspaceGroupID.
+type PatchV1WorkspaceGroupsWorkspaceGroupIDJSONBody WorkspaceGroupUpdate
+
+// GetV1WorkspacesParams defines parameters for GetV1Workspaces.
+type GetV1WorkspacesParams struct {
+	// ID of the workspace group
+	WorkspaceGroupID string `json:"workspaceGroupID"`
+
+	// To include any terminated workspaces, set to `true`
+	IncludeTerminated *bool `json:"includeTerminated,omitempty"`
+}
+
+// PostV1WorkspacesJSONBody defines parameters for PostV1Workspaces.
+type PostV1WorkspacesJSONBody WorkspaceCreate
+
 // PostV0betaClustersJSONRequestBody defines body for PostV0betaClusters for application/json ContentType.
 type PostV0betaClustersJSONRequestBody PostV0betaClustersJSONBody
 
 // PatchV0betaClustersClusterIdJSONRequestBody defines body for PatchV0betaClustersClusterId for application/json ContentType.
 type PatchV0betaClustersClusterIdJSONRequestBody PatchV0betaClustersClusterIdJSONBody
+
+// PostV1WorkspaceGroupsJSONRequestBody defines body for PostV1WorkspaceGroups for application/json ContentType.
+type PostV1WorkspaceGroupsJSONRequestBody PostV1WorkspaceGroupsJSONBody
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupID for application/json ContentType.
+type PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody PatchV1WorkspaceGroupsWorkspaceGroupIDJSONBody
+
+// PostV1WorkspacesJSONRequestBody defines body for PostV1Workspaces for application/json ContentType.
+type PostV1WorkspacesJSONRequestBody PostV1WorkspacesJSONBody
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -290,6 +448,42 @@ type ClientInterface interface {
 
 	// GetV0betaRegions request
 	GetV0betaRegions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Regions request
+	GetV1Regions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroups request
+	GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroups request with any body
+	PostV1WorkspaceGroupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspaceGroups(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupID request
+	DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupID request
+	GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupID request with any body
+	PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Workspaces request
+	GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Workspaces request with any body
+	PostV1WorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1Workspaces(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspacesWorkspaceID request
+	DeleteV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceID request
+	GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetV0betaClusters(ctx context.Context, params *GetV0betaClustersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -402,6 +596,162 @@ func (c *Client) PostV0betaClustersClusterIdSuspend(ctx context.Context, cluster
 
 func (c *Client) GetV0betaRegions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV0betaRegionsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1Regions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1RegionsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroups(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1Workspaces(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -709,6 +1059,422 @@ func NewGetV0betaRegionsRequest(server string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewGetV1RegionsRequest generates requests for GetV1Regions
+func NewGetV1RegionsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/regions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsRequest generates requests for GetV1WorkspaceGroups
+func NewGetV1WorkspaceGroupsRequest(server string, params *GetV1WorkspaceGroupsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.IncludeTerminated != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "includeTerminated", runtime.ParamLocationQuery, *params.IncludeTerminated); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspaceGroupsRequest calls the generic PostV1WorkspaceGroups builder with application/json body
+func NewPostV1WorkspaceGroupsRequest(server string, body PostV1WorkspaceGroupsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsRequestWithBody generates requests for PostV1WorkspaceGroups with any type of body
+func NewPostV1WorkspaceGroupsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1WorkspaceGroupsWorkspaceGroupIDRequest generates requests for DeleteV1WorkspaceGroupsWorkspaceGroupID
+func NewDeleteV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Force != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "force", runtime.ParamLocationQuery, *params.Force); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupID
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequest calls the generic PatchV1WorkspaceGroupsWorkspaceGroupID builder with application/json body
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody generates requests for PatchV1WorkspaceGroupsWorkspaceGroupID with any type of body
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesRequest generates requests for GetV1Workspaces
+func NewGetV1WorkspacesRequest(server string, params *GetV1WorkspacesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "workspaceGroupID", runtime.ParamLocationQuery, params.WorkspaceGroupID); err != nil {
+		return nil, err
+	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+		return nil, err
+	} else {
+		for k, v := range parsed {
+			for _, v2 := range v {
+				queryValues.Add(k, v2)
+			}
+		}
+	}
+
+	if params.IncludeTerminated != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "includeTerminated", runtime.ParamLocationQuery, *params.IncludeTerminated); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesRequest calls the generic PostV1Workspaces builder with application/json body
+func NewPostV1WorkspacesRequest(server string, body PostV1WorkspacesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesRequestWithBody generates requests for PostV1Workspaces with any type of body
+func NewPostV1WorkspacesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1WorkspacesWorkspaceIDRequest generates requests for DeleteV1WorkspacesWorkspaceID
+func NewDeleteV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDRequest generates requests for GetV1WorkspacesWorkspaceID
+func NewGetV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -779,6 +1545,42 @@ type ClientWithResponsesInterface interface {
 
 	// GetV0betaRegions request
 	GetV0betaRegionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV0betaRegionsResponse, error)
+
+	// GetV1Regions request
+	GetV1RegionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
+
+	// GetV1WorkspaceGroups request
+	GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error)
+
+	// PostV1WorkspaceGroups request with any body
+	PostV1WorkspaceGroupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error)
+
+	PostV1WorkspaceGroupsWithResponse(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupID request
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupID request
+	GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupID request with any body
+	PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	// GetV1Workspaces request
+	GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error)
+
+	// PostV1Workspaces request with any body
+	PostV1WorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error)
+
+	PostV1WorkspacesWithResponse(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error)
+
+	// DeleteV1WorkspacesWorkspaceID request
+	DeleteV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDResponse, error)
+
+	// GetV1WorkspacesWorkspaceID request
+	GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error)
 }
 
 type GetV0betaClustersResponse struct {
@@ -968,6 +1770,237 @@ func (r GetV0betaRegionsResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1RegionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]Region
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1RegionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1RegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspaceGroupsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]WorkspaceGroup
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspaceGroupsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		AdminPassword    *string `json:"adminPassword,omitempty"`
+		WorkspaceGroupID string  `json:"workspaceGroupID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		WorkspaceGroupID string `json:"workspaceGroupID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *WorkspaceGroup
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		WorkspaceGroupID string `json:"workspaceGroupID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]Workspace
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		WorkspaceID string `json:"workspaceID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1WorkspacesWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		WorkspaceID string `json:"workspaceID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspacesWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspacesWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Workspace
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // GetV0betaClustersWithResponse request returning *GetV0betaClustersResponse
 func (c *ClientWithResponses) GetV0betaClustersWithResponse(ctx context.Context, params *GetV0betaClustersParams, reqEditors ...RequestEditorFn) (*GetV0betaClustersResponse, error) {
 	rsp, err := c.GetV0betaClusters(ctx, params, reqEditors...)
@@ -1054,6 +2087,120 @@ func (c *ClientWithResponses) GetV0betaRegionsWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseGetV0betaRegionsResponse(rsp)
+}
+
+// GetV1RegionsWithResponse request returning *GetV1RegionsResponse
+func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error) {
+	rsp, err := c.GetV1Regions(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1RegionsResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWithResponse request returning *GetV1WorkspaceGroupsResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroups(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWithBodyWithResponse request with arbitrary body returning *PostV1WorkspaceGroupsResponse
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWithResponse(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroups(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsResponse(rsp)
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse request returning *DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse
+func (c *ClientWithResponses) DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse request with arbitrary body returning *PatchV1WorkspaceGroupsWorkspaceGroupIDResponse
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+// GetV1WorkspacesWithResponse request returning *GetV1WorkspacesResponse
+func (c *ClientWithResponses) GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error) {
+	rsp, err := c.GetV1Workspaces(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesResponse(rsp)
+}
+
+// PostV1WorkspacesWithBodyWithResponse request with arbitrary body returning *PostV1WorkspacesResponse
+func (c *ClientWithResponses) PostV1WorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error) {
+	rsp, err := c.PostV1WorkspacesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspacesWithResponse(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error) {
+	rsp, err := c.PostV1Workspaces(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesResponse(rsp)
+}
+
+// DeleteV1WorkspacesWorkspaceIDWithResponse request returning *DeleteV1WorkspacesWorkspaceIDResponse
+func (c *ClientWithResponses) DeleteV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.DeleteV1WorkspacesWorkspaceID(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDWithResponse request returning *GetV1WorkspacesWorkspaceIDResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceID(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDResponse(rsp)
 }
 
 // ParseGetV0betaClustersResponse parses an HTTP response from a GetV0betaClustersWithResponse call
@@ -1265,6 +2412,277 @@ func ParseGetV0betaRegionsResponse(rsp *http.Response) (*GetV0betaRegionsRespons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1RegionsResponse parses an HTTP response from a GetV1RegionsWithResponse call
+func ParseGetV1RegionsResponse(rsp *http.Response) (*GetV1RegionsResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1RegionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsResponse parses an HTTP response from a GetV1WorkspaceGroupsWithResponse call
+func ParseGetV1WorkspaceGroupsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []WorkspaceGroup
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspaceGroupsResponse parses an HTTP response from a PostV1WorkspaceGroupsWithResponse call
+func ParsePostV1WorkspaceGroupsResponse(rsp *http.Response) (*PostV1WorkspaceGroupsResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			AdminPassword    *string `json:"adminPassword,omitempty"`
+			WorkspaceGroupID string  `json:"workspaceGroupID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDResponse parses an HTTP response from a DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse call
+func ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceGroupID string `json:"workspaceGroupID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest WorkspaceGroup
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceGroupID string `json:"workspaceGroupID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesResponse parses an HTTP response from a GetV1WorkspacesWithResponse call
+func ParseGetV1WorkspacesResponse(rsp *http.Response) (*GetV1WorkspacesResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Workspace
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesResponse parses an HTTP response from a PostV1WorkspacesWithResponse call
+func ParsePostV1WorkspacesResponse(rsp *http.Response) (*PostV1WorkspacesResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID string `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1WorkspacesWorkspaceIDResponse parses an HTTP response from a DeleteV1WorkspacesWorkspaceIDWithResponse call
+func ParseDeleteV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*DeleteV1WorkspacesWorkspaceIDResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspacesWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID string `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Workspace
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

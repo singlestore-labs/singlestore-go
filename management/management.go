@@ -285,6 +285,9 @@ type WorkspaceGroupUpdate struct {
 // ClusterId defines model for cluster-id.
 type ClusterId string
 
+// Fields defines model for fields.
+type Fields string
+
 // WorkspaceGroupID defines model for workspaceGroupID.
 type WorkspaceGroupID string
 
@@ -295,18 +298,42 @@ type WorkspaceID string
 type GetV0betaClustersParams struct {
 	// To include any terminated clusters, set to `true`
 	IncludeTerminated *bool `json:"include-terminated,omitempty"`
+
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
 }
 
 // PostV0betaClustersJSONBody defines parameters for PostV0betaClusters.
 type PostV0betaClustersJSONBody ClusterCreate
 
+// GetV0betaClustersClusterIdParams defines parameters for GetV0betaClustersClusterId.
+type GetV0betaClustersClusterIdParams struct {
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
+}
+
 // PatchV0betaClustersClusterIdJSONBody defines parameters for PatchV0betaClustersClusterId.
 type PatchV0betaClustersClusterIdJSONBody ClusterUpdate
+
+// GetV0betaRegionsParams defines parameters for GetV0betaRegions.
+type GetV0betaRegionsParams struct {
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
+}
+
+// GetV1RegionsParams defines parameters for GetV1Regions.
+type GetV1RegionsParams struct {
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
+}
 
 // GetV1WorkspaceGroupsParams defines parameters for GetV1WorkspaceGroups.
 type GetV1WorkspaceGroupsParams struct {
 	// To include any terminated workspace groups, set to `true`
 	IncludeTerminated *bool `json:"includeTerminated,omitempty"`
+
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
 }
 
 // PostV1WorkspaceGroupsJSONBody defines parameters for PostV1WorkspaceGroups.
@@ -316,6 +343,12 @@ type PostV1WorkspaceGroupsJSONBody WorkspaceGroupCreate
 type DeleteV1WorkspaceGroupsWorkspaceGroupIDParams struct {
 	// To terminate a workspace group even if it has active workspaces, set to `true`
 	Force *bool `json:"force,omitempty"`
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupID.
+type GetV1WorkspaceGroupsWorkspaceGroupIDParams struct {
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
 }
 
 // PatchV1WorkspaceGroupsWorkspaceGroupIDJSONBody defines parameters for PatchV1WorkspaceGroupsWorkspaceGroupID.
@@ -328,10 +361,19 @@ type GetV1WorkspacesParams struct {
 
 	// To include any terminated workspaces, set to `true`
 	IncludeTerminated *bool `json:"includeTerminated,omitempty"`
+
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
 }
 
 // PostV1WorkspacesJSONBody defines parameters for PostV1Workspaces.
 type PostV1WorkspacesJSONBody WorkspaceCreate
+
+// GetV1WorkspacesWorkspaceIDParams defines parameters for GetV1WorkspacesWorkspaceID.
+type GetV1WorkspacesWorkspaceIDParams struct {
+	// Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `json:"fields,omitempty"`
+}
 
 // PostV0betaClustersJSONRequestBody defines body for PostV0betaClusters for application/json ContentType.
 type PostV0betaClustersJSONRequestBody PostV0betaClustersJSONBody
@@ -433,7 +475,7 @@ type ClientInterface interface {
 	DeleteV0betaClustersClusterId(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV0betaClustersClusterId request
-	GetV0betaClustersClusterId(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetV0betaClustersClusterId(ctx context.Context, clusterId ClusterId, params *GetV0betaClustersClusterIdParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PatchV0betaClustersClusterId request with any body
 	PatchV0betaClustersClusterIdWithBody(ctx context.Context, clusterId ClusterId, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -447,10 +489,10 @@ type ClientInterface interface {
 	PostV0betaClustersClusterIdSuspend(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV0betaRegions request
-	GetV0betaRegions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetV0betaRegions(ctx context.Context, params *GetV0betaRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1Regions request
-	GetV1Regions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -464,7 +506,7 @@ type ClientInterface interface {
 	DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1WorkspaceGroupsWorkspaceGroupID request
-	GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PatchV1WorkspaceGroupsWorkspaceGroupID request with any body
 	PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -483,7 +525,7 @@ type ClientInterface interface {
 	DeleteV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1WorkspacesWorkspaceID request
-	GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetV0betaClusters(ctx context.Context, params *GetV0betaClustersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -534,8 +576,8 @@ func (c *Client) DeleteV0betaClustersClusterId(ctx context.Context, clusterId Cl
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV0betaClustersClusterId(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV0betaClustersClusterIdRequest(c.Server, clusterId)
+func (c *Client) GetV0betaClustersClusterId(ctx context.Context, clusterId ClusterId, params *GetV0betaClustersClusterIdParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV0betaClustersClusterIdRequest(c.Server, clusterId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -594,8 +636,8 @@ func (c *Client) PostV0betaClustersClusterIdSuspend(ctx context.Context, cluster
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV0betaRegions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV0betaRegionsRequest(c.Server)
+func (c *Client) GetV0betaRegions(ctx context.Context, params *GetV0betaRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV0betaRegionsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -606,8 +648,8 @@ func (c *Client) GetV0betaRegions(ctx context.Context, reqEditors ...RequestEdit
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV1Regions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1RegionsRequest(c.Server)
+func (c *Client) GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1RegionsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -666,8 +708,8 @@ func (c *Client) DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, wo
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID)
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID, params)
 	if err != nil {
 		return nil, err
 	}
@@ -750,8 +792,8 @@ func (c *Client) DeleteV1WorkspacesWorkspaceID(ctx context.Context, workspaceID 
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID)
+func (c *Client) GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, params)
 	if err != nil {
 		return nil, err
 	}
@@ -786,6 +828,22 @@ func NewGetV0betaClustersRequest(server string, params *GetV0betaClustersParams)
 	if params.IncludeTerminated != nil {
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include-terminated", runtime.ParamLocationQuery, *params.IncludeTerminated); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -884,7 +942,7 @@ func NewDeleteV0betaClustersClusterIdRequest(server string, clusterId ClusterId)
 }
 
 // NewGetV0betaClustersClusterIdRequest generates requests for GetV0betaClustersClusterId
-func NewGetV0betaClustersClusterIdRequest(server string, clusterId ClusterId) (*http.Request, error) {
+func NewGetV0betaClustersClusterIdRequest(server string, clusterId ClusterId, params *GetV0betaClustersClusterIdParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -908,6 +966,26 @@ func NewGetV0betaClustersClusterIdRequest(server string, clusterId ClusterId) (*
 	if err != nil {
 		return nil, err
 	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -1033,7 +1111,7 @@ func NewPostV0betaClustersClusterIdSuspendRequest(server string, clusterId Clust
 }
 
 // NewGetV0betaRegionsRequest generates requests for GetV0betaRegions
-func NewGetV0betaRegionsRequest(server string) (*http.Request, error) {
+func NewGetV0betaRegionsRequest(server string, params *GetV0betaRegionsParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -1051,6 +1129,26 @@ func NewGetV0betaRegionsRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
@@ -1060,7 +1158,7 @@ func NewGetV0betaRegionsRequest(server string) (*http.Request, error) {
 }
 
 // NewGetV1RegionsRequest generates requests for GetV1Regions
-func NewGetV1RegionsRequest(server string) (*http.Request, error) {
+func NewGetV1RegionsRequest(server string, params *GetV1RegionsParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -1077,6 +1175,26 @@ func NewGetV1RegionsRequest(server string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -1110,6 +1228,22 @@ func NewGetV1WorkspaceGroupsRequest(server string, params *GetV1WorkspaceGroupsP
 	if params.IncludeTerminated != nil {
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "includeTerminated", runtime.ParamLocationQuery, *params.IncludeTerminated); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -1228,7 +1362,7 @@ func NewDeleteV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceG
 }
 
 // NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupID
-func NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1252,6 +1386,26 @@ func NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGrou
 	if err != nil {
 		return nil, err
 	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -1357,6 +1511,22 @@ func NewGetV1WorkspacesRequest(server string, params *GetV1WorkspacesParams) (*h
 
 	}
 
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
 	queryURL.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -1442,7 +1612,7 @@ func NewDeleteV1WorkspacesWorkspaceIDRequest(server string, workspaceID Workspac
 }
 
 // NewGetV1WorkspacesWorkspaceIDRequest generates requests for GetV1WorkspacesWorkspaceID
-func NewGetV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+func NewGetV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1466,6 +1636,26 @@ func NewGetV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID
 	if err != nil {
 		return nil, err
 	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -1530,7 +1720,7 @@ type ClientWithResponsesInterface interface {
 	DeleteV0betaClustersClusterIdWithResponse(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*DeleteV0betaClustersClusterIdResponse, error)
 
 	// GetV0betaClustersClusterId request
-	GetV0betaClustersClusterIdWithResponse(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*GetV0betaClustersClusterIdResponse, error)
+	GetV0betaClustersClusterIdWithResponse(ctx context.Context, clusterId ClusterId, params *GetV0betaClustersClusterIdParams, reqEditors ...RequestEditorFn) (*GetV0betaClustersClusterIdResponse, error)
 
 	// PatchV0betaClustersClusterId request with any body
 	PatchV0betaClustersClusterIdWithBodyWithResponse(ctx context.Context, clusterId ClusterId, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV0betaClustersClusterIdResponse, error)
@@ -1544,10 +1734,10 @@ type ClientWithResponsesInterface interface {
 	PostV0betaClustersClusterIdSuspendWithResponse(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*PostV0betaClustersClusterIdSuspendResponse, error)
 
 	// GetV0betaRegions request
-	GetV0betaRegionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV0betaRegionsResponse, error)
+	GetV0betaRegionsWithResponse(ctx context.Context, params *GetV0betaRegionsParams, reqEditors ...RequestEditorFn) (*GetV0betaRegionsResponse, error)
 
 	// GetV1Regions request
-	GetV1RegionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
+	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error)
@@ -1561,7 +1751,7 @@ type ClientWithResponsesInterface interface {
 	DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
 
 	// GetV1WorkspaceGroupsWorkspaceGroupID request
-	GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+	GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
 
 	// PatchV1WorkspaceGroupsWorkspaceGroupID request with any body
 	PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
@@ -1580,7 +1770,7 @@ type ClientWithResponsesInterface interface {
 	DeleteV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDResponse, error)
 
 	// GetV1WorkspacesWorkspaceID request
-	GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error)
+	GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error)
 }
 
 type GetV0betaClustersResponse struct {
@@ -2037,8 +2227,8 @@ func (c *ClientWithResponses) DeleteV0betaClustersClusterIdWithResponse(ctx cont
 }
 
 // GetV0betaClustersClusterIdWithResponse request returning *GetV0betaClustersClusterIdResponse
-func (c *ClientWithResponses) GetV0betaClustersClusterIdWithResponse(ctx context.Context, clusterId ClusterId, reqEditors ...RequestEditorFn) (*GetV0betaClustersClusterIdResponse, error) {
-	rsp, err := c.GetV0betaClustersClusterId(ctx, clusterId, reqEditors...)
+func (c *ClientWithResponses) GetV0betaClustersClusterIdWithResponse(ctx context.Context, clusterId ClusterId, params *GetV0betaClustersClusterIdParams, reqEditors ...RequestEditorFn) (*GetV0betaClustersClusterIdResponse, error) {
+	rsp, err := c.GetV0betaClustersClusterId(ctx, clusterId, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -2081,8 +2271,8 @@ func (c *ClientWithResponses) PostV0betaClustersClusterIdSuspendWithResponse(ctx
 }
 
 // GetV0betaRegionsWithResponse request returning *GetV0betaRegionsResponse
-func (c *ClientWithResponses) GetV0betaRegionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV0betaRegionsResponse, error) {
-	rsp, err := c.GetV0betaRegions(ctx, reqEditors...)
+func (c *ClientWithResponses) GetV0betaRegionsWithResponse(ctx context.Context, params *GetV0betaRegionsParams, reqEditors ...RequestEditorFn) (*GetV0betaRegionsResponse, error) {
+	rsp, err := c.GetV0betaRegions(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -2090,8 +2280,8 @@ func (c *ClientWithResponses) GetV0betaRegionsWithResponse(ctx context.Context, 
 }
 
 // GetV1RegionsWithResponse request returning *GetV1RegionsResponse
-func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error) {
-	rsp, err := c.GetV1Regions(ctx, reqEditors...)
+func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error) {
+	rsp, err := c.GetV1Regions(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -2134,8 +2324,8 @@ func (c *ClientWithResponses) DeleteV1WorkspaceGroupsWorkspaceGroupIDWithRespons
 }
 
 // GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDResponse
-func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
-	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, reqEditors...)
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -2195,8 +2385,8 @@ func (c *ClientWithResponses) DeleteV1WorkspacesWorkspaceIDWithResponse(ctx cont
 }
 
 // GetV1WorkspacesWorkspaceIDWithResponse request returning *GetV1WorkspacesWorkspaceIDResponse
-func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error) {
-	rsp, err := c.GetV1WorkspacesWorkspaceID(ctx, workspaceID, reqEditors...)
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceID(ctx, workspaceID, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}

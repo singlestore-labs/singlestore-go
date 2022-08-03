@@ -62,6 +62,9 @@ const (
 
 // Represents information related to a cluster
 type Cluster struct {
+	// Whether or not all traffic is allowed to the cluster
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
 	// ID of the cluster
 	ClusterID string `json:"clusterID"`
 
@@ -114,6 +117,9 @@ type ClusterCreate struct {
 	// If a password is not specified at cluster creation, a password is generated and returned in the response object.
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
+	// A flag to allow all traffic to the cluster
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
 	// The timestamp of when the cluster will expire. If the expiration time is not specified, the cluster will have no expiration time. Expiration time can be specified as a timestamp or duration. For example,
 	//
 	//   * "2021-01-02T15:04:05Z07:00"
@@ -123,7 +129,7 @@ type ClusterCreate struct {
 	//   * "3h30m"
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
-	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
+	// A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges []string `json:"firewallRanges"`
 
 	// Name of the cluster
@@ -146,6 +152,9 @@ type ClusterUpdate struct {
 	//   * At least one number or special character
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
+	// A flag to allow all traffic to the cluster
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
 	// The timestamp of when the cluster will expire. If the expiration time is not specified, the cluster will have no expiration time. Expiration time can be specified as a timestamp or duration. For example,
 	//
 	//   * "2021-01-02T15:04:05Z07:00"
@@ -155,7 +164,7 @@ type ClusterUpdate struct {
 	//   * "3h30m"
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
-	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
+	// A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
 	// Name of the cluster
@@ -224,6 +233,9 @@ type WorkspaceCreate struct {
 
 // Represents information related to a workspace group
 type WorkspaceGroup struct {
+	// Whether or not all traffic is allowed to the workspace group
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
 	// The timestamp of when the workspace was created
 	CreatedAt string `json:"createdAt"`
 
@@ -255,7 +267,10 @@ type WorkspaceGroupCreate struct {
 	// If a password is not specified while creating a workspace group, a password is generated and returned in the response object.
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
-	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
+	// A flag to allow all traffic to the workspace group
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
+	// A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges []string `json:"firewallRanges"`
 
 	// Name of the workspace group
@@ -275,7 +290,10 @@ type WorkspaceGroupUpdate struct {
 	//   * At least one number or special character
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
-	// A list of allowed CIDR ranges. An empty list indicates that all inbound requests are allowed.
+	// A flag to allow all traffic to the workspace group
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
+	// A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
 	// Name of the workspace

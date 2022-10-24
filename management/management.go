@@ -300,6 +300,12 @@ type WorkspaceGroupUpdate struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// Represents the information specified while updating a workspace
+type WorkspaceUpdate struct {
+	// Size of the workspace (in workspace size notation), such as S-1. The default value is "S-00".
+	Size *string `json:"size,omitempty"`
+}
+
 // ClusterId defines model for cluster-id.
 type ClusterId string
 
@@ -393,6 +399,9 @@ type GetV1WorkspacesWorkspaceIDParams struct {
 	Fields *Fields `json:"fields,omitempty"`
 }
 
+// PatchV1WorkspacesWorkspaceIDJSONBody defines parameters for PatchV1WorkspacesWorkspaceID.
+type PatchV1WorkspacesWorkspaceIDJSONBody WorkspaceUpdate
+
 // PostV0betaClustersJSONRequestBody defines body for PostV0betaClusters for application/json ContentType.
 type PostV0betaClustersJSONRequestBody PostV0betaClustersJSONBody
 
@@ -407,6 +416,9 @@ type PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody PatchV1WorkspaceGroup
 
 // PostV1WorkspacesJSONRequestBody defines body for PostV1Workspaces for application/json ContentType.
 type PostV1WorkspacesJSONRequestBody PostV1WorkspacesJSONBody
+
+// PatchV1WorkspacesWorkspaceIDJSONRequestBody defines body for PatchV1WorkspacesWorkspaceID for application/json ContentType.
+type PatchV1WorkspacesWorkspaceIDJSONRequestBody PatchV1WorkspacesWorkspaceIDJSONBody
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
 type RequestEditorFn func(ctx context.Context, req *http.Request) error
@@ -544,6 +556,11 @@ type ClientInterface interface {
 
 	// GetV1WorkspacesWorkspaceID request
 	GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspacesWorkspaceID request with any body
+	PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetV0betaClusters(ctx context.Context, params *GetV0betaClustersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -812,6 +829,30 @@ func (c *Client) DeleteV1WorkspacesWorkspaceID(ctx context.Context, workspaceID 
 
 func (c *Client) GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspacesWorkspaceIDRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1683,6 +1724,53 @@ func NewGetV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID
 	return req, nil
 }
 
+// NewPatchV1WorkspacesWorkspaceIDRequest calls the generic PatchV1WorkspacesWorkspaceID builder with application/json body
+func NewPatchV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPatchV1WorkspacesWorkspaceIDRequestWithBody generates requests for PatchV1WorkspacesWorkspaceID with any type of body
+func NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -1789,6 +1877,11 @@ type ClientWithResponsesInterface interface {
 
 	// GetV1WorkspacesWorkspaceID request
 	GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error)
+
+	// PatchV1WorkspacesWorkspaceID request with any body
+	PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
+
+	PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
 }
 
 type GetV0betaClustersResponse struct {
@@ -2209,6 +2302,30 @@ func (r GetV1WorkspacesWorkspaceIDResponse) StatusCode() int {
 	return 0
 }
 
+type PatchV1WorkspacesWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		WorkspaceID string `json:"workspaceID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspacesWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // GetV0betaClustersWithResponse request returning *GetV0betaClustersResponse
 func (c *ClientWithResponses) GetV0betaClustersWithResponse(ctx context.Context, params *GetV0betaClustersParams, reqEditors ...RequestEditorFn) (*GetV0betaClustersResponse, error) {
 	rsp, err := c.GetV0betaClusters(ctx, params, reqEditors...)
@@ -2409,6 +2526,23 @@ func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDWithResponse(ctx context
 		return nil, err
 	}
 	return ParseGetV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// PatchV1WorkspacesWorkspaceIDWithBodyWithResponse request with arbitrary body returning *PatchV1WorkspacesWorkspaceIDResponse
+func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.PatchV1WorkspacesWorkspaceIDWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.PatchV1WorkspacesWorkspaceID(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
 }
 
 // ParseGetV0betaClustersResponse parses an HTTP response from a GetV0betaClustersWithResponse call
@@ -2891,6 +3025,34 @@ func ParseGetV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*GetV1Workspac
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest Workspace
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspacesWorkspaceIDResponse parses an HTTP response from a PatchV1WorkspacesWorkspaceIDWithResponse call
+func ParsePatchV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*PatchV1WorkspacesWorkspaceIDResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspacesWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID string `json:"workspaceID"`
+		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -21,7 +21,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.8.3
+go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.12.1
 output="${root}/management/management.go"
 oapi-codegen -package management -generate types,client -o "${output}" "${schema}"
 

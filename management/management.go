@@ -21,8 +21,6 @@ const (
 	ApiKeyAuthScopes = "ApiKeyAuth.Scopes"
 )
 
-// TODO: Undo
-
 // Defines values for ClusterState.
 const (
 	Active          ClusterState = "Active"

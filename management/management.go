@@ -531,6 +531,12 @@ type ClientInterface interface {
 	PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDResume request
+	PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDSuspend request
+	PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetV0betaClusters(ctx context.Context, params *GetV0betaClustersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -823,6 +829,30 @@ func (c *Client) PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, works
 
 func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDSuspendRequest(c.Server, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -1741,6 +1771,74 @@ func NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server string, workspaceID W
 	return req, nil
 }
 
+// NewPostV1WorkspacesWorkspaceIDResumeRequest generates requests for PostV1WorkspacesWorkspaceIDResume
+func NewPostV1WorkspacesWorkspaceIDResumeRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/resume", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesWorkspaceIDSuspendRequest generates requests for PostV1WorkspacesWorkspaceIDSuspend
+func NewPostV1WorkspacesWorkspaceIDSuspendRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/suspend", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -1852,6 +1950,12 @@ type ClientWithResponsesInterface interface {
 	PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
 
 	PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDResume request
+	PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDSuspend request
+	PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error)
 }
 
 type GetV0betaClustersResponse struct {
@@ -2296,6 +2400,54 @@ func (r PatchV1WorkspacesWorkspaceIDResponse) StatusCode() int {
 	return 0
 }
 
+type PostV1WorkspacesWorkspaceIDResumeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		WorkspaceID openapi_types.UUID `json:"workspaceID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDResumeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDResumeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspacesWorkspaceIDSuspendResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		WorkspaceID openapi_types.UUID `json:"workspaceID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDSuspendResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDSuspendResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // GetV0betaClustersWithResponse request returning *GetV0betaClustersResponse
 func (c *ClientWithResponses) GetV0betaClustersWithResponse(ctx context.Context, params *GetV0betaClustersParams, reqEditors ...RequestEditorFn) (*GetV0betaClustersResponse, error) {
 	rsp, err := c.GetV0betaClusters(ctx, params, reqEditors...)
@@ -2513,6 +2665,24 @@ func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithResponse(ctx conte
 		return nil, err
 	}
 	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDResumeWithResponse request returning *PostV1WorkspacesWorkspaceIDResumeResponse
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDResume(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDSuspendWithResponse request returning *PostV1WorkspacesWorkspaceIDSuspendResponse
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDSuspend(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp)
 }
 
 // ParseGetV0betaClustersResponse parses an HTTP response from a GetV0betaClustersWithResponse call
@@ -3014,6 +3184,62 @@ func ParsePatchV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*PatchV1Work
 	}
 
 	response := &PatchV1WorkspacesWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID openapi_types.UUID `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDResumeResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDResumeWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDResumeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID openapi_types.UUID `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDSuspendResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDSuspendWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDSuspendResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}

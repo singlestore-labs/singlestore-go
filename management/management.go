@@ -162,6 +162,15 @@ type ClusterUpdate struct {
 	Size *string `json:"size,omitempty"`
 }
 
+// MaintenanceWindow Represents information related to a maintenance window
+type MaintenanceWindow struct {
+	// Day Day of week (0-6), starting on Sunday
+	Day float32 `json:"day"`
+
+	// Hour Hour of day - 0 to 23 (UTC)
+	Hour float32 `json:"hour"`
+}
+
 // Region Represents information related to a region in which a cluster is created
 type Region struct {
 	// Provider Name of the provider
@@ -230,6 +239,9 @@ type WorkspaceGroup struct {
 	// FirewallRanges The list of allowed inbound IP addresses
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
+	// MaintenanceWindow Represents information related to a maintenance window
+	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
+
 	// Name Name of the workspace group
 	Name string `json:"name"`
 
@@ -283,6 +295,9 @@ type WorkspaceGroupUpdate struct {
 
 	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
+
+	// MaintenanceWindow Represents information related to a maintenance window
+	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
 
 	// Name Name of the workspace
 	Name *string `json:"name,omitempty"`

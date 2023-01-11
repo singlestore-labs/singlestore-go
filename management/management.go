@@ -162,15 +162,6 @@ type ClusterUpdate struct {
 	Size *string `json:"size,omitempty"`
 }
 
-// MaintenanceWindow Represents information related to a maintenance window
-type MaintenanceWindow struct {
-	// Day Day of week (0-6), starting on Sunday
-	Day float32 `json:"day"`
-
-	// Hour Hour of day - 0 to 23 (UTC)
-	Hour float32 `json:"hour"`
-}
-
 // Region Represents information related to a region in which a cluster is created
 type Region struct {
 	// Provider Name of the provider
@@ -185,6 +176,15 @@ type Region struct {
 
 // RegionProvider Name of the provider
 type RegionProvider string
+
+// UpdateWindow Represents information related to an update window
+type UpdateWindow struct {
+	// Day Day of week (0-6), starting on Sunday
+	Day float32 `json:"day"`
+
+	// Hour Hour of day - 0 to 23 (UTC)
+	Hour float32 `json:"hour"`
+}
 
 // Workspace Represents information related to a workspace
 type Workspace struct {
@@ -239,9 +239,6 @@ type WorkspaceGroup struct {
 	// FirewallRanges The list of allowed inbound IP addresses
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
-	// MaintenanceWindow Represents information related to a maintenance window
-	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
-
 	// Name Name of the workspace group
 	Name string `json:"name"`
 
@@ -250,6 +247,9 @@ type WorkspaceGroup struct {
 
 	// TerminatedAt (If included in the output) The timestamp of when the workspace group was terminated
 	TerminatedAt *string `json:"terminatedAt,omitempty"`
+
+	// UpdateWindow Represents information related to an update window
+	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
 
 	// WorkspaceGroupID ID of the workspace group
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
@@ -296,11 +296,11 @@ type WorkspaceGroupUpdate struct {
 	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
-	// MaintenanceWindow Represents information related to a maintenance window
-	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
-
 	// Name Name of the workspace
 	Name *string `json:"name,omitempty"`
+
+	// UpdateWindow Represents information related to an update window
+	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
 }
 
 // WorkspaceUpdate Represents the information specified while updating a workspace

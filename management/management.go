@@ -162,6 +162,18 @@ type ClusterUpdate struct {
 	Size *string `json:"size,omitempty"`
 }
 
+// Organization Represents an organization
+type Organization struct {
+	// FirewallRanges The list of allowed IP addresses which can access the Management API
+	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
+
+	// Name Name of the organization
+	Name *string `json:"name,omitempty"`
+
+	// OrgID ID of the organization
+	OrgID openapi_types.UUID `json:"orgID"`
+}
+
 // Region Represents information related to a region in which a cluster is created
 type Region struct {
 	// Provider Name of the provider
@@ -506,6 +518,9 @@ type ClientInterface interface {
 	// GetV0betaRegions request
 	GetV0betaRegions(ctx context.Context, params *GetV0betaRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1OrganizationsCurrent request
+	GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -664,6 +679,18 @@ func (c *Client) PostV0betaClustersClusterIdSuspend(ctx context.Context, cluster
 
 func (c *Client) GetV0betaRegions(ctx context.Context, params *GetV0betaRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV0betaRegionsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1OrganizationsCurrentRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -1222,6 +1249,33 @@ func NewGetV0betaRegionsRequest(server string, params *GetV0betaRegionsParams) (
 	}
 
 	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1OrganizationsCurrentRequest generates requests for GetV1OrganizationsCurrent
+func NewGetV1OrganizationsCurrentRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/organizations/current")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -1925,6 +1979,9 @@ type ClientWithResponsesInterface interface {
 	// GetV0betaRegions request
 	GetV0betaRegionsWithResponse(ctx context.Context, params *GetV0betaRegionsParams, reqEditors ...RequestEditorFn) (*GetV0betaRegionsResponse, error)
 
+	// GetV1OrganizationsCurrent request
+	GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error)
+
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
@@ -2154,6 +2211,28 @@ func (r GetV0betaRegionsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV0betaRegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1OrganizationsCurrentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Organization
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1OrganizationsCurrentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1OrganizationsCurrentResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -2551,6 +2630,15 @@ func (c *ClientWithResponses) GetV0betaRegionsWithResponse(ctx context.Context, 
 	return ParseGetV0betaRegionsResponse(rsp)
 }
 
+// GetV1OrganizationsCurrentWithResponse request returning *GetV1OrganizationsCurrentResponse
+func (c *ClientWithResponses) GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error) {
+	rsp, err := c.GetV1OrganizationsCurrent(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1OrganizationsCurrentResponse(rsp)
+}
+
 // GetV1RegionsWithResponse request returning *GetV1RegionsResponse
 func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error) {
 	rsp, err := c.GetV1Regions(ctx, params, reqEditors...)
@@ -2909,6 +2997,32 @@ func ParseGetV0betaRegionsResponse(rsp *http.Response) (*GetV0betaRegionsRespons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1OrganizationsCurrentResponse parses an HTTP response from a GetV1OrganizationsCurrentWithResponse call
+func ParseGetV1OrganizationsCurrentResponse(rsp *http.Response) (*GetV1OrganizationsCurrentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1OrganizationsCurrentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Organization
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

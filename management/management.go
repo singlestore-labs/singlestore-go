@@ -62,7 +62,7 @@ type Cluster struct {
 	// Endpoint The application endpoint of the SingleStore database
 	Endpoint *string `json:"endpoint,omitempty"`
 
-	// ExpiresAt The timestamp of when the cluster will expire
+	// ExpiresAt The timestamp of when the cluster will expire. At expiration, the cluster is terminated and all the data is lost.
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
 	// FirewallRanges The list of allowed inbound IP addresses
@@ -108,7 +108,7 @@ type ClusterCreate struct {
 	// AllowAllTraffic A flag to allow all traffic to the cluster
 	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
 
-	// ExpiresAt The timestamp of when the cluster will expire. If the expiration time is not specified, the cluster will have no expiration time. Expiration time can be specified as a timestamp or duration. For example,
+	// ExpiresAt The timestamp of when the cluster will expire. If the expiration time is not specified, the cluster will have no expiration time. At expiration, the cluster is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
 	//
 	//   * "2021-01-02T15:04:05Z07:00"
 	//   * "2021-01-02T15:04:05-0700"
@@ -143,7 +143,7 @@ type ClusterUpdate struct {
 	// AllowAllTraffic A flag to allow all traffic to the cluster
 	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
 
-	// ExpiresAt The timestamp of when the cluster will expire. If the expiration time is not specified, the cluster will have no expiration time. Expiration time can be specified as a timestamp or duration. For example,
+	// ExpiresAt The timestamp of when the cluster will expire. If the expiration time is not specified in the request body, it is left unchanged. At expiration, the cluster is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
 	//
 	//   * "2021-01-02T15:04:05Z07:00"
 	//   * "2021-01-02T15:04:05-0700"

@@ -30,10 +30,18 @@ const (
 
 // Defines values for WorkspaceState.
 const (
-	ACTIVE     WorkspaceState = "ACTIVE"
-	FAILED     WorkspaceState = "FAILED"
-	PENDING    WorkspaceState = "PENDING"
-	TERMINATED WorkspaceState = "TERMINATED"
+	WorkspaceStateACTIVE     WorkspaceState = "ACTIVE"
+	WorkspaceStateFAILED     WorkspaceState = "FAILED"
+	WorkspaceStatePENDING    WorkspaceState = "PENDING"
+	WorkspaceStateTERMINATED WorkspaceState = "TERMINATED"
+)
+
+// Defines values for WorkspaceGroupState.
+const (
+	WorkspaceGroupStateACTIVE     WorkspaceGroupState = "ACTIVE"
+	WorkspaceGroupStateFAILED     WorkspaceGroupState = "FAILED"
+	WorkspaceGroupStatePENDING    WorkspaceGroupState = "PENDING"
+	WorkspaceGroupStateTERMINATED WorkspaceGroupState = "TERMINATED"
 )
 
 // Organization Represents an organization
@@ -131,6 +139,9 @@ type WorkspaceGroup struct {
 	// RegionID ID of the region
 	RegionID openapi_types.UUID `json:"regionID"`
 
+	// State State of the workspace group
+	State WorkspaceGroupState `json:"state"`
+
 	// TerminatedAt (If included in the output) The timestamp of when the workspace group was terminated
 	TerminatedAt *string `json:"terminatedAt,omitempty"`
 
@@ -140,6 +151,9 @@ type WorkspaceGroup struct {
 	// WorkspaceGroupID ID of the workspace group
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
 }
+
+// WorkspaceGroupState State of the workspace group
+type WorkspaceGroupState string
 
 // WorkspaceGroupCreate Represents the information specified while creating a workspace group
 type WorkspaceGroupCreate struct {

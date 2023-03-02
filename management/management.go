@@ -130,6 +130,9 @@ type WorkspaceGroup struct {
 	// CreatedAt The timestamp of when the workspace was created
 	CreatedAt string `json:"createdAt"`
 
+	// ExpiresAt The timestamp of when the workspace group will expire. At expiration, the workspace group is terminated and all the data is lost.
+	ExpiresAt *string `json:"expiresAt,omitempty"`
+
 	// FirewallRanges The list of allowed inbound IP addresses
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
@@ -170,6 +173,15 @@ type WorkspaceGroupCreate struct {
 	// AllowAllTraffic A flag to allow all traffic to the workspace group
 	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
 
+	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
+	//
+	//   * "2021-01-02T15:04:05Z07:00"
+	//   * "2021-01-02T15:04:05-0700"
+	//   * "2021-01-02T15:04:05"
+	//   * "2021-01-02"
+	//   * "3h30m"
+	ExpiresAt *string `json:"expiresAt,omitempty"`
+
 	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges []string `json:"firewallRanges"`
 
@@ -192,6 +204,15 @@ type WorkspaceGroupUpdate struct {
 
 	// AllowAllTraffic A flag to allow all traffic to the workspace group
 	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
+	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
+	//
+	//   * "2021-01-02T15:04:05Z07:00"
+	//   * "2021-01-02T15:04:05-0700"
+	//   * "2021-01-02T15:04:05"
+	//   * "2021-01-02"
+	//   * "3h30m"
+	ExpiresAt *string `json:"expiresAt,omitempty"`
 
 	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`

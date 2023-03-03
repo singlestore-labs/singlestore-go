@@ -28,6 +28,12 @@ const (
 	GCP   RegionProvider = "GCP"
 )
 
+// Defines values for WorkspaceResumeAttachmentsAttachment.
+const (
+	READONLY  WorkspaceResumeAttachmentsAttachment = "READONLY"
+	READWRITE WorkspaceResumeAttachmentsAttachment = "READWRITE"
+)
+
 // Defines values for WorkspaceState.
 const (
 	WorkspaceStateACTIVE     WorkspaceState = "ACTIVE"
@@ -88,8 +94,26 @@ type Workspace struct {
 	// Endpoint Endpoint to connect to the workspace
 	Endpoint *string `json:"endpoint,omitempty"`
 
+	// LastResumedAt (If included in the output) The timestamp of when the workspace was last resumed
+	LastResumedAt *string `json:"lastResumedAt,omitempty"`
+
 	// Name Name of the workspace
 	Name string `json:"name"`
+
+	// ResumeAttachments (If included in the output) The result of database attachments after the workspace was resumed
+	ResumeAttachments *[]struct {
+		// Attachment The type of attachment
+		Attachment WorkspaceResumeAttachmentsAttachment `json:"attachment"`
+
+		// Database Name of the database
+		Database string `json:"database"`
+
+		// Error The error if the attachment was not successful
+		Error *string `json:"error,omitempty"`
+
+		// Success Whether the attachment was successful or not
+		Success bool `json:"success"`
+	} `json:"resumeAttachments,omitempty"`
 
 	// Size Size of the workspace (in workspace size notation), such as S-00 or S-1
 	Size string `json:"size"`
@@ -106,6 +130,9 @@ type Workspace struct {
 	// WorkspaceID ID of the workspace
 	WorkspaceID openapi_types.UUID `json:"workspaceID"`
 }
+
+// WorkspaceResumeAttachmentsAttachment The type of attachment
+type WorkspaceResumeAttachmentsAttachment string
 
 // WorkspaceState State of the workspace
 type WorkspaceState string

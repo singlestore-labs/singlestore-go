@@ -39,6 +39,7 @@ const (
 	WorkspaceStateACTIVE     WorkspaceState = "ACTIVE"
 	WorkspaceStateFAILED     WorkspaceState = "FAILED"
 	WorkspaceStatePENDING    WorkspaceState = "PENDING"
+	WorkspaceStateSUSPENDED  WorkspaceState = "SUSPENDED"
 	WorkspaceStateTERMINATED WorkspaceState = "TERMINATED"
 )
 

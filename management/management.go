@@ -21,6 +21,25 @@ const (
 	ApiKeyAuthScopes = "ApiKeyAuth.Scopes"
 )
 
+// Defines values for PrivateConnectionStatus.
+const (
+	PrivateConnectionStatusACTIVE  PrivateConnectionStatus = "ACTIVE"
+	PrivateConnectionStatusDELETED PrivateConnectionStatus = "DELETED"
+	PrivateConnectionStatusPENDING PrivateConnectionStatus = "PENDING"
+)
+
+// Defines values for PrivateConnectionType.
+const (
+	PrivateConnectionTypeINBOUND  PrivateConnectionType = "INBOUND"
+	PrivateConnectionTypeOUTBOUND PrivateConnectionType = "OUTBOUND"
+)
+
+// Defines values for PrivateConnectionCreateType.
+const (
+	PrivateConnectionCreateTypeINBOUND  PrivateConnectionCreateType = "INBOUND"
+	PrivateConnectionCreateTypeOUTBOUND PrivateConnectionCreateType = "OUTBOUND"
+)
+
 // Defines values for RegionProvider.
 const (
 	AWS   RegionProvider = "AWS"
@@ -45,10 +64,10 @@ const (
 
 // Defines values for WorkspaceGroupState.
 const (
-	WorkspaceGroupStateACTIVE     WorkspaceGroupState = "ACTIVE"
-	WorkspaceGroupStateFAILED     WorkspaceGroupState = "FAILED"
-	WorkspaceGroupStatePENDING    WorkspaceGroupState = "PENDING"
-	WorkspaceGroupStateTERMINATED WorkspaceGroupState = "TERMINATED"
+	ACTIVE     WorkspaceGroupState = "ACTIVE"
+	FAILED     WorkspaceGroupState = "FAILED"
+	PENDING    WorkspaceGroupState = "PENDING"
+	TERMINATED WorkspaceGroupState = "TERMINATED"
 )
 
 // Organization Represents an organization
@@ -61,6 +80,72 @@ type Organization struct {
 
 	// OrgID ID of the organization
 	OrgID openapi_types.UUID `json:"orgID"`
+}
+
+// PrivateConnection Represents information related to a private link connection
+type PrivateConnection struct {
+	// AllowList The private connection allow list. This is the account ID for AWS,  subscription ID for Azure, and the project name GCP
+	AllowList *string `json:"allowList,omitempty"`
+
+	// CreatedAt The timestamp of when the private connection was created
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// DeletedAt The timestamp of when the private connection was deleted
+	DeletedAt *string `json:"deletedAt,omitempty"`
+
+	// PrivateConnectionID The ID of the private connection
+	PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+
+	// ServiceName The service name
+	ServiceName *string `json:"serviceName,omitempty"`
+
+	// Status The private connection status
+	Status *PrivateConnectionStatus `json:"status,omitempty"`
+
+	// Type The private connection type
+	Type *PrivateConnectionType `json:"type,omitempty"`
+
+	// UpdatedAt The timestamp of when the private connection was last updated
+	UpdatedAt *string `json:"updatedAt,omitempty"`
+
+	// WorkspaceGroupID The ID of the workspace group containing the private connection
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+
+	// WorkspaceID The ID of the workspace
+	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`
+}
+
+// PrivateConnectionStatus The private connection status
+type PrivateConnectionStatus string
+
+// PrivateConnectionType The private connection type
+type PrivateConnectionType string
+
+// PrivateConnectionCreate Represents the information specified when creating a private connection
+type PrivateConnectionCreate struct {
+	// AllowList The private connection allow list
+	AllowList *string `json:"allowList,omitempty"`
+
+	// ServiceName The service name
+	ServiceName *string `json:"serviceName,omitempty"`
+
+	// Type The private connection type
+	Type *PrivateConnectionCreateType `json:"type,omitempty"`
+
+	// WorkspaceGroupID The ID of the workspace group containing the private connection
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+
+	// WorkspaceID The ID of the workspace
+	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`
+}
+
+// PrivateConnectionCreateType The private connection type
+type PrivateConnectionCreateType string
+
+// PrivateConnectionUpdate Represents the information specfied when updating a private connection
+type PrivateConnectionUpdate struct {
+	// AllowList The private connection allow list
+	AllowList *string `json:"allowList,omitempty"`
 }
 
 // Region Represents information related to a region in which a cluster is created
@@ -258,6 +343,9 @@ type WorkspaceUpdate struct {
 	Size *string `json:"size,omitempty"`
 }
 
+// ConnectionID defines model for connectionID.
+type ConnectionID = openapi_types.UUID
+
 // Fields defines model for fields.
 type Fields = string
 
@@ -266,6 +354,12 @@ type WorkspaceGroupID = openapi_types.UUID
 
 // WorkspaceID defines model for workspaceID.
 type WorkspaceID = openapi_types.UUID
+
+// GetV1PrivateConnectionsConnectionIDParams defines parameters for GetV1PrivateConnectionsConnectionID.
+type GetV1PrivateConnectionsConnectionIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
 
 // GetV1RegionsParams defines parameters for GetV1Regions.
 type GetV1RegionsParams struct {
@@ -294,6 +388,12 @@ type GetV1WorkspaceGroupsWorkspaceGroupIDParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections.
+type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
 // GetV1WorkspacesParams defines parameters for GetV1Workspaces.
 type GetV1WorkspacesParams struct {
 	// WorkspaceGroupID ID of the workspace group
@@ -311,6 +411,18 @@ type GetV1WorkspacesWorkspaceIDParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsParams defines parameters for GetV1WorkspacesWorkspaceIDPrivateConnections.
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// PostV1PrivateConnectionsJSONRequestBody defines body for PostV1PrivateConnections for application/json ContentType.
+type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
+
+// PatchV1PrivateConnectionsConnectionIDJSONRequestBody defines body for PatchV1PrivateConnectionsConnectionID for application/json ContentType.
+type PatchV1PrivateConnectionsConnectionIDJSONRequestBody = PrivateConnectionUpdate
 
 // PostV1WorkspaceGroupsJSONRequestBody defines body for PostV1WorkspaceGroups for application/json ContentType.
 type PostV1WorkspaceGroupsJSONRequestBody = WorkspaceGroupCreate
@@ -400,6 +512,22 @@ type ClientInterface interface {
 	// GetV1OrganizationsCurrent request
 	GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// PostV1PrivateConnections request with any body
+	PostV1PrivateConnectionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1PrivateConnections(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1PrivateConnectionsConnectionID request
+	DeleteV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1PrivateConnectionsConnectionID request
+	GetV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1PrivateConnectionsConnectionID request with any body
+	PatchV1PrivateConnectionsConnectionIDWithBody(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -422,6 +550,9 @@ type ClientInterface interface {
 
 	PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
+	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1Workspaces request
 	GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -441,6 +572,9 @@ type ClientInterface interface {
 
 	PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1WorkspacesWorkspaceIDPrivateConnections request
+	GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// PostV1WorkspacesWorkspaceIDResume request
 	PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -450,6 +584,78 @@ type ClientInterface interface {
 
 func (c *Client) GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1OrganizationsCurrentRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1PrivateConnectionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1PrivateConnectionsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1PrivateConnections(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1PrivateConnectionsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1PrivateConnectionsConnectionIDRequest(c.Server, connectionID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1PrivateConnectionsConnectionIDRequest(c.Server, connectionID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1PrivateConnectionsConnectionIDWithBody(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1PrivateConnectionsConnectionIDRequestWithBody(c.Server, connectionID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1PrivateConnectionsConnectionIDRequest(c.Server, connectionID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -556,6 +762,18 @@ func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, wor
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspacesRequest(c.Server, params)
 	if err != nil {
@@ -640,6 +858,18 @@ func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID W
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(c.Server, workspaceID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequest(c.Server, workspaceID)
 	if err != nil {
@@ -687,6 +917,181 @@ func NewGetV1OrganizationsCurrentRequest(server string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewPostV1PrivateConnectionsRequest calls the generic PostV1PrivateConnections builder with application/json body
+func NewPostV1PrivateConnectionsRequest(server string, body PostV1PrivateConnectionsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1PrivateConnectionsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1PrivateConnectionsRequestWithBody generates requests for PostV1PrivateConnections with any type of body
+func NewPostV1PrivateConnectionsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1PrivateConnectionsConnectionIDRequest generates requests for DeleteV1PrivateConnectionsConnectionID
+func NewDeleteV1PrivateConnectionsConnectionIDRequest(server string, connectionID ConnectionID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "connectionID", runtime.ParamLocationPath, connectionID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1PrivateConnectionsConnectionIDRequest generates requests for GetV1PrivateConnectionsConnectionID
+func NewGetV1PrivateConnectionsConnectionIDRequest(server string, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "connectionID", runtime.ParamLocationPath, connectionID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1PrivateConnectionsConnectionIDRequest calls the generic PatchV1PrivateConnectionsConnectionID builder with application/json body
+func NewPatchV1PrivateConnectionsConnectionIDRequest(server string, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1PrivateConnectionsConnectionIDRequestWithBody(server, connectionID, "application/json", bodyReader)
+}
+
+// NewPatchV1PrivateConnectionsConnectionIDRequestWithBody generates requests for PatchV1PrivateConnectionsConnectionID with any type of body
+func NewPatchV1PrivateConnectionsConnectionIDRequestWithBody(server string, connectionID ConnectionID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "connectionID", runtime.ParamLocationPath, connectionID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -996,6 +1401,60 @@ func NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(server string, wor
 	return req, nil
 }
 
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/privateConnections", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV1WorkspacesRequest generates requests for GetV1Workspaces
 func NewGetV1WorkspacesRequest(server string, params *GetV1WorkspacesParams) (*http.Request, error) {
 	var err error
@@ -1246,6 +1705,60 @@ func NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server string, workspaceID W
 	return req, nil
 }
 
+// NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest generates requests for GetV1WorkspacesWorkspaceIDPrivateConnections
+func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(server string, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/privateConnections", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewPostV1WorkspacesWorkspaceIDResumeRequest generates requests for PostV1WorkspacesWorkspaceIDResume
 func NewPostV1WorkspacesWorkspaceIDResumeRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
 	var err error
@@ -1360,6 +1873,22 @@ type ClientWithResponsesInterface interface {
 	// GetV1OrganizationsCurrent request
 	GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error)
 
+	// PostV1PrivateConnections request with any body
+	PostV1PrivateConnectionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error)
+
+	PostV1PrivateConnectionsWithResponse(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error)
+
+	// DeleteV1PrivateConnectionsConnectionID request
+	DeleteV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*DeleteV1PrivateConnectionsConnectionIDResponse, error)
+
+	// GetV1PrivateConnectionsConnectionID request
+	GetV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*GetV1PrivateConnectionsConnectionIDResponse, error)
+
+	// PatchV1PrivateConnectionsConnectionID request with any body
+	PatchV1PrivateConnectionsConnectionIDWithBodyWithResponse(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error)
+
+	PatchV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error)
+
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
@@ -1382,6 +1911,9 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
 
+	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
+	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error)
+
 	// GetV1Workspaces request
 	GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error)
 
@@ -1400,6 +1932,9 @@ type ClientWithResponsesInterface interface {
 	PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
 
 	PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnections request
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error)
 
 	// PostV1WorkspacesWorkspaceIDResume request
 	PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
@@ -1424,6 +1959,100 @@ func (r GetV1OrganizationsCurrentResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1OrganizationsCurrentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1PrivateConnectionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1PrivateConnectionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1PrivateConnectionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1PrivateConnectionsConnectionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1PrivateConnectionsConnectionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1PrivateConnectionsConnectionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1PrivateConnectionsConnectionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PrivateConnection
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1PrivateConnectionsConnectionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1PrivateConnectionsConnectionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1PrivateConnectionsConnectionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1PrivateConnectionsConnectionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1PrivateConnectionsConnectionIDResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -1569,6 +2198,28 @@ func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]PrivateConnection
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1WorkspacesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -1685,6 +2336,28 @@ func (r PatchV1WorkspacesWorkspaceIDResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]PrivateConnection
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type PostV1WorkspacesWorkspaceIDResumeResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -1740,6 +2413,58 @@ func (c *ClientWithResponses) GetV1OrganizationsCurrentWithResponse(ctx context.
 		return nil, err
 	}
 	return ParseGetV1OrganizationsCurrentResponse(rsp)
+}
+
+// PostV1PrivateConnectionsWithBodyWithResponse request with arbitrary body returning *PostV1PrivateConnectionsResponse
+func (c *ClientWithResponses) PostV1PrivateConnectionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error) {
+	rsp, err := c.PostV1PrivateConnectionsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1PrivateConnectionsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1PrivateConnectionsWithResponse(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error) {
+	rsp, err := c.PostV1PrivateConnections(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1PrivateConnectionsResponse(rsp)
+}
+
+// DeleteV1PrivateConnectionsConnectionIDWithResponse request returning *DeleteV1PrivateConnectionsConnectionIDResponse
+func (c *ClientWithResponses) DeleteV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*DeleteV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.DeleteV1PrivateConnectionsConnectionID(ctx, connectionID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1PrivateConnectionsConnectionIDResponse(rsp)
+}
+
+// GetV1PrivateConnectionsConnectionIDWithResponse request returning *GetV1PrivateConnectionsConnectionIDResponse
+func (c *ClientWithResponses) GetV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*GetV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.GetV1PrivateConnectionsConnectionID(ctx, connectionID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1PrivateConnectionsConnectionIDResponse(rsp)
+}
+
+// PatchV1PrivateConnectionsConnectionIDWithBodyWithResponse request with arbitrary body returning *PatchV1PrivateConnectionsConnectionIDResponse
+func (c *ClientWithResponses) PatchV1PrivateConnectionsConnectionIDWithBodyWithResponse(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.PatchV1PrivateConnectionsConnectionIDWithBody(ctx, connectionID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.PatchV1PrivateConnectionsConnectionID(ctx, connectionID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp)
 }
 
 // GetV1RegionsWithResponse request returning *GetV1RegionsResponse
@@ -1812,6 +2537,15 @@ func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse
 	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
 }
 
+// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx, workspaceGroupID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp)
+}
+
 // GetV1WorkspacesWithResponse request returning *GetV1WorkspacesResponse
 func (c *ClientWithResponses) GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error) {
 	rsp, err := c.GetV1Workspaces(ctx, params, reqEditors...)
@@ -1873,6 +2607,15 @@ func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithResponse(ctx conte
 	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
 }
 
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse request returning *GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDPrivateConnections(ctx, workspaceID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp)
+}
+
 // PostV1WorkspacesWorkspaceIDResumeWithResponse request returning *PostV1WorkspacesWorkspaceIDResumeResponse
 func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
 	rsp, err := c.PostV1WorkspacesWorkspaceIDResume(ctx, workspaceID, reqEditors...)
@@ -1907,6 +2650,116 @@ func ParseGetV1OrganizationsCurrentResponse(rsp *http.Response) (*GetV1Organizat
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest Organization
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1PrivateConnectionsResponse parses an HTTP response from a PostV1PrivateConnectionsWithResponse call
+func ParsePostV1PrivateConnectionsResponse(rsp *http.Response) (*PostV1PrivateConnectionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1PrivateConnectionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1PrivateConnectionsConnectionIDResponse parses an HTTP response from a DeleteV1PrivateConnectionsConnectionIDWithResponse call
+func ParseDeleteV1PrivateConnectionsConnectionIDResponse(rsp *http.Response) (*DeleteV1PrivateConnectionsConnectionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1PrivateConnectionsConnectionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1PrivateConnectionsConnectionIDResponse parses an HTTP response from a GetV1PrivateConnectionsConnectionIDWithResponse call
+func ParseGetV1PrivateConnectionsConnectionIDResponse(rsp *http.Response) (*GetV1PrivateConnectionsConnectionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1PrivateConnectionsConnectionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PrivateConnection
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1PrivateConnectionsConnectionIDResponse parses an HTTP response from a PatchV1PrivateConnectionsConnectionIDWithResponse call
+func ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp *http.Response) (*PatchV1PrivateConnectionsConnectionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1PrivateConnectionsConnectionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -2080,6 +2933,32 @@ func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*P
 	return response, nil
 }
 
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PrivateConnection
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1WorkspacesResponse parses an HTTP response from a GetV1WorkspacesWithResponse call
 func ParseGetV1WorkspacesResponse(rsp *http.Response) (*GetV1WorkspacesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -2206,6 +3085,32 @@ func ParsePatchV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*PatchV1Work
 		var dest struct {
 			WorkspaceID openapi_types.UUID `json:"workspaceID"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PrivateConnection
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

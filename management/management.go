@@ -84,6 +84,9 @@ type Organization struct {
 
 // PrivateConnection Represents information related to a private link connection
 type PrivateConnection struct {
+	// ActiveAt The timestamp of when the private connection became active
+	ActiveAt *string `json:"activeAt,omitempty"`
+
 	// AllowList The private connection allow list. This is the account ID for AWS,  subscription ID for Azure, and the project name GCP
 	AllowList *string `json:"allowList,omitempty"`
 

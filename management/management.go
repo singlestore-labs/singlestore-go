@@ -96,6 +96,9 @@ type PrivateConnection struct {
 	// DeletedAt The timestamp of when the private connection was deleted
 	DeletedAt *string `json:"deletedAt,omitempty"`
 
+	// OutboundAllowList The account ID which must be allowed for outbound connections
+	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
+
 	// PrivateConnectionID The ID of the private connection
 	PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
 
@@ -144,6 +147,12 @@ type PrivateConnectionCreate struct {
 
 // PrivateConnectionCreateType The private connection type
 type PrivateConnectionCreateType string
+
+// PrivateConnectionOutboundAllowList Represents information related to a private link outbound allow list
+type PrivateConnectionOutboundAllowList struct {
+	// OutboundAllowList The account ID which must be allowed for outbound connections
+	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
+}
 
 // PrivateConnectionUpdate Represents the information specfied when updating a private connection
 type PrivateConnectionUpdate struct {
@@ -578,6 +587,9 @@ type ClientInterface interface {
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList request
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// PostV1WorkspacesWorkspaceIDResume request
 	PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -863,6 +875,18 @@ func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID W
 
 func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(c.Server, workspaceID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest(c.Server, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -1762,6 +1786,40 @@ func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(server string, works
 	return req, nil
 }
 
+// NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest generates requests for GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList
+func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/privateConnections/outboundAllowList", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewPostV1WorkspacesWorkspaceIDResumeRequest generates requests for PostV1WorkspacesWorkspaceIDResume
 func NewPostV1WorkspacesWorkspaceIDResumeRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
 	var err error
@@ -1938,6 +1996,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList request
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error)
 
 	// PostV1WorkspacesWorkspaceIDResume request
 	PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
@@ -2361,6 +2422,28 @@ func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]PrivateConnectionOutboundAllowList
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type PostV1WorkspacesWorkspaceIDResumeResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -2617,6 +2700,15 @@ func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsWithRe
 		return nil, err
 	}
 	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse request returning *GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse(rsp)
 }
 
 // PostV1WorkspacesWorkspaceIDResumeWithResponse request returning *PostV1WorkspacesWorkspaceIDResumeResponse
@@ -3114,6 +3206,32 @@ func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp *http.Respons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []PrivateConnection
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PrivateConnectionOutboundAllowList
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

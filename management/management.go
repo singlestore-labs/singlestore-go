@@ -213,6 +213,9 @@ type Workspace struct {
 		Success bool `json:"success"`
 	} `json:"resumeAttachments,omitempty"`
 
+	// ScalingProgress (If included in the output) The current progress percentage for the scaling workspace
+	ScalingProgress *float32 `json:"scalingProgress,omitempty"`
+
 	// Size Size of the workspace (in workspace size notation), such as S-00 or S-1
 	Size string `json:"size"`
 

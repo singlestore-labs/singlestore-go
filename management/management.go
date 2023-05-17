@@ -47,6 +47,11 @@ const (
 	GCP   RegionProvider = "GCP"
 )
 
+// Defines values for StargateAttribute.
+const (
+	MongoProxy StargateAttribute = "MongoProxy"
+)
+
 // Defines values for WorkspaceResumeAttachmentsAttachment.
 const (
 	READONLY  WorkspaceResumeAttachmentsAttachment = "READONLY"
@@ -175,6 +180,9 @@ type Region struct {
 // RegionProvider Name of the provider
 type RegionProvider string
 
+// StargateAttribute The stargate features enabled for this workspace
+type StargateAttribute string
+
 // UpdateWindow Represents information related to an update window
 type UpdateWindow struct {
 	// Day Day of week (0-6), starting on Sunday
@@ -244,7 +252,8 @@ type WorkspaceCreate struct {
 	Name string `json:"name"`
 
 	// Size Size of the workspace (in workspace size notation), such as S-1. The default value is "S-00".
-	Size *string `json:"size,omitempty"`
+	Size               *string              `json:"size,omitempty"`
+	StargateAttributes *[]StargateAttribute `json:"stargateAttributes,omitempty"`
 
 	// WorkspaceGroupID ID of the workspace group
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`

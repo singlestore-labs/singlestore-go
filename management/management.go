@@ -327,6 +327,9 @@ type WorkspaceGroupCreate struct {
 
 	// RegionID ID of the region where the new workspace group is created
 	RegionID openapi_types.UUID `json:"regionID"`
+
+	// UpdateWindow Represents information related to an update window
+	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
 }
 
 // WorkspaceGroupUpdate Represents the information specified while updating a workspace group

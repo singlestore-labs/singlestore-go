@@ -538,6 +538,9 @@ type ConnectionID = openapi_types.UUID
 // Fields defines model for fields.
 type Fields = string
 
+// OrganizationID defines model for organizationID.
+type OrganizationID = openapi_types.UUID
+
 // WorkspaceGroupID defines model for workspaceGroupID.
 type WorkspaceGroupID = openapi_types.UUID
 
@@ -960,6 +963,9 @@ type ClientInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
+	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -1540,6 +1546,18 @@ func (c *Client) PatchV1WorkspacesWorkspaceIDStorageDRStopFailoverTest(ctx conte
 
 func (c *Client) PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1WorkspacesWorkspaceIDSuspendRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest(c.Server, organizationID, workspaceGroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -3365,6 +3383,47 @@ func NewPostV1WorkspacesWorkspaceIDSuspendRequest(server string, workspaceID Wor
 	return req, nil
 }
 
+// NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest generates requests for GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics
+func NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest(server string, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "organizationID", runtime.ParamLocationPath, organizationID)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/organizations/%s/workspaceGroups/%s/metrics", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -3545,6 +3604,9 @@ type ClientWithResponsesInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error)
+
+	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
+	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error)
 }
 
 type GetV1BillingUsageResponse struct {
@@ -4457,6 +4519,27 @@ func (r PostV1WorkspacesWorkspaceIDSuspendResponse) StatusCode() int {
 	return 0
 }
 
+type GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // GetV1BillingUsageWithResponse request returning *GetV1BillingUsageResponse
 func (c *ClientWithResponses) GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error) {
 	rsp, err := c.GetV1BillingUsage(ctx, params, reqEditors...)
@@ -4887,6 +4970,15 @@ func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx
 		return nil, err
 	}
 	return ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp)
+}
+
+// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse request returning *GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse
+func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error) {
+	rsp, err := c.GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx, organizationID, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse(rsp)
 }
 
 // ParseGetV1BillingUsageResponse parses an HTTP response from a GetV1BillingUsageWithResponse call
@@ -5864,6 +5956,22 @@ func ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp *http.Response) (*PostV
 		}
 		response.JSON200 = &dest
 
+	}
+
+	return response, nil
+}
+
+// ParseGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse parses an HTTP response from a GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse call
+func ParseGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse(rsp *http.Response) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
 	}
 
 	return response, nil

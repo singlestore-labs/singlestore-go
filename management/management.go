@@ -84,6 +84,12 @@ const (
 	Failover    StorageDRStatusComputeStorageDRType = "Failover"
 )
 
+// Defines values for WorkspaceAutoSuspendSuspendType.
+const (
+	IDLE      WorkspaceAutoSuspendSuspendType = "IDLE"
+	SCHEDULED WorkspaceAutoSuspendSuspendType = "SCHEDULED"
+)
+
 // Defines values for WorkspaceResumeAttachmentsAttachment.
 const (
 	READONLY  WorkspaceResumeAttachmentsAttachment = "READONLY"
@@ -354,6 +360,27 @@ type UpdateWindow struct {
 
 // Workspace Represents information related to a workspace
 type Workspace struct {
+	// AutoSuspend (If included in the output) Represents the current auto suspend settings enabled for this workspace. If autoSuspend has an empty value, then the auto suspend settings are disabled
+	AutoSuspend *struct {
+		// IdleAfterSeconds (If included in the output) The duration (in seconds) the workspace must be inactive until it automatically suspends
+		IdleAfterSeconds *float32 `json:"idleAfterSeconds,omitempty"`
+
+		// IdleChangedAt (If included in the output) The timestamp when idleAfterSeconds was last changed
+		IdleChangedAt *string `json:"idleChangedAt,omitempty"`
+
+		// ScheduledChangedAt (If included in the output) The timestamp when scheduledSuspendAt was last changed
+		ScheduledChangedAt *string `json:"scheduledChangedAt,omitempty"`
+
+		// ScheduledSuspendAt (If included in the output) The timestamp when the workspace will be suspended
+		ScheduledSuspendAt *string `json:"scheduledSuspendAt,omitempty"`
+
+		// SuspendType The type of auto suspend currently enabled
+		SuspendType WorkspaceAutoSuspendSuspendType `json:"suspendType"`
+
+		// SuspendTypeChangedAt (If included in the output) The timestamp when suspendType was last changed
+		SuspendTypeChangedAt *string `json:"suspendTypeChangedAt,omitempty"`
+	} `json:"autoSuspend,omitempty"`
+
 	// CreatedAt The timestamp of when the workspace was created
 	CreatedAt string `json:"createdAt"`
 
@@ -399,6 +426,9 @@ type Workspace struct {
 	// WorkspaceID ID of the workspace
 	WorkspaceID openapi_types.UUID `json:"workspaceID"`
 }
+
+// WorkspaceAutoSuspendSuspendType The type of auto suspend currently enabled
+type WorkspaceAutoSuspendSuspendType string
 
 // WorkspaceResumeAttachmentsAttachment The type of attachment
 type WorkspaceResumeAttachmentsAttachment string

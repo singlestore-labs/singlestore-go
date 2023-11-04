@@ -86,8 +86,8 @@ const (
 
 // Defines values for WorkspaceAutoSuspendSuspendType.
 const (
-	IDLE      WorkspaceAutoSuspendSuspendType = "IDLE"
-	SCHEDULED WorkspaceAutoSuspendSuspendType = "SCHEDULED"
+	WorkspaceAutoSuspendSuspendTypeIDLE      WorkspaceAutoSuspendSuspendType = "IDLE"
+	WorkspaceAutoSuspendSuspendTypeSCHEDULED WorkspaceAutoSuspendSuspendType = "SCHEDULED"
 )
 
 // Defines values for WorkspaceResumeAttachmentsAttachment.
@@ -111,6 +111,13 @@ const (
 	FAILED     WorkspaceGroupState = "FAILED"
 	PENDING    WorkspaceGroupState = "PENDING"
 	TERMINATED WorkspaceGroupState = "TERMINATED"
+)
+
+// Defines values for WorkspaceUpdateAutoSuspendSuspendType.
+const (
+	WorkspaceUpdateAutoSuspendSuspendTypeDISABLED  WorkspaceUpdateAutoSuspendSuspendType = "DISABLED"
+	WorkspaceUpdateAutoSuspendSuspendTypeIDLE      WorkspaceUpdateAutoSuspendSuspendType = "IDLE"
+	WorkspaceUpdateAutoSuspendSuspendTypeSCHEDULED WorkspaceUpdateAutoSuspendSuspendType = "SCHEDULED"
 )
 
 // Defines values for GetV1BillingUsageParamsMetric.
@@ -558,9 +565,21 @@ type WorkspaceGroupUpdate struct {
 
 // WorkspaceUpdate Represents the information specified while updating a workspace
 type WorkspaceUpdate struct {
+	// AutoSuspend Specifies the auto suspend mode for the workspace. It can have one of the following values: `IDLE`, `SCHEDULED`, or `DISABLED`.
+	AutoSuspend *struct {
+		// SuspendAfterSeconds The time interval (in seconds) after which the workspace is suspended, depending on the auto suspend mode.
+		SuspendAfterSeconds *float32 `json:"suspendAfterSeconds,omitempty"`
+
+		// SuspendType The type of auto suspend mode. Set to `DISABLED` to disable auto suspend.
+		SuspendType *WorkspaceUpdateAutoSuspendSuspendType `json:"suspendType,omitempty"`
+	} `json:"autoSuspend,omitempty"`
+
 	// Size Size of the workspace (in workspace size notation), such as "S-1". The default value is "S-00".
 	Size *string `json:"size,omitempty"`
 }
+
+// WorkspaceUpdateAutoSuspendSuspendType The type of auto suspend mode. Set to `DISABLED` to disable auto suspend.
+type WorkspaceUpdateAutoSuspendSuspendType string
 
 // ConnectionID defines model for connectionID.
 type ConnectionID = openapi_types.UUID

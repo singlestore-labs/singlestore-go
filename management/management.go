@@ -105,6 +105,13 @@ const (
 	WorkspaceStateTERMINATED WorkspaceState = "TERMINATED"
 )
 
+// Defines values for WorkspaceCreateAutoSuspendSuspendType.
+const (
+	WorkspaceCreateAutoSuspendSuspendTypeDISABLED  WorkspaceCreateAutoSuspendSuspendType = "DISABLED"
+	WorkspaceCreateAutoSuspendSuspendTypeIDLE      WorkspaceCreateAutoSuspendSuspendType = "IDLE"
+	WorkspaceCreateAutoSuspendSuspendTypeSCHEDULED WorkspaceCreateAutoSuspendSuspendType = "SCHEDULED"
+)
+
 // Defines values for WorkspaceGroupState.
 const (
 	ACTIVE     WorkspaceGroupState = "ACTIVE"
@@ -115,9 +122,9 @@ const (
 
 // Defines values for WorkspaceUpdateAutoSuspendSuspendType.
 const (
-	WorkspaceUpdateAutoSuspendSuspendTypeDISABLED  WorkspaceUpdateAutoSuspendSuspendType = "DISABLED"
-	WorkspaceUpdateAutoSuspendSuspendTypeIDLE      WorkspaceUpdateAutoSuspendSuspendType = "IDLE"
-	WorkspaceUpdateAutoSuspendSuspendTypeSCHEDULED WorkspaceUpdateAutoSuspendSuspendType = "SCHEDULED"
+	DISABLED  WorkspaceUpdateAutoSuspendSuspendType = "DISABLED"
+	IDLE      WorkspaceUpdateAutoSuspendSuspendType = "IDLE"
+	SCHEDULED WorkspaceUpdateAutoSuspendSuspendType = "SCHEDULED"
 )
 
 // Defines values for GetV1BillingUsageParamsMetric.
@@ -445,6 +452,15 @@ type WorkspaceState string
 
 // WorkspaceCreate Represents the information specified while creating a workspace
 type WorkspaceCreate struct {
+	// AutoSuspend Auto suspend settings for the workspace. If this field is not provided, no settings will be enabled.
+	AutoSuspend *struct {
+		// SuspendAfterSeconds When to suspend the workspace, according to the suspend type chosen
+		SuspendAfterSeconds *float32 `json:"suspendAfterSeconds,omitempty"`
+
+		// SuspendType The auto suspend mode for the workspace can have the values `IDLE`, `SCHEDULED`, or `DISABLED` (to create the workspace with no auto suspend settings).
+		SuspendType *WorkspaceCreateAutoSuspendSuspendType `json:"suspendType,omitempty"`
+	} `json:"autoSuspend,omitempty"`
+
 	// EnableKai Whether to create a SingleStore Kai-enabled workspace
 	EnableKai *bool `json:"enableKai,omitempty"`
 
@@ -457,6 +473,9 @@ type WorkspaceCreate struct {
 	// WorkspaceGroupID ID of the workspace group in which the workspace is created
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
 }
+
+// WorkspaceCreateAutoSuspendSuspendType The auto suspend mode for the workspace can have the values `IDLE`, `SCHEDULED`, or `DISABLED` (to create the workspace with no auto suspend settings).
+type WorkspaceCreateAutoSuspendSuspendType string
 
 // WorkspaceGroup Represents information related to a workspace group
 type WorkspaceGroup struct {

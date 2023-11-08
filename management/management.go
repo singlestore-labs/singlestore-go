@@ -582,6 +582,12 @@ type WorkspaceGroupUpdate struct {
 	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
 }
 
+// WorkspaceResume Represents additional information specified when resuming a workspace
+type WorkspaceResume struct {
+	// DisableAutoSuspend Whether to disable auto suspend or keep the existing auto suspend settings. By default, `disableAutoSuspend` is set to `false`, and the existing auto suspend settings are preserved.
+	DisableAutoSuspend *bool `json:"disableAutoSuspend,omitempty"`
+}
+
 // WorkspaceUpdate Represents the information specified while updating a workspace
 type WorkspaceUpdate struct {
 	// AutoSuspend Specifies the auto suspend mode for the workspace. It can have one of the following values: `IDLE`, `SCHEDULED`, or `DISABLED`.
@@ -755,6 +761,9 @@ type PostV1WorkspacesJSONRequestBody = WorkspaceCreate
 
 // PatchV1WorkspacesWorkspaceIDJSONRequestBody defines body for PatchV1WorkspacesWorkspaceID for application/json ContentType.
 type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
+
+// PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
+type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
 
 // PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDStorageDRSetup for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody = StorageDRSetup
@@ -1003,8 +1012,10 @@ type ClientInterface interface {
 	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PostV1WorkspacesWorkspaceIDResume request
-	PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PostV1WorkspacesWorkspaceIDResume request with any body
+	PostV1WorkspacesWorkspaceIDResumeWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PatchV1WorkspacesWorkspaceIDStorageDRFailback request
 	PatchV1WorkspacesWorkspaceIDStorageDRFailback(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -1504,8 +1515,20 @@ func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(c
 	return c.Client.Do(req)
 }
 
-func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequest(c.Server, workspaceID)
+func (c *Client) PostV1WorkspacesWorkspaceIDResumeWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequest(c.Server, workspaceID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3112,8 +3135,19 @@ func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest(ser
 	return req, nil
 }
 
-// NewPostV1WorkspacesWorkspaceIDResumeRequest generates requests for PostV1WorkspacesWorkspaceIDResume
-func NewPostV1WorkspacesWorkspaceIDResumeRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+// NewPostV1WorkspacesWorkspaceIDResumeRequest calls the generic PostV1WorkspacesWorkspaceIDResume builder with application/json body
+func NewPostV1WorkspacesWorkspaceIDResumeRequest(server string, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody generates requests for PostV1WorkspacesWorkspaceIDResume with any type of body
+func NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -3138,10 +3172,12 @@ func NewPostV1WorkspacesWorkspaceIDResumeRequest(server string, workspaceID Work
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", queryURL.String(), nil)
+	req, err := http.NewRequest("POST", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -3644,8 +3680,10 @@ type ClientWithResponsesInterface interface {
 	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error)
 
-	// PostV1WorkspacesWorkspaceIDResume request
-	PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
+	// PostV1WorkspacesWorkspaceIDResume request with any body
+	PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
+
+	PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
 
 	// PatchV1WorkspacesWorkspaceIDStorageDRFailback request
 	PatchV1WorkspacesWorkspaceIDStorageDRFailbackWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse, error)
@@ -4951,9 +4989,17 @@ func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsOutbou
 	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse(rsp)
 }
 
-// PostV1WorkspacesWorkspaceIDResumeWithResponse request returning *PostV1WorkspacesWorkspaceIDResumeResponse
-func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
-	rsp, err := c.PostV1WorkspacesWorkspaceIDResume(ctx, workspaceID, reqEditors...)
+// PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse request with arbitrary body returning *PostV1WorkspacesWorkspaceIDResumeResponse
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDResumeWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDResume(ctx, workspaceID, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}

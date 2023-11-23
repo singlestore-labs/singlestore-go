@@ -576,7 +576,7 @@ type GetV1RegionsParams struct {
 
 // GetV1StagesWorkspaceGroupIDFsPathParams defines parameters for GetV1StagesWorkspaceGroupIDFsPath.
 type GetV1StagesWorkspaceGroupIDFsPathParams struct {
-	// Metadata If enabled, the API request returns only metadata
+	// Metadata If enabled, the API request returns only metadata for the specified file instead of downloading it. This parameter is ignored if the specified path is a folder.
 	Metadata *bool `form:"metadata,omitempty" json:"metadata,omitempty"`
 }
 

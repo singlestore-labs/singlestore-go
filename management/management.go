@@ -65,6 +65,12 @@ const (
 	WorkspaceAutoSuspendSuspendTypeSCHEDULED WorkspaceAutoSuspendSuspendType = "SCHEDULED"
 )
 
+// Defines values for WorkspaceDeploymentType.
+const (
+	WorkspaceDeploymentTypeNONPRODUCTION WorkspaceDeploymentType = "NON-PRODUCTION"
+	WorkspaceDeploymentTypePRODUCTION    WorkspaceDeploymentType = "PRODUCTION"
+)
+
 // Defines values for WorkspaceResumeAttachmentsAttachment.
 const (
 	READONLY  WorkspaceResumeAttachmentsAttachment = "READONLY"
@@ -100,6 +106,12 @@ const (
 	DISABLED  WorkspaceUpdateAutoSuspendSuspendType = "DISABLED"
 	IDLE      WorkspaceUpdateAutoSuspendSuspendType = "IDLE"
 	SCHEDULED WorkspaceUpdateAutoSuspendSuspendType = "SCHEDULED"
+)
+
+// Defines values for WorkspaceUpdateDeploymentType.
+const (
+	WorkspaceUpdateDeploymentTypeNONPRODUCTION WorkspaceUpdateDeploymentType = "NON-PRODUCTION"
+	WorkspaceUpdateDeploymentTypePRODUCTION    WorkspaceUpdateDeploymentType = "PRODUCTION"
 )
 
 // Defines values for GetV1BillingUsageParamsMetric.
@@ -318,6 +330,9 @@ type Workspace struct {
 	// CreatedAt The timestamp of when the workspace was created
 	CreatedAt string `json:"createdAt"`
 
+	// DeploymentType Specifies the deployment type for the workspace. It can have one of the following values: `PRODUCTION` or `NON-PRODUCTION`. If the value wasn't changed on creation, then the default will be `PRODUCTION`. If set to `NON-PRODUCTION`, the upgrades are only applied to the non-production workspaces.
+	DeploymentType *WorkspaceDeploymentType `json:"deploymentType,omitempty"`
+
 	// Endpoint Endpoint to connect to the workspace
 	Endpoint *string `json:"endpoint,omitempty"`
 
@@ -363,6 +378,9 @@ type Workspace struct {
 
 // WorkspaceAutoSuspendSuspendType The type of auto suspend currently enabled
 type WorkspaceAutoSuspendSuspendType string
+
+// WorkspaceDeploymentType Specifies the deployment type for the workspace. It can have one of the following values: `PRODUCTION` or `NON-PRODUCTION`. If the value wasn't changed on creation, then the default will be `PRODUCTION`. If set to `NON-PRODUCTION`, the upgrades are only applied to the non-production workspaces.
+type WorkspaceDeploymentType string
 
 // WorkspaceResumeAttachmentsAttachment The type of attachment
 type WorkspaceResumeAttachmentsAttachment string
@@ -519,12 +537,18 @@ type WorkspaceUpdate struct {
 		SuspendType *WorkspaceUpdateAutoSuspendSuspendType `json:"suspendType,omitempty"`
 	} `json:"autoSuspend,omitempty"`
 
+	// DeploymentType The deployment type that will be applied to all the workspaces within the group
+	DeploymentType *WorkspaceUpdateDeploymentType `json:"deploymentType,omitempty"`
+
 	// Size Size of the workspace (in workspace size notation), such as "S-1". The default value is "S-00".
 	Size *string `json:"size,omitempty"`
 }
 
 // WorkspaceUpdateAutoSuspendSuspendType The type of auto suspend mode. Set to `DISABLED` to disable auto suspend.
 type WorkspaceUpdateAutoSuspendSuspendType string
+
+// WorkspaceUpdateDeploymentType The deployment type that will be applied to all the workspaces within the group
+type WorkspaceUpdateDeploymentType string
 
 // ConnectionID defines model for connectionID.
 type ConnectionID = openapi_types.UUID

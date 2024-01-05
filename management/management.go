@@ -47,16 +47,16 @@ const (
 	GCP   RegionProvider = "GCP"
 )
 
-// Defines values for StagesObjectMetadataFormat.
+// Defines values for StageObjectMetadataFormat.
 const (
-	StagesObjectMetadataFormatJson StagesObjectMetadataFormat = "json"
+	StageObjectMetadataFormatJson StageObjectMetadataFormat = "json"
 )
 
-// Defines values for StagesObjectMetadataType.
+// Defines values for StageObjectMetadataType.
 const (
-	StagesObjectMetadataTypeDirectory StagesObjectMetadataType = "directory"
-	StagesObjectMetadataTypeEmpty     StagesObjectMetadataType = ""
-	StagesObjectMetadataTypeJson      StagesObjectMetadataType = "json"
+	StageObjectMetadataTypeDirectory StageObjectMetadataType = "directory"
+	StageObjectMetadataTypeEmpty     StageObjectMetadataType = ""
+	StageObjectMetadataTypeJson      StageObjectMetadataType = "json"
 )
 
 // Defines values for WorkspaceAutoSuspendSuspendType.
@@ -250,15 +250,15 @@ type Region struct {
 // RegionProvider Name of the provider
 type RegionProvider string
 
-// StagesObjectMetadata Represents the metadata corresponding to an object in a Stage
-type StagesObjectMetadata struct {
-	Content *StagesObjectMetadata_Content `json:"content,omitempty"`
-	Created *string                       `json:"created,omitempty"`
+// StageObjectMetadata Represents the metadata corresponding to an object in a Stage
+type StageObjectMetadata struct {
+	Content *StageObjectMetadata_Content `json:"content,omitempty"`
+	Created *string                      `json:"created,omitempty"`
 
 	// Format Format of the response
-	Format       *StagesObjectMetadataFormat `json:"format"`
-	LastModified *string                     `json:"last_modified,omitempty"`
-	Mimetype     *string                     `json:"mimetype,omitempty"`
+	Format       *StageObjectMetadataFormat `json:"format"`
+	LastModified *string                    `json:"last_modified,omitempty"`
+	Mimetype     *string                    `json:"mimetype,omitempty"`
 
 	// Name Name of the Stage object
 	Name *string `json:"name,omitempty"`
@@ -268,29 +268,29 @@ type StagesObjectMetadata struct {
 	Size *int    `json:"size,omitempty"`
 
 	// Type Object type
-	Type     *StagesObjectMetadataType `json:"type"`
-	Writable *bool                     `json:"writable,omitempty"`
+	Type     *StageObjectMetadataType `json:"type"`
+	Writable *bool                    `json:"writable,omitempty"`
 }
 
-// StagesObjectMetadataContent0 defines model for .
-type StagesObjectMetadataContent0 = string
+// StageObjectMetadataContent0 defines model for .
+type StageObjectMetadataContent0 = string
 
-// StagesObjectMetadataContent1 defines model for .
-type StagesObjectMetadataContent1 = []StagesObjectMetadata
+// StageObjectMetadataContent1 defines model for .
+type StageObjectMetadataContent1 = []StageObjectMetadata
 
-// StagesObjectMetadata_Content defines model for StagesObjectMetadata.Content.
-type StagesObjectMetadata_Content struct {
+// StageObjectMetadata_Content defines model for StageObjectMetadata.Content.
+type StageObjectMetadata_Content struct {
 	union json.RawMessage
 }
 
-// StagesObjectMetadataFormat Format of the response
-type StagesObjectMetadataFormat string
+// StageObjectMetadataFormat Format of the response
+type StageObjectMetadataFormat string
 
-// StagesObjectMetadataType Object type
-type StagesObjectMetadataType string
+// StageObjectMetadataType Object type
+type StageObjectMetadataType string
 
-// StagesPatch Represents information specified when modifying an object in a Stage
-type StagesPatch struct {
+// StagePatch Represents information specified when modifying an object in a Stage
+type StagePatch struct {
 	// NewPath New path of the object
 	NewPath *string `json:"newPath,omitempty"`
 }
@@ -598,20 +598,20 @@ type GetV1RegionsParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
-// GetV1StagesWorkspaceGroupIDFsPathParams defines parameters for GetV1StagesWorkspaceGroupIDFsPath.
-type GetV1StagesWorkspaceGroupIDFsPathParams struct {
+// GetV1StageWorkspaceGroupIDFsPathParams defines parameters for GetV1StageWorkspaceGroupIDFsPath.
+type GetV1StageWorkspaceGroupIDFsPathParams struct {
 	// Metadata If enabled, the API request returns only metadata for the specified file instead of downloading it. This parameter is ignored if the specified path is a folder.
 	Metadata *bool `form:"metadata,omitempty" json:"metadata,omitempty"`
 }
 
-// PutV1StagesWorkspaceGroupIDFsPathMultipartBody defines parameters for PutV1StagesWorkspaceGroupIDFsPath.
-type PutV1StagesWorkspaceGroupIDFsPathMultipartBody struct {
+// PutV1StageWorkspaceGroupIDFsPathMultipartBody defines parameters for PutV1StageWorkspaceGroupIDFsPath.
+type PutV1StageWorkspaceGroupIDFsPathMultipartBody struct {
 	// File File to upload
 	File *openapi_types.File `json:"file,omitempty"`
 }
 
-// PutV1StagesWorkspaceGroupIDFsPathParams defines parameters for PutV1StagesWorkspaceGroupIDFsPath.
-type PutV1StagesWorkspaceGroupIDFsPathParams struct {
+// PutV1StageWorkspaceGroupIDFsPathParams defines parameters for PutV1StageWorkspaceGroupIDFsPath.
+type PutV1StageWorkspaceGroupIDFsPathParams struct {
 	// IsFile If set to `true`, forces creation of an empty file
 	IsFile *bool `form:"isFile,omitempty" json:"isFile,omitempty"`
 }
@@ -673,11 +673,11 @@ type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
 // PatchV1PrivateConnectionsConnectionIDJSONRequestBody defines body for PatchV1PrivateConnectionsConnectionID for application/json ContentType.
 type PatchV1PrivateConnectionsConnectionIDJSONRequestBody = PrivateConnectionUpdate
 
-// PatchV1StagesWorkspaceGroupIDFsPathJSONRequestBody defines body for PatchV1StagesWorkspaceGroupIDFsPath for application/json ContentType.
-type PatchV1StagesWorkspaceGroupIDFsPathJSONRequestBody = StagesPatch
+// PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody defines body for PatchV1StageWorkspaceGroupIDFsPath for application/json ContentType.
+type PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody = StagePatch
 
-// PutV1StagesWorkspaceGroupIDFsPathMultipartRequestBody defines body for PutV1StagesWorkspaceGroupIDFsPath for multipart/form-data ContentType.
-type PutV1StagesWorkspaceGroupIDFsPathMultipartRequestBody PutV1StagesWorkspaceGroupIDFsPathMultipartBody
+// PutV1StageWorkspaceGroupIDFsPathMultipartRequestBody defines body for PutV1StageWorkspaceGroupIDFsPath for multipart/form-data ContentType.
+type PutV1StageWorkspaceGroupIDFsPathMultipartRequestBody PutV1StageWorkspaceGroupIDFsPathMultipartBody
 
 // PostV1WorkspaceGroupsJSONRequestBody defines body for PostV1WorkspaceGroups for application/json ContentType.
 type PostV1WorkspaceGroupsJSONRequestBody = WorkspaceGroupCreate
@@ -694,22 +694,22 @@ type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
 
-// AsStagesObjectMetadataContent0 returns the union data inside the StagesObjectMetadata_Content as a StagesObjectMetadataContent0
-func (t StagesObjectMetadata_Content) AsStagesObjectMetadataContent0() (StagesObjectMetadataContent0, error) {
-	var body StagesObjectMetadataContent0
+// AsStageObjectMetadataContent0 returns the union data inside the StageObjectMetadata_Content as a StageObjectMetadataContent0
+func (t StageObjectMetadata_Content) AsStageObjectMetadataContent0() (StageObjectMetadataContent0, error) {
+	var body StageObjectMetadataContent0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromStagesObjectMetadataContent0 overwrites any union data inside the StagesObjectMetadata_Content as the provided StagesObjectMetadataContent0
-func (t *StagesObjectMetadata_Content) FromStagesObjectMetadataContent0(v StagesObjectMetadataContent0) error {
+// FromStageObjectMetadataContent0 overwrites any union data inside the StageObjectMetadata_Content as the provided StageObjectMetadataContent0
+func (t *StageObjectMetadata_Content) FromStageObjectMetadataContent0(v StageObjectMetadataContent0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeStagesObjectMetadataContent0 performs a merge with any union data inside the StagesObjectMetadata_Content, using the provided StagesObjectMetadataContent0
-func (t *StagesObjectMetadata_Content) MergeStagesObjectMetadataContent0(v StagesObjectMetadataContent0) error {
+// MergeStageObjectMetadataContent0 performs a merge with any union data inside the StageObjectMetadata_Content, using the provided StageObjectMetadataContent0
+func (t *StageObjectMetadata_Content) MergeStageObjectMetadataContent0(v StageObjectMetadataContent0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -720,22 +720,22 @@ func (t *StagesObjectMetadata_Content) MergeStagesObjectMetadataContent0(v Stage
 	return err
 }
 
-// AsStagesObjectMetadataContent1 returns the union data inside the StagesObjectMetadata_Content as a StagesObjectMetadataContent1
-func (t StagesObjectMetadata_Content) AsStagesObjectMetadataContent1() (StagesObjectMetadataContent1, error) {
-	var body StagesObjectMetadataContent1
+// AsStageObjectMetadataContent1 returns the union data inside the StageObjectMetadata_Content as a StageObjectMetadataContent1
+func (t StageObjectMetadata_Content) AsStageObjectMetadataContent1() (StageObjectMetadataContent1, error) {
+	var body StageObjectMetadataContent1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromStagesObjectMetadataContent1 overwrites any union data inside the StagesObjectMetadata_Content as the provided StagesObjectMetadataContent1
-func (t *StagesObjectMetadata_Content) FromStagesObjectMetadataContent1(v StagesObjectMetadataContent1) error {
+// FromStageObjectMetadataContent1 overwrites any union data inside the StageObjectMetadata_Content as the provided StageObjectMetadataContent1
+func (t *StageObjectMetadata_Content) FromStageObjectMetadataContent1(v StageObjectMetadataContent1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeStagesObjectMetadataContent1 performs a merge with any union data inside the StagesObjectMetadata_Content, using the provided StagesObjectMetadataContent1
-func (t *StagesObjectMetadata_Content) MergeStagesObjectMetadataContent1(v StagesObjectMetadataContent1) error {
+// MergeStageObjectMetadataContent1 performs a merge with any union data inside the StageObjectMetadata_Content, using the provided StageObjectMetadataContent1
+func (t *StageObjectMetadata_Content) MergeStageObjectMetadataContent1(v StageObjectMetadataContent1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -746,12 +746,12 @@ func (t *StagesObjectMetadata_Content) MergeStagesObjectMetadataContent1(v Stage
 	return err
 }
 
-func (t StagesObjectMetadata_Content) MarshalJSON() ([]byte, error) {
+func (t StageObjectMetadata_Content) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *StagesObjectMetadata_Content) UnmarshalJSON(b []byte) error {
+func (t *StageObjectMetadata_Content) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -854,19 +854,19 @@ type ClientInterface interface {
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// DeleteV1StagesWorkspaceGroupIDFsPath request
-	DeleteV1StagesWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// DeleteV1StageWorkspaceGroupIDFsPath request
+	DeleteV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetV1StagesWorkspaceGroupIDFsPath request
-	GetV1StagesWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StagesWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetV1StageWorkspaceGroupIDFsPath request
+	GetV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PatchV1StagesWorkspaceGroupIDFsPath request with any body
-	PatchV1StagesWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PatchV1StageWorkspaceGroupIDFsPath request with any body
+	PatchV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	PatchV1StagesWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StagesWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PatchV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PutV1StagesWorkspaceGroupIDFsPath request with any body
-	PutV1StagesWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StagesWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PutV1StageWorkspaceGroupIDFsPath request with any body
+	PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -1035,8 +1035,8 @@ func (c *Client) GetV1Regions(ctx context.Context, params *GetV1RegionsParams, r
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteV1StagesWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteV1StagesWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path)
+func (c *Client) DeleteV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1StageWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path)
 	if err != nil {
 		return nil, err
 	}
@@ -1047,8 +1047,8 @@ func (c *Client) DeleteV1StagesWorkspaceGroupIDFsPath(ctx context.Context, works
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV1StagesWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StagesWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1StagesWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path, params)
+func (c *Client) GetV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1StageWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path, params)
 	if err != nil {
 		return nil, err
 	}
@@ -1059,8 +1059,8 @@ func (c *Client) GetV1StagesWorkspaceGroupIDFsPath(ctx context.Context, workspac
 	return c.Client.Do(req)
 }
 
-func (c *Client) PatchV1StagesWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1StagesWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, contentType, body)
+func (c *Client) PatchV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1071,8 +1071,8 @@ func (c *Client) PatchV1StagesWorkspaceGroupIDFsPathWithBody(ctx context.Context
 	return c.Client.Do(req)
 }
 
-func (c *Client) PatchV1StagesWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StagesWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1StagesWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path, body)
+func (c *Client) PatchV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1StageWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1083,8 +1083,8 @@ func (c *Client) PatchV1StagesWorkspaceGroupIDFsPath(ctx context.Context, worksp
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutV1StagesWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StagesWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutV1StagesWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, params, contentType, body)
+func (c *Client) PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, params, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1683,8 +1683,8 @@ func NewGetV1RegionsRequest(server string, params *GetV1RegionsParams) (*http.Re
 	return req, nil
 }
 
-// NewDeleteV1StagesWorkspaceGroupIDFsPathRequest generates requests for DeleteV1StagesWorkspaceGroupIDFsPath
-func NewDeleteV1StagesWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string) (*http.Request, error) {
+// NewDeleteV1StageWorkspaceGroupIDFsPathRequest generates requests for DeleteV1StageWorkspaceGroupIDFsPath
+func NewDeleteV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1706,7 +1706,7 @@ func NewDeleteV1StagesWorkspaceGroupIDFsPathRequest(server string, workspaceGrou
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/v1/stages/%s/fs/%s", pathParam0, pathParam1)
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -1724,8 +1724,8 @@ func NewDeleteV1StagesWorkspaceGroupIDFsPathRequest(server string, workspaceGrou
 	return req, nil
 }
 
-// NewGetV1StagesWorkspaceGroupIDFsPathRequest generates requests for GetV1StagesWorkspaceGroupIDFsPath
-func NewGetV1StagesWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string, params *GetV1StagesWorkspaceGroupIDFsPathParams) (*http.Request, error) {
+// NewGetV1StageWorkspaceGroupIDFsPathRequest generates requests for GetV1StageWorkspaceGroupIDFsPath
+func NewGetV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1747,7 +1747,7 @@ func NewGetV1StagesWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/v1/stages/%s/fs/%s", pathParam0, pathParam1)
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -1785,19 +1785,19 @@ func NewGetV1StagesWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID
 	return req, nil
 }
 
-// NewPatchV1StagesWorkspaceGroupIDFsPathRequest calls the generic PatchV1StagesWorkspaceGroupIDFsPath builder with application/json body
-func NewPatchV1StagesWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string, body PatchV1StagesWorkspaceGroupIDFsPathJSONRequestBody) (*http.Request, error) {
+// NewPatchV1StageWorkspaceGroupIDFsPathRequest calls the generic PatchV1StageWorkspaceGroupIDFsPath builder with application/json body
+func NewPatchV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewPatchV1StagesWorkspaceGroupIDFsPathRequestWithBody(server, workspaceGroupID, path, "application/json", bodyReader)
+	return NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(server, workspaceGroupID, path, "application/json", bodyReader)
 }
 
-// NewPatchV1StagesWorkspaceGroupIDFsPathRequestWithBody generates requests for PatchV1StagesWorkspaceGroupIDFsPath with any type of body
-func NewPatchV1StagesWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
+// NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody generates requests for PatchV1StageWorkspaceGroupIDFsPath with any type of body
+func NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1819,7 +1819,7 @@ func NewPatchV1StagesWorkspaceGroupIDFsPathRequestWithBody(server string, worksp
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/v1/stages/%s/fs/%s", pathParam0, pathParam1)
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -1839,8 +1839,8 @@ func NewPatchV1StagesWorkspaceGroupIDFsPathRequestWithBody(server string, worksp
 	return req, nil
 }
 
-// NewPutV1StagesWorkspaceGroupIDFsPathRequestWithBody generates requests for PutV1StagesWorkspaceGroupIDFsPath with any type of body
-func NewPutV1StagesWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, params *PutV1StagesWorkspaceGroupIDFsPathParams, contentType string, body io.Reader) (*http.Request, error) {
+// NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody generates requests for PutV1StageWorkspaceGroupIDFsPath with any type of body
+func NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1862,7 +1862,7 @@ func NewPutV1StagesWorkspaceGroupIDFsPathRequestWithBody(server string, workspac
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/v1/stages/%s/fs/%s", pathParam0, pathParam1)
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -2742,19 +2742,19 @@ type ClientWithResponsesInterface interface {
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
-	// DeleteV1StagesWorkspaceGroupIDFsPath request
-	DeleteV1StagesWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StagesWorkspaceGroupIDFsPathResponse, error)
+	// DeleteV1StageWorkspaceGroupIDFsPath request
+	DeleteV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error)
 
-	// GetV1StagesWorkspaceGroupIDFsPath request
-	GetV1StagesWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StagesWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StagesWorkspaceGroupIDFsPathResponse, error)
+	// GetV1StageWorkspaceGroupIDFsPath request
+	GetV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsPathResponse, error)
 
-	// PatchV1StagesWorkspaceGroupIDFsPath request with any body
-	PatchV1StagesWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StagesWorkspaceGroupIDFsPathResponse, error)
+	// PatchV1StageWorkspaceGroupIDFsPath request with any body
+	PatchV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error)
 
-	PatchV1StagesWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StagesWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StagesWorkspaceGroupIDFsPathResponse, error)
+	PatchV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error)
 
-	// PutV1StagesWorkspaceGroupIDFsPath request with any body
-	PutV1StagesWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StagesWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StagesWorkspaceGroupIDFsPathResponse, error)
+	// PutV1StageWorkspaceGroupIDFsPath request with any body
+	PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error)
 
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error)
@@ -2977,7 +2977,7 @@ func (r GetV1RegionsResponse) StatusCode() int {
 	return 0
 }
 
-type DeleteV1StagesWorkspaceGroupIDFsPathResponse struct {
+type DeleteV1StageWorkspaceGroupIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
@@ -2990,7 +2990,7 @@ type DeleteV1StagesWorkspaceGroupIDFsPathResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r DeleteV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
+func (r DeleteV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -2998,21 +2998,21 @@ func (r DeleteV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r DeleteV1StagesWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r DeleteV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetV1StagesWorkspaceGroupIDFsPathResponse struct {
+type GetV1StageWorkspaceGroupIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *StagesObjectMetadata
+	JSON200      *StageObjectMetadata
 }
 
 // Status returns HTTPResponse.Status
-func (r GetV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
+func (r GetV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -3020,14 +3020,14 @@ func (r GetV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetV1StagesWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r GetV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PatchV1StagesWorkspaceGroupIDFsPathResponse struct {
+type PatchV1StageWorkspaceGroupIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
@@ -3040,7 +3040,7 @@ type PatchV1StagesWorkspaceGroupIDFsPathResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r PatchV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
+func (r PatchV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -3048,14 +3048,14 @@ func (r PatchV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PatchV1StagesWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r PatchV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PutV1StagesWorkspaceGroupIDFsPathResponse struct {
+type PutV1StageWorkspaceGroupIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
@@ -3065,7 +3065,7 @@ type PutV1StagesWorkspaceGroupIDFsPathResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r PutV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
+func (r PutV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -3073,7 +3073,7 @@ func (r PutV1StagesWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PutV1StagesWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r PutV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -3527,48 +3527,48 @@ func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, para
 	return ParseGetV1RegionsResponse(rsp)
 }
 
-// DeleteV1StagesWorkspaceGroupIDFsPathWithResponse request returning *DeleteV1StagesWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) DeleteV1StagesWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StagesWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.DeleteV1StagesWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, reqEditors...)
+// DeleteV1StageWorkspaceGroupIDFsPathWithResponse request returning *DeleteV1StageWorkspaceGroupIDFsPathResponse
+func (c *ClientWithResponses) DeleteV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error) {
+	rsp, err := c.DeleteV1StageWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseDeleteV1StagesWorkspaceGroupIDFsPathResponse(rsp)
+	return ParseDeleteV1StageWorkspaceGroupIDFsPathResponse(rsp)
 }
 
-// GetV1StagesWorkspaceGroupIDFsPathWithResponse request returning *GetV1StagesWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) GetV1StagesWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StagesWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StagesWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.GetV1StagesWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, params, reqEditors...)
+// GetV1StageWorkspaceGroupIDFsPathWithResponse request returning *GetV1StageWorkspaceGroupIDFsPathResponse
+func (c *ClientWithResponses) GetV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsPathResponse, error) {
+	rsp, err := c.GetV1StageWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetV1StagesWorkspaceGroupIDFsPathResponse(rsp)
+	return ParseGetV1StageWorkspaceGroupIDFsPathResponse(rsp)
 }
 
-// PatchV1StagesWorkspaceGroupIDFsPathWithBodyWithResponse request with arbitrary body returning *PatchV1StagesWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) PatchV1StagesWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StagesWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.PatchV1StagesWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, contentType, body, reqEditors...)
+// PatchV1StageWorkspaceGroupIDFsPathWithBodyWithResponse request with arbitrary body returning *PatchV1StageWorkspaceGroupIDFsPathResponse
+func (c *ClientWithResponses) PatchV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error) {
+	rsp, err := c.PatchV1StageWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePatchV1StagesWorkspaceGroupIDFsPathResponse(rsp)
+	return ParsePatchV1StageWorkspaceGroupIDFsPathResponse(rsp)
 }
 
-func (c *ClientWithResponses) PatchV1StagesWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StagesWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StagesWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.PatchV1StagesWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, body, reqEditors...)
+func (c *ClientWithResponses) PatchV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error) {
+	rsp, err := c.PatchV1StageWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePatchV1StagesWorkspaceGroupIDFsPathResponse(rsp)
+	return ParsePatchV1StageWorkspaceGroupIDFsPathResponse(rsp)
 }
 
-// PutV1StagesWorkspaceGroupIDFsPathWithBodyWithResponse request with arbitrary body returning *PutV1StagesWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) PutV1StagesWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StagesWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StagesWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.PutV1StagesWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, params, contentType, body, reqEditors...)
+// PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse request with arbitrary body returning *PutV1StageWorkspaceGroupIDFsPathResponse
+func (c *ClientWithResponses) PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error) {
+	rsp, err := c.PutV1StageWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, params, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePutV1StagesWorkspaceGroupIDFsPathResponse(rsp)
+	return ParsePutV1StageWorkspaceGroupIDFsPathResponse(rsp)
 }
 
 // GetV1WorkspaceGroupsWithResponse request returning *GetV1WorkspaceGroupsResponse
@@ -3945,15 +3945,15 @@ func ParseGetV1RegionsResponse(rsp *http.Response) (*GetV1RegionsResponse, error
 	return response, nil
 }
 
-// ParseDeleteV1StagesWorkspaceGroupIDFsPathResponse parses an HTTP response from a DeleteV1StagesWorkspaceGroupIDFsPathWithResponse call
-func ParseDeleteV1StagesWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*DeleteV1StagesWorkspaceGroupIDFsPathResponse, error) {
+// ParseDeleteV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a DeleteV1StageWorkspaceGroupIDFsPathWithResponse call
+func ParseDeleteV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &DeleteV1StagesWorkspaceGroupIDFsPathResponse{
+	response := &DeleteV1StageWorkspaceGroupIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -3977,22 +3977,22 @@ func ParseDeleteV1StagesWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*Del
 	return response, nil
 }
 
-// ParseGetV1StagesWorkspaceGroupIDFsPathResponse parses an HTTP response from a GetV1StagesWorkspaceGroupIDFsPathWithResponse call
-func ParseGetV1StagesWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*GetV1StagesWorkspaceGroupIDFsPathResponse, error) {
+// ParseGetV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a GetV1StageWorkspaceGroupIDFsPathWithResponse call
+func ParseGetV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*GetV1StageWorkspaceGroupIDFsPathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetV1StagesWorkspaceGroupIDFsPathResponse{
+	response := &GetV1StageWorkspaceGroupIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest StagesObjectMetadata
+		var dest StageObjectMetadata
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -4003,15 +4003,15 @@ func ParseGetV1StagesWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*GetV1S
 	return response, nil
 }
 
-// ParsePatchV1StagesWorkspaceGroupIDFsPathResponse parses an HTTP response from a PatchV1StagesWorkspaceGroupIDFsPathWithResponse call
-func ParsePatchV1StagesWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*PatchV1StagesWorkspaceGroupIDFsPathResponse, error) {
+// ParsePatchV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a PatchV1StageWorkspaceGroupIDFsPathWithResponse call
+func ParsePatchV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &PatchV1StagesWorkspaceGroupIDFsPathResponse{
+	response := &PatchV1StageWorkspaceGroupIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -4035,15 +4035,15 @@ func ParsePatchV1StagesWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*Patc
 	return response, nil
 }
 
-// ParsePutV1StagesWorkspaceGroupIDFsPathResponse parses an HTTP response from a PutV1StagesWorkspaceGroupIDFsPathWithResponse call
-func ParsePutV1StagesWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*PutV1StagesWorkspaceGroupIDFsPathResponse, error) {
+// ParsePutV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a PutV1StageWorkspaceGroupIDFsPathWithResponse call
+func ParsePutV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*PutV1StageWorkspaceGroupIDFsPathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &PutV1StagesWorkspaceGroupIDFsPathResponse{
+	response := &PutV1StageWorkspaceGroupIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}

@@ -223,6 +223,12 @@ type PrivateConnectionCreate struct {
 // PrivateConnectionCreateType The private connection type
 type PrivateConnectionCreateType string
 
+// PrivateConnectionKaiInfo Represents the information for creating private connection to SingleStore Kai
+type PrivateConnectionKaiInfo struct {
+	// ServiceName VPC Endpoint Service Name for AWS
+	ServiceName *string `json:"serviceName,omitempty"`
+}
+
 // PrivateConnectionOutboundAllowList Represents information related to a private connection outbound allow list
 type PrivateConnectionOutboundAllowList struct {
 	// OutboundAllowList The account ID allowed for outbound connections
@@ -912,6 +918,9 @@ type ClientInterface interface {
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsKai request
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsKai(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1277,6 +1286,18 @@ func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID W
 
 func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(c.Server, workspaceID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnectionsKai(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiRequest(c.Server, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -2518,6 +2539,40 @@ func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(server string, works
 	return req, nil
 }
 
+// NewGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiRequest generates requests for GetV1WorkspacesWorkspaceIDPrivateConnectionsKai
+func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiRequest(server string, workspaceID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/privateConnections/kai", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest generates requests for GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList
 func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
 	var err error
@@ -2799,6 +2854,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsKai request
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse, error)
 
 	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error)
@@ -3357,6 +3415,28 @@ func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *PrivateConnectionKaiInfo
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -3709,6 +3789,15 @@ func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsWithRe
 		return nil, err
 	}
 	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse request returning *GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDPrivateConnectionsKai(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse(rsp)
 }
 
 // GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse request returning *GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse
@@ -4379,6 +4468,32 @@ func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp *http.Respons
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []PrivateConnection
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PrivateConnectionKaiInfo
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

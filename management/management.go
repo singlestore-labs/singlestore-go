@@ -333,6 +333,9 @@ type Workspace struct {
 		SuspendTypeChangedAt *string `json:"suspendTypeChangedAt,omitempty"`
 	} `json:"autoSuspend,omitempty"`
 
+	// CacheConfig Specifies the multiplier for the persistent cache associated with the workspace. It can have one of the following values: 1, 2, or 4.
+	CacheConfig *float32 `json:"cacheConfig,omitempty"`
+
 	// CreatedAt The timestamp of when the workspace was created
 	CreatedAt string `json:"createdAt"`
 
@@ -404,6 +407,9 @@ type WorkspaceCreate struct {
 		// SuspendType The auto suspend mode for the workspace can have the values `IDLE`, `SCHEDULED`, or `DISABLED` (to create the workspace with no auto suspend settings).
 		SuspendType *WorkspaceCreateAutoSuspendSuspendType `json:"suspendType,omitempty"`
 	} `json:"autoSuspend,omitempty"`
+
+	// CacheConfig Specifies the multiplier for the persistent cache associated with the workspace. If specified, it enables the cache configuration multiplier. It can have one of the following values: 1, 2, or 4.
+	CacheConfig *float32 `json:"cacheConfig,omitempty"`
 
 	// EnableKai Whether to create a SingleStore Kai-enabled workspace
 	EnableKai *bool `json:"enableKai,omitempty"`
@@ -542,6 +548,9 @@ type WorkspaceUpdate struct {
 		// SuspendType The type of auto suspend mode. Set to `DISABLED` to disable auto suspend.
 		SuspendType *WorkspaceUpdateAutoSuspendSuspendType `json:"suspendType,omitempty"`
 	} `json:"autoSuspend,omitempty"`
+
+	// CacheConfig Specifies the multiplier for the persistent cache associated with the workspace. If specified, it enables the cache configuration multiplier. It can have one of the following values: 1, 2, or 4.
+	CacheConfig *float32 `json:"cacheConfig,omitempty"`
 
 	// DeploymentType The deployment type that will be applied to all the workspaces within the group
 	DeploymentType *WorkspaceUpdateDeploymentType `json:"deploymentType,omitempty"`

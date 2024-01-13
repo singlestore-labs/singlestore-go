@@ -207,6 +207,9 @@ type PrivateConnectionCreate struct {
 	// AllowList The private connection allow list
 	AllowList *string `json:"allowList,omitempty"`
 
+	// KaiEndpointID VPC Endpoint ID for AWS
+	KaiEndpointID *string `json:"kaiEndpointID,omitempty"`
+
 	// ServiceName The name of the private connection service
 	ServiceName *string `json:"serviceName,omitempty"`
 

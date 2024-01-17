@@ -298,12 +298,6 @@ type StageObjectMetadataFormat string
 // StageObjectMetadataType Object type
 type StageObjectMetadataType string
 
-// StagePatch Represents information specified when modifying an object in a Stage
-type StagePatch struct {
-	// NewPath New path of the object
-	NewPath *string `json:"newPath,omitempty"`
-}
-
 // UpdateWindow Represents information related to an update window
 type UpdateWindow struct {
 	// Day Day of week (0-6), starting on Sunday
@@ -622,6 +616,12 @@ type GetV1StageWorkspaceGroupIDFsPathParams struct {
 	Metadata *bool `form:"metadata,omitempty" json:"metadata,omitempty"`
 }
 
+// PatchV1StageWorkspaceGroupIDFsPathJSONBody defines parameters for PatchV1StageWorkspaceGroupIDFsPath.
+type PatchV1StageWorkspaceGroupIDFsPathJSONBody struct {
+	// NewPath New path of the file or folder
+	NewPath *string `json:"newPath,omitempty"`
+}
+
 // PutV1StageWorkspaceGroupIDFsPathMultipartBody defines parameters for PutV1StageWorkspaceGroupIDFsPath.
 type PutV1StageWorkspaceGroupIDFsPathMultipartBody struct {
 	// File File to upload
@@ -692,7 +692,7 @@ type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
 type PatchV1PrivateConnectionsConnectionIDJSONRequestBody = PrivateConnectionUpdate
 
 // PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody defines body for PatchV1StageWorkspaceGroupIDFsPath for application/json ContentType.
-type PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody = StagePatch
+type PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody PatchV1StageWorkspaceGroupIDFsPathJSONBody
 
 // PutV1StageWorkspaceGroupIDFsPathMultipartRequestBody defines body for PutV1StageWorkspaceGroupIDFsPath for multipart/form-data ContentType.
 type PutV1StageWorkspaceGroupIDFsPathMultipartRequestBody PutV1StageWorkspaceGroupIDFsPathMultipartBody

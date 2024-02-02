@@ -493,6 +493,11 @@ type WorkspaceGroupCreate struct {
 	// RegionID ID of the region where the new workspace group is created
 	RegionID openapi_types.UUID `json:"regionID"`
 
+	// SmartDR Enables SmartDR for the workspace group. SmartDR is a disaster recovery solution that ensures seamless and
+	// continuous replication of data from the primary region to a secondary region. For additional information,
+	// please refer to our documentation.
+	SmartDR *bool `json:"smartDR,omitempty"`
+
 	// UpdateWindow Represents information related to an update window
 	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
 }

@@ -47,6 +47,14 @@ const (
 	GCP   RegionProvider = "GCP"
 )
 
+// Defines values for ReplicatedDatabaseDuplicationState.
+const (
+	ReplicatedDatabaseDuplicationStateActive   ReplicatedDatabaseDuplicationState = "Active"
+	ReplicatedDatabaseDuplicationStateError    ReplicatedDatabaseDuplicationState = "Error"
+	ReplicatedDatabaseDuplicationStateInactive ReplicatedDatabaseDuplicationState = "Inactive"
+	ReplicatedDatabaseDuplicationStatePending  ReplicatedDatabaseDuplicationState = "Pending"
+)
+
 // Defines values for StageObjectMetadataFormat.
 const (
 	StageObjectMetadataFormatJson StageObjectMetadataFormat = "json"
@@ -57,6 +65,21 @@ const (
 	StageObjectMetadataTypeDirectory StageObjectMetadataType = "directory"
 	StageObjectMetadataTypeEmpty     StageObjectMetadataType = ""
 	StageObjectMetadataTypeJson      StageObjectMetadataType = "json"
+)
+
+// Defines values for StorageDRStatusComputeStorageDRState.
+const (
+	StorageDRStatusComputeStorageDRStateActive    StorageDRStatusComputeStorageDRState = "Active"
+	StorageDRStatusComputeStorageDRStateCanceled  StorageDRStatusComputeStorageDRState = "Canceled"
+	StorageDRStatusComputeStorageDRStateCompleted StorageDRStatusComputeStorageDRState = "Completed"
+	StorageDRStatusComputeStorageDRStateExpired   StorageDRStatusComputeStorageDRState = "Expired"
+	StorageDRStatusComputeStorageDRStateFailed    StorageDRStatusComputeStorageDRState = "Failed"
+)
+
+// Defines values for StorageDRStatusComputeStorageDRType.
+const (
+	Failback StorageDRStatusComputeStorageDRType = "Failback"
+	Failover StorageDRStatusComputeStorageDRType = "Failover"
 )
 
 // Defines values for WorkspaceAutoSuspendSuspendType.
@@ -259,6 +282,21 @@ type Region struct {
 // RegionProvider Name of the provider
 type RegionProvider string
 
+// ReplicatedDatabase Represents information related to a database's replication status
+type ReplicatedDatabase struct {
+	// DatabaseName Name of the database
+	DatabaseName string `json:"databaseName"`
+
+	// DuplicationState Duplication state of the database
+	DuplicationState ReplicatedDatabaseDuplicationState `json:"duplicationState"`
+
+	// Region Name of the region
+	Region string `json:"region"`
+}
+
+// ReplicatedDatabaseDuplicationState Duplication state of the database
+type ReplicatedDatabaseDuplicationState string
+
 // StageObjectMetadata Represents the metadata corresponding to an object in a Stage
 type StageObjectMetadata struct {
 	Content *StageObjectMetadata_Content `json:"content,omitempty"`
@@ -297,6 +335,46 @@ type StageObjectMetadataFormat string
 
 // StageObjectMetadataType Object type
 type StageObjectMetadataType string
+
+// StorageDRSetup Represents the information specified to setup Storage DR
+type StorageDRSetup struct {
+	// DatabaseNames List of database names
+	DatabaseNames []string `json:"databaseNames"`
+
+	// RegionID Region ID of the secondary region
+	RegionID openapi_types.UUID `json:"regionID"`
+}
+
+// StorageDRStatus Represents Storage DR status information
+type StorageDRStatus struct {
+	// Compute Represents information related to a workspace group's latest storage DR operation
+	Compute struct {
+		// CompletedAttachments The number of database attachments that have been setup
+		CompletedAttachments *int `json:"completedAttachments,omitempty"`
+
+		// CompletedWorkspaces The number of workspaces that have been setup
+		CompletedWorkspaces *int `json:"completedWorkspaces,omitempty"`
+
+		// StorageDRState Status of Storage DR operation
+		StorageDRState StorageDRStatusComputeStorageDRState `json:"storageDRState"`
+
+		// StorageDRType Name of Storage DR operation
+		StorageDRType StorageDRStatusComputeStorageDRType `json:"storageDRType"`
+
+		// TotalAttachments The total number of database attachments to setup
+		TotalAttachments *int `json:"totalAttachments,omitempty"`
+
+		// TotalWorkspaces The total number of workspaces to setup
+		TotalWorkspaces *int `json:"totalWorkspaces,omitempty"`
+	} `json:"compute"`
+	Storage []ReplicatedDatabase `json:"storage"`
+}
+
+// StorageDRStatusComputeStorageDRState Status of Storage DR operation
+type StorageDRStatusComputeStorageDRState string
+
+// StorageDRStatusComputeStorageDRType Name of Storage DR operation
+type StorageDRStatusComputeStorageDRType string
 
 // UpdateWindow Represents information related to an update window
 type UpdateWindow struct {
@@ -475,6 +553,14 @@ type WorkspaceGroupCreate struct {
 	// AllowAllTraffic If enabled, allows all traffic to the workspace group.
 	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
 
+	// BackupBucketKMSKeyID Enables CMEK function for backup bucket and EBS volumes of the workspace group.  AWS only for now.
+	// Customer can use CEMK (Customer-Managed Encryption Keys) to encrypt the data in SingleStore platform.
+	BackupBucketKMSKeyID *string `json:"backupBucketKMSKeyID,omitempty"`
+
+	// DataBucketKMSKeyID Enables CMEK function for data bucket and EBS volumes of the workspace group. AWS only for now.
+	// Customer can use CEMK (Customer-Managed Encryption Keys) to encrypt the data in SingleStore platform.
+	DataBucketKMSKeyID *string `json:"dataBucketKMSKeyID,omitempty"`
+
 	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
 	//
 	//   * "2023-09-02T15:04:05Z07:00"
@@ -633,12 +719,6 @@ type PutV1StageWorkspaceGroupIDFsPathMultipartBody struct {
 	File *openapi_types.File `json:"file,omitempty"`
 }
 
-// PutV1StageWorkspaceGroupIDFsPathParams defines parameters for PutV1StageWorkspaceGroupIDFsPath.
-type PutV1StageWorkspaceGroupIDFsPathParams struct {
-	// IsFile If set to `true`, forces creation of an empty file
-	IsFile *bool `form:"isFile,omitempty" json:"isFile,omitempty"`
-}
-
 // GetV1WorkspaceGroupsParams defines parameters for GetV1WorkspaceGroups.
 type GetV1WorkspaceGroupsParams struct {
 	// IncludeTerminated To include any terminated workspace groups, set to `true`
@@ -662,6 +742,12 @@ type GetV1WorkspaceGroupsWorkspaceGroupIDParams struct {
 
 // GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections.
 type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions.
+type GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
@@ -690,6 +776,12 @@ type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// GetV1WorkspacesWorkspaceIDStorageDRRegionsParams defines parameters for GetV1WorkspacesWorkspaceIDStorageDRRegions.
+type GetV1WorkspacesWorkspaceIDStorageDRRegionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
 // PostV1PrivateConnectionsJSONRequestBody defines body for PostV1PrivateConnections for application/json ContentType.
 type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
 
@@ -708,6 +800,9 @@ type PostV1WorkspaceGroupsJSONRequestBody = WorkspaceGroupCreate
 // PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupID for application/json ContentType.
 type PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody = WorkspaceGroupUpdate
 
+// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup for application/json ContentType.
+type PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody = StorageDRSetup
+
 // PostV1WorkspacesJSONRequestBody defines body for PostV1Workspaces for application/json ContentType.
 type PostV1WorkspacesJSONRequestBody = WorkspaceCreate
 
@@ -716,6 +811,9 @@ type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
 
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
+
+// PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDStorageDRSetup for application/json ContentType.
+type PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody = StorageDRSetup
 
 // AsStageObjectMetadataContent0 returns the union data inside the StageObjectMetadata_Content as a StageObjectMetadataContent0
 func (t StageObjectMetadata_Content) AsStageObjectMetadataContent0() (StageObjectMetadataContent0, error) {
@@ -889,7 +987,7 @@ type ClientInterface interface {
 	PatchV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PutV1StageWorkspaceGroupIDFsPath request with any body
-	PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -912,6 +1010,23 @@ type ClientInterface interface {
 
 	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
 	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback request
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover request
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions request
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus request
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1Workspaces request
 	GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -945,6 +1060,23 @@ type ClientInterface interface {
 	PostV1WorkspacesWorkspaceIDResumeWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspacesWorkspaceIDStorageDRFailback request
+	PatchV1WorkspacesWorkspaceIDStorageDRFailback(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspacesWorkspaceIDStorageDRFailover request
+	PatchV1WorkspacesWorkspaceIDStorageDRFailover(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDStorageDRRegions request
+	GetV1WorkspacesWorkspaceIDStorageDRRegions(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDStorageDRSetup request with any body
+	PostV1WorkspacesWorkspaceIDStorageDRSetupWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspacesWorkspaceIDStorageDRSetup(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDStorageDRStatus request
+	GetV1WorkspacesWorkspaceIDStorageDRStatus(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -1109,8 +1241,8 @@ func (c *Client) PatchV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspa
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, params, contentType, body)
+func (c *Client) PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1207,6 +1339,78 @@ func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, wor
 
 func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusRequest(c.Server, workspaceGroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -1351,6 +1555,78 @@ func (c *Client) PostV1WorkspacesWorkspaceIDResumeWithBody(ctx context.Context, 
 
 func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspacesWorkspaceIDStorageDRFailback(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspacesWorkspaceIDStorageDRFailbackRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspacesWorkspaceIDStorageDRFailover(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspacesWorkspaceIDStorageDRFailoverRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDStorageDRRegions(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDStorageDRRegionsRequest(c.Server, workspaceID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDStorageDRSetupWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDStorageDRSetupRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDStorageDRSetup(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDStorageDRSetupRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDStorageDRStatus(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDStorageDRStatusRequest(c.Server, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -1878,7 +2154,7 @@ func NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspa
 }
 
 // NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody generates requests for PutV1StageWorkspaceGroupIDFsPath with any type of body
-func NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader) (*http.Request, error) {
+func NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1909,26 +2185,6 @@ func NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspace
 	if err != nil {
 		return nil, err
 	}
-
-	queryValues := queryURL.Query()
-
-	if params.IsFile != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "isFile", runtime.ParamLocationQuery, *params.IsFile); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("PUT", queryURL.String(), body)
 	if err != nil {
@@ -2243,6 +2499,209 @@ func NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(server str
 	}
 
 	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackRequest generates requests for PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/failback", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverRequest generates requests for PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/failover", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/regions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequest calls the generic PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup builder with application/json body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequest(server string, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody generates requests for PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup with any type of body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/setup", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/status", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -2671,6 +3130,209 @@ func NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody(server string, workspac
 	return req, nil
 }
 
+// NewPatchV1WorkspacesWorkspaceIDStorageDRFailbackRequest generates requests for PatchV1WorkspacesWorkspaceIDStorageDRFailback
+func NewPatchV1WorkspacesWorkspaceIDStorageDRFailbackRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/storage/DR/failback", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspacesWorkspaceIDStorageDRFailoverRequest generates requests for PatchV1WorkspacesWorkspaceIDStorageDRFailover
+func NewPatchV1WorkspacesWorkspaceIDStorageDRFailoverRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/storage/DR/failover", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDStorageDRRegionsRequest generates requests for GetV1WorkspacesWorkspaceIDStorageDRRegions
+func NewGetV1WorkspacesWorkspaceIDStorageDRRegionsRequest(server string, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDStorageDRRegionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/storage/DR/regions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesWorkspaceIDStorageDRSetupRequest calls the generic PostV1WorkspacesWorkspaceIDStorageDRSetup builder with application/json body
+func NewPostV1WorkspacesWorkspaceIDStorageDRSetupRequest(server string, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesWorkspaceIDStorageDRSetupRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesWorkspaceIDStorageDRSetupRequestWithBody generates requests for PostV1WorkspacesWorkspaceIDStorageDRSetup with any type of body
+func NewPostV1WorkspacesWorkspaceIDStorageDRSetupRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/storage/DR/setup", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDStorageDRStatusRequest generates requests for GetV1WorkspacesWorkspaceIDStorageDRStatus
+func NewGetV1WorkspacesWorkspaceIDStorageDRStatusRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/storage/DR/status", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewPostV1WorkspacesWorkspaceIDSuspendRequest generates requests for PostV1WorkspacesWorkspaceIDSuspend
 func NewPostV1WorkspacesWorkspaceIDSuspendRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
 	var err error
@@ -2826,7 +3488,7 @@ type ClientWithResponsesInterface interface {
 	PatchV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error)
 
 	// PutV1StageWorkspaceGroupIDFsPath request with any body
-	PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error)
+	PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error)
 
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error)
@@ -2849,6 +3511,23 @@ type ClientWithResponsesInterface interface {
 
 	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
 	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback request
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover request
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions request
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus request
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse, error)
 
 	// GetV1Workspaces request
 	GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error)
@@ -2882,6 +3561,23 @@ type ClientWithResponsesInterface interface {
 	PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
 
 	PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
+
+	// PatchV1WorkspacesWorkspaceIDStorageDRFailback request
+	PatchV1WorkspacesWorkspaceIDStorageDRFailbackWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse, error)
+
+	// PatchV1WorkspacesWorkspaceIDStorageDRFailover request
+	PatchV1WorkspacesWorkspaceIDStorageDRFailoverWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDStorageDRRegions request
+	GetV1WorkspacesWorkspaceIDStorageDRRegionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDStorageDRSetup request with any body
+	PostV1WorkspacesWorkspaceIDStorageDRSetupWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDStorageDRSetupResponse, error)
+
+	PostV1WorkspacesWorkspaceIDStorageDRSetupWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDStorageDRSetupResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDStorageDRStatus request
+	GetV1WorkspacesWorkspaceIDStorageDRStatusWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDStorageDRStatusResponse, error)
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error)
@@ -3294,6 +3990,113 @@ func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) StatusCo
 	return 0
 }
 
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]Region
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StorageDRStatus
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1WorkspacesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -3500,6 +4303,113 @@ func (r PostV1WorkspacesWorkspaceIDResumeResponse) StatusCode() int {
 	return 0
 }
 
+type PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]Region
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspacesWorkspaceIDStorageDRSetupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDStorageDRSetupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDStorageDRSetupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspacesWorkspaceIDStorageDRStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StorageDRStatus
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDStorageDRStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDStorageDRStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type PostV1WorkspacesWorkspaceIDSuspendResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -3660,8 +4570,8 @@ func (c *ClientWithResponses) PatchV1StageWorkspaceGroupIDFsPathWithResponse(ctx
 }
 
 // PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse request with arbitrary body returning *PutV1StageWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *PutV1StageWorkspaceGroupIDFsPathParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.PutV1StageWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, params, contentType, body, reqEditors...)
+func (c *ClientWithResponses) PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error) {
+	rsp, err := c.PutV1StageWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
@@ -3736,6 +4646,59 @@ func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnect
 		return nil, err
 	}
 	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse request returning *PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse request returning *PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions(ctx, workspaceGroupID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBodyWithResponse request with arbitrary body returning *PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse(rsp)
 }
 
 // GetV1WorkspacesWithResponse request returning *GetV1WorkspacesResponse
@@ -3841,6 +4804,59 @@ func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx 
 		return nil, err
 	}
 	return ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp)
+}
+
+// PatchV1WorkspacesWorkspaceIDStorageDRFailbackWithResponse request returning *PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse
+func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDStorageDRFailbackWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse, error) {
+	rsp, err := c.PatchV1WorkspacesWorkspaceIDStorageDRFailback(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse(rsp)
+}
+
+// PatchV1WorkspacesWorkspaceIDStorageDRFailoverWithResponse request returning *PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse
+func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDStorageDRFailoverWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse, error) {
+	rsp, err := c.PatchV1WorkspacesWorkspaceIDStorageDRFailover(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDStorageDRRegionsWithResponse request returning *GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDStorageDRRegionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDStorageDRRegions(ctx, workspaceID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDStorageDRRegionsResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDStorageDRSetupWithBodyWithResponse request with arbitrary body returning *PostV1WorkspacesWorkspaceIDStorageDRSetupResponse
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDStorageDRSetupWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDStorageDRSetupResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDStorageDRSetupWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDStorageDRSetupResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDStorageDRSetupWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDStorageDRSetupResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDStorageDRSetup(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDStorageDRSetupResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDStorageDRStatusWithResponse request returning *GetV1WorkspacesWorkspaceIDStorageDRStatusResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDStorageDRStatusWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDStorageDRStatusResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDStorageDRStatus(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDStorageDRStatusResponse(rsp)
 }
 
 // PostV1WorkspacesWorkspaceIDSuspendWithResponse request returning *PostV1WorkspacesWorkspaceIDSuspendResponse
@@ -4333,6 +5349,106 @@ func ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp *ht
 	return response, nil
 }
 
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse parses an HTTP response from a PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse call
+func ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse(rsp *http.Response) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StorageDRStatus
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1WorkspacesResponse parses an HTTP response from a GetV1WorkspacesWithResponse call
 func ParseGetV1WorkspacesResponse(rsp *http.Response) (*GetV1WorkspacesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -4565,6 +5681,106 @@ func ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp *http.Response) (*PostV1
 		var dest struct {
 			WorkspaceID openapi_types.UUID `json:"workspaceID"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse parses an HTTP response from a PatchV1WorkspacesWorkspaceIDStorageDRFailbackWithResponse call
+func ParsePatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse(rsp *http.Response) (*PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspacesWorkspaceIDStorageDRFailbackResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse parses an HTTP response from a PatchV1WorkspacesWorkspaceIDStorageDRFailoverWithResponse call
+func ParsePatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse(rsp *http.Response) (*PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspacesWorkspaceIDStorageDRFailoverResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDStorageDRRegionsResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDStorageDRRegionsWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDStorageDRRegionsResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDStorageDRRegionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDStorageDRSetupResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDStorageDRSetupWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDStorageDRSetupResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDStorageDRSetupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDStorageDRSetupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDStorageDRStatusResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDStorageDRStatusWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDStorageDRStatusResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDStorageDRStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDStorageDRStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StorageDRStatus
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

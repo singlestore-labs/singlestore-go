@@ -553,12 +553,10 @@ type WorkspaceGroupCreate struct {
 	// AllowAllTraffic If enabled, allows all traffic to the workspace group.
 	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
 
-	// BackupBucketKMSKeyID Enables CMEK function for backup bucket and EBS volumes of the workspace group.  AWS only for now.
-	// Customer can use CEMK (Customer-Managed Encryption Keys) to encrypt the data in SingleStore platform.
+	// BackupBucketKMSKeyID Specifies the KMS key ID associated with the backup bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the backup bucket of the workspace group. This feature is only supported in workspace groups deployed in AWS.
 	BackupBucketKMSKeyID *string `json:"backupBucketKMSKeyID,omitempty"`
 
-	// DataBucketKMSKeyID Enables CMEK function for data bucket and EBS volumes of the workspace group. AWS only for now.
-	// Customer can use CEMK (Customer-Managed Encryption Keys) to encrypt the data in SingleStore platform.
+	// DataBucketKMSKeyID Specifies the KMS key ID associated with the data bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the data bucket and Amazon Elastic Block Store (EBS) volumes of the workspace group. This feature is only supported in workspace groups deployed in AWS.
 	DataBucketKMSKeyID *string `json:"dataBucketKMSKeyID,omitempty"`
 
 	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
@@ -579,9 +577,9 @@ type WorkspaceGroupCreate struct {
 	// RegionID ID of the region where the new workspace group is created
 	RegionID openapi_types.UUID `json:"regionID"`
 
-	// SmartDR Enables SmartDR for the workspace group. SmartDR is a disaster recovery solution that ensures seamless and
-	// continuous replication of data from the primary region to a secondary region. For additional information,
-	// please refer to our documentation.
+	// SmartDR Enables Smart Disaster Recovery (SmartDR) for the workspace group. SmartDR is a disaster recovery solution that ensures seamless and
+	// continuous replication of data from the primary region to a secondary region. For more information,
+	// refer to [SmartDR](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
 	SmartDR *bool `json:"smartDR,omitempty"`
 
 	// UpdateWindow Represents information related to an update window
@@ -975,6 +973,9 @@ type ClientInterface interface {
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1StageWorkspaceGroupIDFs request
+	GetV1StageWorkspaceGroupIDFs(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// DeleteV1StageWorkspaceGroupIDFsPath request
 	DeleteV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1183,6 +1184,18 @@ func (c *Client) PatchV1PrivateConnectionsConnectionID(ctx context.Context, conn
 
 func (c *Client) GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1RegionsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1StageWorkspaceGroupIDFs(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1StageWorkspaceGroupIDFsRequest(c.Server, workspaceGroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -1988,6 +2001,40 @@ func NewGetV1RegionsRequest(server string, params *GetV1RegionsParams) (*http.Re
 	}
 
 	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1StageWorkspaceGroupIDFsRequest generates requests for GetV1StageWorkspaceGroupIDFs
+func NewGetV1StageWorkspaceGroupIDFsRequest(server string, workspaceGroupID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -3476,6 +3523,9 @@ type ClientWithResponsesInterface interface {
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
+	// GetV1StageWorkspaceGroupIDFs request
+	GetV1StageWorkspaceGroupIDFsWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsResponse, error)
+
 	// DeleteV1StageWorkspaceGroupIDFsPath request
 	DeleteV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error)
 
@@ -3742,6 +3792,28 @@ func (r GetV1RegionsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1RegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1StageWorkspaceGroupIDFsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StageObjectMetadata
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1StageWorkspaceGroupIDFsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1StageWorkspaceGroupIDFsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -4534,6 +4606,15 @@ func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, para
 	return ParseGetV1RegionsResponse(rsp)
 }
 
+// GetV1StageWorkspaceGroupIDFsWithResponse request returning *GetV1StageWorkspaceGroupIDFsResponse
+func (c *ClientWithResponses) GetV1StageWorkspaceGroupIDFsWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsResponse, error) {
+	rsp, err := c.GetV1StageWorkspaceGroupIDFs(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1StageWorkspaceGroupIDFsResponse(rsp)
+}
+
 // DeleteV1StageWorkspaceGroupIDFsPathWithResponse request returning *DeleteV1StageWorkspaceGroupIDFsPathResponse
 func (c *ClientWithResponses) DeleteV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error) {
 	rsp, err := c.DeleteV1StageWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, reqEditors...)
@@ -5057,6 +5138,32 @@ func ParseGetV1RegionsResponse(rsp *http.Response) (*GetV1RegionsResponse, error
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1StageWorkspaceGroupIDFsResponse parses an HTTP response from a GetV1StageWorkspaceGroupIDFsWithResponse call
+func ParseGetV1StageWorkspaceGroupIDFsResponse(rsp *http.Response) (*GetV1StageWorkspaceGroupIDFsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1StageWorkspaceGroupIDFsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StageObjectMetadata
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

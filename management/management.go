@@ -570,7 +570,7 @@ type WorkspaceGroupCreate struct {
 	//   * "3h30m"
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
-	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
+	// FirewallRanges A list of allowed CIDR ranges. Required
 	FirewallRanges []string `json:"firewallRanges"`
 
 	// Name Name of the workspace group

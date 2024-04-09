@@ -443,6 +443,9 @@ type Workspace struct {
 		Success bool `json:"success"`
 	} `json:"resumeAttachments,omitempty"`
 
+	// ScaleFactor (If included in the output) The scale factor specified for the workspace. The scale factor can be 1, 2 or 4.
+	ScaleFactor *float32 `json:"scaleFactor,omitempty"`
+
 	// ScalingProgress (If included in the output) The current progress percentage for the scaling workspace
 	ScalingProgress *float32 `json:"scalingProgress,omitempty"`
 
@@ -493,6 +496,13 @@ type WorkspaceCreate struct {
 
 	// Name Name of the workspace
 	Name string `json:"name"`
+
+	// ScaleFactor Specifies the scale factor for scaling the workspace base size.
+	// When specified, the compute resources are scaled in proportion to the specified scale factor, while the disk remains unaffected.
+	// Consequently, the credit consumption is also increased proportionately.
+	// It can have one of the following values: 1, 2, or 4.
+	// For more information, refer to [Workspace Scaling](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/).
+	ScaleFactor *float32 `json:"scaleFactor,omitempty"`
 
 	// Size Size of the workspace (in workspace size notation), such as "S-1". The default value is "S-00".
 	Size *string `json:"size,omitempty"`
@@ -642,6 +652,13 @@ type WorkspaceUpdate struct {
 
 	// DeploymentType The deployment type that will be applied to all the workspaces within the group
 	DeploymentType *WorkspaceUpdateDeploymentType `json:"deploymentType,omitempty"`
+
+	// ScaleFactor Specifies the scale factor for scaling the workspace base size.
+	// When specified, the compute resources are scaled in proportion to the specified scale factor, while the disk remains unaffected.
+	// Consequently, the credit consumption is also increased proportionately.
+	// It can have one of the following values: 1, 2, or 4.
+	// For more information, refer to [Workspace Scaling](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/).
+	ScaleFactor *float32 `json:"scaleFactor,omitempty"`
 
 	// Size Size of the workspace (in workspace size notation), such as "S-1". The default value is "S-00".
 	Size *string `json:"size,omitempty"`

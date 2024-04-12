@@ -118,12 +118,18 @@ const (
 	WorkspaceCreateAutoSuspendSuspendTypeSCHEDULED WorkspaceCreateAutoSuspendSuspendType = "SCHEDULED"
 )
 
+// Defines values for WorkspaceGroupSmartDRStatus.
+const (
+	WorkspaceGroupSmartDRStatusACTIVE  WorkspaceGroupSmartDRStatus = "ACTIVE"
+	WorkspaceGroupSmartDRStatusSTANDBY WorkspaceGroupSmartDRStatus = "STANDBY"
+)
+
 // Defines values for WorkspaceGroupState.
 const (
-	ACTIVE     WorkspaceGroupState = "ACTIVE"
-	FAILED     WorkspaceGroupState = "FAILED"
-	PENDING    WorkspaceGroupState = "PENDING"
-	TERMINATED WorkspaceGroupState = "TERMINATED"
+	WorkspaceGroupStateACTIVE     WorkspaceGroupState = "ACTIVE"
+	WorkspaceGroupStateFAILED     WorkspaceGroupState = "FAILED"
+	WorkspaceGroupStatePENDING    WorkspaceGroupState = "PENDING"
+	WorkspaceGroupStateTERMINATED WorkspaceGroupState = "TERMINATED"
 )
 
 // Defines values for WorkspaceUpdateAutoSuspendSuspendType.
@@ -534,6 +540,9 @@ type WorkspaceGroup struct {
 	// RegionID ID of the region
 	RegionID openapi_types.UUID `json:"regionID"`
 
+	// SmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
+	SmartDRStatus *WorkspaceGroupSmartDRStatus `json:"smartDRStatus,omitempty"`
+
 	// State State of the workspace group
 	State WorkspaceGroupState `json:"state"`
 
@@ -546,6 +555,9 @@ type WorkspaceGroup struct {
 	// WorkspaceGroupID ID of the workspace group
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
 }
+
+// WorkspaceGroupSmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
+type WorkspaceGroupSmartDRStatus string
 
 // WorkspaceGroupState State of the workspace group
 type WorkspaceGroupState string

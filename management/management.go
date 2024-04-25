@@ -2117,7 +2117,7 @@ func NewGetV1StageWorkspaceGroupIDFsRequest(server string, workspaceGroupID open
 		return nil, err
 	}
 
-	operationPath := fmt.Sprintf("/v1/stage/%s/fs/", pathParam0)
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}

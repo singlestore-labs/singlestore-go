@@ -305,6 +305,51 @@ type ReplicatedDatabase struct {
 // ReplicatedDatabaseDuplicationState Duplication state of the database
 type ReplicatedDatabaseDuplicationState string
 
+// Secret Represents information related to SingleStore Helios secrets.
+type Secret struct {
+	// CreatedAt The timestamp of when the secret was created.
+	CreatedAt string `json:"createdAt"`
+
+	// CreatedBy The ID of the user that created the secret.
+	CreatedBy openapi_types.UUID `json:"createdBy"`
+
+	// DeletedAt The timestamp of when the secret was deleted.
+	DeletedAt *string `json:"deletedAt,omitempty"`
+
+	// DeletedBy The ID of the user that deleted the secret.
+	DeletedBy *openapi_types.UUID `json:"deletedBy,omitempty"`
+
+	// LastUpdatedAt The timestamp of when the secret was last updated.
+	LastUpdatedAt string `json:"lastUpdatedAt"`
+
+	// LastUpdatedBy The ID of the user that last updated the secret.
+	LastUpdatedBy openapi_types.UUID `json:"lastUpdatedBy"`
+
+	// Name The name of the secret. It can only contain alphanumeric characters or underscores.
+	Name string `json:"name"`
+
+	// SecretID The ID of the secret.
+	SecretID openapi_types.UUID `json:"secretID"`
+
+	// Value The value of the secret.
+	Value *string `json:"value,omitempty"`
+}
+
+// SecretCreate Represents the information specified when creating a secret.
+type SecretCreate struct {
+	// Name The name of the secret. It can only contain alphanumeric characters or underscores.
+	Name string `json:"name"`
+
+	// Value The value of the secret.
+	Value string `json:"value"`
+}
+
+// SecretUpdate Represents the information specified when updating a secret.
+type SecretUpdate struct {
+	// Value The value of the secret.
+	Value *string `json:"value,omitempty"`
+}
+
 // StageObjectMetadata Represents the metadata corresponding to an object in a Stage
 type StageObjectMetadata struct {
 	Content *StageObjectMetadata_Content `json:"content,omitempty"`
@@ -759,6 +804,9 @@ type Fields = string
 // OrganizationID defines model for organizationID.
 type OrganizationID = openapi_types.UUID
 
+// SecretID defines model for secretID.
+type SecretID = openapi_types.UUID
+
 // TeamID defines model for teamID.
 type TeamID = openapi_types.UUID
 
@@ -799,6 +847,12 @@ type GetV1PrivateConnectionsConnectionIDParams struct {
 type GetV1RegionsParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1SecretsParams defines parameters for GetV1Secrets.
+type GetV1SecretsParams struct {
+	// Name Name of the secret.
+	Name *string `form:"name,omitempty" json:"name,omitempty"`
 }
 
 // GetV1StageWorkspaceGroupIDFsPathParams defines parameters for GetV1StageWorkspaceGroupIDFsPath.
@@ -911,6 +965,12 @@ type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
 
 // PatchV1PrivateConnectionsConnectionIDJSONRequestBody defines body for PatchV1PrivateConnectionsConnectionID for application/json ContentType.
 type PatchV1PrivateConnectionsConnectionIDJSONRequestBody = PrivateConnectionUpdate
+
+// PostV1SecretsJSONRequestBody defines body for PostV1Secrets for application/json ContentType.
+type PostV1SecretsJSONRequestBody = SecretCreate
+
+// PatchV1SecretsSecretIDJSONRequestBody defines body for PatchV1SecretsSecretID for application/json ContentType.
+type PatchV1SecretsSecretIDJSONRequestBody = SecretUpdate
 
 // PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody defines body for PatchV1StageWorkspaceGroupIDFsPath for application/json ContentType.
 type PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody PatchV1StageWorkspaceGroupIDFsPathJSONBody
@@ -1104,6 +1164,25 @@ type ClientInterface interface {
 
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Secrets request
+	GetV1Secrets(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Secrets request with any body
+	PostV1SecretsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1Secrets(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1SecretsSecretID request
+	DeleteV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1SecretsSecretID request
+	GetV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1SecretsSecretID request with any body
+	PatchV1SecretsSecretIDWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1StageWorkspaceGroupIDFs request
 	GetV1StageWorkspaceGroupIDFs(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -1353,6 +1432,90 @@ func (c *Client) PatchV1PrivateConnectionsConnectionID(ctx context.Context, conn
 
 func (c *Client) GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1RegionsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1Secrets(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SecretsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1SecretsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SecretsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1Secrets(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SecretsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1SecretsSecretIDRequest(c.Server, secretID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SecretsSecretIDRequest(c.Server, secretID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1SecretsSecretIDWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SecretsSecretIDRequestWithBody(c.Server, secretID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SecretsSecretIDRequest(c.Server, secretID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2331,6 +2494,208 @@ func NewGetV1RegionsRequest(server string, params *GetV1RegionsParams) (*http.Re
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewGetV1SecretsRequest generates requests for GetV1Secrets
+func NewGetV1SecretsRequest(server string, params *GetV1SecretsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Name != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "name", runtime.ParamLocationQuery, *params.Name); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1SecretsRequest calls the generic PostV1Secrets builder with application/json body
+func NewPostV1SecretsRequest(server string, body PostV1SecretsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1SecretsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1SecretsRequestWithBody generates requests for PostV1Secrets with any type of body
+func NewPostV1SecretsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1SecretsSecretIDRequest generates requests for DeleteV1SecretsSecretID
+func NewDeleteV1SecretsSecretIDRequest(server string, secretID SecretID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "secretID", runtime.ParamLocationPath, secretID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1SecretsSecretIDRequest generates requests for GetV1SecretsSecretID
+func NewGetV1SecretsSecretIDRequest(server string, secretID SecretID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "secretID", runtime.ParamLocationPath, secretID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1SecretsSecretIDRequest calls the generic PatchV1SecretsSecretID builder with application/json body
+func NewPatchV1SecretsSecretIDRequest(server string, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1SecretsSecretIDRequestWithBody(server, secretID, "application/json", bodyReader)
+}
+
+// NewPatchV1SecretsSecretIDRequestWithBody generates requests for PatchV1SecretsSecretID with any type of body
+func NewPatchV1SecretsSecretIDRequestWithBody(server string, secretID SecretID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "secretID", runtime.ParamLocationPath, secretID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -4326,6 +4691,25 @@ type ClientWithResponsesInterface interface {
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
+	// GetV1Secrets request
+	GetV1SecretsWithResponse(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*GetV1SecretsResponse, error)
+
+	// PostV1Secrets request with any body
+	PostV1SecretsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error)
+
+	PostV1SecretsWithResponse(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error)
+
+	// DeleteV1SecretsSecretID request
+	DeleteV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*DeleteV1SecretsSecretIDResponse, error)
+
+	// GetV1SecretsSecretID request
+	GetV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1SecretsSecretIDResponse, error)
+
+	// PatchV1SecretsSecretID request with any body
+	PatchV1SecretsSecretIDWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error)
+
+	PatchV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error)
+
 	// GetV1StageWorkspaceGroupIDFs request
 	GetV1StageWorkspaceGroupIDFsWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsResponse, error)
 
@@ -4632,6 +5016,118 @@ func (r GetV1RegionsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1RegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1SecretsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]Secret
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SecretsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SecretsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1SecretsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Secret
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1SecretsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1SecretsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1SecretsSecretIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		SecretID openapi_types.UUID `json:"secretID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1SecretsSecretIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1SecretsSecretIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1SecretsSecretIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Secret
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SecretsSecretIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SecretsSecretIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1SecretsSecretIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Secret
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1SecretsSecretIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1SecretsSecretIDResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -5700,6 +6196,67 @@ func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, para
 	return ParseGetV1RegionsResponse(rsp)
 }
 
+// GetV1SecretsWithResponse request returning *GetV1SecretsResponse
+func (c *ClientWithResponses) GetV1SecretsWithResponse(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*GetV1SecretsResponse, error) {
+	rsp, err := c.GetV1Secrets(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SecretsResponse(rsp)
+}
+
+// PostV1SecretsWithBodyWithResponse request with arbitrary body returning *PostV1SecretsResponse
+func (c *ClientWithResponses) PostV1SecretsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error) {
+	rsp, err := c.PostV1SecretsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SecretsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1SecretsWithResponse(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error) {
+	rsp, err := c.PostV1Secrets(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SecretsResponse(rsp)
+}
+
+// DeleteV1SecretsSecretIDWithResponse request returning *DeleteV1SecretsSecretIDResponse
+func (c *ClientWithResponses) DeleteV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*DeleteV1SecretsSecretIDResponse, error) {
+	rsp, err := c.DeleteV1SecretsSecretID(ctx, secretID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1SecretsSecretIDResponse(rsp)
+}
+
+// GetV1SecretsSecretIDWithResponse request returning *GetV1SecretsSecretIDResponse
+func (c *ClientWithResponses) GetV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1SecretsSecretIDResponse, error) {
+	rsp, err := c.GetV1SecretsSecretID(ctx, secretID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SecretsSecretIDResponse(rsp)
+}
+
+// PatchV1SecretsSecretIDWithBodyWithResponse request with arbitrary body returning *PatchV1SecretsSecretIDResponse
+func (c *ClientWithResponses) PatchV1SecretsSecretIDWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error) {
+	rsp, err := c.PatchV1SecretsSecretIDWithBody(ctx, secretID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SecretsSecretIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error) {
+	rsp, err := c.PatchV1SecretsSecretID(ctx, secretID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SecretsSecretIDResponse(rsp)
+}
+
 // GetV1StageWorkspaceGroupIDFsWithResponse request returning *GetV1StageWorkspaceGroupIDFsResponse
 func (c *ClientWithResponses) GetV1StageWorkspaceGroupIDFsWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsResponse, error) {
 	rsp, err := c.GetV1StageWorkspaceGroupIDFs(ctx, workspaceGroupID, reqEditors...)
@@ -6347,6 +6904,138 @@ func ParseGetV1RegionsResponse(rsp *http.Response) (*GetV1RegionsResponse, error
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1SecretsResponse parses an HTTP response from a GetV1SecretsWithResponse call
+func ParseGetV1SecretsResponse(rsp *http.Response) (*GetV1SecretsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SecretsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1SecretsResponse parses an HTTP response from a PostV1SecretsWithResponse call
+func ParsePostV1SecretsResponse(rsp *http.Response) (*PostV1SecretsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1SecretsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1SecretsSecretIDResponse parses an HTTP response from a DeleteV1SecretsSecretIDWithResponse call
+func ParseDeleteV1SecretsSecretIDResponse(rsp *http.Response) (*DeleteV1SecretsSecretIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1SecretsSecretIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			SecretID openapi_types.UUID `json:"secretID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1SecretsSecretIDResponse parses an HTTP response from a GetV1SecretsSecretIDWithResponse call
+func ParseGetV1SecretsSecretIDResponse(rsp *http.Response) (*GetV1SecretsSecretIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SecretsSecretIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1SecretsSecretIDResponse parses an HTTP response from a PatchV1SecretsSecretIDWithResponse call
+func ParsePatchV1SecretsSecretIDResponse(rsp *http.Response) (*PatchV1SecretsSecretIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1SecretsSecretIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Secret
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

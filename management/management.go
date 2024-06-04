@@ -244,8 +244,14 @@ type PrivateConnectionCreate struct {
 	// ServiceName The name of the private connection service
 	ServiceName *string `json:"serviceName,omitempty"`
 
+	// SqlPort The SQL port
+	SqlPort *float32 `json:"sqlPort,omitempty"`
+
 	// Type The private connection type
 	Type *PrivateConnectionCreateType `json:"type,omitempty"`
+
+	// WebsocketsPort The websockets port
+	WebsocketsPort *float32 `json:"websocketsPort,omitempty"`
 
 	// WorkspaceGroupID The ID of the workspace group containing the private connection
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`

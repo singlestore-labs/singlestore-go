@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/deepmap/oapi-codegen/pkg/runtime"
 	openapi_types "github.com/deepmap/oapi-codegen/pkg/types"
@@ -19,6 +20,41 @@ import (
 
 const (
 	ApiKeyAuthScopes = "ApiKeyAuth.Scopes"
+)
+
+// Defines values for ExecutionStatus.
+const (
+	ExecutionStatusCanceled  ExecutionStatus = "Canceled"
+	ExecutionStatusCompleted ExecutionStatus = "Completed"
+	ExecutionStatusError     ExecutionStatus = "Error"
+	ExecutionStatusFailed    ExecutionStatus = "Failed"
+	ExecutionStatusRunning   ExecutionStatus = "Running"
+	ExecutionStatusScheduled ExecutionStatus = "Scheduled"
+	ExecutionStatusUnknown   ExecutionStatus = "Unknown"
+)
+
+// Defines values for JobMetadataStatus.
+const (
+	JobMetadataStatusCanceled  JobMetadataStatus = "Canceled"
+	JobMetadataStatusCompleted JobMetadataStatus = "Completed"
+	JobMetadataStatusError     JobMetadataStatus = "Error"
+	JobMetadataStatusFailed    JobMetadataStatus = "Failed"
+	JobMetadataStatusRunning   JobMetadataStatus = "Running"
+	JobMetadataStatusScheduled JobMetadataStatus = "Scheduled"
+	JobMetadataStatusUnknown   JobMetadataStatus = "Unknown"
+)
+
+// Defines values for JobScheduleMode.
+const (
+	Once      JobScheduleMode = "Once"
+	Recurring JobScheduleMode = "Recurring"
+)
+
+// Defines values for JobTargetConfigTargetType.
+const (
+	JobTargetConfigTargetTypeCluster          JobTargetConfigTargetType = "Cluster"
+	JobTargetConfigTargetTypeVirtualWorkspace JobTargetConfigTargetType = "VirtualWorkspace"
+	JobTargetConfigTargetTypeWorkspace        JobTargetConfigTargetType = "Workspace"
 )
 
 // Defines values for PrivateConnectionStatus.
@@ -175,6 +211,157 @@ type BillingUsage struct {
 		Value        *string `json:"value,omitempty"`
 	} `json:"usage,omitempty"`
 }
+
+// Execution defines model for Execution.
+type Execution struct {
+	// ExecutionID The ID of execution
+	ExecutionID openapi_types.UUID `json:"executionID"`
+
+	// ExecutionNumber Number of the execution
+	ExecutionNumber int `json:"executionNumber"`
+
+	// FinishedAt Finish time of the execution
+	FinishedAt *time.Time `json:"finishedAt"`
+
+	// JobID ID of the job that this execution belongs to
+	JobID openapi_types.UUID `json:"jobID"`
+
+	// ScheduledStartTime Scheduled start time of the execution
+	ScheduledStartTime time.Time `json:"scheduledStartTime"`
+
+	// SnapshotNotebookPath Path to the notebook which captures the result of this execution
+	SnapshotNotebookPath *string `json:"snapshotNotebookPath"`
+
+	// StartedAt Actual start time of the execution
+	StartedAt *time.Time      `json:"startedAt"`
+	Status    ExecutionStatus `json:"status"`
+}
+
+// ExecutionStatus defines model for Execution.Status.
+type ExecutionStatus string
+
+// ExecutionsMetadata defines model for ExecutionsMetadata.
+type ExecutionsMetadata struct {
+	EndExecutionNumber   int `json:"endExecutionNumber"`
+	StartExecutionNumber int `json:"startExecutionNumber"`
+}
+
+// ExecutionsResult defines model for ExecutionsResult.
+type ExecutionsResult struct {
+	Executions         []Execution        `json:"executions"`
+	ExecutionsMetadata ExecutionsMetadata `json:"executionsMetadata"`
+}
+
+// Job defines model for Job.
+type Job struct {
+	// CompletedExecutionsCount Count of completed executions for the job
+	CompletedExecutionsCount int `json:"completedExecutionsCount"`
+
+	// CreatedAt Creation time of the job
+	CreatedAt time.Time `json:"createdAt"`
+
+	// Description Description of the job
+	Description *string `json:"description"`
+
+	// EnqueuedBy ID of the user who created the job
+	EnqueuedBy      openapi_types.UUID `json:"enqueuedBy"`
+	ExecutionConfig JobExecutionConfig `json:"executionConfig"`
+
+	// JobID ID of the job
+	JobID openapi_types.UUID `json:"jobID"`
+
+	// JobMetadata Array containing information about the max/avg execution duration and the number of executions with a particular status for the job
+	JobMetadata []JobMetadata `json:"jobMetadata"`
+
+	// Name Name of the job
+	Name *string `json:"name"`
+
+	// ProjectID The ID of the project which owns this job
+	ProjectID    openapi_types.UUID `json:"projectID"`
+	Schedule     JobSchedule        `json:"schedule"`
+	TargetConfig *JobTargetConfig   `json:"targetConfig"`
+
+	// TerminatedAt Termination time of the job
+	TerminatedAt *time.Time `json:"terminatedAt"`
+}
+
+// JobCreate Represents the information specified when creating a job.
+type JobCreate struct {
+	// Description Description of the job
+	Description     *string `json:"description"`
+	ExecutionConfig struct {
+		// CreateSnapshot Indicates weather the job will save snapshots
+		CreateSnapshot bool `json:"createSnapshot"`
+
+		// NotebookPath Path to the shared notebook file that contains the code that needs to be run on a schedule as part of this job
+		NotebookPath string `json:"notebookPath"`
+	} `json:"executionConfig"`
+
+	// Name Name of the job
+	Name *string `json:"name"`
+
+	// ProjectID The ID of the project which owns this job
+	ProjectID    openapi_types.UUID `json:"projectID"`
+	Schedule     JobSchedule        `json:"schedule"`
+	TargetConfig *JobTargetConfig   `json:"targetConfig"`
+}
+
+// JobExecutionConfig defines model for JobExecutionConfig.
+type JobExecutionConfig struct {
+	// CreateSnapshot Indicates weather the job will save snapshots
+	CreateSnapshot bool `json:"createSnapshot"`
+
+	// MaxAllowedExecutionDurationInMinutes Maximum allowed execution duration for the job in minutes
+	MaxAllowedExecutionDurationInMinutes int `json:"maxAllowedExecutionDurationInMinutes"`
+
+	// NotebookPath Path to the shared notebook file that contains the code that needs to be run on a schedule as part of this job
+	NotebookPath string `json:"notebookPath"`
+}
+
+// JobMetadata defines model for JobMetadata.
+type JobMetadata struct {
+	// AvgDurationInSeconds Average duration of executions (in seconds) with the corresponding status
+	AvgDurationInSeconds *float32 `json:"avgDurationInSeconds"`
+
+	// Count The number of executions with the corresponding status
+	Count int `json:"count"`
+
+	// MaxDurationInSeconds Maximum duration of executions (in seconds) with the corresponding status
+	MaxDurationInSeconds *float32          `json:"maxDurationInSeconds"`
+	Status               JobMetadataStatus `json:"status"`
+}
+
+// JobMetadataStatus defines model for JobMetadata.Status.
+type JobMetadataStatus string
+
+// JobSchedule defines model for JobSchedule.
+type JobSchedule struct {
+	// ExecutionIntervalInMinutes The time interval between executions of this job. This is required for a Recurring job.
+	ExecutionIntervalInMinutes *int            `json:"executionIntervalInMinutes"`
+	Mode                       JobScheduleMode `json:"mode"`
+
+	// StartAt The time at which the first execution of this job should begin.
+	StartAt *time.Time `json:"startAt"`
+}
+
+// JobScheduleMode defines model for JobSchedule.Mode.
+type JobScheduleMode string
+
+// JobTargetConfig defines model for JobTargetConfig.
+type JobTargetConfig struct {
+	// DatabaseName Name of the database
+	DatabaseName *string `json:"databaseName,omitempty"`
+
+	// ResumeTarget Indicates whether executions of this job will resume the target associated with the job, if it is suspended
+	ResumeTarget bool `json:"resumeTarget"`
+
+	// TargetID The target ID for the job, this could be the ID of Workspace, Cluster or VirtualWorkspace (in case of shared-tier).
+	TargetID   openapi_types.UUID        `json:"targetID"`
+	TargetType JobTargetConfigTargetType `json:"targetType"`
+}
+
+// JobTargetConfigTargetType defines model for JobTargetConfig.TargetType.
+type JobTargetConfigTargetType string
 
 // Organization Represents information related to an organization
 type Organization struct {
@@ -745,6 +932,9 @@ type ConnectionID = openapi_types.UUID
 // Fields defines model for fields.
 type Fields = string
 
+// JobID defines model for jobID.
+type JobID = openapi_types.UUID
+
 // OrganizationID defines model for organizationID.
 type OrganizationID = openapi_types.UUID
 
@@ -777,6 +967,15 @@ type GetV1BillingUsageParamsMetric string
 
 // GetV1BillingUsageParamsAggregateBy defines parameters for GetV1BillingUsage.
 type GetV1BillingUsageParamsAggregateBy string
+
+// GetV1JobsJobIDExecutionsParams defines parameters for GetV1JobsJobIDExecutions.
+type GetV1JobsJobIDExecutionsParams struct {
+	// Start Start execution number.
+	Start float32 `form:"start" json:"start"`
+
+	// End End execution number.
+	End float32 `form:"end" json:"end"`
+}
 
 // GetV1PrivateConnectionsConnectionIDParams defines parameters for GetV1PrivateConnectionsConnectionID.
 type GetV1PrivateConnectionsConnectionIDParams struct {
@@ -876,6 +1075,9 @@ type GetV1WorkspacesWorkspaceIDStorageDRRegionsParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
+
+// PostV1JobsJSONRequestBody defines body for PostV1Jobs for application/json ContentType.
+type PostV1JobsJSONRequestBody = JobCreate
 
 // PostV1PrivateConnectionsJSONRequestBody defines body for PostV1PrivateConnections for application/json ContentType.
 type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
@@ -1054,6 +1256,20 @@ type ClientInterface interface {
 	// GetV1BillingUsage request
 	GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// PostV1Jobs request with any body
+	PostV1JobsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1Jobs(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1JobsJobID request
+	DeleteV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1JobsJobID request
+	GetV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1JobsJobIDExecutions request
+	GetV1JobsJobIDExecutions(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1OrganizationsCurrent request
 	GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1222,6 +1438,66 @@ type ClientInterface interface {
 
 func (c *Client) GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1BillingUsageRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1JobsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1JobsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1Jobs(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1JobsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1JobsJobIDRequest(c.Server, jobID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsJobIDRequest(c.Server, jobID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1JobsJobIDExecutions(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsJobIDExecutionsRequest(c.Server, jobID, params)
 	if err != nil {
 		return nil, err
 	}
@@ -2015,6 +2291,176 @@ func NewGetV1BillingUsageRequest(server string, params *GetV1BillingUsageParams)
 			}
 		}
 
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1JobsRequest calls the generic PostV1Jobs builder with application/json body
+func NewPostV1JobsRequest(server string, body PostV1JobsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1JobsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1JobsRequestWithBody generates requests for PostV1Jobs with any type of body
+func NewPostV1JobsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1JobsJobIDRequest generates requests for DeleteV1JobsJobID
+func NewDeleteV1JobsJobIDRequest(server string, jobID JobID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "jobID", runtime.ParamLocationPath, jobID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1JobsJobIDRequest generates requests for GetV1JobsJobID
+func NewGetV1JobsJobIDRequest(server string, jobID JobID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "jobID", runtime.ParamLocationPath, jobID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1JobsJobIDExecutionsRequest generates requests for GetV1JobsJobIDExecutions
+func NewGetV1JobsJobIDExecutionsRequest(server string, jobID JobID, params *GetV1JobsJobIDExecutionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "jobID", runtime.ParamLocationPath, jobID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s/executions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "start", runtime.ParamLocationQuery, params.Start); err != nil {
+		return nil, err
+	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+		return nil, err
+	} else {
+		for k, v := range parsed {
+			for _, v2 := range v {
+				queryValues.Add(k, v2)
+			}
+		}
+	}
+
+	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "end", runtime.ParamLocationQuery, params.End); err != nil {
+		return nil, err
+	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+		return nil, err
+	} else {
+		for k, v := range parsed {
+			for _, v2 := range v {
+				queryValues.Add(k, v2)
+			}
+		}
 	}
 
 	queryURL.RawQuery = queryValues.Encode()
@@ -4105,6 +4551,20 @@ type ClientWithResponsesInterface interface {
 	// GetV1BillingUsage request
 	GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error)
 
+	// PostV1Jobs request with any body
+	PostV1JobsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error)
+
+	PostV1JobsWithResponse(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error)
+
+	// DeleteV1JobsJobID request
+	DeleteV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*DeleteV1JobsJobIDResponse, error)
+
+	// GetV1JobsJobID request
+	GetV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDResponse, error)
+
+	// GetV1JobsJobIDExecutions request
+	GetV1JobsJobIDExecutionsWithResponse(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDExecutionsResponse, error)
+
 	// GetV1OrganizationsCurrent request
 	GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error)
 
@@ -4289,6 +4749,94 @@ func (r GetV1BillingUsageResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1BillingUsageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1JobsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Job
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1JobsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1JobsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1JobsJobIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *bool
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1JobsJobIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1JobsJobIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1JobsJobIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Job
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsJobIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsJobIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1JobsJobIDExecutionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ExecutionsResult
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsJobIDExecutionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsJobIDExecutionsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -5367,6 +5915,50 @@ func (c *ClientWithResponses) GetV1BillingUsageWithResponse(ctx context.Context,
 	return ParseGetV1BillingUsageResponse(rsp)
 }
 
+// PostV1JobsWithBodyWithResponse request with arbitrary body returning *PostV1JobsResponse
+func (c *ClientWithResponses) PostV1JobsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error) {
+	rsp, err := c.PostV1JobsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1JobsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1JobsWithResponse(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error) {
+	rsp, err := c.PostV1Jobs(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1JobsResponse(rsp)
+}
+
+// DeleteV1JobsJobIDWithResponse request returning *DeleteV1JobsJobIDResponse
+func (c *ClientWithResponses) DeleteV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*DeleteV1JobsJobIDResponse, error) {
+	rsp, err := c.DeleteV1JobsJobID(ctx, jobID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1JobsJobIDResponse(rsp)
+}
+
+// GetV1JobsJobIDWithResponse request returning *GetV1JobsJobIDResponse
+func (c *ClientWithResponses) GetV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDResponse, error) {
+	rsp, err := c.GetV1JobsJobID(ctx, jobID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsJobIDResponse(rsp)
+}
+
+// GetV1JobsJobIDExecutionsWithResponse request returning *GetV1JobsJobIDExecutionsResponse
+func (c *ClientWithResponses) GetV1JobsJobIDExecutionsWithResponse(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDExecutionsResponse, error) {
+	rsp, err := c.GetV1JobsJobIDExecutions(ctx, jobID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsJobIDExecutionsResponse(rsp)
+}
+
 // GetV1OrganizationsCurrentWithResponse request returning *GetV1OrganizationsCurrentResponse
 func (c *ClientWithResponses) GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error) {
 	rsp, err := c.GetV1OrganizationsCurrent(ctx, reqEditors...)
@@ -5904,6 +6496,110 @@ func ParseGetV1BillingUsageResponse(rsp *http.Response) (*GetV1BillingUsageRespo
 		var dest struct {
 			BillingUsage *[]BillingUsage `json:"billingUsage,omitempty"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1JobsResponse parses an HTTP response from a PostV1JobsWithResponse call
+func ParsePostV1JobsResponse(rsp *http.Response) (*PostV1JobsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1JobsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Job
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1JobsJobIDResponse parses an HTTP response from a DeleteV1JobsJobIDWithResponse call
+func ParseDeleteV1JobsJobIDResponse(rsp *http.Response) (*DeleteV1JobsJobIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1JobsJobIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1JobsJobIDResponse parses an HTTP response from a GetV1JobsJobIDWithResponse call
+func ParseGetV1JobsJobIDResponse(rsp *http.Response) (*GetV1JobsJobIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsJobIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Job
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1JobsJobIDExecutionsResponse parses an HTTP response from a GetV1JobsJobIDExecutionsWithResponse call
+func ParseGetV1JobsJobIDExecutionsResponse(rsp *http.Response) (*GetV1JobsJobIDExecutionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsJobIDExecutionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ExecutionsResult
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

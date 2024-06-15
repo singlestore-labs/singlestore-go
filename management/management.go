@@ -194,21 +194,36 @@ const (
 	Month GetV1BillingUsageParamsAggregateBy = "month"
 )
 
-// BillingUsage Represents a billing usage entity
+// BillingUsage Represents the information related to billing usage
 type BillingUsage struct {
-	// Description What the unit indicates
+	// Description A description of what the metric represents
 	Description *string `json:"description,omitempty"`
 
-	// Metric The metric name
+	// Metric The metric type
 	Metric *string `json:"metric,omitempty"`
-	Usage  *[]struct {
-		EndTime      *string `json:"endTime,omitempty"`
-		OwnerId      *string `json:"ownerId,omitempty"`
-		ResourceId   *string `json:"resourceId,omitempty"`
+
+	// Usage Usage information
+	Usage *[]struct {
+		// EndTime The end time of the interval
+		EndTime *string `json:"endTime,omitempty"`
+
+		// OwnerId ID of the owner of the resource
+		OwnerId *string `json:"ownerId,omitempty"`
+
+		// ResourceId ID of the resource
+		ResourceId *string `json:"resourceId,omitempty"`
+
+		// ResourceName Name of the resource
 		ResourceName *string `json:"resourceName,omitempty"`
+
+		// ResourceType The resource type
 		ResourceType *string `json:"resourceType,omitempty"`
-		StartTime    *string `json:"startTime,omitempty"`
-		Value        *string `json:"value,omitempty"`
+
+		// StartTime The start time of the interval
+		StartTime *string `json:"startTime,omitempty"`
+
+		// Value Resource usage value
+		Value *string `json:"value,omitempty"`
 	} `json:"usage,omitempty"`
 }
 
@@ -949,16 +964,21 @@ type WorkspaceID = openapi_types.UUID
 
 // GetV1BillingUsageParams defines parameters for GetV1BillingUsage.
 type GetV1BillingUsageParams struct {
-	// Metric Metrics include ComputeCredit, StorageAvgByte. default is all
+	// Metric The metric type. It can have the following values:
+	//
+	//   * `ComputeCredit`: Returns the compute usage.
+	//   * `StorageAvgByte`: Returns the storage usage.
+	//
+	// By default, usage for both metrics is returned.
 	Metric *GetV1BillingUsageParamsMetric `form:"metric,omitempty" json:"metric,omitempty"`
 
-	// StartTime The start time for the usage interval in valid UTC ISO8601 format e.g. 2023-07-30T18:30:00Z
+	// StartTime The start time for the usage interval in UTC ISO8601 format. For example, "2023-07-30T18:30:00Z".
 	StartTime string `form:"startTime" json:"startTime"`
 
-	// EndTime The end time for the usage interval valid UTC ISO8601 format e.g. 2023-07-30T18:30:00Z
+	// EndTime The end time for the usage interval in UTC ISO8601 format. For example, "2023-07-30T18:30:00Z".
 	EndTime string `form:"endTime" json:"endTime"`
 
-	// AggregateBy The aggregate type used to group usage which includes hour, day and month. default is hour
+	// AggregateBy The interval used to aggregate the usage. It can have the following values: `hour`, `day`, and `month`. By default, the results are grouped by hour."
 	AggregateBy *GetV1BillingUsageParamsAggregateBy `form:"aggregateBy,omitempty" json:"aggregateBy,omitempty"`
 }
 

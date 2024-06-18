@@ -289,12 +289,9 @@ type Job struct {
 	JobMetadata []JobMetadata `json:"jobMetadata"`
 
 	// Name Name of the job
-	Name *string `json:"name"`
-
-	// ProjectID The ID of the project which owns this job
-	ProjectID    openapi_types.UUID `json:"projectID"`
-	Schedule     JobSchedule        `json:"schedule"`
-	TargetConfig *JobTargetConfig   `json:"targetConfig"`
+	Name         *string          `json:"name"`
+	Schedule     JobSchedule      `json:"schedule"`
+	TargetConfig *JobTargetConfig `json:"targetConfig"`
 
 	// TerminatedAt Termination time of the job
 	TerminatedAt *time.Time `json:"terminatedAt"`
@@ -313,12 +310,9 @@ type JobCreate struct {
 	} `json:"executionConfig"`
 
 	// Name Name of the job
-	Name *string `json:"name"`
-
-	// ProjectID The ID of the project which owns this job
-	ProjectID    openapi_types.UUID `json:"projectID"`
-	Schedule     JobSchedule        `json:"schedule"`
-	TargetConfig *JobTargetConfig   `json:"targetConfig"`
+	Name         *string          `json:"name"`
+	Schedule     JobSchedule      `json:"schedule"`
+	TargetConfig *JobTargetConfig `json:"targetConfig"`
 }
 
 // JobExecutionConfig defines model for JobExecutionConfig.

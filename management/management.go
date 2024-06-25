@@ -307,6 +307,9 @@ type JobCreate struct {
 
 		// NotebookPath Path to the shared notebook file that contains the code that needs to be run on a schedule as part of this job
 		NotebookPath string `json:"notebookPath"`
+
+		// RuntimeName Name of the runtime
+		RuntimeName *string `json:"runtimeName"`
 	} `json:"executionConfig"`
 
 	// Name Name of the job

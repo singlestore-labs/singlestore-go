@@ -44,6 +44,14 @@ const (
 	JobMetadataStatusUnknown   JobMetadataStatus = "Unknown"
 )
 
+// Defines values for JobParameterType.
+const (
+	Boolean JobParameterType = "boolean"
+	Float   JobParameterType = "float"
+	Integer JobParameterType = "integer"
+	String  JobParameterType = "string"
+)
+
 // Defines values for JobScheduleMode.
 const (
 	Once      JobScheduleMode = "Once"
@@ -302,7 +310,7 @@ type JobCreate struct {
 	// Description Description of the job
 	Description     *string `json:"description"`
 	ExecutionConfig struct {
-		// CreateSnapshot Indicates weather the job will save snapshots
+		// CreateSnapshot Indicates whether the job will save snapshots
 		CreateSnapshot bool `json:"createSnapshot"`
 
 		// NotebookPath Path to the shared notebook file that contains the code that needs to be run on a schedule as part of this job
@@ -313,14 +321,17 @@ type JobCreate struct {
 	} `json:"executionConfig"`
 
 	// Name Name of the job
-	Name         *string          `json:"name"`
+	Name *string `json:"name"`
+
+	// Parameters Array containing the parameters for the job
+	Parameters   *[]JobParameter  `json:"parameters,omitempty"`
 	Schedule     JobSchedule      `json:"schedule"`
 	TargetConfig *JobTargetConfig `json:"targetConfig"`
 }
 
 // JobExecutionConfig defines model for JobExecutionConfig.
 type JobExecutionConfig struct {
-	// CreateSnapshot Indicates weather the job will save snapshots
+	// CreateSnapshot Indicates whether the job will save snapshots
 	CreateSnapshot bool `json:"createSnapshot"`
 
 	// MaxAllowedExecutionDurationInMinutes Maximum allowed execution duration for the job in minutes
@@ -345,6 +356,21 @@ type JobMetadata struct {
 
 // JobMetadataStatus defines model for JobMetadata.Status.
 type JobMetadataStatus string
+
+// JobParameter defines model for JobParameter.
+type JobParameter struct {
+	// Name Name of the parameter
+	Name string `json:"name"`
+
+	// Type Type of the parameter
+	Type JobParameterType `json:"type"`
+
+	// Value Value of the parameter
+	Value string `json:"value"`
+}
+
+// JobParameterType Type of the parameter
+type JobParameterType string
 
 // JobSchedule defines model for JobSchedule.
 type JobSchedule struct {
@@ -509,6 +535,15 @@ type ReplicatedDatabase struct {
 
 // ReplicatedDatabaseDuplicationState Duplication state of the database
 type ReplicatedDatabaseDuplicationState string
+
+// RuntimesResult defines model for RuntimesResult.
+type RuntimesResult struct {
+	// Description The description of the runtime
+	Description string `json:"description"`
+
+	// Name The name of the runtime
+	Name string `json:"name"`
+}
 
 // Secret Represents information related to SingleStore Helios secrets.
 type Secret struct {
@@ -1370,6 +1405,9 @@ type ClientInterface interface {
 
 	PostV1Jobs(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1JobsRuntimes request
+	GetV1JobsRuntimes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// DeleteV1JobsJobID request
 	DeleteV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1378,6 +1416,9 @@ type ClientInterface interface {
 
 	// GetV1JobsJobIDExecutions request
 	GetV1JobsJobIDExecutions(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1JobsJobIDParameters request
+	GetV1JobsJobIDParameters(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1OrganizationsCurrent request
 	GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -1600,6 +1641,18 @@ func (c *Client) PostV1Jobs(ctx context.Context, body PostV1JobsJSONRequestBody,
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetV1JobsRuntimes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsRuntimesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) DeleteV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDeleteV1JobsJobIDRequest(c.Server, jobID)
 	if err != nil {
@@ -1626,6 +1679,18 @@ func (c *Client) GetV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...
 
 func (c *Client) GetV1JobsJobIDExecutions(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1JobsJobIDExecutionsRequest(c.Server, jobID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1JobsJobIDParameters(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsJobIDParametersRequest(c.Server, jobID)
 	if err != nil {
 		return nil, err
 	}
@@ -2555,6 +2620,33 @@ func NewPostV1JobsRequestWithBody(server string, contentType string, body io.Rea
 	return req, nil
 }
 
+// NewGetV1JobsRuntimesRequest generates requests for GetV1JobsRuntimes
+func NewGetV1JobsRuntimesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/runtimes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewDeleteV1JobsJobIDRequest generates requests for DeleteV1JobsJobID
 func NewDeleteV1JobsJobIDRequest(server string, jobID JobID) (*http.Request, error) {
 	var err error
@@ -2676,6 +2768,40 @@ func NewGetV1JobsJobIDExecutionsRequest(server string, jobID JobID, params *GetV
 	}
 
 	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1JobsJobIDParametersRequest generates requests for GetV1JobsJobIDParameters
+func NewGetV1JobsJobIDParametersRequest(server string, jobID JobID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "jobID", runtime.ParamLocationPath, jobID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s/parameters", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
@@ -4986,6 +5112,9 @@ type ClientWithResponsesInterface interface {
 
 	PostV1JobsWithResponse(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error)
 
+	// GetV1JobsRuntimes request
+	GetV1JobsRuntimesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1JobsRuntimesResponse, error)
+
 	// DeleteV1JobsJobID request
 	DeleteV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*DeleteV1JobsJobIDResponse, error)
 
@@ -4994,6 +5123,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetV1JobsJobIDExecutions request
 	GetV1JobsJobIDExecutionsWithResponse(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDExecutionsResponse, error)
+
+	// GetV1JobsJobIDParameters request
+	GetV1JobsJobIDParametersWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDParametersResponse, error)
 
 	// GetV1OrganizationsCurrent request
 	GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error)
@@ -5226,6 +5358,28 @@ func (r PostV1JobsResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1JobsRuntimesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]RuntimesResult
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsRuntimesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsRuntimesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type DeleteV1JobsJobIDResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -5286,6 +5440,28 @@ func (r GetV1JobsJobIDExecutionsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1JobsJobIDExecutionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1JobsJobIDParametersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *JobParameter
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsJobIDParametersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsJobIDParametersResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -6495,6 +6671,15 @@ func (c *ClientWithResponses) PostV1JobsWithResponse(ctx context.Context, body P
 	return ParsePostV1JobsResponse(rsp)
 }
 
+// GetV1JobsRuntimesWithResponse request returning *GetV1JobsRuntimesResponse
+func (c *ClientWithResponses) GetV1JobsRuntimesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1JobsRuntimesResponse, error) {
+	rsp, err := c.GetV1JobsRuntimes(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsRuntimesResponse(rsp)
+}
+
 // DeleteV1JobsJobIDWithResponse request returning *DeleteV1JobsJobIDResponse
 func (c *ClientWithResponses) DeleteV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*DeleteV1JobsJobIDResponse, error) {
 	rsp, err := c.DeleteV1JobsJobID(ctx, jobID, reqEditors...)
@@ -6520,6 +6705,15 @@ func (c *ClientWithResponses) GetV1JobsJobIDExecutionsWithResponse(ctx context.C
 		return nil, err
 	}
 	return ParseGetV1JobsJobIDExecutionsResponse(rsp)
+}
+
+// GetV1JobsJobIDParametersWithResponse request returning *GetV1JobsJobIDParametersResponse
+func (c *ClientWithResponses) GetV1JobsJobIDParametersWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDParametersResponse, error) {
+	rsp, err := c.GetV1JobsJobIDParameters(ctx, jobID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsJobIDParametersResponse(rsp)
 }
 
 // GetV1OrganizationsCurrentWithResponse request returning *GetV1OrganizationsCurrentResponse
@@ -7156,6 +7350,32 @@ func ParsePostV1JobsResponse(rsp *http.Response) (*PostV1JobsResponse, error) {
 	return response, nil
 }
 
+// ParseGetV1JobsRuntimesResponse parses an HTTP response from a GetV1JobsRuntimesWithResponse call
+func ParseGetV1JobsRuntimesResponse(rsp *http.Response) (*GetV1JobsRuntimesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsRuntimesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RuntimesResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseDeleteV1JobsJobIDResponse parses an HTTP response from a DeleteV1JobsJobIDWithResponse call
 func ParseDeleteV1JobsJobIDResponse(rsp *http.Response) (*DeleteV1JobsJobIDResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -7224,6 +7444,32 @@ func ParseGetV1JobsJobIDExecutionsResponse(rsp *http.Response) (*GetV1JobsJobIDE
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ExecutionsResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1JobsJobIDParametersResponse parses an HTTP response from a GetV1JobsJobIDParametersWithResponse call
+func ParseGetV1JobsJobIDParametersResponse(rsp *http.Response) (*GetV1JobsJobIDParametersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsJobIDParametersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest JobParameter
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

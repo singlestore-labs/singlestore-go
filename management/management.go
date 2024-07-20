@@ -1035,7 +1035,9 @@ type WorkspaceUpdate struct {
 
 	// DeploymentType The deployment type that will be applied to all the workspaces within the group
 	DeploymentType *WorkspaceUpdateDeploymentType `json:"deploymentType,omitempty"`
-	EnableKai      *WorkspaceUpdateEnableKai      `json:"enableKai,omitempty"`
+
+	// EnableKai Whether to enable SingleStore Kai in this workspace
+	EnableKai *WorkspaceUpdateEnableKai `json:"enableKai,omitempty"`
 
 	// ScaleFactor Specifies the scale factor for scaling the workspace base size.
 	// When specified, the compute resources are scaled in proportion to the specified scale factor, while the disk remains unaffected.
@@ -1054,7 +1056,7 @@ type WorkspaceUpdateAutoSuspendSuspendType string
 // WorkspaceUpdateDeploymentType The deployment type that will be applied to all the workspaces within the group
 type WorkspaceUpdateDeploymentType string
 
-// WorkspaceUpdateEnableKai defines model for WorkspaceUpdate.EnableKai.
+// WorkspaceUpdateEnableKai Whether to enable SingleStore Kai in this workspace
 type WorkspaceUpdateEnableKai bool
 
 // ConnectionID defines model for connectionID.

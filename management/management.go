@@ -637,13 +637,16 @@ type StageObjectMetadataType string
 
 // StorageDRSetup Represents the information specified to setup Storage DR
 type StorageDRSetup struct {
-	// BackupBucketKMSKeyID Specifies the KMS key ID associated with the backup bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the backup bucket of the workspace group. This feature is only supported in workspace groups deployed in AWS.
+	// AutoReplication If set to true, all existing and future databases created will be automatically replicated to the secondary region. If set to false, turns off auto replication.
+	AutoReplication *bool `json:"autoReplication,omitempty"`
+
+	// BackupBucketKMSKeyID Specifies the KMS key ID associated with the backup bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the backup bucket of the secondary workspace group. This feature is only supported in workspace groups deployed in AWS.
 	BackupBucketKMSKeyID *string `json:"backupBucketKMSKeyID,omitempty"`
 
-	// DataBucketKMSKeyID Specifies the KMS key ID associated with the data bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the data bucket and Amazon Elastic Block Store (EBS) volumes of the workspace group. This feature is only supported in workspace groups deployed in AWS.
+	// DataBucketKMSKeyID Specifies the KMS key ID associated with the data bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the data bucket and Amazon Elastic Block Store (EBS) volumes of the secondary workspace group. This feature is only supported in workspace groups deployed in AWS.
 	DataBucketKMSKeyID *string `json:"dataBucketKMSKeyID,omitempty"`
 
-	// DatabaseNames List of database names
+	// DatabaseNames List of database names (can be an empty list if setting up Auto-Replication).
 	DatabaseNames []string `json:"databaseNames"`
 
 	// RegionID Region ID of the secondary region

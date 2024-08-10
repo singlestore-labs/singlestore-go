@@ -802,6 +802,9 @@ type Workspace struct {
 	// Endpoint Endpoint to connect to the workspace
 	Endpoint *string `json:"endpoint,omitempty"`
 
+	// KaiEnabled Specifies if the workspace is kai enabled or not.
+	KaiEnabled *bool `json:"kaiEnabled,omitempty"`
+
 	// LastResumedAt (If included in the output) The timestamp of when the workspace was last resumed
 	LastResumedAt *string `json:"lastResumedAt,omitempty"`
 

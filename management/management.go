@@ -22,6 +22,24 @@ const (
 	ApiKeyAuthScopes = "ApiKeyAuth.Scopes"
 )
 
+// Defines values for AuditLogSource.
+const (
+	Admin     AuditLogSource = "Admin"
+	Portal    AuditLogSource = "Portal"
+	SystemJob AuditLogSource = "SystemJob"
+)
+
+// Defines values for AuditLogUserType.
+const (
+	Automation   AuditLogUserType = "Automation"
+	CIAutomation AuditLogUserType = "CIAutomation"
+	Customer     AuditLogUserType = "Customer"
+	Employee     AuditLogUserType = "Employee"
+	Studio       AuditLogUserType = "Studio"
+	System       AuditLogUserType = "System"
+	Unspecified  AuditLogUserType = "Unspecified"
+)
+
 // Defines values for ExecutionStatus.
 const (
 	ExecutionStatusCanceled  ExecutionStatus = "Canceled"
@@ -207,6 +225,70 @@ const (
 	Hour  GetV1BillingUsageParamsAggregateBy = "hour"
 	Month GetV1BillingUsageParamsAggregateBy = "month"
 )
+
+// AuditLog Represents an audit log entry
+type AuditLog struct {
+	// Attributes additional keys and values that are specific to the audit log type
+	Attributes *map[string]interface{} `json:"attributes,omitempty"`
+	AuditID    *openapi_types.UUID     `json:"auditID,omitempty"`
+
+	// ClusterID The database cluster tied to this event
+	ClusterID *openapi_types.UUID `json:"clusterID,omitempty"`
+
+	// CreatedAt The timestamp of when the audit log entry was created in RFC3339Nano format
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// Error text error message, if any relating to this entry
+	Error *string `json:"error,omitempty"`
+
+	// FirstName The first name of a redacted user
+	FirstName *string `json:"firstName,omitempty"`
+
+	// Labels A list of audit keywords
+	Labels *[]string `json:"labels,omitempty"`
+
+	// LastName The last name of a redacted user
+	LastName *string `json:"lastName,omitempty"`
+
+	// OrgID The organization tied to this event
+	OrgID *openapi_types.UUID `json:"orgID,omitempty"`
+
+	// ProjectID The project id tied to this event
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// Reason A human-readable description of what happened
+	Reason *string `json:"reason,omitempty"`
+
+	// SessionID the authorization session id tied to this event
+	SessionID *openapi_types.UUID `json:"sessionID,omitempty"`
+
+	// Source The audit log entry source
+	Source *AuditLogSource `json:"source,omitempty"`
+
+	// TeamID The tem id tied to this event
+	TeamID *openapi_types.UUID `json:"teamID,omitempty"`
+
+	// Type The audit log entry type
+	Type *string `json:"type,omitempty"`
+
+	// UserEmail The user email address
+	UserEmail *string `json:"userEmail,omitempty"`
+
+	// UserID The user ID
+	UserID *string `json:"userID,omitempty"`
+
+	// UserType the type of user that triggered the audit log entry
+	UserType *AuditLogUserType `json:"userType,omitempty"`
+
+	// WorkspaceID The workspace id tied to this event
+	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`
+}
+
+// AuditLogSource The audit log entry source
+type AuditLogSource string
+
+// AuditLogUserType the type of user that triggered the audit log entry
+type AuditLogUserType string
 
 // BillingUsage Represents the information related to billing usage
 type BillingUsage struct {
@@ -1084,6 +1166,33 @@ type WorkspaceGroupID = openapi_types.UUID
 // WorkspaceID defines model for workspaceID.
 type WorkspaceID = openapi_types.UUID
 
+// GetV1AuditLogsParams defines parameters for GetV1AuditLogs.
+type GetV1AuditLogsParams struct {
+	// Type The audit log type
+	Type *string `form:"type,omitempty" json:"type,omitempty"`
+
+	// Source The audit log source
+	Source *string `form:"source,omitempty" json:"source,omitempty"`
+
+	// StartDate The start date (inclusive) for the query in RFC3339 format (2019-10-12T07:20:50.52Z)
+	StartDate *string `form:"startDate,omitempty" json:"startDate,omitempty"`
+
+	// EndDate The end date (inclusive) for the query in RFC3339 format (2019-10-12T07:20:50.52Z)
+	EndDate *string `form:"endDate,omitempty" json:"endDate,omitempty"`
+
+	// Limit The maximum number of rows to return
+	Limit *float32 `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// NextToken The value of the nextToken returned from a previous query. This will guarantee the next results are new since the last query
+	NextToken *string `form:"nextToken,omitempty" json:"nextToken,omitempty"`
+
+	// FirstName A first name to match against
+	FirstName *string `form:"firstName,omitempty" json:"firstName,omitempty"`
+
+	// LastName A last name to match against
+	LastName *string `form:"lastName,omitempty" json:"lastName,omitempty"`
+}
+
 // GetV1BillingUsageParams defines parameters for GetV1BillingUsage.
 type GetV1BillingUsageParams struct {
 	// Metric The metric type. It can have the following values:
@@ -1401,6 +1510,9 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 
 // The interface specification for the client above.
 type ClientInterface interface {
+	// GetV1AuditLogs request
+	GetV1AuditLogs(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1BillingUsage request
 	GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1584,6 +1696,18 @@ type ClientInterface interface {
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+}
+
+func (c *Client) GetV1AuditLogs(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1AuditLogsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
 }
 
 func (c *Client) GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -2376,6 +2500,165 @@ func (c *Client) GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupID
 		return nil, err
 	}
 	return c.Client.Do(req)
+}
+
+// NewGetV1AuditLogsRequest generates requests for GetV1AuditLogs
+func NewGetV1AuditLogsRequest(server string, params *GetV1AuditLogsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/auditLogs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Type != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "type", runtime.ParamLocationQuery, *params.Type); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Source != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "source", runtime.ParamLocationQuery, *params.Source); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.StartDate != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "startDate", runtime.ParamLocationQuery, *params.StartDate); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.EndDate != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "endDate", runtime.ParamLocationQuery, *params.EndDate); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Limit != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "limit", runtime.ParamLocationQuery, *params.Limit); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.NextToken != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "nextToken", runtime.ParamLocationQuery, *params.NextToken); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.FirstName != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "firstName", runtime.ParamLocationQuery, *params.FirstName); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.LastName != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "lastName", runtime.ParamLocationQuery, *params.LastName); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
 }
 
 // NewGetV1BillingUsageRequest generates requests for GetV1BillingUsage
@@ -4718,6 +5001,9 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
+	// GetV1AuditLogs request
+	GetV1AuditLogsWithResponse(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*GetV1AuditLogsResponse, error)
+
 	// GetV1BillingUsage request
 	GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error)
 
@@ -4901,6 +5187,33 @@ type ClientWithResponsesInterface interface {
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error)
+}
+
+type GetV1AuditLogsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		AuditLogs *[]AuditLog `json:"auditLogs,omitempty"`
+
+		// NextToken The nextToken value can be used in a subsequent query to guarantee any log entries are new since this query
+		NextToken *string `json:"nextToken,omitempty"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1AuditLogsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1AuditLogsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
 }
 
 type GetV1BillingUsageResponse struct {
@@ -6087,6 +6400,15 @@ func (r GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRe
 	return 0
 }
 
+// GetV1AuditLogsWithResponse request returning *GetV1AuditLogsResponse
+func (c *ClientWithResponses) GetV1AuditLogsWithResponse(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*GetV1AuditLogsResponse, error) {
+	rsp, err := c.GetV1AuditLogs(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1AuditLogsResponse(rsp)
+}
+
 // GetV1BillingUsageWithResponse request returning *GetV1BillingUsageResponse
 func (c *ClientWithResponses) GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error) {
 	rsp, err := c.GetV1BillingUsage(ctx, params, reqEditors...)
@@ -6665,6 +6987,37 @@ func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDWorkspaceGroupsWor
 		return nil, err
 	}
 	return ParseGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse(rsp)
+}
+
+// ParseGetV1AuditLogsResponse parses an HTTP response from a GetV1AuditLogsWithResponse call
+func ParseGetV1AuditLogsResponse(rsp *http.Response) (*GetV1AuditLogsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1AuditLogsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			AuditLogs *[]AuditLog `json:"auditLogs,omitempty"`
+
+			// NextToken The nextToken value can be used in a subsequent query to guarantee any log entries are new since this query
+			NextToken *string `json:"nextToken,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
 }
 
 // ParseGetV1BillingUsageResponse parses an HTTP response from a GetV1BillingUsageWithResponse call

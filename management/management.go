@@ -35,6 +35,7 @@ const (
 	CIAutomation AuditLogUserType = "CIAutomation"
 	Customer     AuditLogUserType = "Customer"
 	Employee     AuditLogUserType = "Employee"
+	SharedTier   AuditLogUserType = "SharedTier"
 	Studio       AuditLogUserType = "Studio"
 	System       AuditLogUserType = "System"
 	Unspecified  AuditLogUserType = "Unspecified"
@@ -49,6 +50,24 @@ const (
 	ExecutionStatusRunning   ExecutionStatus = "Running"
 	ExecutionStatusScheduled ExecutionStatus = "Scheduled"
 	ExecutionStatusUnknown   ExecutionStatus = "Unknown"
+)
+
+// Defines values for FileLocationSchema.
+const (
+	Personal FileLocationSchema = "personal"
+	Shared   FileLocationSchema = "shared"
+)
+
+// Defines values for FileObjectMetadataFormat.
+const (
+	FileObjectMetadataFormatJson FileObjectMetadataFormat = "json"
+)
+
+// Defines values for FileObjectMetadataType.
+const (
+	FileObjectMetadataTypeDirectory FileObjectMetadataType = "directory"
+	FileObjectMetadataTypeEmpty     FileObjectMetadataType = ""
+	FileObjectMetadataTypeJson      FileObjectMetadataType = "json"
 )
 
 // Defines values for JobMetadataStatus.
@@ -115,18 +134,6 @@ const (
 	ReplicatedDatabaseDuplicationStateError    ReplicatedDatabaseDuplicationState = "Error"
 	ReplicatedDatabaseDuplicationStateInactive ReplicatedDatabaseDuplicationState = "Inactive"
 	ReplicatedDatabaseDuplicationStatePending  ReplicatedDatabaseDuplicationState = "Pending"
-)
-
-// Defines values for StageObjectMetadataFormat.
-const (
-	StageObjectMetadataFormatJson StageObjectMetadataFormat = "json"
-)
-
-// Defines values for StageObjectMetadataType.
-const (
-	StageObjectMetadataTypeDirectory StageObjectMetadataType = "directory"
-	StageObjectMetadataTypeEmpty     StageObjectMetadataType = ""
-	StageObjectMetadataTypeJson      StageObjectMetadataType = "json"
 )
 
 // Defines values for StorageDRStatusComputeStorageDRState.
@@ -363,6 +370,48 @@ type ExecutionsResult struct {
 	ExecutionsMetadata ExecutionsMetadata `json:"executionsMetadata"`
 }
 
+// FileLocationSchema The file location can be either 'personal' or 'shared'
+type FileLocationSchema string
+
+// FileObjectMetadata Represents the metadata corresponding to a file object
+type FileObjectMetadata struct {
+	Content *FileObjectMetadata_Content `json:"content,omitempty"`
+	Created *string                     `json:"created,omitempty"`
+
+	// Format Format of the response
+	Format       *FileObjectMetadataFormat `json:"format"`
+	LastModified *string                   `json:"last_modified,omitempty"`
+	Mimetype     *string                   `json:"mimetype,omitempty"`
+
+	// Name Name of the file object
+	Name *string `json:"name,omitempty"`
+
+	// Path Path of the file object
+	Path *string `json:"path,omitempty"`
+	Size *int    `json:"size,omitempty"`
+
+	// Type Object type
+	Type     *FileObjectMetadataType `json:"type"`
+	Writable *bool                   `json:"writable,omitempty"`
+}
+
+// FileObjectMetadataContent0 defines model for .
+type FileObjectMetadataContent0 = string
+
+// FileObjectMetadataContent1 defines model for .
+type FileObjectMetadataContent1 = []FileObjectMetadata
+
+// FileObjectMetadata_Content defines model for FileObjectMetadata.Content.
+type FileObjectMetadata_Content struct {
+	union json.RawMessage
+}
+
+// FileObjectMetadataFormat Format of the response
+type FileObjectMetadataFormat string
+
+// FileObjectMetadataType Object type
+type FileObjectMetadataType string
+
 // Job defines model for Job.
 type Job struct {
 	// CompletedExecutionsCount Count of completed executions for the job
@@ -514,6 +563,9 @@ type PrivateConnection struct {
 
 	// DeletedAt The timestamp of when the private connection was deleted
 	DeletedAt *string `json:"deletedAt,omitempty"`
+
+	// Endpoint The service endpoint
+	Endpoint *string `json:"endpoint,omitempty"`
 
 	// OutboundAllowList The account ID which must be allowed for outbound connections
 	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
@@ -678,44 +730,11 @@ type SecretUpdate struct {
 	Value *string `json:"value,omitempty"`
 }
 
-// StageObjectMetadata Represents the metadata corresponding to an object in a Stage
-type StageObjectMetadata struct {
-	Content *StageObjectMetadata_Content `json:"content,omitempty"`
-	Created *string                      `json:"created,omitempty"`
-
-	// Format Format of the response
-	Format       *StageObjectMetadataFormat `json:"format"`
-	LastModified *string                    `json:"last_modified,omitempty"`
-	Mimetype     *string                    `json:"mimetype,omitempty"`
-
-	// Name Name of the Stage object
-	Name *string `json:"name,omitempty"`
-
-	// Path Path of the Stage object
-	Path *string `json:"path,omitempty"`
-	Size *int    `json:"size,omitempty"`
-
-	// Type Object type
-	Type     *StageObjectMetadataType `json:"type"`
-	Writable *bool                    `json:"writable,omitempty"`
+// SharedTierUpdateUser Represents the information specified when updating a user in a shared tier workspace
+type SharedTierUpdateUser struct {
+	// Password The virtual workspace user password to connect the new user to the database.
+	Password *string `json:"password,omitempty"`
 }
-
-// StageObjectMetadataContent0 defines model for .
-type StageObjectMetadataContent0 = string
-
-// StageObjectMetadataContent1 defines model for .
-type StageObjectMetadataContent1 = []StageObjectMetadata
-
-// StageObjectMetadata_Content defines model for StageObjectMetadata.Content.
-type StageObjectMetadata_Content struct {
-	union json.RawMessage
-}
-
-// StageObjectMetadataFormat Format of the response
-type StageObjectMetadataFormat string
-
-// StageObjectMetadataType Object type
-type StageObjectMetadataType string
 
 // StorageDRSetup Represents the information specified to setup Storage DR
 type StorageDRSetup struct {
@@ -1219,6 +1238,24 @@ type GetV1BillingUsageParamsMetric string
 // GetV1BillingUsageParamsAggregateBy defines parameters for GetV1BillingUsage.
 type GetV1BillingUsageParamsAggregateBy string
 
+// GetV1FilesFsLocationPathParams defines parameters for GetV1FilesFsLocationPath.
+type GetV1FilesFsLocationPathParams struct {
+	// Metadata If enabled, the API request returns only metadata for the specified file instead of downloading it.
+	Metadata *bool `form:"metadata,omitempty" json:"metadata,omitempty"`
+}
+
+// PatchV1FilesFsLocationPathJSONBody defines parameters for PatchV1FilesFsLocationPath.
+type PatchV1FilesFsLocationPathJSONBody struct {
+	// NewPath New path of the file
+	NewPath *string `json:"newPath,omitempty"`
+}
+
+// PutV1FilesFsLocationPathMultipartBody defines parameters for PutV1FilesFsLocationPath.
+type PutV1FilesFsLocationPathMultipartBody struct {
+	// File File to upload
+	File *openapi_types.File `json:"file,omitempty"`
+}
+
 // GetV1JobsJobIDExecutionsParams defines parameters for GetV1JobsJobIDExecutions.
 type GetV1JobsJobIDExecutionsParams struct {
 	// Start Start execution number.
@@ -1246,20 +1283,23 @@ type GetV1SecretsParams struct {
 	Name *string `form:"name,omitempty" json:"name,omitempty"`
 }
 
-// GetV1StageWorkspaceGroupIDFsPathParams defines parameters for GetV1StageWorkspaceGroupIDFsPath.
-type GetV1StageWorkspaceGroupIDFsPathParams struct {
+// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONBody defines parameters for DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID.
+type DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONBody = bool
+
+// GetV1StageDeploymentIDFsPathParams defines parameters for GetV1StageDeploymentIDFsPath.
+type GetV1StageDeploymentIDFsPathParams struct {
 	// Metadata If enabled, the API request returns only metadata for the specified file instead of downloading it. This parameter is ignored if the specified path is a folder.
 	Metadata *bool `form:"metadata,omitempty" json:"metadata,omitempty"`
 }
 
-// PatchV1StageWorkspaceGroupIDFsPathJSONBody defines parameters for PatchV1StageWorkspaceGroupIDFsPath.
-type PatchV1StageWorkspaceGroupIDFsPathJSONBody struct {
+// PatchV1StageDeploymentIDFsPathJSONBody defines parameters for PatchV1StageDeploymentIDFsPath.
+type PatchV1StageDeploymentIDFsPathJSONBody struct {
 	// NewPath New path of the file or folder
 	NewPath *string `json:"newPath,omitempty"`
 }
 
-// PutV1StageWorkspaceGroupIDFsPathMultipartBody defines parameters for PutV1StageWorkspaceGroupIDFsPath.
-type PutV1StageWorkspaceGroupIDFsPathMultipartBody struct {
+// PutV1StageDeploymentIDFsPathMultipartBody defines parameters for PutV1StageDeploymentIDFsPath.
+type PutV1StageDeploymentIDFsPathMultipartBody struct {
 	// File File to upload
 	File *openapi_types.File `json:"file,omitempty"`
 }
@@ -1330,6 +1370,12 @@ type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// PatchV1FilesFsLocationPathJSONRequestBody defines body for PatchV1FilesFsLocationPath for application/json ContentType.
+type PatchV1FilesFsLocationPathJSONRequestBody PatchV1FilesFsLocationPathJSONBody
+
+// PutV1FilesFsLocationPathMultipartRequestBody defines body for PutV1FilesFsLocationPath for multipart/form-data ContentType.
+type PutV1FilesFsLocationPathMultipartRequestBody PutV1FilesFsLocationPathMultipartBody
+
 // PostV1JobsJSONRequestBody defines body for PostV1Jobs for application/json ContentType.
 type PostV1JobsJSONRequestBody = JobCreate
 
@@ -1345,11 +1391,17 @@ type PostV1SecretsJSONRequestBody = SecretCreate
 // PatchV1SecretsSecretIDJSONRequestBody defines body for PatchV1SecretsSecretID for application/json ContentType.
 type PatchV1SecretsSecretIDJSONRequestBody = SecretUpdate
 
-// PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody defines body for PatchV1StageWorkspaceGroupIDFsPath for application/json ContentType.
-type PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody PatchV1StageWorkspaceGroupIDFsPathJSONBody
+// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody defines body for DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID for application/json ContentType.
+type DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody = DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONBody
 
-// PutV1StageWorkspaceGroupIDFsPathMultipartRequestBody defines body for PutV1StageWorkspaceGroupIDFsPath for multipart/form-data ContentType.
-type PutV1StageWorkspaceGroupIDFsPathMultipartRequestBody PutV1StageWorkspaceGroupIDFsPathMultipartBody
+// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody defines body for PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID for application/json ContentType.
+type PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody = SharedTierUpdateUser
+
+// PatchV1StageDeploymentIDFsPathJSONRequestBody defines body for PatchV1StageDeploymentIDFsPath for application/json ContentType.
+type PatchV1StageDeploymentIDFsPathJSONRequestBody PatchV1StageDeploymentIDFsPathJSONBody
+
+// PutV1StageDeploymentIDFsPathMultipartRequestBody defines body for PutV1StageDeploymentIDFsPath for multipart/form-data ContentType.
+type PutV1StageDeploymentIDFsPathMultipartRequestBody PutV1StageDeploymentIDFsPathMultipartBody
 
 // PostV1TeamsJSONRequestBody defines body for PostV1Teams for application/json ContentType.
 type PostV1TeamsJSONRequestBody = TeamCreate
@@ -1375,22 +1427,22 @@ type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
 
-// AsStageObjectMetadataContent0 returns the union data inside the StageObjectMetadata_Content as a StageObjectMetadataContent0
-func (t StageObjectMetadata_Content) AsStageObjectMetadataContent0() (StageObjectMetadataContent0, error) {
-	var body StageObjectMetadataContent0
+// AsFileObjectMetadataContent0 returns the union data inside the FileObjectMetadata_Content as a FileObjectMetadataContent0
+func (t FileObjectMetadata_Content) AsFileObjectMetadataContent0() (FileObjectMetadataContent0, error) {
+	var body FileObjectMetadataContent0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromStageObjectMetadataContent0 overwrites any union data inside the StageObjectMetadata_Content as the provided StageObjectMetadataContent0
-func (t *StageObjectMetadata_Content) FromStageObjectMetadataContent0(v StageObjectMetadataContent0) error {
+// FromFileObjectMetadataContent0 overwrites any union data inside the FileObjectMetadata_Content as the provided FileObjectMetadataContent0
+func (t *FileObjectMetadata_Content) FromFileObjectMetadataContent0(v FileObjectMetadataContent0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeStageObjectMetadataContent0 performs a merge with any union data inside the StageObjectMetadata_Content, using the provided StageObjectMetadataContent0
-func (t *StageObjectMetadata_Content) MergeStageObjectMetadataContent0(v StageObjectMetadataContent0) error {
+// MergeFileObjectMetadataContent0 performs a merge with any union data inside the FileObjectMetadata_Content, using the provided FileObjectMetadataContent0
+func (t *FileObjectMetadata_Content) MergeFileObjectMetadataContent0(v FileObjectMetadataContent0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -1401,22 +1453,22 @@ func (t *StageObjectMetadata_Content) MergeStageObjectMetadataContent0(v StageOb
 	return err
 }
 
-// AsStageObjectMetadataContent1 returns the union data inside the StageObjectMetadata_Content as a StageObjectMetadataContent1
-func (t StageObjectMetadata_Content) AsStageObjectMetadataContent1() (StageObjectMetadataContent1, error) {
-	var body StageObjectMetadataContent1
+// AsFileObjectMetadataContent1 returns the union data inside the FileObjectMetadata_Content as a FileObjectMetadataContent1
+func (t FileObjectMetadata_Content) AsFileObjectMetadataContent1() (FileObjectMetadataContent1, error) {
+	var body FileObjectMetadataContent1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromStageObjectMetadataContent1 overwrites any union data inside the StageObjectMetadata_Content as the provided StageObjectMetadataContent1
-func (t *StageObjectMetadata_Content) FromStageObjectMetadataContent1(v StageObjectMetadataContent1) error {
+// FromFileObjectMetadataContent1 overwrites any union data inside the FileObjectMetadata_Content as the provided FileObjectMetadataContent1
+func (t *FileObjectMetadata_Content) FromFileObjectMetadataContent1(v FileObjectMetadataContent1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeStageObjectMetadataContent1 performs a merge with any union data inside the StageObjectMetadata_Content, using the provided StageObjectMetadataContent1
-func (t *StageObjectMetadata_Content) MergeStageObjectMetadataContent1(v StageObjectMetadataContent1) error {
+// MergeFileObjectMetadataContent1 performs a merge with any union data inside the FileObjectMetadata_Content, using the provided FileObjectMetadataContent1
+func (t *FileObjectMetadata_Content) MergeFileObjectMetadataContent1(v FileObjectMetadataContent1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -1427,12 +1479,12 @@ func (t *StageObjectMetadata_Content) MergeStageObjectMetadataContent1(v StageOb
 	return err
 }
 
-func (t StageObjectMetadata_Content) MarshalJSON() ([]byte, error) {
+func (t FileObjectMetadata_Content) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *StageObjectMetadata_Content) UnmarshalJSON(b []byte) error {
+func (t *FileObjectMetadata_Content) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -1516,6 +1568,23 @@ type ClientInterface interface {
 	// GetV1BillingUsage request
 	GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1FilesFsLocation request
+	GetV1FilesFsLocation(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1FilesFsLocationPath request
+	DeleteV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1FilesFsLocationPath request
+	GetV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1FilesFsLocationPath request with any body
+	PatchV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutV1FilesFsLocationPath request with any body
+	PutV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// PostV1Jobs request with any body
 	PostV1JobsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1577,22 +1646,32 @@ type ClientInterface interface {
 
 	PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetV1StageWorkspaceGroupIDFs request
-	GetV1StageWorkspaceGroupIDFs(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID request with any body
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// DeleteV1StageWorkspaceGroupIDFsPath request
-	DeleteV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetV1StageWorkspaceGroupIDFsPath request
-	GetV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID request with any body
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PatchV1StageWorkspaceGroupIDFsPath request with any body
-	PatchV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	PatchV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetV1StageDeploymentIDFs request
+	GetV1StageDeploymentIDFs(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PutV1StageWorkspaceGroupIDFsPath request with any body
-	PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// DeleteV1StageDeploymentIDFsPath request
+	DeleteV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1StageDeploymentIDFsPath request
+	GetV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1StageDeploymentIDFsPath request with any body
+	PatchV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutV1StageDeploymentIDFsPath request with any body
+	PutV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1Teams request
 	GetV1Teams(ctx context.Context, params *GetV1TeamsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -1712,6 +1791,78 @@ func (c *Client) GetV1AuditLogs(ctx context.Context, params *GetV1AuditLogsParam
 
 func (c *Client) GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1BillingUsageRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1FilesFsLocation(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FilesFsLocationRequest(c.Server, location)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1FilesFsLocationPathRequest(c.Server, location, path)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FilesFsLocationPathRequest(c.Server, location, path, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1FilesFsLocationPathRequestWithBody(c.Server, location, path, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1FilesFsLocationPathRequest(c.Server, location, path, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1FilesFsLocationPathRequestWithBody(c.Server, location, path, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1986,8 +2137,8 @@ func (c *Client) PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, 
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV1StageWorkspaceGroupIDFs(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1StageWorkspaceGroupIDFsRequest(c.Server, workspaceGroupID)
+func (c *Client) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(c.Server, virtualWorkspaceID, userID, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1998,8 +2149,8 @@ func (c *Client) GetV1StageWorkspaceGroupIDFs(ctx context.Context, workspaceGrou
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteV1StageWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path)
+func (c *Client) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(c.Server, virtualWorkspaceID, userID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2010,8 +2161,8 @@ func (c *Client) DeleteV1StageWorkspaceGroupIDFsPath(ctx context.Context, worksp
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1StageWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path, params)
+func (c *Client) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(c.Server, virtualWorkspaceID, userID, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2022,8 +2173,8 @@ func (c *Client) GetV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspace
 	return c.Client.Do(req)
 }
 
-func (c *Client) PatchV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, contentType, body)
+func (c *Client) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(c.Server, virtualWorkspaceID, userID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2034,8 +2185,8 @@ func (c *Client) PatchV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context,
 	return c.Client.Do(req)
 }
 
-func (c *Client) PatchV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1StageWorkspaceGroupIDFsPathRequest(c.Server, workspaceGroupID, path, body)
+func (c *Client) GetV1StageDeploymentIDFs(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1StageDeploymentIDFsRequest(c.Server, deploymentID)
 	if err != nil {
 		return nil, err
 	}
@@ -2046,8 +2197,56 @@ func (c *Client) PatchV1StageWorkspaceGroupIDFsPath(ctx context.Context, workspa
 	return c.Client.Do(req)
 }
 
-func (c *Client) PutV1StageWorkspaceGroupIDFsPathWithBody(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(c.Server, workspaceGroupID, path, contentType, body)
+func (c *Client) DeleteV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1StageDeploymentIDFsPathRequest(c.Server, deploymentID, path)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1StageDeploymentIDFsPathRequest(c.Server, deploymentID, path, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1StageDeploymentIDFsPathRequestWithBody(c.Server, deploymentID, path, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1StageDeploymentIDFsPathRequest(c.Server, deploymentID, path, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1StageDeploymentIDFsPathRequestWithBody(c.Server, deploymentID, path, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -2748,6 +2947,239 @@ func NewGetV1BillingUsageRequest(server string, params *GetV1BillingUsageParams)
 	return req, nil
 }
 
+// NewGetV1FilesFsLocationRequest generates requests for GetV1FilesFsLocation
+func NewGetV1FilesFsLocationRequest(server string, location FileLocationSchema) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "location", runtime.ParamLocationPath, location)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteV1FilesFsLocationPathRequest generates requests for DeleteV1FilesFsLocationPath
+func NewDeleteV1FilesFsLocationPathRequest(server string, location FileLocationSchema, path string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "location", runtime.ParamLocationPath, location)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "path", runtime.ParamLocationPath, path)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1FilesFsLocationPathRequest generates requests for GetV1FilesFsLocationPath
+func NewGetV1FilesFsLocationPathRequest(server string, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "location", runtime.ParamLocationPath, location)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "path", runtime.ParamLocationPath, path)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Metadata != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "metadata", runtime.ParamLocationQuery, *params.Metadata); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1FilesFsLocationPathRequest calls the generic PatchV1FilesFsLocationPath builder with application/json body
+func NewPatchV1FilesFsLocationPathRequest(server string, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1FilesFsLocationPathRequestWithBody(server, location, path, "application/json", bodyReader)
+}
+
+// NewPatchV1FilesFsLocationPathRequestWithBody generates requests for PatchV1FilesFsLocationPath with any type of body
+func NewPatchV1FilesFsLocationPathRequestWithBody(server string, location FileLocationSchema, path string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "location", runtime.ParamLocationPath, location)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "path", runtime.ParamLocationPath, path)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPutV1FilesFsLocationPathRequestWithBody generates requests for PutV1FilesFsLocationPath with any type of body
+func NewPutV1FilesFsLocationPathRequestWithBody(server string, location FileLocationSchema, path string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "location", runtime.ParamLocationPath, location)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "path", runtime.ParamLocationPath, path)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewPostV1JobsRequest calls the generic PostV1Jobs builder with application/json body
 func NewPostV1JobsRequest(server string, body PostV1JobsJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -3430,13 +3862,121 @@ func NewPatchV1SecretsSecretIDRequestWithBody(server string, secretID SecretID, 
 	return req, nil
 }
 
-// NewGetV1StageWorkspaceGroupIDFsRequest generates requests for GetV1StageWorkspaceGroupIDFs
-func NewGetV1StageWorkspaceGroupIDFsRequest(server string, workspaceGroupID openapi_types.UUID) (*http.Request, error) {
+// NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest calls the generic DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID builder with application/json body
+func NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(server string, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(server, virtualWorkspaceID, userID, "application/json", bodyReader)
+}
+
+// NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody generates requests for DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID with any type of body
+func NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(server string, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "virtualWorkspaceID", runtime.ParamLocationPath, virtualWorkspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces/%s/users/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest calls the generic PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID builder with application/json body
+func NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(server string, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(server, virtualWorkspaceID, userID, "application/json", bodyReader)
+}
+
+// NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody generates requests for PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID with any type of body
+func NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(server string, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "virtualWorkspaceID", runtime.ParamLocationPath, virtualWorkspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces/%s/users/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1StageDeploymentIDFsRequest generates requests for GetV1StageDeploymentIDFs
+func NewGetV1StageDeploymentIDFsRequest(server string, deploymentID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "deploymentID", runtime.ParamLocationPath, deploymentID)
 	if err != nil {
 		return nil, err
 	}
@@ -3464,13 +4004,13 @@ func NewGetV1StageWorkspaceGroupIDFsRequest(server string, workspaceGroupID open
 	return req, nil
 }
 
-// NewDeleteV1StageWorkspaceGroupIDFsPathRequest generates requests for DeleteV1StageWorkspaceGroupIDFsPath
-func NewDeleteV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string) (*http.Request, error) {
+// NewDeleteV1StageDeploymentIDFsPathRequest generates requests for DeleteV1StageDeploymentIDFsPath
+func NewDeleteV1StageDeploymentIDFsPathRequest(server string, deploymentID openapi_types.UUID, path string) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "deploymentID", runtime.ParamLocationPath, deploymentID)
 	if err != nil {
 		return nil, err
 	}
@@ -3505,13 +4045,13 @@ func NewDeleteV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroup
 	return req, nil
 }
 
-// NewGetV1StageWorkspaceGroupIDFsPathRequest generates requests for GetV1StageWorkspaceGroupIDFsPath
-func NewGetV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams) (*http.Request, error) {
+// NewGetV1StageDeploymentIDFsPathRequest generates requests for GetV1StageDeploymentIDFsPath
+func NewGetV1StageDeploymentIDFsPathRequest(server string, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "deploymentID", runtime.ParamLocationPath, deploymentID)
 	if err != nil {
 		return nil, err
 	}
@@ -3566,24 +4106,24 @@ func NewGetV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID 
 	return req, nil
 }
 
-// NewPatchV1StageWorkspaceGroupIDFsPathRequest calls the generic PatchV1StageWorkspaceGroupIDFsPath builder with application/json body
-func NewPatchV1StageWorkspaceGroupIDFsPathRequest(server string, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody) (*http.Request, error) {
+// NewPatchV1StageDeploymentIDFsPathRequest calls the generic PatchV1StageDeploymentIDFsPath builder with application/json body
+func NewPatchV1StageDeploymentIDFsPathRequest(server string, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(server, workspaceGroupID, path, "application/json", bodyReader)
+	return NewPatchV1StageDeploymentIDFsPathRequestWithBody(server, deploymentID, path, "application/json", bodyReader)
 }
 
-// NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody generates requests for PatchV1StageWorkspaceGroupIDFsPath with any type of body
-func NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
+// NewPatchV1StageDeploymentIDFsPathRequestWithBody generates requests for PatchV1StageDeploymentIDFsPath with any type of body
+func NewPatchV1StageDeploymentIDFsPathRequestWithBody(server string, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "deploymentID", runtime.ParamLocationPath, deploymentID)
 	if err != nil {
 		return nil, err
 	}
@@ -3620,13 +4160,13 @@ func NewPatchV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspa
 	return req, nil
 }
 
-// NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody generates requests for PutV1StageWorkspaceGroupIDFsPath with any type of body
-func NewPutV1StageWorkspaceGroupIDFsPathRequestWithBody(server string, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
+// NewPutV1StageDeploymentIDFsPathRequestWithBody generates requests for PutV1StageDeploymentIDFsPath with any type of body
+func NewPutV1StageDeploymentIDFsPathRequestWithBody(server string, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "deploymentID", runtime.ParamLocationPath, deploymentID)
 	if err != nil {
 		return nil, err
 	}
@@ -5007,6 +5547,23 @@ type ClientWithResponsesInterface interface {
 	// GetV1BillingUsage request
 	GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error)
 
+	// GetV1FilesFsLocation request
+	GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error)
+
+	// DeleteV1FilesFsLocationPath request
+	DeleteV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*DeleteV1FilesFsLocationPathResponse, error)
+
+	// GetV1FilesFsLocationPath request
+	GetV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationPathResponse, error)
+
+	// PatchV1FilesFsLocationPath request with any body
+	PatchV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error)
+
+	PatchV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error)
+
+	// PutV1FilesFsLocationPath request with any body
+	PutV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1FilesFsLocationPathResponse, error)
+
 	// PostV1Jobs request with any body
 	PostV1JobsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error)
 
@@ -5068,22 +5625,32 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error)
 
-	// GetV1StageWorkspaceGroupIDFs request
-	GetV1StageWorkspaceGroupIDFsWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsResponse, error)
+	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID request with any body
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
 
-	// DeleteV1StageWorkspaceGroupIDFsPath request
-	DeleteV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error)
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
 
-	// GetV1StageWorkspaceGroupIDFsPath request
-	GetV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsPathResponse, error)
+	// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID request with any body
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
 
-	// PatchV1StageWorkspaceGroupIDFsPath request with any body
-	PatchV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error)
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
 
-	PatchV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error)
+	// GetV1StageDeploymentIDFs request
+	GetV1StageDeploymentIDFsWithResponse(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsResponse, error)
 
-	// PutV1StageWorkspaceGroupIDFsPath request with any body
-	PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error)
+	// DeleteV1StageDeploymentIDFsPath request
+	DeleteV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageDeploymentIDFsPathResponse, error)
+
+	// GetV1StageDeploymentIDFsPath request
+	GetV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsPathResponse, error)
+
+	// PatchV1StageDeploymentIDFsPath request with any body
+	PatchV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error)
+
+	PatchV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error)
+
+	// PutV1StageDeploymentIDFsPath request with any body
+	PutV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageDeploymentIDFsPathResponse, error)
 
 	// GetV1Teams request
 	GetV1TeamsWithResponse(ctx context.Context, params *GetV1TeamsParams, reqEditors ...RequestEditorFn) (*GetV1TeamsResponse, error)
@@ -5234,6 +5801,131 @@ func (r GetV1BillingUsageResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1BillingUsageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1FilesFsLocationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FileObjectMetadata
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FilesFsLocationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FilesFsLocationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Name filename.ipynb
+		Name *string `json:"name,omitempty"`
+
+		// Path /
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FileObjectMetadata
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Name filename.ipynb
+		Name *string `json:"name,omitempty"`
+
+		// Path /
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PutV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Name *string `json:"name,omitempty"`
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PutV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PutV1FilesFsLocationPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -5622,14 +6314,14 @@ func (r PatchV1SecretsSecretIDResponse) StatusCode() int {
 	return 0
 }
 
-type GetV1StageWorkspaceGroupIDFsResponse struct {
+type DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *StageObjectMetadata
+	JSON200      *bool
 }
 
 // Status returns HTTPResponse.Status
-func (r GetV1StageWorkspaceGroupIDFsResponse) Status() string {
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -5637,14 +6329,58 @@ func (r GetV1StageWorkspaceGroupIDFsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetV1StageWorkspaceGroupIDFsResponse) StatusCode() int {
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type DeleteV1StageWorkspaceGroupIDFsPathResponse struct {
+type PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *bool
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1StageDeploymentIDFsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *FileObjectMetadata
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1StageDeploymentIDFsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1StageDeploymentIDFsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1StageDeploymentIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
@@ -5657,7 +6393,7 @@ type DeleteV1StageWorkspaceGroupIDFsPathResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r DeleteV1StageWorkspaceGroupIDFsPathResponse) Status() string {
+func (r DeleteV1StageDeploymentIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -5665,21 +6401,21 @@ func (r DeleteV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r DeleteV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r DeleteV1StageDeploymentIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type GetV1StageWorkspaceGroupIDFsPathResponse struct {
+type GetV1StageDeploymentIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *StageObjectMetadata
+	JSON200      *FileObjectMetadata
 }
 
 // Status returns HTTPResponse.Status
-func (r GetV1StageWorkspaceGroupIDFsPathResponse) Status() string {
+func (r GetV1StageDeploymentIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -5687,14 +6423,14 @@ func (r GetV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r GetV1StageDeploymentIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PatchV1StageWorkspaceGroupIDFsPathResponse struct {
+type PatchV1StageDeploymentIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
@@ -5707,7 +6443,7 @@ type PatchV1StageWorkspaceGroupIDFsPathResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r PatchV1StageWorkspaceGroupIDFsPathResponse) Status() string {
+func (r PatchV1StageDeploymentIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -5715,14 +6451,14 @@ func (r PatchV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PatchV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r PatchV1StageDeploymentIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
 	return 0
 }
 
-type PutV1StageWorkspaceGroupIDFsPathResponse struct {
+type PutV1StageDeploymentIDFsPathResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
@@ -5732,7 +6468,7 @@ type PutV1StageWorkspaceGroupIDFsPathResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r PutV1StageWorkspaceGroupIDFsPathResponse) Status() string {
+func (r PutV1StageDeploymentIDFsPathResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -5740,7 +6476,7 @@ func (r PutV1StageWorkspaceGroupIDFsPathResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r PutV1StageWorkspaceGroupIDFsPathResponse) StatusCode() int {
+func (r PutV1StageDeploymentIDFsPathResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -6418,6 +7154,59 @@ func (c *ClientWithResponses) GetV1BillingUsageWithResponse(ctx context.Context,
 	return ParseGetV1BillingUsageResponse(rsp)
 }
 
+// GetV1FilesFsLocationWithResponse request returning *GetV1FilesFsLocationResponse
+func (c *ClientWithResponses) GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error) {
+	rsp, err := c.GetV1FilesFsLocation(ctx, location, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FilesFsLocationResponse(rsp)
+}
+
+// DeleteV1FilesFsLocationPathWithResponse request returning *DeleteV1FilesFsLocationPathResponse
+func (c *ClientWithResponses) DeleteV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*DeleteV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.DeleteV1FilesFsLocationPath(ctx, location, path, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1FilesFsLocationPathResponse(rsp)
+}
+
+// GetV1FilesFsLocationPathWithResponse request returning *GetV1FilesFsLocationPathResponse
+func (c *ClientWithResponses) GetV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.GetV1FilesFsLocationPath(ctx, location, path, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FilesFsLocationPathResponse(rsp)
+}
+
+// PatchV1FilesFsLocationPathWithBodyWithResponse request with arbitrary body returning *PatchV1FilesFsLocationPathResponse
+func (c *ClientWithResponses) PatchV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.PatchV1FilesFsLocationPathWithBody(ctx, location, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1FilesFsLocationPathResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.PatchV1FilesFsLocationPath(ctx, location, path, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1FilesFsLocationPathResponse(rsp)
+}
+
+// PutV1FilesFsLocationPathWithBodyWithResponse request with arbitrary body returning *PutV1FilesFsLocationPathResponse
+func (c *ClientWithResponses) PutV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.PutV1FilesFsLocationPathWithBody(ctx, location, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV1FilesFsLocationPathResponse(rsp)
+}
+
 // PostV1JobsWithBodyWithResponse request with arbitrary body returning *PostV1JobsResponse
 func (c *ClientWithResponses) PostV1JobsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error) {
 	rsp, err := c.PostV1JobsWithBody(ctx, contentType, body, reqEditors...)
@@ -6611,57 +7400,91 @@ func (c *ClientWithResponses) PatchV1SecretsSecretIDWithResponse(ctx context.Con
 	return ParsePatchV1SecretsSecretIDResponse(rsp)
 }
 
-// GetV1StageWorkspaceGroupIDFsWithResponse request returning *GetV1StageWorkspaceGroupIDFsResponse
-func (c *ClientWithResponses) GetV1StageWorkspaceGroupIDFsWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsResponse, error) {
-	rsp, err := c.GetV1StageWorkspaceGroupIDFs(ctx, workspaceGroupID, reqEditors...)
+// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse request with arbitrary body returning *DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse
+func (c *ClientWithResponses) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	rsp, err := c.DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx, virtualWorkspaceID, userID, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetV1StageWorkspaceGroupIDFsResponse(rsp)
+	return ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp)
 }
 
-// DeleteV1StageWorkspaceGroupIDFsPathWithResponse request returning *DeleteV1StageWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) DeleteV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.DeleteV1StageWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, reqEditors...)
+func (c *ClientWithResponses) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	rsp, err := c.DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx, virtualWorkspaceID, userID, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseDeleteV1StageWorkspaceGroupIDFsPathResponse(rsp)
+	return ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp)
 }
 
-// GetV1StageWorkspaceGroupIDFsPathWithResponse request returning *GetV1StageWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) GetV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, params *GetV1StageWorkspaceGroupIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.GetV1StageWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, params, reqEditors...)
+// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse request with arbitrary body returning *PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse
+func (c *ClientWithResponses) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	rsp, err := c.PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx, virtualWorkspaceID, userID, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetV1StageWorkspaceGroupIDFsPathResponse(rsp)
+	return ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp)
 }
 
-// PatchV1StageWorkspaceGroupIDFsPathWithBodyWithResponse request with arbitrary body returning *PatchV1StageWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) PatchV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.PatchV1StageWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, contentType, body, reqEditors...)
+func (c *ClientWithResponses) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	rsp, err := c.PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx, virtualWorkspaceID, userID, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePatchV1StageWorkspaceGroupIDFsPathResponse(rsp)
+	return ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp)
 }
 
-func (c *ClientWithResponses) PatchV1StageWorkspaceGroupIDFsPathWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, body PatchV1StageWorkspaceGroupIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.PatchV1StageWorkspaceGroupIDFsPath(ctx, workspaceGroupID, path, body, reqEditors...)
+// GetV1StageDeploymentIDFsWithResponse request returning *GetV1StageDeploymentIDFsResponse
+func (c *ClientWithResponses) GetV1StageDeploymentIDFsWithResponse(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsResponse, error) {
+	rsp, err := c.GetV1StageDeploymentIDFs(ctx, deploymentID, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePatchV1StageWorkspaceGroupIDFsPathResponse(rsp)
+	return ParseGetV1StageDeploymentIDFsResponse(rsp)
 }
 
-// PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse request with arbitrary body returning *PutV1StageWorkspaceGroupIDFsPathResponse
-func (c *ClientWithResponses) PutV1StageWorkspaceGroupIDFsPathWithBodyWithResponse(ctx context.Context, workspaceGroupID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageWorkspaceGroupIDFsPathResponse, error) {
-	rsp, err := c.PutV1StageWorkspaceGroupIDFsPathWithBody(ctx, workspaceGroupID, path, contentType, body, reqEditors...)
+// DeleteV1StageDeploymentIDFsPathWithResponse request returning *DeleteV1StageDeploymentIDFsPathResponse
+func (c *ClientWithResponses) DeleteV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.DeleteV1StageDeploymentIDFsPath(ctx, deploymentID, path, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParsePutV1StageWorkspaceGroupIDFsPathResponse(rsp)
+	return ParseDeleteV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// GetV1StageDeploymentIDFsPathWithResponse request returning *GetV1StageDeploymentIDFsPathResponse
+func (c *ClientWithResponses) GetV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.GetV1StageDeploymentIDFsPath(ctx, deploymentID, path, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// PatchV1StageDeploymentIDFsPathWithBodyWithResponse request with arbitrary body returning *PatchV1StageDeploymentIDFsPathResponse
+func (c *ClientWithResponses) PatchV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.PatchV1StageDeploymentIDFsPathWithBody(ctx, deploymentID, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.PatchV1StageDeploymentIDFsPath(ctx, deploymentID, path, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// PutV1StageDeploymentIDFsPathWithBodyWithResponse request with arbitrary body returning *PutV1StageDeploymentIDFsPathResponse
+func (c *ClientWithResponses) PutV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.PutV1StageDeploymentIDFsPathWithBody(ctx, deploymentID, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV1StageDeploymentIDFsPathResponse(rsp)
 }
 
 // GetV1TeamsWithResponse request returning *GetV1TeamsResponse
@@ -7037,6 +7860,151 @@ func ParseGetV1BillingUsageResponse(rsp *http.Response) (*GetV1BillingUsageRespo
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			BillingUsage *[]BillingUsage `json:"billingUsage,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1FilesFsLocationResponse parses an HTTP response from a GetV1FilesFsLocationWithResponse call
+func ParseGetV1FilesFsLocationResponse(rsp *http.Response) (*GetV1FilesFsLocationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FilesFsLocationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FileObjectMetadata
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1FilesFsLocationPathResponse parses an HTTP response from a DeleteV1FilesFsLocationPathWithResponse call
+func ParseDeleteV1FilesFsLocationPathResponse(rsp *http.Response) (*DeleteV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name filename.ipynb
+			Name *string `json:"name,omitempty"`
+
+			// Path /
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1FilesFsLocationPathResponse parses an HTTP response from a GetV1FilesFsLocationPathWithResponse call
+func ParseGetV1FilesFsLocationPathResponse(rsp *http.Response) (*GetV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FileObjectMetadata
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1FilesFsLocationPathResponse parses an HTTP response from a PatchV1FilesFsLocationPathWithResponse call
+func ParsePatchV1FilesFsLocationPathResponse(rsp *http.Response) (*PatchV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name filename.ipynb
+			Name *string `json:"name,omitempty"`
+
+			// Path /
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePutV1FilesFsLocationPathResponse parses an HTTP response from a PutV1FilesFsLocationPathWithResponse call
+func ParsePutV1FilesFsLocationPathResponse(rsp *http.Response) (*PutV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PutV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Name *string `json:"name,omitempty"`
+			Path *string `json:"path,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -7498,22 +8466,22 @@ func ParsePatchV1SecretsSecretIDResponse(rsp *http.Response) (*PatchV1SecretsSec
 	return response, nil
 }
 
-// ParseGetV1StageWorkspaceGroupIDFsResponse parses an HTTP response from a GetV1StageWorkspaceGroupIDFsWithResponse call
-func ParseGetV1StageWorkspaceGroupIDFsResponse(rsp *http.Response) (*GetV1StageWorkspaceGroupIDFsResponse, error) {
+// ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse parses an HTTP response from a DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse call
+func ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp *http.Response) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetV1StageWorkspaceGroupIDFsResponse{
+	response := &DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest StageObjectMetadata
+		var dest bool
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -7524,15 +8492,67 @@ func ParseGetV1StageWorkspaceGroupIDFsResponse(rsp *http.Response) (*GetV1StageW
 	return response, nil
 }
 
-// ParseDeleteV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a DeleteV1StageWorkspaceGroupIDFsPathWithResponse call
-func ParseDeleteV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*DeleteV1StageWorkspaceGroupIDFsPathResponse, error) {
+// ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse parses an HTTP response from a PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse call
+func ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp *http.Response) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &DeleteV1StageWorkspaceGroupIDFsPathResponse{
+	response := &PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1StageDeploymentIDFsResponse parses an HTTP response from a GetV1StageDeploymentIDFsWithResponse call
+func ParseGetV1StageDeploymentIDFsResponse(rsp *http.Response) (*GetV1StageDeploymentIDFsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1StageDeploymentIDFsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FileObjectMetadata
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1StageDeploymentIDFsPathResponse parses an HTTP response from a DeleteV1StageDeploymentIDFsPathWithResponse call
+func ParseDeleteV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*DeleteV1StageDeploymentIDFsPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1StageDeploymentIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -7556,22 +8576,22 @@ func ParseDeleteV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*Dele
 	return response, nil
 }
 
-// ParseGetV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a GetV1StageWorkspaceGroupIDFsPathWithResponse call
-func ParseGetV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*GetV1StageWorkspaceGroupIDFsPathResponse, error) {
+// ParseGetV1StageDeploymentIDFsPathResponse parses an HTTP response from a GetV1StageDeploymentIDFsPathWithResponse call
+func ParseGetV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*GetV1StageDeploymentIDFsPathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetV1StageWorkspaceGroupIDFsPathResponse{
+	response := &GetV1StageDeploymentIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest StageObjectMetadata
+		var dest FileObjectMetadata
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -7582,15 +8602,15 @@ func ParseGetV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*GetV1St
 	return response, nil
 }
 
-// ParsePatchV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a PatchV1StageWorkspaceGroupIDFsPathWithResponse call
-func ParsePatchV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*PatchV1StageWorkspaceGroupIDFsPathResponse, error) {
+// ParsePatchV1StageDeploymentIDFsPathResponse parses an HTTP response from a PatchV1StageDeploymentIDFsPathWithResponse call
+func ParsePatchV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*PatchV1StageDeploymentIDFsPathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &PatchV1StageWorkspaceGroupIDFsPathResponse{
+	response := &PatchV1StageDeploymentIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -7614,15 +8634,15 @@ func ParsePatchV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*Patch
 	return response, nil
 }
 
-// ParsePutV1StageWorkspaceGroupIDFsPathResponse parses an HTTP response from a PutV1StageWorkspaceGroupIDFsPathWithResponse call
-func ParsePutV1StageWorkspaceGroupIDFsPathResponse(rsp *http.Response) (*PutV1StageWorkspaceGroupIDFsPathResponse, error) {
+// ParsePutV1StageDeploymentIDFsPathResponse parses an HTTP response from a PutV1StageDeploymentIDFsPathWithResponse call
+func ParsePutV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*PutV1StageDeploymentIDFsPathResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &PutV1StageWorkspaceGroupIDFsPathResponse{
+	response := &PutV1StageDeploymentIDFsPathResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}

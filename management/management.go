@@ -330,6 +330,15 @@ type BillingUsage struct {
 	} `json:"usage,omitempty"`
 }
 
+// EgressClusterIdentityCreate Represents the information specified to create an egress cluster identity
+type EgressClusterIdentityCreate struct {
+	// CatalogInfo Catalog information for creating the egress cluster identity
+	CatalogInfo map[string]interface{} `json:"catalogInfo"`
+
+	// StorageInfo Storage information for creating the egress cluster identity
+	StorageInfo map[string]interface{} `json:"storageInfo"`
+}
+
 // Execution defines model for Execution.
 type Execution struct {
 	// ExecutionID The ID of execution
@@ -784,6 +793,37 @@ type StorageDRStatusComputeStorageDRState string
 
 // StorageDRStatusComputeStorageDRType Name of Storage DR operation
 type StorageDRStatusComputeStorageDRType string
+
+// TableEgressStart Represents the information specified to start egressing data from a table
+type TableEgressStart struct {
+	// CatalogInfo Catalog information for egressing data
+	CatalogInfo map[string]interface{} `json:"catalogInfo"`
+	ColumnNames []string               `json:"columnNames"`
+
+	// DatabaseName The name of the database
+	DatabaseName string `json:"databaseName"`
+
+	// StorageInfo Storage information for egressing data
+	StorageInfo map[string]interface{} `json:"storageInfo"`
+
+	// TableName The name of the table
+	TableName string `json:"tableName"`
+}
+
+// TableEgressStatus Represents the status of egress operation
+type TableEgressStatus struct {
+	// Status The status of the egress operation
+	Status string `json:"status"`
+
+	// StatusMsg The status message of the egress operation
+	StatusMsg *string `json:"statusMsg,omitempty"`
+}
+
+// TableEgressStatusParams Represents the status of egressing data from a table
+type TableEgressStatusParams struct {
+	// EgressID The ID of the egress operation
+	EgressID string `json:"egressID"`
+}
 
 // Team A SingleStoreDB Cloud team.
 type Team struct {
@@ -1415,6 +1455,15 @@ type PostV1WorkspaceGroupsJSONRequestBody = WorkspaceGroupCreate
 // PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupID for application/json ContentType.
 type PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody = WorkspaceGroupUpdate
 
+// PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity for application/json ContentType.
+type PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityJSONRequestBody = EgressClusterIdentityCreate
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress for application/json ContentType.
+type PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressJSONRequestBody = TableEgressStart
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody defines body for GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus for application/json ContentType.
+type GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody = TableEgressStatusParams
+
 // PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup for application/json ContentType.
 type PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody = StorageDRSetup
 
@@ -1423,6 +1472,15 @@ type PostV1WorkspacesJSONRequestBody = WorkspaceCreate
 
 // PatchV1WorkspacesWorkspaceIDJSONRequestBody defines body for PatchV1WorkspacesWorkspaceID for application/json ContentType.
 type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
+
+// PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity for application/json ContentType.
+type PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityJSONRequestBody = EgressClusterIdentityCreate
+
+// PostV1WorkspacesWorkspaceIDEgressStartTableEgressJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDEgressStartTableEgress for application/json ContentType.
+type PostV1WorkspacesWorkspaceIDEgressStartTableEgressJSONRequestBody = TableEgressStart
+
+// GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody defines body for GetV1WorkspacesWorkspaceIDEgressTableEgressStatus for application/json ContentType.
+type GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody = TableEgressStatusParams
 
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
@@ -1711,6 +1769,21 @@ type ClientInterface interface {
 
 	PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus request with any body
+	GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus(ctx context.Context, workspaceGroupID WorkspaceGroupID, body GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
 	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1755,6 +1828,21 @@ type ClientInterface interface {
 	PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity request with any body
+	PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDEgressStartTableEgress request with any body
+	PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspacesWorkspaceIDEgressStartTableEgress(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDEgressTableEgressStatus request with any body
+	GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	GetV1WorkspacesWorkspaceIDEgressTableEgressStatus(ctx context.Context, workspaceID WorkspaceID, body GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2425,6 +2513,78 @@ func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, wor
 	return c.Client.Do(req)
 }
 
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus(ctx context.Context, workspaceGroupID WorkspaceGroupID, body GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(c.Server, workspaceGroupID, params)
 	if err != nil {
@@ -2607,6 +2767,78 @@ func (c *Client) PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, works
 
 func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDEgressStartTableEgressRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDEgressStartTableEgress(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDEgressStartTableEgressRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDEgressTableEgressStatusRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDEgressTableEgressStatus(ctx context.Context, workspaceID WorkspaceID, body GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDEgressTableEgressStatusRequest(c.Server, workspaceID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4679,6 +4911,147 @@ func NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(server string, wor
 	return req, nil
 }
 
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityRequest calls the generic PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity builder with application/json body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityRequest(server string, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityRequestWithBody generates requests for PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity with any type of body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/egress/createEgressClusterIdentity", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressRequest calls the generic PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress builder with application/json body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressRequest(server string, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressRequestWithBody generates requests for PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress with any type of body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/egress/startTableEgress", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusRequest calls the generic GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus builder with application/json body
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusRequest(server string, workspaceGroupID WorkspaceGroupID, body GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusRequestWithBody generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus with any type of body
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/egress/tableEgressStatus", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections
 func NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams) (*http.Request, error) {
 	var err error
@@ -5254,6 +5627,147 @@ func NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server string, workspaceID W
 	return req, nil
 }
 
+// NewPostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityRequest calls the generic PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity builder with application/json body
+func NewPostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityRequest(server string, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityRequestWithBody generates requests for PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity with any type of body
+func NewPostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/egress/createEgressClusterIdentity", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesWorkspaceIDEgressStartTableEgressRequest calls the generic PostV1WorkspacesWorkspaceIDEgressStartTableEgress builder with application/json body
+func NewPostV1WorkspacesWorkspaceIDEgressStartTableEgressRequest(server string, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressStartTableEgressJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesWorkspaceIDEgressStartTableEgressRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesWorkspaceIDEgressStartTableEgressRequestWithBody generates requests for PostV1WorkspacesWorkspaceIDEgressStartTableEgress with any type of body
+func NewPostV1WorkspacesWorkspaceIDEgressStartTableEgressRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/egress/startTableEgress", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDEgressTableEgressStatusRequest calls the generic GetV1WorkspacesWorkspaceIDEgressTableEgressStatus builder with application/json body
+func NewGetV1WorkspacesWorkspaceIDEgressTableEgressStatusRequest(server string, workspaceID WorkspaceID, body GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewGetV1WorkspacesWorkspaceIDEgressTableEgressStatusRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewGetV1WorkspacesWorkspaceIDEgressTableEgressStatusRequestWithBody generates requests for GetV1WorkspacesWorkspaceIDEgressTableEgressStatus with any type of body
+func NewGetV1WorkspacesWorkspaceIDEgressTableEgressStatusRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/egress/tableEgressStatus", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest generates requests for GetV1WorkspacesWorkspaceIDPrivateConnections
 func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(server string, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams) (*http.Request, error) {
 	var err error
@@ -5690,6 +6204,21 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
 
+	// PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus request with any body
+	GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse, error)
+
+	GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse, error)
+
 	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
 	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error)
 
@@ -5734,6 +6263,21 @@ type ClientWithResponsesInterface interface {
 	PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
 
 	PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity request with any body
+	PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse, error)
+
+	PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDEgressStartTableEgress request with any body
+	PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse, error)
+
+	PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDEgressTableEgressStatus request with any body
+	GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse, error)
+
+	GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithResponse(ctx context.Context, workspaceID WorkspaceID, body GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse, error)
 
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error)
@@ -6714,6 +7258,70 @@ func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
 	return 0
 }
 
+type PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *TableEgressStatus
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -6995,6 +7603,70 @@ func (r PatchV1WorkspacesWorkspaceIDResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PatchV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *TableEgressStatus
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -7609,6 +8281,57 @@ func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse
 	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
 }
 
+// PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithBodyWithResponse request with arbitrary body returning *PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentity(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithBodyWithResponse request with arbitrary body returning *PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgress(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithBodyWithResponse request with arbitrary body returning *GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse(rsp)
+}
+
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatus(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse(rsp)
+}
+
 // GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse
 func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
 	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx, workspaceGroupID, params, reqEditors...)
@@ -7748,6 +8471,57 @@ func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithResponse(ctx conte
 		return nil, err
 	}
 	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithBodyWithResponse request with arbitrary body returning *PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentity(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithBodyWithResponse request with arbitrary body returning *PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDEgressStartTableEgressJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDEgressStartTableEgress(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithBodyWithResponse request with arbitrary body returning *GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse(rsp)
+}
+
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithResponse(ctx context.Context, workspaceID WorkspaceID, body GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDEgressTableEgressStatus(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse(rsp)
 }
 
 // GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse request returning *GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse
@@ -8934,6 +9708,64 @@ func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*P
 	return response, nil
 }
 
+// ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse parses an HTTP response from a PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityWithResponse call
+func ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse(rsp *http.Response) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsWorkspaceGroupIDEgressCreateEgressClusterIdentityResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse parses an HTTP response from a PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressWithResponse call
+func ParsePostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse(rsp *http.Response) (*PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsWorkspaceGroupIDEgressStartTableEgressResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TableEgressStatus
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse call
 func ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -9218,6 +10050,64 @@ func ParsePatchV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*PatchV1Work
 		var dest struct {
 			WorkspaceID openapi_types.UUID `json:"workspaceID"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDEgressCreateEgressClusterIdentityResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDEgressStartTableEgressWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDEgressStartTableEgressResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDEgressTableEgressStatusWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDEgressTableEgressStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest TableEgressStatus
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

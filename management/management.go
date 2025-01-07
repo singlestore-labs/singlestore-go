@@ -54,6 +54,7 @@ const (
 
 // Defines values for FileLocationSchema.
 const (
+	Models   FileLocationSchema = "models"
 	Personal FileLocationSchema = "personal"
 	Shared   FileLocationSchema = "shared"
 )
@@ -379,7 +380,7 @@ type ExecutionsResult struct {
 	ExecutionsMetadata ExecutionsMetadata `json:"executionsMetadata"`
 }
 
-// FileLocationSchema The file location can be either 'personal' or 'shared'
+// FileLocationSchema The file location can be one of 'personal', 'shared' or 'models'
 type FileLocationSchema string
 
 // FileObjectMetadata Represents the metadata corresponding to a file object

@@ -35,6 +35,7 @@ const (
 	CIAutomation AuditLogUserType = "CIAutomation"
 	Customer     AuditLogUserType = "Customer"
 	Employee     AuditLogUserType = "Employee"
+	SNIProxy     AuditLogUserType = "SNIProxy"
 	SharedTier   AuditLogUserType = "SharedTier"
 	Studio       AuditLogUserType = "Studio"
 	System       AuditLogUserType = "System"

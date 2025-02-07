@@ -587,6 +587,9 @@ type PrivateConnection struct {
 	// ServiceName The name of the private connection service
 	ServiceName *string `json:"serviceName,omitempty"`
 
+	// SqlPort The SQL port
+	SqlPort *float32 `json:"sqlPort,omitempty"`
+
 	// Status The status of the private connection
 	Status *PrivateConnectionStatus `json:"status,omitempty"`
 
@@ -595,6 +598,9 @@ type PrivateConnection struct {
 
 	// UpdatedAt The timestamp of when the private connection was last updated
 	UpdatedAt *string `json:"updatedAt,omitempty"`
+
+	// WebsocketsPort The websockets port
+	WebsocketsPort *float32 `json:"websocketsPort,omitempty"`
 
 	// WorkspaceGroupID The ID of the workspace group containing the private connection
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`

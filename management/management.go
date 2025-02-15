@@ -189,6 +189,12 @@ const (
 	WorkspaceCreateAutoSuspendSuspendTypeSCHEDULED WorkspaceCreateAutoSuspendSuspendType = "SCHEDULED"
 )
 
+// Defines values for WorkspaceGroupDeploymentType.
+const (
+	WorkspaceGroupDeploymentTypeNONPRODUCTION WorkspaceGroupDeploymentType = "NON-PRODUCTION"
+	WorkspaceGroupDeploymentTypePRODUCTION    WorkspaceGroupDeploymentType = "PRODUCTION"
+)
+
 // Defines values for WorkspaceGroupSmartDRStatus.
 const (
 	WorkspaceGroupSmartDRStatusACTIVE  WorkspaceGroupSmartDRStatus = "ACTIVE"
@@ -201,6 +207,18 @@ const (
 	WorkspaceGroupStateFAILED     WorkspaceGroupState = "FAILED"
 	WorkspaceGroupStatePENDING    WorkspaceGroupState = "PENDING"
 	WorkspaceGroupStateTERMINATED WorkspaceGroupState = "TERMINATED"
+)
+
+// Defines values for WorkspaceGroupCreateDeploymentType.
+const (
+	WorkspaceGroupCreateDeploymentTypeNONPRODUCTION WorkspaceGroupCreateDeploymentType = "NON-PRODUCTION"
+	WorkspaceGroupCreateDeploymentTypePRODUCTION    WorkspaceGroupCreateDeploymentType = "PRODUCTION"
+)
+
+// Defines values for WorkspaceGroupUpdateDeploymentType.
+const (
+	WorkspaceGroupUpdateDeploymentTypeNONPRODUCTION WorkspaceGroupUpdateDeploymentType = "NON-PRODUCTION"
+	WorkspaceGroupUpdateDeploymentTypePRODUCTION    WorkspaceGroupUpdateDeploymentType = "PRODUCTION"
 )
 
 // Defines values for WorkspaceUpdateAutoScaleSensitivity.
@@ -219,8 +237,8 @@ const (
 
 // Defines values for WorkspaceUpdateDeploymentType.
 const (
-	WorkspaceUpdateDeploymentTypeNONPRODUCTION WorkspaceUpdateDeploymentType = "NON-PRODUCTION"
-	WorkspaceUpdateDeploymentTypePRODUCTION    WorkspaceUpdateDeploymentType = "PRODUCTION"
+	NONPRODUCTION WorkspaceUpdateDeploymentType = "NON-PRODUCTION"
+	PRODUCTION    WorkspaceUpdateDeploymentType = "PRODUCTION"
 )
 
 // Defines values for WorkspaceUpdateEnableKai.
@@ -819,6 +837,15 @@ type TableEgressStart struct {
 	// DatabaseName The name of the database
 	DatabaseName string `json:"databaseName"`
 
+	// PartitionSpec Partition specification of the table
+	PartitionSpec *map[string]interface{} `json:"partitionSpec,omitempty"`
+
+	// Properties Properties of the table
+	Properties *map[string]interface{} `json:"properties,omitempty"`
+
+	// SortOrderSpec Sort order specification of the table
+	SortOrderSpec *map[string]interface{} `json:"sortOrderSpec,omitempty"`
+
 	// StorageInfo Storage information for egressing data
 	StorageInfo map[string]interface{} `json:"storageInfo"`
 
@@ -1071,6 +1098,9 @@ type WorkspaceGroup struct {
 	// CreatedAt The timestamp of when the workspace was created
 	CreatedAt string `json:"createdAt"`
 
+	// DeploymentType Deployment type of the workspace group
+	DeploymentType *WorkspaceGroupDeploymentType `json:"deploymentType,omitempty"`
+
 	// ExpiresAt The timestamp of when the workspace group will expire. At expiration, the workspace group is terminated and all the data is lost.
 	ExpiresAt *string `json:"expiresAt,omitempty"`
 
@@ -1099,6 +1129,9 @@ type WorkspaceGroup struct {
 	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
 }
 
+// WorkspaceGroupDeploymentType Deployment type of the workspace group
+type WorkspaceGroupDeploymentType string
+
 // WorkspaceGroupSmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
 type WorkspaceGroupSmartDRStatus string
 
@@ -1126,6 +1159,9 @@ type WorkspaceGroupCreate struct {
 	// DataBucketKMSKeyID Specifies the KMS key ID associated with the data bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the data bucket and Amazon Elastic Block Store (EBS) volumes of the workspace group. This feature is only supported in workspace groups deployed in AWS.
 	DataBucketKMSKeyID *string `json:"dataBucketKMSKeyID,omitempty"`
 
+	// DeploymentType The deployment type that will be applied to all the workspaces within the workspace group. The default value is `PRODUCTION`
+	DeploymentType *WorkspaceGroupCreateDeploymentType `json:"deploymentType,omitempty"`
+
 	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
 	//
 	//   * "2023-09-02T15:04:05Z07:00"
@@ -1148,6 +1184,9 @@ type WorkspaceGroupCreate struct {
 	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
 }
 
+// WorkspaceGroupCreateDeploymentType The deployment type that will be applied to all the workspaces within the workspace group. The default value is `PRODUCTION`
+type WorkspaceGroupCreateDeploymentType string
+
 // WorkspaceGroupUpdate Represents the information specified while updating a workspace group
 type WorkspaceGroupUpdate struct {
 	// AdminPassword The admin password for the workspace group. The password must contain:
@@ -1160,6 +1199,9 @@ type WorkspaceGroupUpdate struct {
 
 	// AllowAllTraffic Whether to allow all traffic to the workspace group
 	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
+	// DeploymentType The deployment type that will be applied to all the workspaces within the workspace group
+	DeploymentType *WorkspaceGroupUpdateDeploymentType `json:"deploymentType,omitempty"`
 
 	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
 	//
@@ -1179,6 +1221,9 @@ type WorkspaceGroupUpdate struct {
 	// UpdateWindow Represents information related to an update window
 	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
 }
+
+// WorkspaceGroupUpdateDeploymentType The deployment type that will be applied to all the workspaces within the workspace group
+type WorkspaceGroupUpdateDeploymentType string
 
 // WorkspaceResume Represents additional information specified when resuming a workspace
 type WorkspaceResume struct {

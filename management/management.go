@@ -970,6 +970,9 @@ type Workspace struct {
 		// IdleChangedAt (If included in the output) The timestamp when idleAfterSeconds was last changed
 		IdleChangedAt *string `json:"idleChangedAt,omitempty"`
 
+		// ScheduledAfterSeconds (If included in the output) The scheduled duration (in seconds) after which the workspace must be suspended
+		ScheduledAfterSeconds *float32 `json:"scheduledAfterSeconds,omitempty"`
+
 		// ScheduledChangedAt (If included in the output) The timestamp when scheduledSuspendAt was last changed
 		ScheduledChangedAt *string `json:"scheduledChangedAt,omitempty"`
 
@@ -1110,6 +1113,9 @@ type WorkspaceGroup struct {
 	// Name Name of the workspace group
 	Name string `json:"name"`
 
+	// OptInPreviewFeature Whether 'Opt-in to Preview Features & Updates' is enabled
+	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
+
 	// RegionID ID of the region
 	RegionID openapi_types.UUID `json:"regionID"`
 
@@ -1176,6 +1182,9 @@ type WorkspaceGroupCreate struct {
 
 	// Name Name of the workspace group
 	Name string `json:"name"`
+
+	// OptInPreviewFeature If enabled, the deployment gets the latest features and updates immediately. Suitable only for `NON-PRODUCTION` deployments and cannot be changed after creation.
+	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
 
 	// RegionID ID of the region where the new workspace group is created
 	RegionID openapi_types.UUID `json:"regionID"`

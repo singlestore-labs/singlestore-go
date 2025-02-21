@@ -1110,6 +1110,9 @@ type WorkspaceGroup struct {
 	// FirewallRanges The list of allowed inbound IP addresses. An empty list indicates that no inbound requests are allowed.
 	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
 
+	// HighAvailabilityTwoZones Whether deployment across two Availability Zones is enabled.
+	HighAvailabilityTwoZones *bool `json:"highAvailabilityTwoZones,omitempty"`
+
 	// Name Name of the workspace group
 	Name string `json:"name"`
 
@@ -1179,6 +1182,9 @@ type WorkspaceGroupCreate struct {
 
 	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed. Required
 	FirewallRanges []string `json:"firewallRanges"`
+
+	// HighAvailabilityTwoZones Enables deployment across two Availability Zones.
+	HighAvailabilityTwoZones *bool `json:"highAvailabilityTwoZones,omitempty"`
 
 	// Name Name of the workspace group
 	Name string `json:"name"`

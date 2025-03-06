@@ -125,9 +125,16 @@ const (
 
 // Defines values for RegionProvider.
 const (
-	AWS   RegionProvider = "AWS"
-	Azure RegionProvider = "Azure"
-	GCP   RegionProvider = "GCP"
+	RegionProviderAWS   RegionProvider = "AWS"
+	RegionProviderAzure RegionProvider = "Azure"
+	RegionProviderGCP   RegionProvider = "GCP"
+)
+
+// Defines values for RegionV2Provider.
+const (
+	RegionV2ProviderAWS   RegionV2Provider = "AWS"
+	RegionV2ProviderAzure RegionV2Provider = "Azure"
+	RegionV2ProviderGCP   RegionV2Provider = "GCP"
 )
 
 // Defines values for ReplicatedDatabaseDuplicationState.
@@ -703,6 +710,21 @@ type Region struct {
 
 // RegionProvider Name of the provider
 type RegionProvider string
+
+// RegionV2 Represents information related to a region in which a workspace group is created
+type RegionV2 struct {
+	// Provider Name of the provider
+	Provider RegionV2Provider `json:"provider"`
+
+	// Region Name of the region
+	Region string `json:"region"`
+
+	// RegionName The region code name
+	RegionName string `json:"regionName"`
+}
+
+// RegionV2Provider Name of the provider
+type RegionV2Provider string
 
 // ReplicatedDatabase Represents information related to a database's replication status
 type ReplicatedDatabase struct {
@@ -1507,6 +1529,12 @@ type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// GetV2RegionsParams defines parameters for GetV2Regions.
+type GetV2RegionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
 // PatchV1FilesFsLocationPathJSONRequestBody defines body for PatchV1FilesFsLocationPath for application/json ContentType.
 type PatchV1FilesFsLocationPathJSONRequestBody PatchV1FilesFsLocationPathJSONBody
 
@@ -1960,6 +1988,9 @@ type ClientInterface interface {
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2Regions request
+	GetV2Regions(ctx context.Context, params *GetV2RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetV1AuditLogs(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -3020,6 +3051,18 @@ func (c *Client) PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspa
 
 func (c *Client) GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest(c.Server, organizationID, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2Regions(ctx context.Context, params *GetV2RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2RegionsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -6109,6 +6152,53 @@ func NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRe
 	return req, nil
 }
 
+// NewGetV2RegionsRequest generates requests for GetV2Regions
+func NewGetV2RegionsRequest(server string, params *GetV2RegionsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/regions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -6395,6 +6485,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error)
+
+	// GetV2Regions request
+	GetV2RegionsWithResponse(ctx context.Context, params *GetV2RegionsParams, reqEditors ...RequestEditorFn) (*GetV2RegionsResponse, error)
 }
 
 type GetV1AuditLogsResponse struct {
@@ -7905,6 +7998,28 @@ func (r GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRe
 	return 0
 }
 
+type GetV2RegionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]RegionV2
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2RegionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2RegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // GetV1AuditLogsWithResponse request returning *GetV1AuditLogsResponse
 func (c *ClientWithResponses) GetV1AuditLogsWithResponse(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*GetV1AuditLogsResponse, error) {
 	rsp, err := c.GetV1AuditLogs(ctx, params, reqEditors...)
@@ -8681,6 +8796,15 @@ func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDWorkspaceGroupsWor
 		return nil, err
 	}
 	return ParseGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse(rsp)
+}
+
+// GetV2RegionsWithResponse request returning *GetV2RegionsResponse
+func (c *ClientWithResponses) GetV2RegionsWithResponse(ctx context.Context, params *GetV2RegionsParams, reqEditors ...RequestEditorFn) (*GetV2RegionsResponse, error) {
+	rsp, err := c.GetV2Regions(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2RegionsResponse(rsp)
 }
 
 // ParseGetV1AuditLogsResponse parses an HTTP response from a GetV1AuditLogsWithResponse call
@@ -10360,6 +10484,32 @@ func ParseGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics
 	response := &GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV2RegionsResponse parses an HTTP response from a GetV2RegionsWithResponse call
+func ParseGetV2RegionsResponse(rsp *http.Response) (*GetV2RegionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2RegionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RegionV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	}
 
 	return response, nil

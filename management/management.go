@@ -162,6 +162,14 @@ const (
 	PreProvisionStop  StorageDRStatusComputeStorageDRType = "PreProvisionStop"
 )
 
+// Defines values for UserInvitationState.
+const (
+	Accepted UserInvitationState = "Accepted"
+	Pending  UserInvitationState = "Pending"
+	Refused  UserInvitationState = "Refused"
+	Revoked  UserInvitationState = "Revoked"
+)
+
 // Defines values for WorkspaceAutoSuspendSuspendType.
 const (
 	WorkspaceAutoSuspendSuspendTypeIDLE      WorkspaceAutoSuspendSuspendType = "IDLE"
@@ -958,6 +966,21 @@ type UpdateWindow struct {
 	Hour float32 `json:"hour"`
 }
 
+// User defines model for User.
+type User struct {
+	// Email The email address of the user.
+	Email string `json:"email"`
+
+	// FirstName First name of the user.
+	FirstName string `json:"firstName"`
+
+	// LastName Last name of the user.
+	LastName string `json:"lastName"`
+
+	// UserID User identifier.
+	UserID openapi_types.UUID `json:"userID"`
+}
+
 // UserInfo Summary information about a SingleStoreDB Cloud user.
 type UserInfo struct {
 	// Email The email address of the user.
@@ -971,6 +994,42 @@ type UserInfo struct {
 
 	// UserID User identifier.
 	UserID openapi_types.UUID `json:"userID"`
+}
+
+// UserInvitation Information specified when creating a user invitation.
+type UserInvitation struct {
+	// ActedAt Timestamp of most recent state change.
+	ActedAt *time.Time `json:"actedAt,omitempty"`
+
+	// CreatedAt Creation timestamp.
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+
+	// Email User email address.
+	Email *string `json:"email,omitempty"`
+
+	// InvitationID Invitation identifier.
+	InvitationID *openapi_types.UUID `json:"invitationID,omitempty"`
+
+	// Message Welcome message
+	Message *string `json:"message,omitempty"`
+
+	// State Invitation state. Pending, Accepted, Refused, or Revoked.
+	State *UserInvitationState `json:"state,omitempty"`
+
+	// TeamIDs List of user teams.
+	TeamIDs *[]openapi_types.UUID `json:"teamIDs,omitempty"`
+}
+
+// UserInvitationState Invitation state. Pending, Accepted, Refused, or Revoked.
+type UserInvitationState string
+
+// UserInvitationCreate Information specified when creating a user invitation.
+type UserInvitationCreate struct {
+	// Email User email address.
+	Email openapi_types.Email `json:"email"`
+
+	// TeamIDs List of user teams.
+	TeamIDs *[]openapi_types.UUID `json:"teamIDs,omitempty"`
 }
 
 // Workspace Represents information related to a workspace
@@ -1326,6 +1385,9 @@ type ConnectionID = openapi_types.UUID
 // Fields defines model for fields.
 type Fields = string
 
+// InvitationID defines model for invitationID.
+type InvitationID = openapi_types.UUID
+
 // JobID defines model for jobID.
 type JobID = openapi_types.UUID
 
@@ -1337,6 +1399,9 @@ type SecretID = openapi_types.UUID
 
 // TeamID defines model for teamID.
 type TeamID = openapi_types.UUID
+
+// UserID defines model for userID.
+type UserID = openapi_types.UUID
 
 // WorkspaceGroupID defines model for workspaceGroupID.
 type WorkspaceGroupID = openapi_types.UUID
@@ -1529,6 +1594,45 @@ type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// GetV1betaInvitationsParams defines parameters for GetV1betaInvitations.
+type GetV1betaInvitationsParams struct {
+	// Email Show only invitations with emails matching this value or regular expression.
+	Email *string `form:"email,omitempty" json:"email,omitempty"`
+
+	// State Show only invitations with state matching this value.
+	State *string `form:"state,omitempty" json:"state,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1betaInvitationsInvitationIDParams defines parameters for GetV1betaInvitationsInvitationID.
+type GetV1betaInvitationsInvitationIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1betaUsersParams defines parameters for GetV1betaUsers.
+type GetV1betaUsersParams struct {
+	// Email Show only users with an email address matching this value or regular expression.
+	Email *string `form:"email,omitempty" json:"email,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// PostV1betaUsersJSONBody defines parameters for PostV1betaUsers.
+type PostV1betaUsersJSONBody struct {
+	// Email The email address of the user to add to the organization.
+	Email openapi_types.Email `json:"email"`
+}
+
+// GetV1betaUsersUserIDParams defines parameters for GetV1betaUsersUserID.
+type GetV1betaUsersUserIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
 // GetV2RegionsParams defines parameters for GetV2Regions.
 type GetV2RegionsParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
@@ -1609,6 +1713,12 @@ type GetV1WorkspacesWorkspaceIDEgressTableEgressStatusJSONRequestBody = TableEgr
 
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
+
+// PostV1betaInvitationsJSONRequestBody defines body for PostV1betaInvitations for application/json ContentType.
+type PostV1betaInvitationsJSONRequestBody = UserInvitationCreate
+
+// PostV1betaUsersJSONRequestBody defines body for PostV1betaUsers for application/json ContentType.
+type PostV1betaUsersJSONRequestBody PostV1betaUsersJSONBody
 
 // AsFileObjectMetadataContent0 returns the union data inside the FileObjectMetadata_Content as a FileObjectMetadataContent0
 func (t FileObjectMetadata_Content) AsFileObjectMetadataContent0() (FileObjectMetadataContent0, error) {
@@ -1985,6 +2095,34 @@ type ClientInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1betaInvitations request
+	GetV1betaInvitations(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1betaInvitations request with any body
+	PostV1betaInvitationsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1betaInvitations(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1betaInvitationsInvitationID request
+	DeleteV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1betaInvitationsInvitationID request
+	GetV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1betaUsers request
+	GetV1betaUsers(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1betaUsers request with any body
+	PostV1betaUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1betaUsers(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1betaUsersUserID request
+	DeleteV1betaUsersUserID(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1betaUsersUserID request
+	GetV1betaUsersUserID(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3039,6 +3177,126 @@ func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspac
 
 func (c *Client) PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1WorkspacesWorkspaceIDSuspendRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1betaInvitations(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaInvitationsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1betaInvitationsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1betaInvitationsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1betaInvitations(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1betaInvitationsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1betaInvitationsInvitationIDRequest(c.Server, invitationID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaInvitationsInvitationIDRequest(c.Server, invitationID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1betaUsers(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaUsersRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1betaUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1betaUsersRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1betaUsers(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1betaUsersRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1betaUsersUserID(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1betaUsersUserIDRequest(c.Server, userID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1betaUsersUserID(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaUsersUserIDRequest(c.Server, userID, params)
 	if err != nil {
 		return nil, err
 	}
@@ -6111,6 +6369,404 @@ func NewPostV1WorkspacesWorkspaceIDSuspendRequest(server string, workspaceID Wor
 	return req, nil
 }
 
+// NewGetV1betaInvitationsRequest generates requests for GetV1betaInvitations
+func NewGetV1betaInvitationsRequest(server string, params *GetV1betaInvitationsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/invitations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Email != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.State != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "state", runtime.ParamLocationQuery, *params.State); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1betaInvitationsRequest calls the generic PostV1betaInvitations builder with application/json body
+func NewPostV1betaInvitationsRequest(server string, body PostV1betaInvitationsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1betaInvitationsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1betaInvitationsRequestWithBody generates requests for PostV1betaInvitations with any type of body
+func NewPostV1betaInvitationsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/invitations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1betaInvitationsInvitationIDRequest generates requests for DeleteV1betaInvitationsInvitationID
+func NewDeleteV1betaInvitationsInvitationIDRequest(server string, invitationID InvitationID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invitationID", runtime.ParamLocationPath, invitationID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/invitations/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1betaInvitationsInvitationIDRequest generates requests for GetV1betaInvitationsInvitationID
+func NewGetV1betaInvitationsInvitationIDRequest(server string, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invitationID", runtime.ParamLocationPath, invitationID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/invitations/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1betaUsersRequest generates requests for GetV1betaUsers
+func NewGetV1betaUsersRequest(server string, params *GetV1betaUsersParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/users")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Email != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1betaUsersRequest calls the generic PostV1betaUsers builder with application/json body
+func NewPostV1betaUsersRequest(server string, body PostV1betaUsersJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1betaUsersRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1betaUsersRequestWithBody generates requests for PostV1betaUsers with any type of body
+func NewPostV1betaUsersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/users")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1betaUsersUserIDRequest generates requests for DeleteV1betaUsersUserID
+func NewDeleteV1betaUsersUserIDRequest(server string, userID UserID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/users/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1betaUsersUserIDRequest generates requests for GetV1betaUsersUserID
+func NewGetV1betaUsersUserIDRequest(server string, userID UserID, params *GetV1betaUsersUserIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/users/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest generates requests for GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics
 func NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest(server string, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
 	var err error
@@ -6482,6 +7138,34 @@ type ClientWithResponsesInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error)
+
+	// GetV1betaInvitations request
+	GetV1betaInvitationsWithResponse(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsResponse, error)
+
+	// PostV1betaInvitations request with any body
+	PostV1betaInvitationsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error)
+
+	PostV1betaInvitationsWithResponse(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error)
+
+	// DeleteV1betaInvitationsInvitationID request
+	DeleteV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*DeleteV1betaInvitationsInvitationIDResponse, error)
+
+	// GetV1betaInvitationsInvitationID request
+	GetV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsInvitationIDResponse, error)
+
+	// GetV1betaUsers request
+	GetV1betaUsersWithResponse(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersResponse, error)
+
+	// PostV1betaUsers request with any body
+	PostV1betaUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error)
+
+	PostV1betaUsersWithResponse(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error)
+
+	// DeleteV1betaUsersUserID request
+	DeleteV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*DeleteV1betaUsersUserIDResponse, error)
+
+	// GetV1betaUsersUserID request
+	GetV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDResponse, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error)
@@ -7977,6 +8661,185 @@ func (r PostV1WorkspacesWorkspaceIDSuspendResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1betaInvitationsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]UserInvitation
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaInvitationsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaInvitationsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1betaInvitationsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UserInvitation
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1betaInvitationsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1betaInvitationsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1betaInvitationsInvitationIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		InvitationID openapi_types.UUID `json:"invitationID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1betaInvitationsInvitationIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1betaInvitationsInvitationIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1betaInvitationsInvitationIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UserInvitation
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaInvitationsInvitationIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaInvitationsInvitationIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1betaUsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]User
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaUsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaUsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1betaUsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1betaUsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1betaUsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1betaUsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		UserID openapi_types.UUID `json:"userID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1betaUsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1betaUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1betaUsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *User
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaUsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -8787,6 +9650,94 @@ func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx
 		return nil, err
 	}
 	return ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp)
+}
+
+// GetV1betaInvitationsWithResponse request returning *GetV1betaInvitationsResponse
+func (c *ClientWithResponses) GetV1betaInvitationsWithResponse(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsResponse, error) {
+	rsp, err := c.GetV1betaInvitations(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaInvitationsResponse(rsp)
+}
+
+// PostV1betaInvitationsWithBodyWithResponse request with arbitrary body returning *PostV1betaInvitationsResponse
+func (c *ClientWithResponses) PostV1betaInvitationsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error) {
+	rsp, err := c.PostV1betaInvitationsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1betaInvitationsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1betaInvitationsWithResponse(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error) {
+	rsp, err := c.PostV1betaInvitations(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1betaInvitationsResponse(rsp)
+}
+
+// DeleteV1betaInvitationsInvitationIDWithResponse request returning *DeleteV1betaInvitationsInvitationIDResponse
+func (c *ClientWithResponses) DeleteV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*DeleteV1betaInvitationsInvitationIDResponse, error) {
+	rsp, err := c.DeleteV1betaInvitationsInvitationID(ctx, invitationID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1betaInvitationsInvitationIDResponse(rsp)
+}
+
+// GetV1betaInvitationsInvitationIDWithResponse request returning *GetV1betaInvitationsInvitationIDResponse
+func (c *ClientWithResponses) GetV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsInvitationIDResponse, error) {
+	rsp, err := c.GetV1betaInvitationsInvitationID(ctx, invitationID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaInvitationsInvitationIDResponse(rsp)
+}
+
+// GetV1betaUsersWithResponse request returning *GetV1betaUsersResponse
+func (c *ClientWithResponses) GetV1betaUsersWithResponse(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersResponse, error) {
+	rsp, err := c.GetV1betaUsers(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaUsersResponse(rsp)
+}
+
+// PostV1betaUsersWithBodyWithResponse request with arbitrary body returning *PostV1betaUsersResponse
+func (c *ClientWithResponses) PostV1betaUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error) {
+	rsp, err := c.PostV1betaUsersWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1betaUsersResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1betaUsersWithResponse(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error) {
+	rsp, err := c.PostV1betaUsers(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1betaUsersResponse(rsp)
+}
+
+// DeleteV1betaUsersUserIDWithResponse request returning *DeleteV1betaUsersUserIDResponse
+func (c *ClientWithResponses) DeleteV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*DeleteV1betaUsersUserIDResponse, error) {
+	rsp, err := c.DeleteV1betaUsersUserID(ctx, userID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1betaUsersUserIDResponse(rsp)
+}
+
+// GetV1betaUsersUserIDWithResponse request returning *GetV1betaUsersUserIDResponse
+func (c *ClientWithResponses) GetV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDResponse, error) {
+	rsp, err := c.GetV1betaUsersUserID(ctx, userID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaUsersUserIDResponse(rsp)
 }
 
 // GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse request returning *GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse
@@ -10463,6 +11414,208 @@ func ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp *http.Response) (*PostV
 		var dest struct {
 			WorkspaceID openapi_types.UUID `json:"workspaceID"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1betaInvitationsResponse parses an HTTP response from a GetV1betaInvitationsWithResponse call
+func ParseGetV1betaInvitationsResponse(rsp *http.Response) (*GetV1betaInvitationsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaInvitationsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []UserInvitation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1betaInvitationsResponse parses an HTTP response from a PostV1betaInvitationsWithResponse call
+func ParsePostV1betaInvitationsResponse(rsp *http.Response) (*PostV1betaInvitationsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1betaInvitationsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UserInvitation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1betaInvitationsInvitationIDResponse parses an HTTP response from a DeleteV1betaInvitationsInvitationIDWithResponse call
+func ParseDeleteV1betaInvitationsInvitationIDResponse(rsp *http.Response) (*DeleteV1betaInvitationsInvitationIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1betaInvitationsInvitationIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			InvitationID openapi_types.UUID `json:"invitationID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1betaInvitationsInvitationIDResponse parses an HTTP response from a GetV1betaInvitationsInvitationIDWithResponse call
+func ParseGetV1betaInvitationsInvitationIDResponse(rsp *http.Response) (*GetV1betaInvitationsInvitationIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaInvitationsInvitationIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UserInvitation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1betaUsersResponse parses an HTTP response from a GetV1betaUsersWithResponse call
+func ParseGetV1betaUsersResponse(rsp *http.Response) (*GetV1betaUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []User
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1betaUsersResponse parses an HTTP response from a PostV1betaUsersWithResponse call
+func ParsePostV1betaUsersResponse(rsp *http.Response) (*PostV1betaUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1betaUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1betaUsersUserIDResponse parses an HTTP response from a DeleteV1betaUsersUserIDWithResponse call
+func ParseDeleteV1betaUsersUserIDResponse(rsp *http.Response) (*DeleteV1betaUsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1betaUsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			UserID openapi_types.UUID `json:"userID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1betaUsersUserIDResponse parses an HTTP response from a GetV1betaUsersUserIDWithResponse call
+func ParseGetV1betaUsersUserIDResponse(rsp *http.Response) (*GetV1betaUsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaUsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest User
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

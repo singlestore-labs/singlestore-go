@@ -210,6 +210,13 @@ const (
 	WorkspaceGroupDeploymentTypePRODUCTION    WorkspaceGroupDeploymentType = "PRODUCTION"
 )
 
+// Defines values for WorkspaceGroupProvider.
+const (
+	WorkspaceGroupProviderAWS   WorkspaceGroupProvider = "AWS"
+	WorkspaceGroupProviderAZURE WorkspaceGroupProvider = "AZURE"
+	WorkspaceGroupProviderGCP   WorkspaceGroupProvider = "GCP"
+)
+
 // Defines values for WorkspaceGroupSmartDRStatus.
 const (
 	WorkspaceGroupSmartDRStatusACTIVE  WorkspaceGroupSmartDRStatus = "ACTIVE"
@@ -228,6 +235,13 @@ const (
 const (
 	WorkspaceGroupCreateDeploymentTypeNONPRODUCTION WorkspaceGroupCreateDeploymentType = "NON-PRODUCTION"
 	WorkspaceGroupCreateDeploymentTypePRODUCTION    WorkspaceGroupCreateDeploymentType = "PRODUCTION"
+)
+
+// Defines values for WorkspaceGroupCreateProvider.
+const (
+	WorkspaceGroupCreateProviderAWS   WorkspaceGroupCreateProvider = "AWS"
+	WorkspaceGroupCreateProviderAzure WorkspaceGroupCreateProvider = "Azure"
+	WorkspaceGroupCreateProviderGCP   WorkspaceGroupCreateProvider = "GCP"
 )
 
 // Defines values for WorkspaceGroupUpdateDeploymentType.
@@ -749,6 +763,66 @@ type ReplicatedDatabase struct {
 // ReplicatedDatabaseDuplicationState Duplication state of the database
 type ReplicatedDatabaseDuplicationState string
 
+// RoleCreate defines model for RoleCreate.
+type RoleCreate struct {
+	// Description A description of the role
+	Description *string `json:"description,omitempty"`
+
+	// Inherits The roles that the current role will inherit from
+	Inherits []TypedRole `json:"inherits"`
+
+	// Permissions The permissions are seperated by the resourceType, like you can put 'View Storage' DR for 'Cluster' resourceType but not 'Organization'
+	Permissions []string `json:"permissions"`
+
+	// Role The name for the custom role
+	Role string `json:"role"`
+}
+
+// RoleDefinition defines model for RoleDefinition.
+type RoleDefinition struct {
+	// CreatedAt Creation timestamp.
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+
+	// CreatedBy Summary information about a SingleStoreDB Cloud user.
+	CreatedBy *UserInfo `json:"createdBy,omitempty"`
+
+	// Description A description of the role
+	Description *string `json:"description,omitempty"`
+
+	// Inherits The roles that current role will inherit from
+	Inherits []TypedRole `json:"inherits"`
+
+	// IsCustom Indicate the role is a custom role
+	IsCustom bool `json:"isCustom"`
+
+	// Permissions The permissions that the role has
+	Permissions []string `json:"permissions"`
+
+	// ResourceType The resource type for the role
+	ResourceType string `json:"resourceType"`
+
+	// Role The role name
+	Role string `json:"role"`
+
+	// UpdatedAt Timestamp of most recent state change.
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+
+	// UpdatedBy Summary information about a SingleStoreDB Cloud user.
+	UpdatedBy *UserInfo `json:"updatedBy,omitempty"`
+}
+
+// RoleUpdate defines model for RoleUpdate.
+type RoleUpdate struct {
+	// Description A description of the role
+	Description *string `json:"description,omitempty"`
+
+	// Inherits The roles that the current role will inherit from
+	Inherits []TypedRole `json:"inherits"`
+
+	// Permissions The permissions are seperated by the resourceType, like you can put 'View Storage' DR for 'Cluster' resourceType but not 'Organization'
+	Permissions []string `json:"permissions"`
+}
+
 // RuntimesResult defines model for RuntimesResult.
 type RuntimesResult struct {
 	// Description The description of the runtime
@@ -955,6 +1029,15 @@ type TeamUpdate struct {
 
 	// RemoveMemberUserIDs List of identifiers of users to be removed from members.
 	RemoveMemberUserIDs *[]openapi_types.UUID `json:"removeMemberUserIDs,omitempty"`
+}
+
+// TypedRole defines model for TypedRole.
+type TypedRole struct {
+	// ResourceType Resource type of the role
+	ResourceType string `json:"resourceType"`
+
+	// Role The role name
+	Role string `json:"role"`
 }
 
 // UpdateWindow Represents information related to an update window
@@ -1200,8 +1283,14 @@ type WorkspaceGroup struct {
 	// OptInPreviewFeature Whether 'Opt-in to Preview Features & Updates' is enabled
 	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
 
+	// Provider Name of the provider
+	Provider WorkspaceGroupProvider `json:"provider"`
+
 	// RegionID ID of the region
 	RegionID openapi_types.UUID `json:"regionID"`
+
+	// RegionName The region code name
+	RegionName string `json:"regionName"`
 
 	// SmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
 	SmartDRStatus *WorkspaceGroupSmartDRStatus `json:"smartDRStatus,omitempty"`
@@ -1221,6 +1310,9 @@ type WorkspaceGroup struct {
 
 // WorkspaceGroupDeploymentType Deployment type of the workspace group
 type WorkspaceGroupDeploymentType string
+
+// WorkspaceGroupProvider Name of the provider
+type WorkspaceGroupProvider string
 
 // WorkspaceGroupSmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
 type WorkspaceGroupSmartDRStatus string
@@ -1273,8 +1365,14 @@ type WorkspaceGroupCreate struct {
 	// OptInPreviewFeature If enabled, the deployment gets the latest features and updates immediately. Suitable only for `NON-PRODUCTION` deployments and cannot be changed after creation.
 	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
 
+	// Provider Name of the provider
+	Provider *WorkspaceGroupCreateProvider `json:"provider,omitempty"`
+
 	// RegionID ID of the region where the new workspace group is created
-	RegionID openapi_types.UUID `json:"regionID"`
+	RegionID *openapi_types.UUID `json:"regionID,omitempty"`
+
+	// RegionName The region code name
+	RegionName *string `json:"regionName,omitempty"`
 
 	// UpdateWindow Represents information related to an update window
 	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
@@ -1282,6 +1380,9 @@ type WorkspaceGroupCreate struct {
 
 // WorkspaceGroupCreateDeploymentType The deployment type that will be applied to all the workspaces within the workspace group. The default value is `PRODUCTION`
 type WorkspaceGroupCreateDeploymentType string
+
+// WorkspaceGroupCreateProvider Name of the provider
+type WorkspaceGroupCreateProvider string
 
 // WorkspaceGroupUpdate Represents the information specified while updating a workspace group
 type WorkspaceGroupUpdate struct {
@@ -1393,6 +1494,12 @@ type JobID = openapi_types.UUID
 
 // OrganizationID defines model for organizationID.
 type OrganizationID = openapi_types.UUID
+
+// ResourceType defines model for resourceType.
+type ResourceType = string
+
+// Role defines model for role.
+type Role = string
 
 // SecretID defines model for secretID.
 type SecretID = openapi_types.UUID
@@ -1716,6 +1823,12 @@ type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
 
 // PostV1betaInvitationsJSONRequestBody defines body for PostV1betaInvitations for application/json ContentType.
 type PostV1betaInvitationsJSONRequestBody = UserInvitationCreate
+
+// PostV1betaRolesResourceTypeJSONRequestBody defines body for PostV1betaRolesResourceType for application/json ContentType.
+type PostV1betaRolesResourceTypeJSONRequestBody = RoleCreate
+
+// PutV1betaRolesResourceTypeRoleJSONRequestBody defines body for PutV1betaRolesResourceTypeRole for application/json ContentType.
+type PutV1betaRolesResourceTypeRoleJSONRequestBody = RoleUpdate
 
 // PostV1betaUsersJSONRequestBody defines body for PostV1betaUsers for application/json ContentType.
 type PostV1betaUsersJSONRequestBody PostV1betaUsersJSONBody
@@ -2109,6 +2222,25 @@ type ClientInterface interface {
 
 	// GetV1betaInvitationsInvitationID request
 	GetV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1betaRolesResourceType request
+	GetV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1betaRolesResourceType request with any body
+	PostV1betaRolesResourceTypeWithBody(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1betaRolesResourceTypeRole request
+	DeleteV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1betaRolesResourceTypeRole request
+	GetV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutV1betaRolesResourceTypeRole request with any body
+	PutV1betaRolesResourceTypeRoleWithBody(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PutV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1betaUsers request
 	GetV1betaUsers(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3237,6 +3369,90 @@ func (c *Client) DeleteV1betaInvitationsInvitationID(ctx context.Context, invita
 
 func (c *Client) GetV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1betaInvitationsInvitationIDRequest(c.Server, invitationID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaRolesResourceTypeRequest(c.Server, resourceType)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1betaRolesResourceTypeWithBody(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1betaRolesResourceTypeRequestWithBody(c.Server, resourceType, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1betaRolesResourceTypeRequest(c.Server, resourceType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1betaRolesResourceTypeRoleRequest(c.Server, resourceType, role)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaRolesResourceTypeRoleRequest(c.Server, resourceType, role)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutV1betaRolesResourceTypeRoleWithBody(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1betaRolesResourceTypeRoleRequestWithBody(c.Server, resourceType, role, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1betaRolesResourceTypeRoleRequest(c.Server, resourceType, role, body)
 	if err != nil {
 		return nil, err
 	}
@@ -6576,6 +6792,223 @@ func NewGetV1betaInvitationsInvitationIDRequest(server string, invitationID Invi
 	return req, nil
 }
 
+// NewGetV1betaRolesResourceTypeRequest generates requests for GetV1betaRolesResourceType
+func NewGetV1betaRolesResourceTypeRequest(server string, resourceType ResourceType) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/roles/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1betaRolesResourceTypeRequest calls the generic PostV1betaRolesResourceType builder with application/json body
+func NewPostV1betaRolesResourceTypeRequest(server string, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1betaRolesResourceTypeRequestWithBody(server, resourceType, "application/json", bodyReader)
+}
+
+// NewPostV1betaRolesResourceTypeRequestWithBody generates requests for PostV1betaRolesResourceType with any type of body
+func NewPostV1betaRolesResourceTypeRequestWithBody(server string, resourceType ResourceType, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/roles/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1betaRolesResourceTypeRoleRequest generates requests for DeleteV1betaRolesResourceTypeRole
+func NewDeleteV1betaRolesResourceTypeRoleRequest(server string, resourceType ResourceType, role Role) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/roles/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1betaRolesResourceTypeRoleRequest generates requests for GetV1betaRolesResourceTypeRole
+func NewGetV1betaRolesResourceTypeRoleRequest(server string, resourceType ResourceType, role Role) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/roles/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPutV1betaRolesResourceTypeRoleRequest calls the generic PutV1betaRolesResourceTypeRole builder with application/json body
+func NewPutV1betaRolesResourceTypeRoleRequest(server string, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPutV1betaRolesResourceTypeRoleRequestWithBody(server, resourceType, role, "application/json", bodyReader)
+}
+
+// NewPutV1betaRolesResourceTypeRoleRequestWithBody generates requests for PutV1betaRolesResourceTypeRole with any type of body
+func NewPutV1betaRolesResourceTypeRoleRequestWithBody(server string, resourceType ResourceType, role Role, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/roles/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetV1betaUsersRequest generates requests for GetV1betaUsers
 func NewGetV1betaUsersRequest(server string, params *GetV1betaUsersParams) (*http.Request, error) {
 	var err error
@@ -7152,6 +7585,25 @@ type ClientWithResponsesInterface interface {
 
 	// GetV1betaInvitationsInvitationID request
 	GetV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsInvitationIDResponse, error)
+
+	// GetV1betaRolesResourceType request
+	GetV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeResponse, error)
+
+	// PostV1betaRolesResourceType request with any body
+	PostV1betaRolesResourceTypeWithBodyWithResponse(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error)
+
+	PostV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error)
+
+	// DeleteV1betaRolesResourceTypeRole request
+	DeleteV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*DeleteV1betaRolesResourceTypeRoleResponse, error)
+
+	// GetV1betaRolesResourceTypeRole request
+	GetV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeRoleResponse, error)
+
+	// PutV1betaRolesResourceTypeRole request with any body
+	PutV1betaRolesResourceTypeRoleWithBodyWithResponse(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error)
+
+	PutV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error)
 
 	// GetV1betaUsers request
 	GetV1betaUsersWithResponse(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersResponse, error)
@@ -8751,6 +9203,116 @@ func (r GetV1betaInvitationsInvitationIDResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1betaRolesResourceTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]RoleDefinition
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaRolesResourceTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaRolesResourceTypeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1betaRolesResourceTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RoleDefinition
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1betaRolesResourceTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1betaRolesResourceTypeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1betaRolesResourceTypeRoleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *bool
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1betaRolesResourceTypeRoleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1betaRolesResourceTypeRoleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1betaRolesResourceTypeRoleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RoleDefinition
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaRolesResourceTypeRoleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaRolesResourceTypeRoleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PutV1betaRolesResourceTypeRoleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RoleDefinition
+}
+
+// Status returns HTTPResponse.Status
+func (r PutV1betaRolesResourceTypeRoleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PutV1betaRolesResourceTypeRoleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1betaUsersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -9694,6 +10256,67 @@ func (c *ClientWithResponses) GetV1betaInvitationsInvitationIDWithResponse(ctx c
 		return nil, err
 	}
 	return ParseGetV1betaInvitationsInvitationIDResponse(rsp)
+}
+
+// GetV1betaRolesResourceTypeWithResponse request returning *GetV1betaRolesResourceTypeResponse
+func (c *ClientWithResponses) GetV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeResponse, error) {
+	rsp, err := c.GetV1betaRolesResourceType(ctx, resourceType, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaRolesResourceTypeResponse(rsp)
+}
+
+// PostV1betaRolesResourceTypeWithBodyWithResponse request with arbitrary body returning *PostV1betaRolesResourceTypeResponse
+func (c *ClientWithResponses) PostV1betaRolesResourceTypeWithBodyWithResponse(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error) {
+	rsp, err := c.PostV1betaRolesResourceTypeWithBody(ctx, resourceType, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1betaRolesResourceTypeResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error) {
+	rsp, err := c.PostV1betaRolesResourceType(ctx, resourceType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1betaRolesResourceTypeResponse(rsp)
+}
+
+// DeleteV1betaRolesResourceTypeRoleWithResponse request returning *DeleteV1betaRolesResourceTypeRoleResponse
+func (c *ClientWithResponses) DeleteV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*DeleteV1betaRolesResourceTypeRoleResponse, error) {
+	rsp, err := c.DeleteV1betaRolesResourceTypeRole(ctx, resourceType, role, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1betaRolesResourceTypeRoleResponse(rsp)
+}
+
+// GetV1betaRolesResourceTypeRoleWithResponse request returning *GetV1betaRolesResourceTypeRoleResponse
+func (c *ClientWithResponses) GetV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeRoleResponse, error) {
+	rsp, err := c.GetV1betaRolesResourceTypeRole(ctx, resourceType, role, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaRolesResourceTypeRoleResponse(rsp)
+}
+
+// PutV1betaRolesResourceTypeRoleWithBodyWithResponse request with arbitrary body returning *PutV1betaRolesResourceTypeRoleResponse
+func (c *ClientWithResponses) PutV1betaRolesResourceTypeRoleWithBodyWithResponse(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error) {
+	rsp, err := c.PutV1betaRolesResourceTypeRoleWithBody(ctx, resourceType, role, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV1betaRolesResourceTypeRoleResponse(rsp)
+}
+
+func (c *ClientWithResponses) PutV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error) {
+	rsp, err := c.PutV1betaRolesResourceTypeRole(ctx, resourceType, role, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV1betaRolesResourceTypeRoleResponse(rsp)
 }
 
 // GetV1betaUsersWithResponse request returning *GetV1betaUsersResponse
@@ -11520,6 +12143,136 @@ func ParseGetV1betaInvitationsInvitationIDResponse(rsp *http.Response) (*GetV1be
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest UserInvitation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1betaRolesResourceTypeResponse parses an HTTP response from a GetV1betaRolesResourceTypeWithResponse call
+func ParseGetV1betaRolesResourceTypeResponse(rsp *http.Response) (*GetV1betaRolesResourceTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaRolesResourceTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RoleDefinition
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1betaRolesResourceTypeResponse parses an HTTP response from a PostV1betaRolesResourceTypeWithResponse call
+func ParsePostV1betaRolesResourceTypeResponse(rsp *http.Response) (*PostV1betaRolesResourceTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1betaRolesResourceTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RoleDefinition
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1betaRolesResourceTypeRoleResponse parses an HTTP response from a DeleteV1betaRolesResourceTypeRoleWithResponse call
+func ParseDeleteV1betaRolesResourceTypeRoleResponse(rsp *http.Response) (*DeleteV1betaRolesResourceTypeRoleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1betaRolesResourceTypeRoleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1betaRolesResourceTypeRoleResponse parses an HTTP response from a GetV1betaRolesResourceTypeRoleWithResponse call
+func ParseGetV1betaRolesResourceTypeRoleResponse(rsp *http.Response) (*GetV1betaRolesResourceTypeRoleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaRolesResourceTypeRoleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RoleDefinition
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePutV1betaRolesResourceTypeRoleResponse parses an HTTP response from a PutV1betaRolesResourceTypeRoleWithResponse call
+func ParsePutV1betaRolesResourceTypeRoleResponse(rsp *http.Response) (*PutV1betaRolesResourceTypeRoleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PutV1betaRolesResourceTypeRoleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RoleDefinition
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

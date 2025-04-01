@@ -763,6 +763,12 @@ type ReplicatedDatabase struct {
 // ReplicatedDatabaseDuplicationState Duplication state of the database
 type ReplicatedDatabaseDuplicationState string
 
+// RetentionPeriodParams Represents the information to be specified when updating the retention period of a workspace group.
+type RetentionPeriodParams struct {
+	// RetentionPeriod Retention period in minutes
+	RetentionPeriod int `json:"retentionPeriod"`
+}
+
 // RoleCreate defines model for RoleCreate.
 type RoleCreate struct {
 	// Description A description of the role
@@ -1803,6 +1809,9 @@ type GetV1WorkspaceGroupsWorkspaceGroupIDEgressTableEgressStatusJSONRequestBody 
 // PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup for application/json ContentType.
 type PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody = StorageDRSetup
 
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod for application/json ContentType.
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody = RetentionPeriodParams
+
 // PostV1WorkspacesJSONRequestBody defines body for PostV1Workspaces for application/json ContentType.
 type PostV1WorkspacesJSONRequestBody = WorkspaceCreate
 
@@ -2157,6 +2166,11 @@ type ClientInterface interface {
 
 	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision request
 	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod request with any body
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1Workspaces request
 	GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3081,6 +3095,30 @@ func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus(ctx context
 
 func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequest(c.Server, workspaceGroupID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5991,6 +6029,53 @@ func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionRequest(s
 	return req, nil
 }
 
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequest calls the generic PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod builder with application/json body
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequest(server string, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody generates requests for PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod with any type of body
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/retentionPeriod", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetV1WorkspacesRequest generates requests for GetV1Workspaces
 func NewGetV1WorkspacesRequest(server string, params *GetV1WorkspacesParams) (*http.Request, error) {
 	var err error
@@ -7521,6 +7606,11 @@ type ClientWithResponsesInterface interface {
 	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision request
 	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse, error)
 
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod request with any body
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error)
+
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error)
+
 	// GetV1Workspaces request
 	GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error)
 
@@ -8819,6 +8909,27 @@ func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse)
 	return 0
 }
 
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1WorkspacesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -10047,6 +10158,23 @@ func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRSto
 		return nil, err
 	}
 	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBodyWithResponse request with arbitrary body returning *PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse(rsp)
 }
 
 // GetV1WorkspacesWithResponse request returning *GetV1WorkspacesResponse
@@ -11712,6 +11840,22 @@ func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionRespons
 	}
 
 	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}

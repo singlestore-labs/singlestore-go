@@ -1289,6 +1289,9 @@ type WorkspaceGroup struct {
 	// OptInPreviewFeature Whether 'Opt-in to Preview Features & Updates' is enabled
 	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
 
+	// OutboundAllowList The account ID which must be allowed for outbound connections. This is only applicable to AWS provider.
+	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
+
 	// Provider Name of the provider
 	Provider WorkspaceGroupProvider `json:"provider"`
 

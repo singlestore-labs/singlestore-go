@@ -31,15 +31,17 @@ const (
 
 // Defines values for AuditLogUserType.
 const (
-	Automation   AuditLogUserType = "Automation"
-	CIAutomation AuditLogUserType = "CIAutomation"
-	Customer     AuditLogUserType = "Customer"
-	Employee     AuditLogUserType = "Employee"
-	SNIProxy     AuditLogUserType = "SNIProxy"
-	SharedTier   AuditLogUserType = "SharedTier"
-	Studio       AuditLogUserType = "Studio"
-	System       AuditLogUserType = "System"
-	Unspecified  AuditLogUserType = "Unspecified"
+	AuditLogUserTypeAutomation    AuditLogUserType = "Automation"
+	AuditLogUserTypeCIAutomation  AuditLogUserType = "CIAutomation"
+	AuditLogUserTypeCluster       AuditLogUserType = "Cluster"
+	AuditLogUserTypeCustomer      AuditLogUserType = "Customer"
+	AuditLogUserTypeEmployee      AuditLogUserType = "Employee"
+	AuditLogUserTypeNimbusGateway AuditLogUserType = "NimbusGateway"
+	AuditLogUserTypeSNIProxy      AuditLogUserType = "SNIProxy"
+	AuditLogUserTypeSharedTier    AuditLogUserType = "SharedTier"
+	AuditLogUserTypeStudio        AuditLogUserType = "Studio"
+	AuditLogUserTypeSystem        AuditLogUserType = "System"
+	AuditLogUserTypeUnspecified   AuditLogUserType = "Unspecified"
 )
 
 // Defines values for ExecutionStatus.
@@ -1333,12 +1335,15 @@ type WorkspaceGroupState string
 type WorkspaceGroupCreate struct {
 	// AdminPassword The admin password for the workspace group. The password must contain:
 	//
-	//   * At least 8 characters
+	//   * At least 14 characters
 	//   * At least one uppercase character
 	//   * At least one lowercase character
-	//   * At least one number or special character
+	//   * At least one numeric character
+	//   * At least one special character
+	//   * At most two consecutive sequential characters
+	//   * At most three consecutive identical characters
 	//
-	// If a password is not specified while creating a workspace group, a password is generated and returned in the response object.
+	// If a password is not specified while creating a workspace group or if an invalid password is provided, a valid password is generated and returned in the response object.
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
 	// AllowAllTraffic If enabled, allows all traffic to the workspace group.
@@ -1397,10 +1402,13 @@ type WorkspaceGroupCreateProvider string
 type WorkspaceGroupUpdate struct {
 	// AdminPassword The admin password for the workspace group. The password must contain:
 	//
-	//   * At least 8 characters
+	//   * At least 14 characters
 	//   * At least one uppercase character
 	//   * At least one lowercase character
-	//   * At least one number or special character
+	//   * At least one numeric character
+	//   * At least one special character
+	//   * At most two consecutive sequential characters
+	//   * At most three consecutive identical characters
 	AdminPassword *string `json:"adminPassword,omitempty"`
 
 	// AllowAllTraffic Whether to allow all traffic to the workspace group

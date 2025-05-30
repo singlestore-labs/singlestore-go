@@ -1023,6 +1023,9 @@ type TeamUpdate struct {
 	// AddMemberTeamIDs List of identifiers of teams to be added as members.
 	AddMemberTeamIDs *[]openapi_types.UUID `json:"addMemberTeamIDs,omitempty"`
 
+	// AddMemberUserEmails List of emails of users to be added as members.
+	AddMemberUserEmails *[]string `json:"addMemberUserEmails,omitempty"`
+
 	// AddMemberUserIDs List of identifiers of users to be added as members.
 	AddMemberUserIDs *[]openapi_types.UUID `json:"addMemberUserIDs,omitempty"`
 
@@ -1034,6 +1037,9 @@ type TeamUpdate struct {
 
 	// RemoveMemberTeamIDs List of identifiers of teams to be removed from members.
 	RemoveMemberTeamIDs *[]openapi_types.UUID `json:"removeMemberTeamIDs,omitempty"`
+
+	// RemoveMemberUserEmails List of emails of users to be removed from members.
+	RemoveMemberUserEmails *[]string `json:"removeMemberUserEmails,omitempty"`
 
 	// RemoveMemberUserIDs List of identifiers of users to be removed from members.
 	RemoveMemberUserIDs *[]openapi_types.UUID `json:"removeMemberUserIDs,omitempty"`

@@ -483,6 +483,18 @@ type FileObjectMetadataFormat string
 // FileObjectMetadataType Object type
 type FileObjectMetadataType string
 
+// IdentityRole defines model for IdentityRole.
+type IdentityRole struct {
+	// ResourceID The resource id
+	ResourceID openapi_types.UUID `json:"resourceID"`
+
+	// ResourceType The resource type
+	ResourceType string `json:"resourceType"`
+
+	// Role The role can access the resource
+	Role string `json:"role"`
+}
+
 // Job defines model for Job.
 type Job struct {
 	// CompletedExecutionsCount Count of completed executions for the job
@@ -1737,6 +1749,12 @@ type GetV1betaInvitationsInvitationIDParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// GetV1betaTeamsTeamIDIdentityRolesParams defines parameters for GetV1betaTeamsTeamIDIdentityRoles.
+type GetV1betaTeamsTeamIDIdentityRolesParams struct {
+	// ResourceType Show only granted roles by resource type
+	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
+}
+
 // GetV1betaUsersParams defines parameters for GetV1betaUsers.
 type GetV1betaUsersParams struct {
 	// Email Show only users with an email address matching this value or regular expression.
@@ -1756,6 +1774,12 @@ type PostV1betaUsersJSONBody struct {
 type GetV1betaUsersUserIDParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1betaUsersUserIDIdentityRolesParams defines parameters for GetV1betaUsersUserIDIdentityRoles.
+type GetV1betaUsersUserIDIdentityRolesParams struct {
+	// ResourceType Show only granted roles by resource type
+	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
 }
 
 // GetV2RegionsParams defines parameters for GetV2Regions.
@@ -2318,6 +2342,9 @@ type ClientInterface interface {
 
 	PatchV1betaTeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, body PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1betaTeamsTeamIDIdentityRoles request
+	GetV1betaTeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1betaUsers request
 	GetV1betaUsers(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2331,6 +2358,9 @@ type ClientInterface interface {
 
 	// GetV1betaUsersUserID request
 	GetV1betaUsersUserID(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1betaUsersUserIDIdentityRoles request
+	GetV1betaUsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls request
 	GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3535,6 +3565,18 @@ func (c *Client) PatchV1betaTeamsTeamIDAccessControls(ctx context.Context, teamI
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetV1betaTeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaTeamsTeamIDIdentityRolesRequest(c.Server, teamID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetV1betaUsers(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1betaUsersRequest(c.Server, params)
 	if err != nil {
@@ -3585,6 +3627,18 @@ func (c *Client) DeleteV1betaUsersUserID(ctx context.Context, userID UserID, req
 
 func (c *Client) GetV1betaUsersUserID(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1betaUsersUserIDRequest(c.Server, userID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1betaUsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1betaUsersUserIDIdentityRolesRequest(c.Server, userID, params)
 	if err != nil {
 		return nil, err
 	}
@@ -7125,6 +7179,60 @@ func NewPatchV1betaTeamsTeamIDAccessControlsRequestWithBody(server string, teamI
 	return req, nil
 }
 
+// NewGetV1betaTeamsTeamIDIdentityRolesRequest generates requests for GetV1betaTeamsTeamIDIdentityRoles
+func NewGetV1betaTeamsTeamIDIdentityRolesRequest(server string, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "teamID", runtime.ParamLocationPath, teamID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/teams/%s/identityRoles", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.ResourceType != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "resourceType", runtime.ParamLocationQuery, *params.ResourceType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV1betaUsersRequest generates requests for GetV1betaUsers
 func NewGetV1betaUsersRequest(server string, params *GetV1betaUsersParams) (*http.Request, error) {
 	var err error
@@ -7293,6 +7401,60 @@ func NewGetV1betaUsersUserIDRequest(server string, userID UserID, params *GetV1b
 	if params.Fields != nil {
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1betaUsersUserIDIdentityRolesRequest generates requests for GetV1betaUsersUserIDIdentityRoles
+func NewGetV1betaUsersUserIDIdentityRolesRequest(server string, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1beta/users/%s/identityRoles", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.ResourceType != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "resourceType", runtime.ParamLocationQuery, *params.ResourceType); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -7801,6 +7963,9 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1betaTeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, body PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaTeamsTeamIDAccessControlsResponse, error)
 
+	// GetV1betaTeamsTeamIDIdentityRoles request
+	GetV1betaTeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaTeamsTeamIDIdentityRolesResponse, error)
+
 	// GetV1betaUsers request
 	GetV1betaUsersWithResponse(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersResponse, error)
 
@@ -7814,6 +7979,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetV1betaUsersUserID request
 	GetV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDResponse, error)
+
+	// GetV1betaUsersUserIDIdentityRoles request
+	GetV1betaUsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDIdentityRolesResponse, error)
 
 	// GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls request
 	GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
@@ -9539,6 +9707,28 @@ func (r PatchV1betaTeamsTeamIDAccessControlsResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1betaTeamsTeamIDIdentityRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]IdentityRole
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaTeamsTeamIDIdentityRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaTeamsTeamIDIdentityRolesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1betaUsersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -9622,6 +9812,28 @@ func (r GetV1betaUsersUserIDResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1betaUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1betaUsersUserIDIdentityRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]IdentityRole
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1betaUsersUserIDIdentityRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1betaUsersUserIDIdentityRolesResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10581,6 +10793,15 @@ func (c *ClientWithResponses) PatchV1betaTeamsTeamIDAccessControlsWithResponse(c
 	return ParsePatchV1betaTeamsTeamIDAccessControlsResponse(rsp)
 }
 
+// GetV1betaTeamsTeamIDIdentityRolesWithResponse request returning *GetV1betaTeamsTeamIDIdentityRolesResponse
+func (c *ClientWithResponses) GetV1betaTeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaTeamsTeamIDIdentityRolesResponse, error) {
+	rsp, err := c.GetV1betaTeamsTeamIDIdentityRoles(ctx, teamID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaTeamsTeamIDIdentityRolesResponse(rsp)
+}
+
 // GetV1betaUsersWithResponse request returning *GetV1betaUsersResponse
 func (c *ClientWithResponses) GetV1betaUsersWithResponse(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersResponse, error) {
 	rsp, err := c.GetV1betaUsers(ctx, params, reqEditors...)
@@ -10623,6 +10844,15 @@ func (c *ClientWithResponses) GetV1betaUsersUserIDWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseGetV1betaUsersUserIDResponse(rsp)
+}
+
+// GetV1betaUsersUserIDIdentityRolesWithResponse request returning *GetV1betaUsersUserIDIdentityRolesResponse
+func (c *ClientWithResponses) GetV1betaUsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDIdentityRolesResponse, error) {
+	rsp, err := c.GetV1betaUsersUserIDIdentityRoles(ctx, userID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1betaUsersUserIDIdentityRolesResponse(rsp)
 }
 
 // GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse request returning *GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse
@@ -12597,6 +12827,32 @@ func ParsePatchV1betaTeamsTeamIDAccessControlsResponse(rsp *http.Response) (*Pat
 	return response, nil
 }
 
+// ParseGetV1betaTeamsTeamIDIdentityRolesResponse parses an HTTP response from a GetV1betaTeamsTeamIDIdentityRolesWithResponse call
+func ParseGetV1betaTeamsTeamIDIdentityRolesResponse(rsp *http.Response) (*GetV1betaTeamsTeamIDIdentityRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaTeamsTeamIDIdentityRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []IdentityRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1betaUsersResponse parses an HTTP response from a GetV1betaUsersWithResponse call
 func ParseGetV1betaUsersResponse(rsp *http.Response) (*GetV1betaUsersResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -12683,6 +12939,32 @@ func ParseGetV1betaUsersUserIDResponse(rsp *http.Response) (*GetV1betaUsersUserI
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest User
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1betaUsersUserIDIdentityRolesResponse parses an HTTP response from a GetV1betaUsersUserIDIdentityRolesWithResponse call
+func ParseGetV1betaUsersUserIDIdentityRolesResponse(rsp *http.Response) (*GetV1betaUsersUserIDIdentityRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1betaUsersUserIDIdentityRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []IdentityRole
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

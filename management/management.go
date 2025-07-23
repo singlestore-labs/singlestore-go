@@ -1638,6 +1638,12 @@ type GetV1RegionsParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// GetV1RegionsSharedtierParams defines parameters for GetV1RegionsSharedtier.
+type GetV1RegionsSharedtierParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
 // GetV1SecretsParams defines parameters for GetV1Secrets.
 type GetV1SecretsParams struct {
 	// Name Name of the secret.
@@ -2133,6 +2139,9 @@ type ClientInterface interface {
 
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1RegionsSharedtier request
+	GetV1RegionsSharedtier(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1Secrets request
 	GetV1Secrets(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2643,6 +2652,18 @@ func (c *Client) PatchV1PrivateConnectionsConnectionID(ctx context.Context, conn
 
 func (c *Client) GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1RegionsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1RegionsSharedtier(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1RegionsSharedtierRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -4631,6 +4652,53 @@ func NewGetV1RegionsRequest(server string, params *GetV1RegionsParams) (*http.Re
 	}
 
 	operationPath := fmt.Sprintf("/v1/regions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1RegionsSharedtierRequest generates requests for GetV1RegionsSharedtier
+func NewGetV1RegionsSharedtierRequest(server string, params *GetV1RegionsSharedtierParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/regions/sharedtier")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -7755,6 +7823,9 @@ type ClientWithResponsesInterface interface {
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
+	// GetV1RegionsSharedtier request
+	GetV1RegionsSharedtierWithResponse(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*GetV1RegionsSharedtierResponse, error)
+
 	// GetV1Secrets request
 	GetV1SecretsWithResponse(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*GetV1SecretsResponse, error)
 
@@ -8438,6 +8509,28 @@ func (r GetV1RegionsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1RegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1RegionsSharedtierResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]RegionV2
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1RegionsSharedtierResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1RegionsSharedtierResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10129,6 +10222,15 @@ func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, para
 	return ParseGetV1RegionsResponse(rsp)
 }
 
+// GetV1RegionsSharedtierWithResponse request returning *GetV1RegionsSharedtierResponse
+func (c *ClientWithResponses) GetV1RegionsSharedtierWithResponse(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*GetV1RegionsSharedtierResponse, error) {
+	rsp, err := c.GetV1RegionsSharedtier(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1RegionsSharedtierResponse(rsp)
+}
+
 // GetV1SecretsWithResponse request returning *GetV1SecretsResponse
 func (c *ClientWithResponses) GetV1SecretsWithResponse(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*GetV1SecretsResponse, error) {
 	rsp, err := c.GetV1Secrets(ctx, params, reqEditors...)
@@ -11411,6 +11513,32 @@ func ParseGetV1RegionsResponse(rsp *http.Response) (*GetV1RegionsResponse, error
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1RegionsSharedtierResponse parses an HTTP response from a GetV1RegionsSharedtierWithResponse call
+func ParseGetV1RegionsSharedtierResponse(rsp *http.Response) (*GetV1RegionsSharedtierResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1RegionsSharedtierResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RegionV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

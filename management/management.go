@@ -164,14 +164,6 @@ const (
 	PreProvisionStop  StorageDRStatusComputeStorageDRType = "PreProvisionStop"
 )
 
-// Defines values for UserInvitationState.
-const (
-	Accepted UserInvitationState = "Accepted"
-	Pending  UserInvitationState = "Pending"
-	Refused  UserInvitationState = "Refused"
-	Revoked  UserInvitationState = "Revoked"
-)
-
 // Defines values for WorkspaceAutoSuspendSuspendType.
 const (
 	WorkspaceAutoSuspendSuspendTypeIDLE      WorkspaceAutoSuspendSuspendType = "IDLE"
@@ -386,19 +378,6 @@ type BillingUsage struct {
 		// Value Resource usage value
 		Value *string `json:"value,omitempty"`
 	} `json:"usage,omitempty"`
-}
-
-// ControlAccessAction defines model for ControlAccessAction.
-type ControlAccessAction struct {
-	Grants  []ControlAccessRole `json:"grants"`
-	Revokes []ControlAccessRole `json:"revokes"`
-}
-
-// ControlAccessRole defines model for ControlAccessRole.
-type ControlAccessRole struct {
-	Role  string               `json:"role"`
-	Teams []openapi_types.UUID `json:"teams"`
-	Users []openapi_types.UUID `json:"users"`
 }
 
 // Execution defines model for Execution.
@@ -781,101 +760,10 @@ type ReplicatedDatabase struct {
 // ReplicatedDatabaseDuplicationState Duplication state of the database
 type ReplicatedDatabaseDuplicationState string
 
-// ResourceRole defines model for ResourceRole.
-type ResourceRole struct {
-	// Description the description about the role
-	Description string              `json:"description"`
-	Grants      []ResourceRoleGrant `json:"grants"`
-
-	// Role the role can access the resource
-	Role string `json:"role"`
-}
-
-// ResourceRoleGrant defines model for ResourceRoleGrant.
-type ResourceRoleGrant struct {
-	// CreatedAt Creation timestamp
-	CreatedAt time.Time `json:"createdAt"`
-
-	// CreatedBy Summary information about a SingleStoreDB Cloud user.
-	CreatedBy     *UserInfo                  `json:"createdBy,omitempty"`
-	Identity      ResourceRoleGrant_Identity `json:"identity"`
-	InheritedFrom *struct {
-		// ResourceID ID of the resource
-		ResourceID   openapi_types.UUID `json:"resourceID"`
-		ResourceType string             `json:"resourceType"`
-		Role         string             `json:"role"`
-	} `json:"inheritedFrom,omitempty"`
-}
-
-// ResourceRoleGrant_Identity defines model for ResourceRoleGrant.Identity.
-type ResourceRoleGrant_Identity struct {
-	union json.RawMessage
-}
-
 // RetentionPeriodParams Represents the information to be specified when updating the retention period of a workspace group.
 type RetentionPeriodParams struct {
 	// RetentionPeriod Retention period in minutes
 	RetentionPeriod int `json:"retentionPeriod"`
-}
-
-// RoleCreate defines model for RoleCreate.
-type RoleCreate struct {
-	// Description A description of the role
-	Description *string `json:"description,omitempty"`
-
-	// Inherits The roles that the current role will inherit from
-	Inherits []TypedRole `json:"inherits"`
-
-	// Permissions The permissions are seperated by the resourceType, like you can put 'View Storage' DR for 'Cluster' resourceType but not 'Organization'
-	Permissions []string `json:"permissions"`
-
-	// Role The name for the custom role
-	Role string `json:"role"`
-}
-
-// RoleDefinition defines model for RoleDefinition.
-type RoleDefinition struct {
-	// CreatedAt Creation timestamp.
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-
-	// CreatedBy Summary information about a SingleStoreDB Cloud user.
-	CreatedBy *UserInfo `json:"createdBy,omitempty"`
-
-	// Description A description of the role
-	Description *string `json:"description,omitempty"`
-
-	// Inherits The roles that current role will inherit from
-	Inherits []TypedRole `json:"inherits"`
-
-	// IsCustom Indicate the role is a custom role
-	IsCustom bool `json:"isCustom"`
-
-	// Permissions The permissions that the role has
-	Permissions []string `json:"permissions"`
-
-	// ResourceType The resource type for the role
-	ResourceType string `json:"resourceType"`
-
-	// Role The role name
-	Role string `json:"role"`
-
-	// UpdatedAt Timestamp of most recent state change.
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-
-	// UpdatedBy Summary information about a SingleStoreDB Cloud user.
-	UpdatedBy *UserInfo `json:"updatedBy,omitempty"`
-}
-
-// RoleUpdate defines model for RoleUpdate.
-type RoleUpdate struct {
-	// Description A description of the role
-	Description *string `json:"description,omitempty"`
-
-	// Inherits The roles that the current role will inherit from
-	Inherits []TypedRole `json:"inherits"`
-
-	// Permissions The permissions are seperated by the resourceType, like you can put 'View Storage' DR for 'Cluster' resourceType but not 'Organization'
-	Permissions []string `json:"permissions"`
 }
 
 // RuntimesResult defines model for RuntimesResult.
@@ -1052,15 +940,6 @@ type TeamUpdate struct {
 	RemoveMemberUserIDs *[]openapi_types.UUID `json:"removeMemberUserIDs,omitempty"`
 }
 
-// TypedRole defines model for TypedRole.
-type TypedRole struct {
-	// ResourceType Resource type of the role
-	ResourceType string `json:"resourceType"`
-
-	// Role The role name
-	Role string `json:"role"`
-}
-
 // UpdateWindow Represents information related to an update window
 type UpdateWindow struct {
 	// Day Day of week (0-6), starting on Sunday
@@ -1068,21 +947,6 @@ type UpdateWindow struct {
 
 	// Hour Hour of day - 0 to 23 (UTC)
 	Hour float32 `json:"hour"`
-}
-
-// User defines model for User.
-type User struct {
-	// Email The email address of the user.
-	Email string `json:"email"`
-
-	// FirstName First name of the user.
-	FirstName string `json:"firstName"`
-
-	// LastName Last name of the user.
-	LastName string `json:"lastName"`
-
-	// UserID User identifier.
-	UserID openapi_types.UUID `json:"userID"`
 }
 
 // UserInfo Summary information about a SingleStoreDB Cloud user.
@@ -1098,42 +962,6 @@ type UserInfo struct {
 
 	// UserID User identifier.
 	UserID openapi_types.UUID `json:"userID"`
-}
-
-// UserInvitation Information specified when creating a user invitation.
-type UserInvitation struct {
-	// ActedAt Timestamp of most recent state change.
-	ActedAt *time.Time `json:"actedAt,omitempty"`
-
-	// CreatedAt Creation timestamp.
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-
-	// Email User email address.
-	Email *string `json:"email,omitempty"`
-
-	// InvitationID Invitation identifier.
-	InvitationID *openapi_types.UUID `json:"invitationID,omitempty"`
-
-	// Message Welcome message
-	Message *string `json:"message,omitempty"`
-
-	// State Invitation state. Pending, Accepted, Refused, or Revoked.
-	State *UserInvitationState `json:"state,omitempty"`
-
-	// TeamIDs List of user teams.
-	TeamIDs *[]openapi_types.UUID `json:"teamIDs,omitempty"`
-}
-
-// UserInvitationState Invitation state. Pending, Accepted, Refused, or Revoked.
-type UserInvitationState string
-
-// UserInvitationCreate Information specified when creating a user invitation.
-type UserInvitationCreate struct {
-	// Email User email address.
-	Email openapi_types.Email `json:"email"`
-
-	// TeamIDs List of user teams.
-	TeamIDs *[]openapi_types.UUID `json:"teamIDs,omitempty"`
 }
 
 // Workspace Represents information related to a workspace
@@ -1516,20 +1344,11 @@ type ConnectionID = openapi_types.UUID
 // Fields defines model for fields.
 type Fields = string
 
-// InvitationID defines model for invitationID.
-type InvitationID = openapi_types.UUID
-
 // JobID defines model for jobID.
 type JobID = openapi_types.UUID
 
 // OrganizationID defines model for organizationID.
 type OrganizationID = openapi_types.UUID
-
-// ResourceType defines model for resourceType.
-type ResourceType = string
-
-// Role defines model for role.
-type Role = string
 
 // SecretID defines model for secretID.
 type SecretID = openapi_types.UUID
@@ -1680,6 +1499,18 @@ type GetV1TeamsParams struct {
 	Description *string `form:"description,omitempty" json:"description,omitempty"`
 }
 
+// GetV1TeamsTeamIDIdentityRolesParams defines parameters for GetV1TeamsTeamIDIdentityRoles.
+type GetV1TeamsTeamIDIdentityRolesParams struct {
+	// ResourceType Show only granted roles by resource type
+	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
+}
+
+// GetV1UsersUserIDIdentityRolesParams defines parameters for GetV1UsersUserIDIdentityRoles.
+type GetV1UsersUserIDIdentityRolesParams struct {
+	// ResourceType Show only granted roles by resource type
+	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
+}
+
 // GetV1WorkspaceGroupsParams defines parameters for GetV1WorkspaceGroups.
 type GetV1WorkspaceGroupsParams struct {
 	// IncludeTerminated To include any terminated workspace groups, set to `true`
@@ -1735,57 +1566,6 @@ type GetV1WorkspacesWorkspaceIDParams struct {
 type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
-}
-
-// GetV1betaInvitationsParams defines parameters for GetV1betaInvitations.
-type GetV1betaInvitationsParams struct {
-	// Email Show only invitations with emails matching this value or regular expression.
-	Email *string `form:"email,omitempty" json:"email,omitempty"`
-
-	// State Show only invitations with state matching this value.
-	State *string `form:"state,omitempty" json:"state,omitempty"`
-
-	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
-	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
-}
-
-// GetV1betaInvitationsInvitationIDParams defines parameters for GetV1betaInvitationsInvitationID.
-type GetV1betaInvitationsInvitationIDParams struct {
-	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
-	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
-}
-
-// GetV1betaTeamsTeamIDIdentityRolesParams defines parameters for GetV1betaTeamsTeamIDIdentityRoles.
-type GetV1betaTeamsTeamIDIdentityRolesParams struct {
-	// ResourceType Show only granted roles by resource type
-	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
-}
-
-// GetV1betaUsersParams defines parameters for GetV1betaUsers.
-type GetV1betaUsersParams struct {
-	// Email Show only users with an email address matching this value or regular expression.
-	Email *string `form:"email,omitempty" json:"email,omitempty"`
-
-	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
-	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
-}
-
-// PostV1betaUsersJSONBody defines parameters for PostV1betaUsers.
-type PostV1betaUsersJSONBody struct {
-	// Email The email address of the user to add to the organization.
-	Email openapi_types.Email `json:"email"`
-}
-
-// GetV1betaUsersUserIDParams defines parameters for GetV1betaUsersUserID.
-type GetV1betaUsersUserIDParams struct {
-	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
-	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
-}
-
-// GetV1betaUsersUserIDIdentityRolesParams defines parameters for GetV1betaUsersUserIDIdentityRoles.
-type GetV1betaUsersUserIDIdentityRolesParams struct {
-	// ResourceType Show only granted roles by resource type
-	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
 }
 
 // GetV2RegionsParams defines parameters for GetV2Regions.
@@ -1854,30 +1634,6 @@ type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
 
-// PostV1betaInvitationsJSONRequestBody defines body for PostV1betaInvitations for application/json ContentType.
-type PostV1betaInvitationsJSONRequestBody = UserInvitationCreate
-
-// PatchV1betaOrganizationsOrganizationIDAccessControlsJSONRequestBody defines body for PatchV1betaOrganizationsOrganizationIDAccessControls for application/json ContentType.
-type PatchV1betaOrganizationsOrganizationIDAccessControlsJSONRequestBody = ControlAccessAction
-
-// PostV1betaRolesResourceTypeJSONRequestBody defines body for PostV1betaRolesResourceType for application/json ContentType.
-type PostV1betaRolesResourceTypeJSONRequestBody = RoleCreate
-
-// PutV1betaRolesResourceTypeRoleJSONRequestBody defines body for PutV1betaRolesResourceTypeRole for application/json ContentType.
-type PutV1betaRolesResourceTypeRoleJSONRequestBody = RoleUpdate
-
-// PatchV1betaSecretsSecretIDAccessControlsJSONRequestBody defines body for PatchV1betaSecretsSecretIDAccessControls for application/json ContentType.
-type PatchV1betaSecretsSecretIDAccessControlsJSONRequestBody = ControlAccessAction
-
-// PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody defines body for PatchV1betaTeamsTeamIDAccessControls for application/json ContentType.
-type PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody = ControlAccessAction
-
-// PostV1betaUsersJSONRequestBody defines body for PostV1betaUsers for application/json ContentType.
-type PostV1betaUsersJSONRequestBody PostV1betaUsersJSONBody
-
-// PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody defines body for PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls for application/json ContentType.
-type PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody = ControlAccessAction
-
 // AsFileObjectMetadataContent0 returns the union data inside the FileObjectMetadata_Content as a FileObjectMetadataContent0
 func (t FileObjectMetadata_Content) AsFileObjectMetadataContent0() (FileObjectMetadataContent0, error) {
 	var body FileObjectMetadataContent0
@@ -1936,68 +1692,6 @@ func (t FileObjectMetadata_Content) MarshalJSON() ([]byte, error) {
 }
 
 func (t *FileObjectMetadata_Content) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsUserInfo returns the union data inside the ResourceRoleGrant_Identity as a UserInfo
-func (t ResourceRoleGrant_Identity) AsUserInfo() (UserInfo, error) {
-	var body UserInfo
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromUserInfo overwrites any union data inside the ResourceRoleGrant_Identity as the provided UserInfo
-func (t *ResourceRoleGrant_Identity) FromUserInfo(v UserInfo) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeUserInfo performs a merge with any union data inside the ResourceRoleGrant_Identity, using the provided UserInfo
-func (t *ResourceRoleGrant_Identity) MergeUserInfo(v UserInfo) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JsonMerge(b, t.union)
-	t.union = merged
-	return err
-}
-
-// AsTeamInfo returns the union data inside the ResourceRoleGrant_Identity as a TeamInfo
-func (t ResourceRoleGrant_Identity) AsTeamInfo() (TeamInfo, error) {
-	var body TeamInfo
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromTeamInfo overwrites any union data inside the ResourceRoleGrant_Identity as the provided TeamInfo
-func (t *ResourceRoleGrant_Identity) FromTeamInfo(v TeamInfo) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeTeamInfo performs a merge with any union data inside the ResourceRoleGrant_Identity, using the provided TeamInfo
-func (t *ResourceRoleGrant_Identity) MergeTeamInfo(v TeamInfo) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JsonMerge(b, t.union)
-	t.union = merged
-	return err
-}
-
-func (t ResourceRoleGrant_Identity) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *ResourceRoleGrant_Identity) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -2208,6 +1902,12 @@ type ClientInterface interface {
 
 	PatchV1TeamsTeamID(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1TeamsTeamIDIdentityRoles request
+	GetV1TeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1UsersUserIDIdentityRoles request
+	GetV1UsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2293,91 +1993,6 @@ type ClientInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaInvitations request
-	GetV1betaInvitations(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostV1betaInvitations request with any body
-	PostV1betaInvitationsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostV1betaInvitations(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeleteV1betaInvitationsInvitationID request
-	DeleteV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaInvitationsInvitationID request
-	GetV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaOrganizationsOrganizationIDAccessControls request
-	GetV1betaOrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PatchV1betaOrganizationsOrganizationIDAccessControls request with any body
-	PatchV1betaOrganizationsOrganizationIDAccessControlsWithBody(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PatchV1betaOrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, body PatchV1betaOrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaRolesResourceType request
-	GetV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostV1betaRolesResourceType request with any body
-	PostV1betaRolesResourceTypeWithBody(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeleteV1betaRolesResourceTypeRole request
-	DeleteV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaRolesResourceTypeRole request
-	GetV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PutV1betaRolesResourceTypeRole request with any body
-	PutV1betaRolesResourceTypeRoleWithBody(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PutV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaSecretsSecretIDAccessControls request
-	GetV1betaSecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PatchV1betaSecretsSecretIDAccessControls request with any body
-	PatchV1betaSecretsSecretIDAccessControlsWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PatchV1betaSecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, body PatchV1betaSecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaTeamsTeamIDAccessControls request
-	GetV1betaTeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PatchV1betaTeamsTeamIDAccessControls request with any body
-	PatchV1betaTeamsTeamIDAccessControlsWithBody(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PatchV1betaTeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, body PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaTeamsTeamIDIdentityRoles request
-	GetV1betaTeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaUsers request
-	GetV1betaUsers(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PostV1betaUsers request with any body
-	PostV1betaUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PostV1betaUsers(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// DeleteV1betaUsersUserID request
-	DeleteV1betaUsersUserID(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaUsersUserID request
-	GetV1betaUsersUserID(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaUsersUserIDIdentityRoles request
-	GetV1betaUsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls request
-	GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls request with any body
-	PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2962,6 +2577,30 @@ func (c *Client) PatchV1TeamsTeamID(ctx context.Context, teamID TeamID, body Pat
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetV1TeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1TeamsTeamIDIdentityRolesRequest(c.Server, teamID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1UsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1UsersUserIDIdentityRolesRequest(c.Server, userID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspaceGroupsRequest(c.Server, params)
 	if err != nil {
@@ -3324,378 +2963,6 @@ func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspac
 
 func (c *Client) PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1WorkspacesWorkspaceIDSuspendRequest(c.Server, workspaceID)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaInvitations(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaInvitationsRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostV1betaInvitationsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostV1betaInvitationsRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostV1betaInvitations(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostV1betaInvitationsRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteV1betaInvitationsInvitationIDRequest(c.Server, invitationID)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaInvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaInvitationsInvitationIDRequest(c.Server, invitationID, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaOrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaOrganizationsOrganizationIDAccessControlsRequest(c.Server, organizationID)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaOrganizationsOrganizationIDAccessControlsWithBody(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaOrganizationsOrganizationIDAccessControlsRequestWithBody(c.Server, organizationID, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaOrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, body PatchV1betaOrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaOrganizationsOrganizationIDAccessControlsRequest(c.Server, organizationID, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaRolesResourceTypeRequest(c.Server, resourceType)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostV1betaRolesResourceTypeWithBody(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostV1betaRolesResourceTypeRequestWithBody(c.Server, resourceType, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostV1betaRolesResourceType(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostV1betaRolesResourceTypeRequest(c.Server, resourceType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteV1betaRolesResourceTypeRoleRequest(c.Server, resourceType, role)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaRolesResourceTypeRoleRequest(c.Server, resourceType, role)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutV1betaRolesResourceTypeRoleWithBody(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutV1betaRolesResourceTypeRoleRequestWithBody(c.Server, resourceType, role, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PutV1betaRolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPutV1betaRolesResourceTypeRoleRequest(c.Server, resourceType, role, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaSecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaSecretsSecretIDAccessControlsRequest(c.Server, secretID)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaSecretsSecretIDAccessControlsWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaSecretsSecretIDAccessControlsRequestWithBody(c.Server, secretID, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaSecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, body PatchV1betaSecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaSecretsSecretIDAccessControlsRequest(c.Server, secretID, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaTeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaTeamsTeamIDAccessControlsRequest(c.Server, teamID)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaTeamsTeamIDAccessControlsWithBody(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaTeamsTeamIDAccessControlsRequestWithBody(c.Server, teamID, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaTeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, body PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaTeamsTeamIDAccessControlsRequest(c.Server, teamID, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaTeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaTeamsTeamIDIdentityRolesRequest(c.Server, teamID, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaUsers(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaUsersRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostV1betaUsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostV1betaUsersRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PostV1betaUsers(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPostV1betaUsersRequest(c.Server, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteV1betaUsersUserID(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteV1betaUsersUserIDRequest(c.Server, userID)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaUsersUserID(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaUsersUserIDRequest(c.Server, userID, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaUsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaUsersUserIDIdentityRolesRequest(c.Server, userID, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(c.Server, workspaceGroupID)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody(c.Server, workspaceGroupID, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewPatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(c.Server, workspaceGroupID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5497,6 +4764,114 @@ func NewPatchV1TeamsTeamIDRequestWithBody(server string, teamID TeamID, contentT
 	return req, nil
 }
 
+// NewGetV1TeamsTeamIDIdentityRolesRequest generates requests for GetV1TeamsTeamIDIdentityRoles
+func NewGetV1TeamsTeamIDIdentityRolesRequest(server string, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "teamID", runtime.ParamLocationPath, teamID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams/%s/identityRoles", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.ResourceType != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "resourceType", runtime.ParamLocationQuery, *params.ResourceType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1UsersUserIDIdentityRolesRequest generates requests for GetV1UsersUserIDIdentityRoles
+func NewGetV1UsersUserIDIdentityRolesRequest(server string, userID UserID, params *GetV1UsersUserIDIdentityRolesParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users/%s/identityRoles", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.ResourceType != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "resourceType", runtime.ParamLocationQuery, *params.ResourceType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV1WorkspaceGroupsRequest generates requests for GetV1WorkspaceGroups
 func NewGetV1WorkspaceGroupsRequest(server string, params *GetV1WorkspaceGroupsParams) (*http.Request, error) {
 	var err error
@@ -6580,1053 +5955,6 @@ func NewPostV1WorkspacesWorkspaceIDSuspendRequest(server string, workspaceID Wor
 	return req, nil
 }
 
-// NewGetV1betaInvitationsRequest generates requests for GetV1betaInvitations
-func NewGetV1betaInvitationsRequest(server string, params *GetV1betaInvitationsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/invitations")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.Email != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	if params.State != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "state", runtime.ParamLocationQuery, *params.State); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	if params.Fields != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostV1betaInvitationsRequest calls the generic PostV1betaInvitations builder with application/json body
-func NewPostV1betaInvitationsRequest(server string, body PostV1betaInvitationsJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostV1betaInvitationsRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPostV1betaInvitationsRequestWithBody generates requests for PostV1betaInvitations with any type of body
-func NewPostV1betaInvitationsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/invitations")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteV1betaInvitationsInvitationIDRequest generates requests for DeleteV1betaInvitationsInvitationID
-func NewDeleteV1betaInvitationsInvitationIDRequest(server string, invitationID InvitationID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invitationID", runtime.ParamLocationPath, invitationID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/invitations/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetV1betaInvitationsInvitationIDRequest generates requests for GetV1betaInvitationsInvitationID
-func NewGetV1betaInvitationsInvitationIDRequest(server string, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "invitationID", runtime.ParamLocationPath, invitationID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/invitations/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.Fields != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetV1betaOrganizationsOrganizationIDAccessControlsRequest generates requests for GetV1betaOrganizationsOrganizationIDAccessControls
-func NewGetV1betaOrganizationsOrganizationIDAccessControlsRequest(server string, organizationID OrganizationID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "organizationID", runtime.ParamLocationPath, organizationID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/organizations/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPatchV1betaOrganizationsOrganizationIDAccessControlsRequest calls the generic PatchV1betaOrganizationsOrganizationIDAccessControls builder with application/json body
-func NewPatchV1betaOrganizationsOrganizationIDAccessControlsRequest(server string, organizationID OrganizationID, body PatchV1betaOrganizationsOrganizationIDAccessControlsJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPatchV1betaOrganizationsOrganizationIDAccessControlsRequestWithBody(server, organizationID, "application/json", bodyReader)
-}
-
-// NewPatchV1betaOrganizationsOrganizationIDAccessControlsRequestWithBody generates requests for PatchV1betaOrganizationsOrganizationIDAccessControls with any type of body
-func NewPatchV1betaOrganizationsOrganizationIDAccessControlsRequestWithBody(server string, organizationID OrganizationID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "organizationID", runtime.ParamLocationPath, organizationID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/organizations/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PATCH", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetV1betaRolesResourceTypeRequest generates requests for GetV1betaRolesResourceType
-func NewGetV1betaRolesResourceTypeRequest(server string, resourceType ResourceType) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/roles/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostV1betaRolesResourceTypeRequest calls the generic PostV1betaRolesResourceType builder with application/json body
-func NewPostV1betaRolesResourceTypeRequest(server string, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostV1betaRolesResourceTypeRequestWithBody(server, resourceType, "application/json", bodyReader)
-}
-
-// NewPostV1betaRolesResourceTypeRequestWithBody generates requests for PostV1betaRolesResourceType with any type of body
-func NewPostV1betaRolesResourceTypeRequestWithBody(server string, resourceType ResourceType, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/roles/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteV1betaRolesResourceTypeRoleRequest generates requests for DeleteV1betaRolesResourceTypeRole
-func NewDeleteV1betaRolesResourceTypeRoleRequest(server string, resourceType ResourceType, role Role) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/roles/%s/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetV1betaRolesResourceTypeRoleRequest generates requests for GetV1betaRolesResourceTypeRole
-func NewGetV1betaRolesResourceTypeRoleRequest(server string, resourceType ResourceType, role Role) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/roles/%s/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPutV1betaRolesResourceTypeRoleRequest calls the generic PutV1betaRolesResourceTypeRole builder with application/json body
-func NewPutV1betaRolesResourceTypeRoleRequest(server string, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPutV1betaRolesResourceTypeRoleRequestWithBody(server, resourceType, role, "application/json", bodyReader)
-}
-
-// NewPutV1betaRolesResourceTypeRoleRequestWithBody generates requests for PutV1betaRolesResourceTypeRole with any type of body
-func NewPutV1betaRolesResourceTypeRoleRequestWithBody(server string, resourceType ResourceType, role Role, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
-	if err != nil {
-		return nil, err
-	}
-
-	var pathParam1 string
-
-	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/roles/%s/%s", pathParam0, pathParam1)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PUT", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetV1betaSecretsSecretIDAccessControlsRequest generates requests for GetV1betaSecretsSecretIDAccessControls
-func NewGetV1betaSecretsSecretIDAccessControlsRequest(server string, secretID SecretID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "secretID", runtime.ParamLocationPath, secretID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/secrets/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPatchV1betaSecretsSecretIDAccessControlsRequest calls the generic PatchV1betaSecretsSecretIDAccessControls builder with application/json body
-func NewPatchV1betaSecretsSecretIDAccessControlsRequest(server string, secretID SecretID, body PatchV1betaSecretsSecretIDAccessControlsJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPatchV1betaSecretsSecretIDAccessControlsRequestWithBody(server, secretID, "application/json", bodyReader)
-}
-
-// NewPatchV1betaSecretsSecretIDAccessControlsRequestWithBody generates requests for PatchV1betaSecretsSecretIDAccessControls with any type of body
-func NewPatchV1betaSecretsSecretIDAccessControlsRequestWithBody(server string, secretID SecretID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "secretID", runtime.ParamLocationPath, secretID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/secrets/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PATCH", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetV1betaTeamsTeamIDAccessControlsRequest generates requests for GetV1betaTeamsTeamIDAccessControls
-func NewGetV1betaTeamsTeamIDAccessControlsRequest(server string, teamID TeamID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "teamID", runtime.ParamLocationPath, teamID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/teams/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPatchV1betaTeamsTeamIDAccessControlsRequest calls the generic PatchV1betaTeamsTeamIDAccessControls builder with application/json body
-func NewPatchV1betaTeamsTeamIDAccessControlsRequest(server string, teamID TeamID, body PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPatchV1betaTeamsTeamIDAccessControlsRequestWithBody(server, teamID, "application/json", bodyReader)
-}
-
-// NewPatchV1betaTeamsTeamIDAccessControlsRequestWithBody generates requests for PatchV1betaTeamsTeamIDAccessControls with any type of body
-func NewPatchV1betaTeamsTeamIDAccessControlsRequestWithBody(server string, teamID TeamID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "teamID", runtime.ParamLocationPath, teamID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/teams/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PATCH", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetV1betaTeamsTeamIDIdentityRolesRequest generates requests for GetV1betaTeamsTeamIDIdentityRoles
-func NewGetV1betaTeamsTeamIDIdentityRolesRequest(server string, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "teamID", runtime.ParamLocationPath, teamID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/teams/%s/identityRoles", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.ResourceType != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "resourceType", runtime.ParamLocationQuery, *params.ResourceType); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetV1betaUsersRequest generates requests for GetV1betaUsers
-func NewGetV1betaUsersRequest(server string, params *GetV1betaUsersParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/users")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.Email != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	if params.Fields != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPostV1betaUsersRequest calls the generic PostV1betaUsers builder with application/json body
-func NewPostV1betaUsersRequest(server string, body PostV1betaUsersJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPostV1betaUsersRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewPostV1betaUsersRequestWithBody generates requests for PostV1betaUsers with any type of body
-func NewPostV1betaUsersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/users")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewDeleteV1betaUsersUserIDRequest generates requests for DeleteV1betaUsersUserID
-func NewDeleteV1betaUsersUserIDRequest(server string, userID UserID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/users/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetV1betaUsersUserIDRequest generates requests for GetV1betaUsersUserID
-func NewGetV1betaUsersUserIDRequest(server string, userID UserID, params *GetV1betaUsersUserIDParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/users/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.Fields != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetV1betaUsersUserIDIdentityRolesRequest generates requests for GetV1betaUsersUserIDIdentityRoles
-func NewGetV1betaUsersUserIDIdentityRolesRequest(server string, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/users/%s/identityRoles", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryURL.Query()
-
-	if params.ResourceType != nil {
-
-		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "resourceType", runtime.ParamLocationQuery, *params.ResourceType); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryURL.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequest generates requests for GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls
-func NewGetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/workspaceGroups/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewPatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequest calls the generic PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls builder with application/json body
-func NewPatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(server string, workspaceGroupID WorkspaceGroupID, body PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewPatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
-}
-
-// NewPatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody generates requests for PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls with any type of body
-func NewPatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1beta/workspaceGroups/%s/accessControls", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("PATCH", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
 // NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest generates requests for GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics
 func NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest(server string, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
 	var err error
@@ -7891,6 +6219,12 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1TeamsTeamIDWithResponse(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDResponse, error)
 
+	// GetV1TeamsTeamIDIdentityRoles request
+	GetV1TeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDIdentityRolesResponse, error)
+
+	// GetV1UsersUserIDIdentityRoles request
+	GetV1UsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1UsersUserIDIdentityRolesResponse, error)
+
 	// GetV1WorkspaceGroups request
 	GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error)
 
@@ -7976,91 +6310,6 @@ type ClientWithResponsesInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error)
-
-	// GetV1betaInvitations request
-	GetV1betaInvitationsWithResponse(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsResponse, error)
-
-	// PostV1betaInvitations request with any body
-	PostV1betaInvitationsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error)
-
-	PostV1betaInvitationsWithResponse(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error)
-
-	// DeleteV1betaInvitationsInvitationID request
-	DeleteV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*DeleteV1betaInvitationsInvitationIDResponse, error)
-
-	// GetV1betaInvitationsInvitationID request
-	GetV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsInvitationIDResponse, error)
-
-	// GetV1betaOrganizationsOrganizationIDAccessControls request
-	GetV1betaOrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*GetV1betaOrganizationsOrganizationIDAccessControlsResponse, error)
-
-	// PatchV1betaOrganizationsOrganizationIDAccessControls request with any body
-	PatchV1betaOrganizationsOrganizationIDAccessControlsWithBodyWithResponse(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaOrganizationsOrganizationIDAccessControlsResponse, error)
-
-	PatchV1betaOrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, body PatchV1betaOrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaOrganizationsOrganizationIDAccessControlsResponse, error)
-
-	// GetV1betaRolesResourceType request
-	GetV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeResponse, error)
-
-	// PostV1betaRolesResourceType request with any body
-	PostV1betaRolesResourceTypeWithBodyWithResponse(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error)
-
-	PostV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error)
-
-	// DeleteV1betaRolesResourceTypeRole request
-	DeleteV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*DeleteV1betaRolesResourceTypeRoleResponse, error)
-
-	// GetV1betaRolesResourceTypeRole request
-	GetV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeRoleResponse, error)
-
-	// PutV1betaRolesResourceTypeRole request with any body
-	PutV1betaRolesResourceTypeRoleWithBodyWithResponse(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error)
-
-	PutV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error)
-
-	// GetV1betaSecretsSecretIDAccessControls request
-	GetV1betaSecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1betaSecretsSecretIDAccessControlsResponse, error)
-
-	// PatchV1betaSecretsSecretIDAccessControls request with any body
-	PatchV1betaSecretsSecretIDAccessControlsWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaSecretsSecretIDAccessControlsResponse, error)
-
-	PatchV1betaSecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, body PatchV1betaSecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaSecretsSecretIDAccessControlsResponse, error)
-
-	// GetV1betaTeamsTeamIDAccessControls request
-	GetV1betaTeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*GetV1betaTeamsTeamIDAccessControlsResponse, error)
-
-	// PatchV1betaTeamsTeamIDAccessControls request with any body
-	PatchV1betaTeamsTeamIDAccessControlsWithBodyWithResponse(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaTeamsTeamIDAccessControlsResponse, error)
-
-	PatchV1betaTeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, body PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaTeamsTeamIDAccessControlsResponse, error)
-
-	// GetV1betaTeamsTeamIDIdentityRoles request
-	GetV1betaTeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaTeamsTeamIDIdentityRolesResponse, error)
-
-	// GetV1betaUsers request
-	GetV1betaUsersWithResponse(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersResponse, error)
-
-	// PostV1betaUsers request with any body
-	PostV1betaUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error)
-
-	PostV1betaUsersWithResponse(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error)
-
-	// DeleteV1betaUsersUserID request
-	DeleteV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*DeleteV1betaUsersUserIDResponse, error)
-
-	// GetV1betaUsersUserID request
-	GetV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDResponse, error)
-
-	// GetV1betaUsersUserIDIdentityRoles request
-	GetV1betaUsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDIdentityRolesResponse, error)
-
-	// GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls request
-	GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
-
-	// PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls request with any body
-	PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
-
-	PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error)
@@ -8932,6 +7181,50 @@ func (r PatchV1TeamsTeamIDResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1TeamsTeamIDIdentityRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]IdentityRole
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1TeamsTeamIDIdentityRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1TeamsTeamIDIdentityRolesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1UsersUserIDIdentityRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]IdentityRole
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1UsersUserIDIdentityRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1UsersUserIDIdentityRolesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1WorkspaceGroupsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -9471,511 +7764,6 @@ func (r PostV1WorkspacesWorkspaceIDSuspendResponse) StatusCode() int {
 	return 0
 }
 
-type GetV1betaInvitationsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]UserInvitation
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaInvitationsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaInvitationsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostV1betaInvitationsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *UserInvitation
-}
-
-// Status returns HTTPResponse.Status
-func (r PostV1betaInvitationsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostV1betaInvitationsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteV1betaInvitationsInvitationIDResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *struct {
-		InvitationID openapi_types.UUID `json:"invitationID"`
-	}
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteV1betaInvitationsInvitationIDResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteV1betaInvitationsInvitationIDResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaInvitationsInvitationIDResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *UserInvitation
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaInvitationsInvitationIDResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaInvitationsInvitationIDResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaOrganizationsOrganizationIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]ResourceRole
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaOrganizationsOrganizationIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaOrganizationsOrganizationIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PatchV1betaOrganizationsOrganizationIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r PatchV1betaOrganizationsOrganizationIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PatchV1betaOrganizationsOrganizationIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaRolesResourceTypeResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]RoleDefinition
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaRolesResourceTypeResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaRolesResourceTypeResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostV1betaRolesResourceTypeResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *RoleDefinition
-}
-
-// Status returns HTTPResponse.Status
-func (r PostV1betaRolesResourceTypeResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostV1betaRolesResourceTypeResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteV1betaRolesResourceTypeRoleResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *bool
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteV1betaRolesResourceTypeRoleResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteV1betaRolesResourceTypeRoleResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaRolesResourceTypeRoleResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *RoleDefinition
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaRolesResourceTypeRoleResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaRolesResourceTypeRoleResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PutV1betaRolesResourceTypeRoleResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *RoleDefinition
-}
-
-// Status returns HTTPResponse.Status
-func (r PutV1betaRolesResourceTypeRoleResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PutV1betaRolesResourceTypeRoleResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaSecretsSecretIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]ResourceRole
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaSecretsSecretIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaSecretsSecretIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PatchV1betaSecretsSecretIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r PatchV1betaSecretsSecretIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PatchV1betaSecretsSecretIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaTeamsTeamIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]ResourceRole
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaTeamsTeamIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaTeamsTeamIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PatchV1betaTeamsTeamIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r PatchV1betaTeamsTeamIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PatchV1betaTeamsTeamIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaTeamsTeamIDIdentityRolesResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]IdentityRole
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaTeamsTeamIDIdentityRolesResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaTeamsTeamIDIdentityRolesResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaUsersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]User
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaUsersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaUsersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PostV1betaUsersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r PostV1betaUsersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PostV1betaUsersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type DeleteV1betaUsersUserIDResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *struct {
-		UserID openapi_types.UUID `json:"userID"`
-	}
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteV1betaUsersUserIDResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteV1betaUsersUserIDResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaUsersUserIDResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *User
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaUsersUserIDResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaUsersUserIDResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaUsersUserIDIdentityRolesResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]IdentityRole
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaUsersUserIDIdentityRolesResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaUsersUserIDIdentityRolesResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *[]ResourceRole
-}
-
-// Status returns HTTPResponse.Status
-func (r GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-}
-
-// Status returns HTTPResponse.Status
-func (r PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -10440,6 +8228,24 @@ func (c *ClientWithResponses) PatchV1TeamsTeamIDWithResponse(ctx context.Context
 	return ParsePatchV1TeamsTeamIDResponse(rsp)
 }
 
+// GetV1TeamsTeamIDIdentityRolesWithResponse request returning *GetV1TeamsTeamIDIdentityRolesResponse
+func (c *ClientWithResponses) GetV1TeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDIdentityRolesResponse, error) {
+	rsp, err := c.GetV1TeamsTeamIDIdentityRoles(ctx, teamID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1TeamsTeamIDIdentityRolesResponse(rsp)
+}
+
+// GetV1UsersUserIDIdentityRolesWithResponse request returning *GetV1UsersUserIDIdentityRolesResponse
+func (c *ClientWithResponses) GetV1UsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1UsersUserIDIdentityRolesResponse, error) {
+	rsp, err := c.GetV1UsersUserIDIdentityRoles(ctx, userID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1UsersUserIDIdentityRolesResponse(rsp)
+}
+
 // GetV1WorkspaceGroupsWithResponse request returning *GetV1WorkspaceGroupsResponse
 func (c *ClientWithResponses) GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error) {
 	rsp, err := c.GetV1WorkspaceGroups(ctx, params, reqEditors...)
@@ -10710,277 +8516,6 @@ func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx
 		return nil, err
 	}
 	return ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp)
-}
-
-// GetV1betaInvitationsWithResponse request returning *GetV1betaInvitationsResponse
-func (c *ClientWithResponses) GetV1betaInvitationsWithResponse(ctx context.Context, params *GetV1betaInvitationsParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsResponse, error) {
-	rsp, err := c.GetV1betaInvitations(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaInvitationsResponse(rsp)
-}
-
-// PostV1betaInvitationsWithBodyWithResponse request with arbitrary body returning *PostV1betaInvitationsResponse
-func (c *ClientWithResponses) PostV1betaInvitationsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error) {
-	rsp, err := c.PostV1betaInvitationsWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostV1betaInvitationsResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostV1betaInvitationsWithResponse(ctx context.Context, body PostV1betaInvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaInvitationsResponse, error) {
-	rsp, err := c.PostV1betaInvitations(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostV1betaInvitationsResponse(rsp)
-}
-
-// DeleteV1betaInvitationsInvitationIDWithResponse request returning *DeleteV1betaInvitationsInvitationIDResponse
-func (c *ClientWithResponses) DeleteV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*DeleteV1betaInvitationsInvitationIDResponse, error) {
-	rsp, err := c.DeleteV1betaInvitationsInvitationID(ctx, invitationID, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteV1betaInvitationsInvitationIDResponse(rsp)
-}
-
-// GetV1betaInvitationsInvitationIDWithResponse request returning *GetV1betaInvitationsInvitationIDResponse
-func (c *ClientWithResponses) GetV1betaInvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, params *GetV1betaInvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*GetV1betaInvitationsInvitationIDResponse, error) {
-	rsp, err := c.GetV1betaInvitationsInvitationID(ctx, invitationID, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaInvitationsInvitationIDResponse(rsp)
-}
-
-// GetV1betaOrganizationsOrganizationIDAccessControlsWithResponse request returning *GetV1betaOrganizationsOrganizationIDAccessControlsResponse
-func (c *ClientWithResponses) GetV1betaOrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*GetV1betaOrganizationsOrganizationIDAccessControlsResponse, error) {
-	rsp, err := c.GetV1betaOrganizationsOrganizationIDAccessControls(ctx, organizationID, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaOrganizationsOrganizationIDAccessControlsResponse(rsp)
-}
-
-// PatchV1betaOrganizationsOrganizationIDAccessControlsWithBodyWithResponse request with arbitrary body returning *PatchV1betaOrganizationsOrganizationIDAccessControlsResponse
-func (c *ClientWithResponses) PatchV1betaOrganizationsOrganizationIDAccessControlsWithBodyWithResponse(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaOrganizationsOrganizationIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaOrganizationsOrganizationIDAccessControlsWithBody(ctx, organizationID, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaOrganizationsOrganizationIDAccessControlsResponse(rsp)
-}
-
-func (c *ClientWithResponses) PatchV1betaOrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, body PatchV1betaOrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaOrganizationsOrganizationIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaOrganizationsOrganizationIDAccessControls(ctx, organizationID, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaOrganizationsOrganizationIDAccessControlsResponse(rsp)
-}
-
-// GetV1betaRolesResourceTypeWithResponse request returning *GetV1betaRolesResourceTypeResponse
-func (c *ClientWithResponses) GetV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeResponse, error) {
-	rsp, err := c.GetV1betaRolesResourceType(ctx, resourceType, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaRolesResourceTypeResponse(rsp)
-}
-
-// PostV1betaRolesResourceTypeWithBodyWithResponse request with arbitrary body returning *PostV1betaRolesResourceTypeResponse
-func (c *ClientWithResponses) PostV1betaRolesResourceTypeWithBodyWithResponse(ctx context.Context, resourceType ResourceType, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error) {
-	rsp, err := c.PostV1betaRolesResourceTypeWithBody(ctx, resourceType, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostV1betaRolesResourceTypeResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostV1betaRolesResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, body PostV1betaRolesResourceTypeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaRolesResourceTypeResponse, error) {
-	rsp, err := c.PostV1betaRolesResourceType(ctx, resourceType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostV1betaRolesResourceTypeResponse(rsp)
-}
-
-// DeleteV1betaRolesResourceTypeRoleWithResponse request returning *DeleteV1betaRolesResourceTypeRoleResponse
-func (c *ClientWithResponses) DeleteV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*DeleteV1betaRolesResourceTypeRoleResponse, error) {
-	rsp, err := c.DeleteV1betaRolesResourceTypeRole(ctx, resourceType, role, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteV1betaRolesResourceTypeRoleResponse(rsp)
-}
-
-// GetV1betaRolesResourceTypeRoleWithResponse request returning *GetV1betaRolesResourceTypeRoleResponse
-func (c *ClientWithResponses) GetV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, reqEditors ...RequestEditorFn) (*GetV1betaRolesResourceTypeRoleResponse, error) {
-	rsp, err := c.GetV1betaRolesResourceTypeRole(ctx, resourceType, role, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaRolesResourceTypeRoleResponse(rsp)
-}
-
-// PutV1betaRolesResourceTypeRoleWithBodyWithResponse request with arbitrary body returning *PutV1betaRolesResourceTypeRoleResponse
-func (c *ClientWithResponses) PutV1betaRolesResourceTypeRoleWithBodyWithResponse(ctx context.Context, resourceType ResourceType, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error) {
-	rsp, err := c.PutV1betaRolesResourceTypeRoleWithBody(ctx, resourceType, role, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutV1betaRolesResourceTypeRoleResponse(rsp)
-}
-
-func (c *ClientWithResponses) PutV1betaRolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, body PutV1betaRolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*PutV1betaRolesResourceTypeRoleResponse, error) {
-	rsp, err := c.PutV1betaRolesResourceTypeRole(ctx, resourceType, role, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePutV1betaRolesResourceTypeRoleResponse(rsp)
-}
-
-// GetV1betaSecretsSecretIDAccessControlsWithResponse request returning *GetV1betaSecretsSecretIDAccessControlsResponse
-func (c *ClientWithResponses) GetV1betaSecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1betaSecretsSecretIDAccessControlsResponse, error) {
-	rsp, err := c.GetV1betaSecretsSecretIDAccessControls(ctx, secretID, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaSecretsSecretIDAccessControlsResponse(rsp)
-}
-
-// PatchV1betaSecretsSecretIDAccessControlsWithBodyWithResponse request with arbitrary body returning *PatchV1betaSecretsSecretIDAccessControlsResponse
-func (c *ClientWithResponses) PatchV1betaSecretsSecretIDAccessControlsWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaSecretsSecretIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaSecretsSecretIDAccessControlsWithBody(ctx, secretID, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaSecretsSecretIDAccessControlsResponse(rsp)
-}
-
-func (c *ClientWithResponses) PatchV1betaSecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, body PatchV1betaSecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaSecretsSecretIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaSecretsSecretIDAccessControls(ctx, secretID, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaSecretsSecretIDAccessControlsResponse(rsp)
-}
-
-// GetV1betaTeamsTeamIDAccessControlsWithResponse request returning *GetV1betaTeamsTeamIDAccessControlsResponse
-func (c *ClientWithResponses) GetV1betaTeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*GetV1betaTeamsTeamIDAccessControlsResponse, error) {
-	rsp, err := c.GetV1betaTeamsTeamIDAccessControls(ctx, teamID, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaTeamsTeamIDAccessControlsResponse(rsp)
-}
-
-// PatchV1betaTeamsTeamIDAccessControlsWithBodyWithResponse request with arbitrary body returning *PatchV1betaTeamsTeamIDAccessControlsResponse
-func (c *ClientWithResponses) PatchV1betaTeamsTeamIDAccessControlsWithBodyWithResponse(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaTeamsTeamIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaTeamsTeamIDAccessControlsWithBody(ctx, teamID, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaTeamsTeamIDAccessControlsResponse(rsp)
-}
-
-func (c *ClientWithResponses) PatchV1betaTeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, body PatchV1betaTeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaTeamsTeamIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaTeamsTeamIDAccessControls(ctx, teamID, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaTeamsTeamIDAccessControlsResponse(rsp)
-}
-
-// GetV1betaTeamsTeamIDIdentityRolesWithResponse request returning *GetV1betaTeamsTeamIDIdentityRolesResponse
-func (c *ClientWithResponses) GetV1betaTeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1betaTeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaTeamsTeamIDIdentityRolesResponse, error) {
-	rsp, err := c.GetV1betaTeamsTeamIDIdentityRoles(ctx, teamID, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaTeamsTeamIDIdentityRolesResponse(rsp)
-}
-
-// GetV1betaUsersWithResponse request returning *GetV1betaUsersResponse
-func (c *ClientWithResponses) GetV1betaUsersWithResponse(ctx context.Context, params *GetV1betaUsersParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersResponse, error) {
-	rsp, err := c.GetV1betaUsers(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaUsersResponse(rsp)
-}
-
-// PostV1betaUsersWithBodyWithResponse request with arbitrary body returning *PostV1betaUsersResponse
-func (c *ClientWithResponses) PostV1betaUsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error) {
-	rsp, err := c.PostV1betaUsersWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostV1betaUsersResponse(rsp)
-}
-
-func (c *ClientWithResponses) PostV1betaUsersWithResponse(ctx context.Context, body PostV1betaUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1betaUsersResponse, error) {
-	rsp, err := c.PostV1betaUsers(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePostV1betaUsersResponse(rsp)
-}
-
-// DeleteV1betaUsersUserIDWithResponse request returning *DeleteV1betaUsersUserIDResponse
-func (c *ClientWithResponses) DeleteV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*DeleteV1betaUsersUserIDResponse, error) {
-	rsp, err := c.DeleteV1betaUsersUserID(ctx, userID, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteV1betaUsersUserIDResponse(rsp)
-}
-
-// GetV1betaUsersUserIDWithResponse request returning *GetV1betaUsersUserIDResponse
-func (c *ClientWithResponses) GetV1betaUsersUserIDWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDResponse, error) {
-	rsp, err := c.GetV1betaUsersUserID(ctx, userID, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaUsersUserIDResponse(rsp)
-}
-
-// GetV1betaUsersUserIDIdentityRolesWithResponse request returning *GetV1betaUsersUserIDIdentityRolesResponse
-func (c *ClientWithResponses) GetV1betaUsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1betaUsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1betaUsersUserIDIdentityRolesResponse, error) {
-	rsp, err := c.GetV1betaUsersUserIDIdentityRoles(ctx, userID, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaUsersUserIDIdentityRolesResponse(rsp)
-}
-
-// GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse request returning *GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse
-func (c *ClientWithResponses) GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
-	rsp, err := c.GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls(ctx, workspaceGroupID, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp)
-}
-
-// PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithBodyWithResponse request with arbitrary body returning *PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse
-func (c *ClientWithResponses) PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp)
-}
-
-func (c *ClientWithResponses) PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
-	rsp, err := c.PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControls(ctx, workspaceGroupID, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParsePatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp)
 }
 
 // GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse request returning *GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse
@@ -12012,6 +9547,58 @@ func ParsePatchV1TeamsTeamIDResponse(rsp *http.Response) (*PatchV1TeamsTeamIDRes
 	return response, nil
 }
 
+// ParseGetV1TeamsTeamIDIdentityRolesResponse parses an HTTP response from a GetV1TeamsTeamIDIdentityRolesWithResponse call
+func ParseGetV1TeamsTeamIDIdentityRolesResponse(rsp *http.Response) (*GetV1TeamsTeamIDIdentityRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1TeamsTeamIDIdentityRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []IdentityRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1UsersUserIDIdentityRolesResponse parses an HTTP response from a GetV1UsersUserIDIdentityRolesWithResponse call
+func ParseGetV1UsersUserIDIdentityRolesResponse(rsp *http.Response) (*GetV1UsersUserIDIdentityRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1UsersUserIDIdentityRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []IdentityRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1WorkspaceGroupsResponse parses an HTTP response from a GetV1WorkspaceGroupsWithResponse call
 func ParseGetV1WorkspaceGroupsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -12588,558 +10175,6 @@ func ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp *http.Response) (*PostV
 		}
 		response.JSON200 = &dest
 
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaInvitationsResponse parses an HTTP response from a GetV1betaInvitationsWithResponse call
-func ParseGetV1betaInvitationsResponse(rsp *http.Response) (*GetV1betaInvitationsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaInvitationsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []UserInvitation
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostV1betaInvitationsResponse parses an HTTP response from a PostV1betaInvitationsWithResponse call
-func ParsePostV1betaInvitationsResponse(rsp *http.Response) (*PostV1betaInvitationsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostV1betaInvitationsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest UserInvitation
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteV1betaInvitationsInvitationIDResponse parses an HTTP response from a DeleteV1betaInvitationsInvitationIDWithResponse call
-func ParseDeleteV1betaInvitationsInvitationIDResponse(rsp *http.Response) (*DeleteV1betaInvitationsInvitationIDResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteV1betaInvitationsInvitationIDResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest struct {
-			InvitationID openapi_types.UUID `json:"invitationID"`
-		}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaInvitationsInvitationIDResponse parses an HTTP response from a GetV1betaInvitationsInvitationIDWithResponse call
-func ParseGetV1betaInvitationsInvitationIDResponse(rsp *http.Response) (*GetV1betaInvitationsInvitationIDResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaInvitationsInvitationIDResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest UserInvitation
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaOrganizationsOrganizationIDAccessControlsResponse parses an HTTP response from a GetV1betaOrganizationsOrganizationIDAccessControlsWithResponse call
-func ParseGetV1betaOrganizationsOrganizationIDAccessControlsResponse(rsp *http.Response) (*GetV1betaOrganizationsOrganizationIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaOrganizationsOrganizationIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []ResourceRole
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePatchV1betaOrganizationsOrganizationIDAccessControlsResponse parses an HTTP response from a PatchV1betaOrganizationsOrganizationIDAccessControlsWithResponse call
-func ParsePatchV1betaOrganizationsOrganizationIDAccessControlsResponse(rsp *http.Response) (*PatchV1betaOrganizationsOrganizationIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PatchV1betaOrganizationsOrganizationIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaRolesResourceTypeResponse parses an HTTP response from a GetV1betaRolesResourceTypeWithResponse call
-func ParseGetV1betaRolesResourceTypeResponse(rsp *http.Response) (*GetV1betaRolesResourceTypeResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaRolesResourceTypeResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []RoleDefinition
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostV1betaRolesResourceTypeResponse parses an HTTP response from a PostV1betaRolesResourceTypeWithResponse call
-func ParsePostV1betaRolesResourceTypeResponse(rsp *http.Response) (*PostV1betaRolesResourceTypeResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostV1betaRolesResourceTypeResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest RoleDefinition
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseDeleteV1betaRolesResourceTypeRoleResponse parses an HTTP response from a DeleteV1betaRolesResourceTypeRoleWithResponse call
-func ParseDeleteV1betaRolesResourceTypeRoleResponse(rsp *http.Response) (*DeleteV1betaRolesResourceTypeRoleResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteV1betaRolesResourceTypeRoleResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest bool
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaRolesResourceTypeRoleResponse parses an HTTP response from a GetV1betaRolesResourceTypeRoleWithResponse call
-func ParseGetV1betaRolesResourceTypeRoleResponse(rsp *http.Response) (*GetV1betaRolesResourceTypeRoleResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaRolesResourceTypeRoleResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest RoleDefinition
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePutV1betaRolesResourceTypeRoleResponse parses an HTTP response from a PutV1betaRolesResourceTypeRoleWithResponse call
-func ParsePutV1betaRolesResourceTypeRoleResponse(rsp *http.Response) (*PutV1betaRolesResourceTypeRoleResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PutV1betaRolesResourceTypeRoleResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest RoleDefinition
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaSecretsSecretIDAccessControlsResponse parses an HTTP response from a GetV1betaSecretsSecretIDAccessControlsWithResponse call
-func ParseGetV1betaSecretsSecretIDAccessControlsResponse(rsp *http.Response) (*GetV1betaSecretsSecretIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaSecretsSecretIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []ResourceRole
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePatchV1betaSecretsSecretIDAccessControlsResponse parses an HTTP response from a PatchV1betaSecretsSecretIDAccessControlsWithResponse call
-func ParsePatchV1betaSecretsSecretIDAccessControlsResponse(rsp *http.Response) (*PatchV1betaSecretsSecretIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PatchV1betaSecretsSecretIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaTeamsTeamIDAccessControlsResponse parses an HTTP response from a GetV1betaTeamsTeamIDAccessControlsWithResponse call
-func ParseGetV1betaTeamsTeamIDAccessControlsResponse(rsp *http.Response) (*GetV1betaTeamsTeamIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaTeamsTeamIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []ResourceRole
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePatchV1betaTeamsTeamIDAccessControlsResponse parses an HTTP response from a PatchV1betaTeamsTeamIDAccessControlsWithResponse call
-func ParsePatchV1betaTeamsTeamIDAccessControlsResponse(rsp *http.Response) (*PatchV1betaTeamsTeamIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PatchV1betaTeamsTeamIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaTeamsTeamIDIdentityRolesResponse parses an HTTP response from a GetV1betaTeamsTeamIDIdentityRolesWithResponse call
-func ParseGetV1betaTeamsTeamIDIdentityRolesResponse(rsp *http.Response) (*GetV1betaTeamsTeamIDIdentityRolesResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaTeamsTeamIDIdentityRolesResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []IdentityRole
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaUsersResponse parses an HTTP response from a GetV1betaUsersWithResponse call
-func ParseGetV1betaUsersResponse(rsp *http.Response) (*GetV1betaUsersResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaUsersResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []User
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePostV1betaUsersResponse parses an HTTP response from a PostV1betaUsersWithResponse call
-func ParsePostV1betaUsersResponse(rsp *http.Response) (*PostV1betaUsersResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PostV1betaUsersResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	return response, nil
-}
-
-// ParseDeleteV1betaUsersUserIDResponse parses an HTTP response from a DeleteV1betaUsersUserIDWithResponse call
-func ParseDeleteV1betaUsersUserIDResponse(rsp *http.Response) (*DeleteV1betaUsersUserIDResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteV1betaUsersUserIDResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest struct {
-			UserID openapi_types.UUID `json:"userID"`
-		}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaUsersUserIDResponse parses an HTTP response from a GetV1betaUsersUserIDWithResponse call
-func ParseGetV1betaUsersUserIDResponse(rsp *http.Response) (*GetV1betaUsersUserIDResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaUsersUserIDResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest User
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaUsersUserIDIdentityRolesResponse parses an HTTP response from a GetV1betaUsersUserIDIdentityRolesWithResponse call
-func ParseGetV1betaUsersUserIDIdentityRolesResponse(rsp *http.Response) (*GetV1betaUsersUserIDIdentityRolesResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaUsersUserIDIdentityRolesResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []IdentityRole
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse parses an HTTP response from a GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse call
-func ParseGetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp *http.Response) (*GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest []ResourceRole
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParsePatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse parses an HTTP response from a PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse call
-func ParsePatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp *http.Response) (*PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &PatchV1betaWorkspaceGroupsWorkspaceGroupIDAccessControlsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
 	}
 
 	return response, nil

@@ -147,6 +147,13 @@ const (
 	ReplicatedDatabaseDuplicationStatePending  ReplicatedDatabaseDuplicationState = "Pending"
 )
 
+// Defines values for SharedTierCreateVirtualWorkspaceProvider.
+const (
+	SharedTierCreateVirtualWorkspaceProviderAWS   SharedTierCreateVirtualWorkspaceProvider = "AWS"
+	SharedTierCreateVirtualWorkspaceProviderAZURE SharedTierCreateVirtualWorkspaceProvider = "AZURE"
+	SharedTierCreateVirtualWorkspaceProviderGCP   SharedTierCreateVirtualWorkspaceProvider = "GCP"
+)
+
 // Defines values for StorageDRStatusComputeStorageDRState.
 const (
 	StorageDRStatusComputeStorageDRStateActive    StorageDRStatusComputeStorageDRState = "Active"
@@ -233,9 +240,9 @@ const (
 
 // Defines values for WorkspaceGroupCreateProvider.
 const (
-	WorkspaceGroupCreateProviderAWS   WorkspaceGroupCreateProvider = "AWS"
-	WorkspaceGroupCreateProviderAzure WorkspaceGroupCreateProvider = "Azure"
-	WorkspaceGroupCreateProviderGCP   WorkspaceGroupCreateProvider = "GCP"
+	AWS   WorkspaceGroupCreateProvider = "AWS"
+	Azure WorkspaceGroupCreateProvider = "Azure"
+	GCP   WorkspaceGroupCreateProvider = "GCP"
 )
 
 // Defines values for WorkspaceGroupUpdateDeploymentType.
@@ -820,10 +827,49 @@ type SecretUpdate struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// SharedTierCreateVirtualWorkspace defines model for SharedTierCreateVirtualWorkspace.
+type SharedTierCreateVirtualWorkspace struct {
+	// DatabaseName Name of the database
+	DatabaseName string `json:"databaseName"`
+
+	// Name Name of the starter workspace
+	Name string `json:"name"`
+
+	// Provider Name of the provider
+	Provider SharedTierCreateVirtualWorkspaceProvider `json:"provider"`
+
+	// RegionName The region code
+	RegionName string `json:"regionName"`
+}
+
+// SharedTierCreateVirtualWorkspaceProvider Name of the provider
+type SharedTierCreateVirtualWorkspaceProvider string
+
 // SharedTierUpdateUser Represents the information specified when updating a user in a shared tier workspace
 type SharedTierUpdateUser struct {
 	// Password The virtual workspace user password to connect the new user to the database.
 	Password *string `json:"password,omitempty"`
+}
+
+// SharedTierVirtualWorkspace defines model for SharedTierVirtualWorkspace.
+type SharedTierVirtualWorkspace struct {
+	// DatabaseName Name of the database
+	DatabaseName *string `json:"databaseName,omitempty"`
+
+	// Endpoint The application endpoint of the SingleStore database
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// MysqlDmlPort The MySQL DML port
+	MysqlDmlPort *int `json:"mysqlDmlPort,omitempty"`
+
+	// Name Name of the starter workspace
+	Name *string `json:"name,omitempty"`
+
+	// VirtualWorkspaceID ID of the starter workspace
+	VirtualWorkspaceID *openapi_types.UUID `json:"virtualWorkspaceID,omitempty"`
+
+	// WebsocketPort The websockets port
+	WebsocketPort *int `json:"websocketPort,omitempty"`
 }
 
 // StorageDRSetup Represents the information specified to setup Storage DR
@@ -1397,7 +1443,7 @@ type GetV1BillingUsageParams struct {
 	// Metric The metric type. It can have the following values:
 	//
 	//   * `ComputeCredit`: Returns the compute usage.
-	//   * `StorageAvgByte`: Returns the storage usage.
+	//   * `StorageAvgByte`: Returns the average bytes of storage usage.
 	//
 	// By default, usage for both metrics is returned.
 	Metric *GetV1BillingUsageParamsMetric `form:"metric,omitempty" json:"metric,omitempty"`
@@ -1594,6 +1640,9 @@ type PostV1SecretsJSONRequestBody = SecretCreate
 
 // PatchV1SecretsSecretIDJSONRequestBody defines body for PatchV1SecretsSecretID for application/json ContentType.
 type PatchV1SecretsSecretIDJSONRequestBody = SecretUpdate
+
+// PostV1SharedtierVirtualWorkspacesJSONRequestBody defines body for PostV1SharedtierVirtualWorkspaces for application/json ContentType.
+type PostV1SharedtierVirtualWorkspacesJSONRequestBody = SharedTierCreateVirtualWorkspace
 
 // DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody defines body for DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID for application/json ContentType.
 type DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody = DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONBody
@@ -1855,6 +1904,14 @@ type ClientInterface interface {
 	PatchV1SecretsSecretIDWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1SharedtierVirtualWorkspaces request
+	GetV1SharedtierVirtualWorkspaces(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1SharedtierVirtualWorkspaces request with any body
+	PostV1SharedtierVirtualWorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1SharedtierVirtualWorkspaces(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID request with any body
 	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2363,6 +2420,42 @@ func (c *Client) PatchV1SecretsSecretIDWithBody(ctx context.Context, secretID Se
 
 func (c *Client) PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1SecretsSecretIDRequest(c.Server, secretID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1SharedtierVirtualWorkspaces(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SharedtierVirtualWorkspacesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1SharedtierVirtualWorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SharedtierVirtualWorkspacesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1SharedtierVirtualWorkspaces(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SharedtierVirtualWorkspacesRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -4196,6 +4289,73 @@ func NewPatchV1SecretsSecretIDRequestWithBody(server string, secretID SecretID, 
 	}
 
 	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1SharedtierVirtualWorkspacesRequest generates requests for GetV1SharedtierVirtualWorkspaces
+func NewGetV1SharedtierVirtualWorkspacesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1SharedtierVirtualWorkspacesRequest calls the generic PostV1SharedtierVirtualWorkspaces builder with application/json body
+func NewPostV1SharedtierVirtualWorkspacesRequest(server string, body PostV1SharedtierVirtualWorkspacesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1SharedtierVirtualWorkspacesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1SharedtierVirtualWorkspacesRequestWithBody generates requests for PostV1SharedtierVirtualWorkspaces with any type of body
+func NewPostV1SharedtierVirtualWorkspacesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -6173,6 +6333,14 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error)
 
+	// GetV1SharedtierVirtualWorkspaces request
+	GetV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1SharedtierVirtualWorkspacesResponse, error)
+
+	// PostV1SharedtierVirtualWorkspaces request with any body
+	PostV1SharedtierVirtualWorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error)
+
+	PostV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error)
+
 	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID request with any body
 	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
 
@@ -6892,6 +7060,52 @@ func (r PatchV1SecretsSecretIDResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PatchV1SecretsSecretIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1SharedtierVirtualWorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]SharedTierVirtualWorkspace
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SharedtierVirtualWorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SharedtierVirtualWorkspacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1SharedtierVirtualWorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		VirtualWorkspaceID openapi_types.UUID `json:"virtualWorkspaceID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1SharedtierVirtualWorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1SharedtierVirtualWorkspacesResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -8080,6 +8294,32 @@ func (c *ClientWithResponses) PatchV1SecretsSecretIDWithResponse(ctx context.Con
 	return ParsePatchV1SecretsSecretIDResponse(rsp)
 }
 
+// GetV1SharedtierVirtualWorkspacesWithResponse request returning *GetV1SharedtierVirtualWorkspacesResponse
+func (c *ClientWithResponses) GetV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1SharedtierVirtualWorkspacesResponse, error) {
+	rsp, err := c.GetV1SharedtierVirtualWorkspaces(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SharedtierVirtualWorkspacesResponse(rsp)
+}
+
+// PostV1SharedtierVirtualWorkspacesWithBodyWithResponse request with arbitrary body returning *PostV1SharedtierVirtualWorkspacesResponse
+func (c *ClientWithResponses) PostV1SharedtierVirtualWorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error) {
+	rsp, err := c.PostV1SharedtierVirtualWorkspacesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SharedtierVirtualWorkspacesResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error) {
+	rsp, err := c.PostV1SharedtierVirtualWorkspaces(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SharedtierVirtualWorkspacesResponse(rsp)
+}
+
 // DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse request with arbitrary body returning *DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse
 func (c *ClientWithResponses) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
 	rsp, err := c.DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx, virtualWorkspaceID, userID, contentType, body, reqEditors...)
@@ -9206,6 +9446,60 @@ func ParsePatchV1SecretsSecretIDResponse(rsp *http.Response) (*PatchV1SecretsSec
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1SharedtierVirtualWorkspacesResponse parses an HTTP response from a GetV1SharedtierVirtualWorkspacesWithResponse call
+func ParseGetV1SharedtierVirtualWorkspacesResponse(rsp *http.Response) (*GetV1SharedtierVirtualWorkspacesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SharedtierVirtualWorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []SharedTierVirtualWorkspace
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1SharedtierVirtualWorkspacesResponse parses an HTTP response from a PostV1SharedtierVirtualWorkspacesWithResponse call
+func ParsePostV1SharedtierVirtualWorkspacesResponse(rsp *http.Response) (*PostV1SharedtierVirtualWorkspacesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1SharedtierVirtualWorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			VirtualWorkspaceID openapi_types.UUID `json:"virtualWorkspaceID"`
+		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -393,7 +393,7 @@ type Execution struct {
 	ExecutionID openapi_types.UUID `json:"executionID"`
 
 	// ExecutionNumber Number of the execution
-	ExecutionNumber int `json:"executionNumber"`
+	ExecutionNumber float32 `json:"executionNumber"`
 
 	// FinishedAt Finish time of the execution
 	FinishedAt *time.Time `json:"finishedAt"`
@@ -417,8 +417,8 @@ type ExecutionStatus string
 
 // ExecutionsMetadata defines model for ExecutionsMetadata.
 type ExecutionsMetadata struct {
-	EndExecutionNumber   int `json:"endExecutionNumber"`
-	StartExecutionNumber int `json:"startExecutionNumber"`
+	EndExecutionNumber   float32 `json:"endExecutionNumber"`
+	StartExecutionNumber float32 `json:"startExecutionNumber"`
 }
 
 // ExecutionsResult defines model for ExecutionsResult.
@@ -6972,7 +6972,7 @@ func (r GetV1JobsJobIDExecutionsResponse) StatusCode() int {
 type GetV1JobsJobIDParametersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *JobParameter
+	JSON200      *[]JobParameter
 }
 
 // Status returns HTTPResponse.Status
@@ -9426,7 +9426,7 @@ func ParseGetV1JobsJobIDParametersResponse(rsp *http.Response) (*GetV1JobsJobIDP
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest JobParameter
+		var dest []JobParameter
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

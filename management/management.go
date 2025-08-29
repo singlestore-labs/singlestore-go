@@ -1774,6 +1774,12 @@ type PostV1UsersJSONBody struct {
 	Email openapi_types.Email `json:"email"`
 }
 
+// GetV1UsersCurrentParams defines parameters for GetV1UsersCurrent.
+type GetV1UsersCurrentParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
 // GetV1UsersUserIDParams defines parameters for GetV1UsersUserID.
 type GetV1UsersUserIDParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
@@ -2355,6 +2361,9 @@ type ClientInterface interface {
 	PostV1UsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PostV1Users(ctx context.Context, body PostV1UsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1UsersCurrent request
+	GetV1UsersCurrent(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteV1UsersUserID request
 	DeleteV1UsersUserID(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3416,6 +3425,18 @@ func (c *Client) PostV1UsersWithBody(ctx context.Context, contentType string, bo
 
 func (c *Client) PostV1Users(ctx context.Context, body PostV1UsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1UsersRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1UsersCurrent(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1UsersCurrentRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -6667,6 +6688,53 @@ func NewPostV1UsersRequestWithBody(server string, contentType string, body io.Re
 	return req, nil
 }
 
+// NewGetV1UsersCurrentRequest generates requests for GetV1UsersCurrent
+func NewGetV1UsersCurrentRequest(server string, params *GetV1UsersCurrentParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users/current")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewDeleteV1UsersUserIDRequest generates requests for DeleteV1UsersUserID
 func NewDeleteV1UsersUserIDRequest(server string, userID UserID) (*http.Request, error) {
 	var err error
@@ -8324,6 +8392,9 @@ type ClientWithResponsesInterface interface {
 
 	PostV1UsersWithResponse(ctx context.Context, body PostV1UsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1UsersResponse, error)
 
+	// GetV1UsersCurrent request
+	GetV1UsersCurrentWithResponse(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*GetV1UsersCurrentResponse, error)
+
 	// DeleteV1UsersUserID request
 	DeleteV1UsersUserIDWithResponse(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*DeleteV1UsersUserIDResponse, error)
 
@@ -9806,6 +9877,28 @@ func (r PostV1UsersResponse) StatusCode() int {
 	return 0
 }
 
+type GetV1UsersCurrentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *User
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1UsersCurrentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1UsersCurrentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type DeleteV1UsersUserIDResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -11197,6 +11290,15 @@ func (c *ClientWithResponses) PostV1UsersWithResponse(ctx context.Context, body 
 		return nil, err
 	}
 	return ParsePostV1UsersResponse(rsp)
+}
+
+// GetV1UsersCurrentWithResponse request returning *GetV1UsersCurrentResponse
+func (c *ClientWithResponses) GetV1UsersCurrentWithResponse(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*GetV1UsersCurrentResponse, error) {
+	rsp, err := c.GetV1UsersCurrent(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1UsersCurrentResponse(rsp)
 }
 
 // DeleteV1UsersUserIDWithResponse request returning *DeleteV1UsersUserIDResponse
@@ -13113,6 +13215,32 @@ func ParsePostV1UsersResponse(rsp *http.Response) (*PostV1UsersResponse, error) 
 	response := &PostV1UsersResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1UsersCurrentResponse parses an HTTP response from a GetV1UsersCurrentWithResponse call
+func ParseGetV1UsersCurrentResponse(rsp *http.Response) (*GetV1UsersCurrentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1UsersCurrentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest User
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	}
 
 	return response, nil

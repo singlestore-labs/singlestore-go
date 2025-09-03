@@ -222,7 +222,7 @@ const (
 // Defines values for WorkspaceGroupProvider.
 const (
 	WorkspaceGroupProviderAWS   WorkspaceGroupProvider = "AWS"
-	WorkspaceGroupProviderAZURE WorkspaceGroupProvider = "AZURE"
+	WorkspaceGroupProviderAzure WorkspaceGroupProvider = "Azure"
 	WorkspaceGroupProviderGCP   WorkspaceGroupProvider = "GCP"
 )
 

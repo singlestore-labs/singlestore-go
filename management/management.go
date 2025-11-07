@@ -44,6 +44,13 @@ const (
 	AuditLogUserTypeUnspecified   AuditLogUserType = "Unspecified"
 )
 
+// Defines values for CloudProvider.
+const (
+	CloudProviderAWS   CloudProvider = "AWS"
+	CloudProviderAzure CloudProvider = "Azure"
+	CloudProviderGCP   CloudProvider = "GCP"
+)
+
 // Defines values for ExecutionStatus.
 const (
 	ExecutionStatusCanceled  ExecutionStatus = "Canceled"
@@ -125,18 +132,11 @@ const (
 	PrivateConnectionCreateTypeOUTBOUND PrivateConnectionCreateType = "OUTBOUND"
 )
 
-// Defines values for RegionProvider.
+// Defines values for ProjectEdition.
 const (
-	RegionProviderAWS   RegionProvider = "AWS"
-	RegionProviderAzure RegionProvider = "Azure"
-	RegionProviderGCP   RegionProvider = "GCP"
-)
-
-// Defines values for RegionV2Provider.
-const (
-	RegionV2ProviderAWS   RegionV2Provider = "AWS"
-	RegionV2ProviderAzure RegionV2Provider = "Azure"
-	RegionV2ProviderGCP   RegionV2Provider = "GCP"
+	ENTERPRISE ProjectEdition = "ENTERPRISE"
+	SHARED     ProjectEdition = "SHARED"
+	STANDARD   ProjectEdition = "STANDARD"
 )
 
 // Defines values for ReplicatedDatabaseDuplicationState.
@@ -219,13 +219,6 @@ const (
 	WorkspaceGroupDeploymentTypePRODUCTION    WorkspaceGroupDeploymentType = "PRODUCTION"
 )
 
-// Defines values for WorkspaceGroupProvider.
-const (
-	WorkspaceGroupProviderAWS   WorkspaceGroupProvider = "AWS"
-	WorkspaceGroupProviderAzure WorkspaceGroupProvider = "Azure"
-	WorkspaceGroupProviderGCP   WorkspaceGroupProvider = "GCP"
-)
-
 // Defines values for WorkspaceGroupSmartDRStatus.
 const (
 	WorkspaceGroupSmartDRStatusACTIVE  WorkspaceGroupSmartDRStatus = "ACTIVE"
@@ -244,13 +237,6 @@ const (
 const (
 	WorkspaceGroupCreateDeploymentTypeNONPRODUCTION WorkspaceGroupCreateDeploymentType = "NON-PRODUCTION"
 	WorkspaceGroupCreateDeploymentTypePRODUCTION    WorkspaceGroupCreateDeploymentType = "PRODUCTION"
-)
-
-// Defines values for WorkspaceGroupCreateProvider.
-const (
-	AWS   WorkspaceGroupCreateProvider = "AWS"
-	Azure WorkspaceGroupCreateProvider = "Azure"
-	GCP   WorkspaceGroupCreateProvider = "GCP"
 )
 
 // Defines values for WorkspaceGroupUpdateDeploymentType.
@@ -325,7 +311,7 @@ type AuditLog struct {
 	// OrgID The organization tied to this event
 	OrgID *openapi_types.UUID `json:"orgID,omitempty"`
 
-	// ProjectID The project id tied to this event
+	// ProjectID This property is deprecated. This is an internal project ID, not related to other project related fields.
 	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
 
 	// Reason A human-readable description of what happened
@@ -337,7 +323,7 @@ type AuditLog struct {
 	// Source The audit log entry source
 	Source *AuditLogSource `json:"source,omitempty"`
 
-	// TeamID The tem id tied to this event
+	// TeamID ID of the team related to this event
 	TeamID *openapi_types.UUID `json:"teamID,omitempty"`
 
 	// Type The audit log entry type
@@ -394,6 +380,9 @@ type BillingUsage struct {
 		Value *string `json:"value,omitempty"`
 	} `json:"usage,omitempty"`
 }
+
+// CloudProvider Cloud provider
+type CloudProvider string
 
 // ControlAccessAction defines model for ControlAccessAction.
 type ControlAccessAction struct {
@@ -743,10 +732,28 @@ type PrivateConnectionUpdate struct {
 	AllowList *string `json:"allowList,omitempty"`
 }
 
+// Project Represents information related to a project
+type Project struct {
+	// CreatedAt The timestamp of when the project was created
+	CreatedAt time.Time `json:"createdAt"`
+
+	// Edition Edition of the project
+	Edition ProjectEdition `json:"edition"`
+
+	// Name Name of the project
+	Name string `json:"name"`
+
+	// ProjectID ID of the project
+	ProjectID openapi_types.UUID `json:"projectID"`
+}
+
+// ProjectEdition Edition of the project
+type ProjectEdition string
+
 // Region Represents information related to a region in which a workspace group is created
 type Region struct {
-	// Provider Name of the provider
-	Provider RegionProvider `json:"provider"`
+	// Provider Cloud provider
+	Provider CloudProvider `json:"provider"`
 
 	// Region Name of the region
 	Region string `json:"region"`
@@ -755,13 +762,10 @@ type Region struct {
 	RegionID openapi_types.UUID `json:"regionID"`
 }
 
-// RegionProvider Name of the provider
-type RegionProvider string
-
 // RegionV2 Represents information related to a region in which a workspace group is created
 type RegionV2 struct {
-	// Provider Name of the provider
-	Provider RegionV2Provider `json:"provider"`
+	// Provider Cloud provider
+	Provider CloudProvider `json:"provider"`
 
 	// Region Name of the region
 	Region string `json:"region"`
@@ -769,9 +773,6 @@ type RegionV2 struct {
 	// RegionName The region code name
 	RegionName string `json:"regionName"`
 }
-
-// RegionV2Provider Name of the provider
-type RegionV2Provider string
 
 // ReplicatedDatabase Represents information related to a database's replication status
 type ReplicatedDatabase struct {
@@ -953,8 +954,11 @@ type SharedTierCreateVirtualWorkspace struct {
 	// DatabaseName Name of the database
 	DatabaseName string `json:"databaseName"`
 
-	// Name Name of the starter workspace
+	// Name Name of the shared workspace
 	Name string `json:"name"`
+
+	// ProjectID Assigns the shared workspace to a project
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
 
 	// Provider Name of the provider
 	Provider SharedTierCreateVirtualWorkspaceProvider `json:"provider"`
@@ -985,6 +989,9 @@ type SharedTierVirtualWorkspace struct {
 
 	// Name Name of the starter workspace
 	Name *string `json:"name,omitempty"`
+
+	// ProjectID ID of the project to which the virtual workspace is assigned.
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
 
 	// VirtualWorkspaceID ID of the starter workspace
 	VirtualWorkspaceID *openapi_types.UUID `json:"virtualWorkspaceID,omitempty"`
@@ -1362,8 +1369,11 @@ type WorkspaceGroup struct {
 	// OutboundAllowList The account ID which must be allowed for outbound connections. This is only applicable to AWS provider.
 	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
 
-	// Provider Name of the provider
-	Provider WorkspaceGroupProvider `json:"provider"`
+	// ProjectID ID of the project to which the workspace group is assigned.
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// Provider Cloud provider
+	Provider CloudProvider `json:"provider"`
 
 	// RegionID ID of the region
 	RegionID openapi_types.UUID `json:"regionID"`
@@ -1389,9 +1399,6 @@ type WorkspaceGroup struct {
 
 // WorkspaceGroupDeploymentType Deployment type of the workspace group
 type WorkspaceGroupDeploymentType string
-
-// WorkspaceGroupProvider Name of the provider
-type WorkspaceGroupProvider string
 
 // WorkspaceGroupSmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
 type WorkspaceGroupSmartDRStatus string
@@ -1447,8 +1454,11 @@ type WorkspaceGroupCreate struct {
 	// OptInPreviewFeature If enabled, the deployment gets the latest features and updates immediately. Suitable only for `NON-PRODUCTION` deployments and cannot be changed after creation.
 	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
 
-	// Provider Name of the provider
-	Provider *WorkspaceGroupCreateProvider `json:"provider,omitempty"`
+	// ProjectID Assigns the workspace group to a project, which specifies the edition of the workspace group.
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// Provider Cloud provider
+	Provider *CloudProvider `json:"provider,omitempty"`
 
 	// RegionID ID of the region where the new workspace group is created
 	RegionID *openapi_types.UUID `json:"regionID,omitempty"`
@@ -1462,9 +1472,6 @@ type WorkspaceGroupCreate struct {
 
 // WorkspaceGroupCreateDeploymentType The deployment type that will be applied to all the workspaces within the workspace group. The default value is `PRODUCTION`
 type WorkspaceGroupCreateDeploymentType string
-
-// WorkspaceGroupCreateProvider Name of the provider
-type WorkspaceGroupCreateProvider string
 
 // WorkspaceGroupUpdate Represents the information specified while updating a workspace group
 type WorkspaceGroupUpdate struct {
@@ -2220,6 +2227,9 @@ type ClientInterface interface {
 
 	PatchV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1Projects request
+	GetV1Projects(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2817,6 +2827,18 @@ func (c *Client) PatchV1PrivateConnectionsConnectionIDWithBody(ctx context.Conte
 
 func (c *Client) PatchV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1PrivateConnectionsConnectionIDRequest(c.Server, connectionID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1Projects(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1ProjectsRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -5091,6 +5113,33 @@ func NewPatchV1PrivateConnectionsConnectionIDRequestWithBody(server string, conn
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1ProjectsRequest generates requests for GetV1Projects
+func NewGetV1ProjectsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -8223,6 +8272,9 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error)
 
+	// GetV1Projects request
+	GetV1ProjectsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1ProjectsResponse, error)
+
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
@@ -9021,6 +9073,28 @@ func (r PatchV1PrivateConnectionsConnectionIDResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PatchV1PrivateConnectionsConnectionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1ProjectsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]Project
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1ProjectsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1ProjectsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -10821,6 +10895,15 @@ func (c *ClientWithResponses) PatchV1PrivateConnectionsConnectionIDWithResponse(
 	return ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp)
 }
 
+// GetV1ProjectsWithResponse request returning *GetV1ProjectsResponse
+func (c *ClientWithResponses) GetV1ProjectsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1ProjectsResponse, error) {
+	rsp, err := c.GetV1Projects(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1ProjectsResponse(rsp)
+}
+
 // GetV1RegionsWithResponse request returning *GetV1RegionsResponse
 func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error) {
 	rsp, err := c.GetV1Regions(ctx, params, reqEditors...)
@@ -12235,6 +12318,32 @@ func ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp *http.Response) (*Pa
 		var dest struct {
 			PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1ProjectsResponse parses an HTTP response from a GetV1ProjectsWithResponse call
+func ParseGetV1ProjectsResponse(rsp *http.Response) (*GetV1ProjectsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1ProjectsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Project
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

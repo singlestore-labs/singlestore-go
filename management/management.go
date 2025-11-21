@@ -1005,9 +1005,6 @@ type StorageDRSetup struct {
 	// AutoReplication If set to true, all existing and future databases created will be automatically replicated to the secondary region. If set to false, turns off auto replication.
 	AutoReplication *bool `json:"autoReplication,omitempty"`
 
-	// BackupBucketKMSKeyID Specifies the KMS key ID associated with the backup bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the backup bucket of the secondary workspace group. This feature is only supported in workspace groups deployed in AWS.
-	BackupBucketKMSKeyID *string `json:"backupBucketKMSKeyID,omitempty"`
-
 	// DataBucketKMSKeyID Specifies the KMS key ID associated with the data bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the data bucket and Amazon Elastic Block Store (EBS) volumes of the secondary workspace group. This feature is only supported in workspace groups deployed in AWS.
 	DataBucketKMSKeyID *string `json:"dataBucketKMSKeyID,omitempty"`
 
@@ -1426,9 +1423,6 @@ type WorkspaceGroupCreate struct {
 
 	// BackupBucketKMSKeyID Specifies the KMS key ID associated with the backup bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the backup bucket of the workspace group. This feature is only supported in workspace groups deployed in AWS.
 	BackupBucketKMSKeyID *string `json:"backupBucketKMSKeyID,omitempty"`
-
-	// DataBucketKMSKeyID Specifies the KMS key ID associated with the data bucket. If specified, enables Customer-Managed Encryption Keys (CMEK) encryption for the data bucket and Amazon Elastic Block Store (EBS) volumes of the workspace group. This feature is only supported in workspace groups deployed in AWS.
-	DataBucketKMSKeyID *string `json:"dataBucketKMSKeyID,omitempty"`
 
 	// DeploymentType The deployment type that will be applied to all the workspaces within the workspace group. The default value is `PRODUCTION`
 	DeploymentType *WorkspaceGroupCreateDeploymentType `json:"deploymentType,omitempty"`

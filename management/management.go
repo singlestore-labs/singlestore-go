@@ -1670,7 +1670,7 @@ type PatchV1FilesFsLocationPathJSONBody struct {
 // PutV1FilesFsLocationPathMultipartBody defines parameters for PutV1FilesFsLocationPath.
 type PutV1FilesFsLocationPathMultipartBody struct {
 	// File File to upload
-	File *openapi_types.File `json:"file,omitempty"`
+	File openapi_types.File `json:"file"`
 }
 
 // GetV1InvitationsParams defines parameters for GetV1Invitations.

@@ -384,6 +384,12 @@ type BillingUsage struct {
 // CloudProvider Cloud provider
 type CloudProvider string
 
+// CloudWorkloadIdentity defines model for CloudWorkloadIdentity.
+type CloudWorkloadIdentity struct {
+	// Identity The cloud workload identity bound to the workspace group that can be used to access cloud resources. The identity format is determined by the cloud provider where the workspace group is hosted. For example, on AWS it's an IAM role ARN.
+	Identity string `json:"identity"`
+}
+
 // ControlAccessAction defines model for ControlAccessAction.
 type ControlAccessAction struct {
 	Grants  []ControlAccessRole `json:"grants"`
@@ -395,6 +401,27 @@ type ControlAccessRole struct {
 	Role  string               `json:"role"`
 	Teams []openapi_types.UUID `json:"teams"`
 	Users []openapi_types.UUID `json:"users"`
+}
+
+// DelegatedEntitiesAppend defines model for DelegatedEntitiesAppend.
+type DelegatedEntitiesAppend struct {
+	// Entities List of customer-provided entities (such as IAM role ARNs) to add to the workspace group's delegated entities.
+	Entities []string `json:"entities"`
+}
+
+// DelegatedEntitiesRemove defines model for DelegatedEntitiesRemove.
+type DelegatedEntitiesRemove struct {
+	// Entities List of customer-provided entities (such as IAM role ARNs) to remove from the workspace group's delegated entities. If not provided in the request body, entities can be specified via the 'entities' query parameter.
+	Entities *[]string `json:"entities,omitempty"`
+}
+
+// DelegatedEntity defines model for DelegatedEntity.
+type DelegatedEntity struct {
+	// CreatedAt Creation timestamp
+	CreatedAt time.Time `json:"createdAt"`
+
+	// Entity The customer-provided entity that the workspace group's cloud workload identity can assume. The entity format is determined by the cloud provider where the workspace group is hosted. For example, on AWS it's a customer-owned IAM role ARN.
+	Entity string `json:"entity"`
 }
 
 // Execution defines model for Execution.
@@ -1805,6 +1832,12 @@ type GetV1WorkspaceGroupsWorkspaceGroupIDParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams defines parameters for DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities.
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams struct {
+	// Entities Entities to remove. Supports comma-separated values or multiple parameters.
+	Entities *string `form:"entities,omitempty" json:"entities,omitempty"`
+}
+
 // GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections.
 type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
@@ -1833,6 +1866,12 @@ type GetV1WorkspacesParams struct {
 type GetV1WorkspacesWorkspaceIDParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams defines parameters for DeleteV1WorkspacesWorkspaceIDDelegatedEntities.
+type DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams struct {
+	// Entities Entities to remove. Supports comma-separated values or multiple parameters.
+	Entities *string `form:"entities,omitempty" json:"entities,omitempty"`
 }
 
 // GetV1WorkspacesWorkspaceIDPrivateConnectionsParams defines parameters for GetV1WorkspacesWorkspaceIDPrivateConnections.
@@ -1919,6 +1958,12 @@ type PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody = WorkspaceGroupUpdat
 // PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls for application/json ContentType.
 type PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody = ControlAccessAction
 
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody defines body for DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities for application/json ContentType.
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesRemove
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities for application/json ContentType.
+type PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesAppend
+
 // PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup for application/json ContentType.
 type PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody = StorageDRSetup
 
@@ -1930,6 +1975,12 @@ type PostV1WorkspacesJSONRequestBody = WorkspaceCreate
 
 // PatchV1WorkspacesWorkspaceIDJSONRequestBody defines body for PatchV1WorkspacesWorkspaceID for application/json ContentType.
 type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody defines body for DeleteV1WorkspacesWorkspaceIDDelegatedEntities for application/json ContentType.
+type DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesRemove
+
+// PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDDelegatedEntities for application/json ContentType.
+type PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesAppend
 
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
@@ -2391,6 +2442,22 @@ type ClientInterface interface {
 
 	PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities request with any body
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities request
+	GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDIdentity request
+	GetV1WorkspaceGroupsWorkspaceGroupIDIdentity(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
 	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2440,6 +2507,22 @@ type ClientInterface interface {
 	PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspacesWorkspaceIDDelegatedEntities request with any body
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDDelegatedEntities request
+	GetV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDDelegatedEntities request with any body
+	PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDIdentity request
+	GetV1WorkspacesWorkspaceIDIdentity(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3593,6 +3676,78 @@ func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx contex
 	return c.Client.Do(req)
 }
 
+func (c *Client) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(c.Server, workspaceGroupID, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(c.Server, workspaceGroupID, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDIdentity(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDIdentityRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(c.Server, workspaceGroupID, params)
 	if err != nil {
@@ -3799,6 +3954,78 @@ func (c *Client) PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, works
 
 func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(c.Server, workspaceID, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(c.Server, workspaceID, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1WorkspacesWorkspaceIDIdentity(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDIdentityRequest(c.Server, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -7220,6 +7447,188 @@ func NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody(serv
 	return req, nil
 }
 
+// NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest calls the generic DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities builder with application/json body
+func NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(server string, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server, workspaceGroupID, params, "application/json", bodyReader)
+}
+
+// NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody generates requests for DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities with any type of body
+func NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Entities != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "entities", runtime.ParamLocationQuery, *params.Entities); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest calls the generic PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities builder with application/json body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(server string, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody generates requests for PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities with any type of body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDIdentityRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDIdentity
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDIdentityRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceGroupID", runtime.ParamLocationPath, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/identity", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest generates requests for GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections
 func NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams) (*http.Request, error) {
 	var err error
@@ -7842,6 +8251,188 @@ func NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server string, workspaceID W
 	return req, nil
 }
 
+// NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequest calls the generic DeleteV1WorkspacesWorkspaceIDDelegatedEntities builder with application/json body
+func NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(server string, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server, workspaceID, params, "application/json", bodyReader)
+}
+
+// NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody generates requests for DeleteV1WorkspacesWorkspaceIDDelegatedEntities with any type of body
+func NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server string, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Entities != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "entities", runtime.ParamLocationQuery, *params.Entities); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDDelegatedEntitiesRequest generates requests for GetV1WorkspacesWorkspaceIDDelegatedEntities
+func NewGetV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequest calls the generic PostV1WorkspacesWorkspaceIDDelegatedEntities builder with application/json body
+func NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(server string, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody generates requests for PostV1WorkspacesWorkspaceIDDelegatedEntities with any type of body
+func NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDIdentityRequest generates requests for GetV1WorkspacesWorkspaceIDIdentity
+func NewGetV1WorkspacesWorkspaceIDIdentityRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "workspaceID", runtime.ParamLocationPath, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/identity", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest generates requests for GetV1WorkspacesWorkspaceIDPrivateConnections
 func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(server string, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams) (*http.Request, error) {
 	var err error
@@ -8436,6 +9027,22 @@ type ClientWithResponsesInterface interface {
 
 	PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
 
+	// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities request with any body
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities request
+	GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities request with any body
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDIdentity request
+	GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse, error)
+
 	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections request
 	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error)
 
@@ -8485,6 +9092,22 @@ type ClientWithResponsesInterface interface {
 	PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
 
 	PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
+
+	// DeleteV1WorkspacesWorkspaceIDDelegatedEntities request with any body
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDDelegatedEntities request
+	GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDDelegatedEntities request with any body
+	PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDIdentity request
+	GetV1WorkspacesWorkspaceIDIdentityWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDIdentityResponse, error)
 
 	// GetV1WorkspacesWorkspaceIDPrivateConnections request
 	GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error)
@@ -10154,6 +10777,97 @@ func (r PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) StatusCode
 	return 0
 }
 
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON207      *struct {
+		Deleted []string `json:"deleted"`
+		Failed  []string `json:"failed"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]DelegatedEntity
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]DelegatedEntity
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CloudWorkloadIdentity
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -10456,6 +11170,97 @@ func (r PatchV1WorkspacesWorkspaceIDResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PatchV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON207      *struct {
+		Deleted []string `json:"deleted"`
+		Failed  []string `json:"failed"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]DelegatedEntity
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]DelegatedEntity
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1WorkspacesWorkspaceIDIdentityResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CloudWorkloadIdentity
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDIdentityResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDIdentityResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -11443,6 +12248,58 @@ func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDAccessContro
 	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp)
 }
 
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse request with arbitrary body returning *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse
+func (c *ClientWithResponses) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx, workspaceGroupID, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+func (c *ClientWithResponses) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx, workspaceGroupID, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse request with arbitrary body returning *PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDIdentity(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse(rsp)
+}
+
 // GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse request returning *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse
 func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
 	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx, workspaceGroupID, params, reqEditors...)
@@ -11599,6 +12456,58 @@ func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithResponse(ctx conte
 		return nil, err
 	}
 	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse request with arbitrary body returning *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse
+func (c *ClientWithResponses) DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx, workspaceID, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+func (c *ClientWithResponses) DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspacesWorkspaceIDDelegatedEntities(ctx, workspaceID, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse request returning *GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDDelegatedEntities(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse request with arbitrary body returning *PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDDelegatedEntities(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDIdentityWithResponse request returning *GetV1WorkspacesWorkspaceIDIdentityResponse
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDIdentityWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDIdentityResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDIdentity(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDIdentityResponse(rsp)
 }
 
 // GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse request returning *GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse
@@ -13559,6 +14468,113 @@ func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp *http
 	return response, nil
 }
 
+// ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse parses an HTTP response from a DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse call
+func ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp *http.Response) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 207:
+		var dest struct {
+			Deleted []string `json:"deleted"`
+			Failed  []string `json:"failed"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON207 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse parses an HTTP response from a PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse call
+func ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp *http.Response) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CloudWorkloadIdentity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse call
 func ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -13859,6 +14875,113 @@ func ParsePatchV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*PatchV1Work
 		var dest struct {
 			WorkspaceID openapi_types.UUID `json:"workspaceID"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse parses an HTTP response from a DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse call
+func ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp *http.Response) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 207:
+		var dest struct {
+			Deleted []string `json:"deleted"`
+			Failed  []string `json:"failed"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON207 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDIdentityResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDIdentityWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDIdentityResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDIdentityResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDIdentityResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CloudWorkloadIdentity
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

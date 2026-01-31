@@ -44,6 +44,11 @@ const (
 	AuditLogUserTypeUnspecified   AuditLogUserType = "Unspecified"
 )
 
+// Defines values for BillingUsageMetric.
+const (
+	BillingUsageMetricComputeHour BillingUsageMetric = "compute-hour"
+)
+
 // Defines values for CloudProvider.
 const (
 	CloudProviderAWS   CloudProvider = "AWS"
@@ -154,13 +159,53 @@ const (
 	SharedTierCreateVirtualWorkspaceProviderGCP   SharedTierCreateVirtualWorkspaceProvider = "GCP"
 )
 
+// Defines values for SimulatedResourceUsageMetric.
+const (
+	SimulatedResourceUsageMetricComputeHour SimulatedResourceUsageMetric = "ComputeHour"
+)
+
+// Defines values for SimulatedResourceUsageType.
+const (
+	SimulatedResourceUsageTypeCluster        SimulatedResourceUsageType = "Cluster"
+	SimulatedResourceUsageTypeWorkspace      SimulatedResourceUsageType = "Workspace"
+	SimulatedResourceUsageTypeWorkspaceGroup SimulatedResourceUsageType = "WorkspaceGroup"
+)
+
+// Defines values for SimulationResourceConfigCacheMultiplier.
+const (
+	SimulationResourceConfigCacheMultiplierX1 SimulationResourceConfigCacheMultiplier = "X1"
+	SimulationResourceConfigCacheMultiplierX2 SimulationResourceConfigCacheMultiplier = "X2"
+	SimulationResourceConfigCacheMultiplierX4 SimulationResourceConfigCacheMultiplier = "X4"
+)
+
+// Defines values for SimulationResourceConfigEdition.
+const (
+	Dedicated  SimulationResourceConfigEdition = "Dedicated"
+	Enterprise SimulationResourceConfigEdition = "Enterprise"
+	Standard   SimulationResourceConfigEdition = "Standard"
+)
+
+// Defines values for SimulationResourceConfigScaleFactor.
+const (
+	SimulationResourceConfigScaleFactorX1 SimulationResourceConfigScaleFactor = "X1"
+	SimulationResourceConfigScaleFactorX2 SimulationResourceConfigScaleFactor = "X2"
+	SimulationResourceConfigScaleFactorX4 SimulationResourceConfigScaleFactor = "X4"
+)
+
+// Defines values for SimulationResourceConfigStatus.
+const (
+	SimulationResourceConfigStatusActive     SimulationResourceConfigStatus = "Active"
+	SimulationResourceConfigStatusPaused     SimulationResourceConfigStatus = "Paused"
+	SimulationResourceConfigStatusTerminated SimulationResourceConfigStatus = "Terminated"
+)
+
 // Defines values for StorageDRStatusComputeStorageDRState.
 const (
-	StorageDRStatusComputeStorageDRStateActive    StorageDRStatusComputeStorageDRState = "Active"
-	StorageDRStatusComputeStorageDRStateCanceled  StorageDRStatusComputeStorageDRState = "Canceled"
-	StorageDRStatusComputeStorageDRStateCompleted StorageDRStatusComputeStorageDRState = "Completed"
-	StorageDRStatusComputeStorageDRStateExpired   StorageDRStatusComputeStorageDRState = "Expired"
-	StorageDRStatusComputeStorageDRStateFailed    StorageDRStatusComputeStorageDRState = "Failed"
+	Active    StorageDRStatusComputeStorageDRState = "Active"
+	Canceled  StorageDRStatusComputeStorageDRState = "Canceled"
+	Completed StorageDRStatusComputeStorageDRState = "Completed"
+	Expired   StorageDRStatusComputeStorageDRState = "Expired"
+	Failed    StorageDRStatusComputeStorageDRState = "Failed"
 )
 
 // Defines values for StorageDRStatusComputeStorageDRType.
@@ -350,11 +395,8 @@ type AuditLogUserType string
 
 // BillingUsage Represents the information related to billing usage
 type BillingUsage struct {
-	// Description A description of what the metric represents
-	Description *string `json:"description,omitempty"`
-
 	// Metric The metric type
-	Metric *string `json:"metric,omitempty"`
+	Metric *BillingUsageMetric `json:"metric,omitempty"`
 
 	// Usage Usage information
 	Usage *[]struct {
@@ -380,6 +422,9 @@ type BillingUsage struct {
 		Value *string `json:"value,omitempty"`
 	} `json:"usage,omitempty"`
 }
+
+// BillingUsageMetric The metric type
+type BillingUsageMetric string
 
 // CloudProvider Cloud provider
 type CloudProvider string
@@ -505,6 +550,48 @@ type FileObjectMetadataFormat string
 
 // FileObjectMetadataType Object type
 type FileObjectMetadataType string
+
+// Flow Represents information related to a SingleStore Flow instance
+type Flow struct {
+	// CreatedAt Timestamp of when the Flow instance was created
+	CreatedAt time.Time `json:"createdAt"`
+
+	// DeletedAt (If included in the output) The timestamp of when the Flow instance was terminated
+	DeletedAt *time.Time `json:"deletedAt,omitempty"`
+
+	// Endpoint Endpoint of the Flow instance
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// FlowID ID of the Flow instance
+	FlowID openapi_types.UUID `json:"flowID"`
+
+	// Name Name of the Flow instance
+	Name string `json:"name"`
+
+	// Size Size of the Flow instance (in Flow size notation), such as "F1"
+	Size *string `json:"size,omitempty"`
+
+	// WorkspaceID ID of the workspace associated with the Flow instance
+	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`
+}
+
+// FlowCreate Represents the information specified while creating a SingleStore Flow instance
+type FlowCreate struct {
+	// DatabaseName Name of the SingleStore database to connect to
+	DatabaseName string `json:"databaseName"`
+
+	// Name Name of the Flow instance
+	Name string `json:"name"`
+
+	// Size Size of the Flow instance (in Flow size notation), such as "F1"
+	Size *string `json:"size,omitempty"`
+
+	// UserName Username of the SingleStore database user with which to connect to the SingleStore database
+	UserName string `json:"userName"`
+
+	// WorkspaceID The ID of the workspace to associate the Flow instance with
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+}
 
 // IdentityRole defines model for IdentityRole.
 type IdentityRole struct {
@@ -1026,6 +1113,102 @@ type SharedTierVirtualWorkspace struct {
 	// WebsocketPort The websockets port
 	WebsocketPort *int `json:"websocketPort,omitempty"`
 }
+
+// SimulateUsageRequest Request body for simulating billing usage
+type SimulateUsageRequest struct {
+	// EndBefore The end time of the simulation period (must be after startAt)
+	EndBefore time.Time `json:"endBefore"`
+
+	// ResourceConfigurations Array of resource configurations to simulate
+	ResourceConfigurations []SimulationResourceConfig `json:"resourceConfigurations"`
+
+	// StartAt The start time of the simulation period
+	StartAt time.Time `json:"startAt"`
+}
+
+// SimulateUsageResponse Response containing simulated usage data
+type SimulateUsageResponse struct {
+	// ResourceUsage Array of simulated resource usage entries
+	ResourceUsage *[]SimulatedResourceUsage `json:"resourceUsage,omitempty"`
+}
+
+// SimulatedResourceUsage Simulated usage data for a single resource
+type SimulatedResourceUsage struct {
+	// Amount The computed usage amount
+	Amount float64 `json:"amount"`
+
+	// EndBefore The end time of the usage period (optional)
+	EndBefore *time.Time `json:"endBefore,omitempty"`
+
+	// Id The ID of the resource
+	Id openapi_types.UUID `json:"id"`
+
+	// Metric The metric used to measure usage (optional)
+	Metric *SimulatedResourceUsageMetric `json:"metric,omitempty"`
+
+	// Name The name of the resource (optional)
+	Name *string `json:"name,omitempty"`
+
+	// ParentID The ID of the parent resource (optional)
+	ParentID *openapi_types.UUID `json:"parentID,omitempty"`
+
+	// StartAt The start time of the usage period (optional)
+	StartAt *time.Time `json:"startAt,omitempty"`
+
+	// Type The type of resource (optional)
+	Type *SimulatedResourceUsageType `json:"type,omitempty"`
+}
+
+// SimulatedResourceUsageMetric The metric used to measure usage (optional)
+type SimulatedResourceUsageMetric string
+
+// SimulatedResourceUsageType The type of resource (optional)
+type SimulatedResourceUsageType string
+
+// SimulationResourceConfig Configuration for a simulated resource
+type SimulationResourceConfig struct {
+	// CacheMultiplier The cache multiplier (optional)
+	CacheMultiplier *SimulationResourceConfigCacheMultiplier `json:"cacheMultiplier,omitempty"`
+
+	// CellID The ID of the cell (optional)
+	CellID *openapi_types.UUID `json:"cellID,omitempty"`
+
+	// Edition The edition of the resource (optional)
+	Edition *SimulationResourceConfigEdition `json:"edition,omitempty"`
+
+	// EndBefore The end time for this resource configuration
+	EndBefore time.Time `json:"endBefore"`
+
+	// Id The ID of the resource
+	Id openapi_types.UUID `json:"id"`
+
+	// MultiAZ Whether the resource uses multiple availability zones (optional)
+	MultiAZ *bool `json:"multiAZ,omitempty"`
+
+	// ScaleFactor The scale factor (optional)
+	ScaleFactor *SimulationResourceConfigScaleFactor `json:"scaleFactor,omitempty"`
+
+	// Size The size of the resource, e.g., S-00, S-1, S-2 (optional)
+	Size *string `json:"size,omitempty"`
+
+	// StartAt The start time for this resource configuration
+	StartAt time.Time `json:"startAt"`
+
+	// Status The status of the resource (optional)
+	Status *SimulationResourceConfigStatus `json:"status,omitempty"`
+}
+
+// SimulationResourceConfigCacheMultiplier The cache multiplier (optional)
+type SimulationResourceConfigCacheMultiplier string
+
+// SimulationResourceConfigEdition The edition of the resource (optional)
+type SimulationResourceConfigEdition string
+
+// SimulationResourceConfigScaleFactor The scale factor (optional)
+type SimulationResourceConfigScaleFactor string
+
+// SimulationResourceConfigStatus The status of the resource (optional)
+type SimulationResourceConfigStatus string
 
 // StorageDRSetup Represents the information specified to setup Storage DR
 type StorageDRSetup struct {
@@ -1593,6 +1776,9 @@ type ConnectionID = openapi_types.UUID
 // Fields defines model for fields.
 type Fields = string
 
+// FlowID defines model for flowID.
+type FlowID = openapi_types.UUID
+
 // InvitationID defines model for invitationID.
 type InvitationID = openapi_types.UUID
 
@@ -1692,6 +1878,15 @@ type PatchV1FilesFsLocationPathJSONBody struct {
 type PutV1FilesFsLocationPathMultipartBody struct {
 	// File File to upload
 	File openapi_types.File `json:"file"`
+}
+
+// GetV1FlowParams defines parameters for GetV1Flow.
+type GetV1FlowParams struct {
+	// IncludeTerminated To include any terminated Flow instances, set to `true`
+	IncludeTerminated *bool `form:"includeTerminated,omitempty" json:"includeTerminated,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
 // GetV1InvitationsParams defines parameters for GetV1Invitations.
@@ -1886,11 +2081,17 @@ type GetV2RegionsParams struct {
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
 }
 
+// PostV1BillingUsageSimulateJSONRequestBody defines body for PostV1BillingUsageSimulate for application/json ContentType.
+type PostV1BillingUsageSimulateJSONRequestBody = SimulateUsageRequest
+
 // PatchV1FilesFsLocationPathJSONRequestBody defines body for PatchV1FilesFsLocationPath for application/json ContentType.
 type PatchV1FilesFsLocationPathJSONRequestBody PatchV1FilesFsLocationPathJSONBody
 
 // PutV1FilesFsLocationPathMultipartRequestBody defines body for PutV1FilesFsLocationPath for multipart/form-data ContentType.
 type PutV1FilesFsLocationPathMultipartRequestBody PutV1FilesFsLocationPathMultipartBody
+
+// PostV1FlowJSONRequestBody defines body for PostV1Flow for application/json ContentType.
+type PostV1FlowJSONRequestBody = FlowCreate
 
 // PostV1InvitationsJSONRequestBody defines body for PostV1Invitations for application/json ContentType.
 type PostV1InvitationsJSONRequestBody = UserInvitationCreate
@@ -2188,6 +2389,11 @@ type ClientInterface interface {
 	// GetV1BillingUsage request
 	GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// PostV1BillingUsageSimulate request with any body
+	PostV1BillingUsageSimulateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1FilesFsLocation request
 	GetV1FilesFsLocation(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2204,6 +2410,20 @@ type ClientInterface interface {
 
 	// PutV1FilesFsLocationPath request with any body
 	PutV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Flow request
+	GetV1Flow(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Flow request with any body
+	PostV1FlowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1Flow(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1FlowFlowID request
+	DeleteV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1FlowFlowID request
+	GetV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1Invitations request
 	GetV1Invitations(ctx context.Context, params *GetV1InvitationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2572,6 +2792,30 @@ func (c *Client) GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsag
 	return c.Client.Do(req)
 }
 
+func (c *Client) PostV1BillingUsageSimulateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1BillingUsageSimulateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1BillingUsageSimulateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetV1FilesFsLocation(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1FilesFsLocationRequest(c.Server, location)
 	if err != nil {
@@ -2634,6 +2878,66 @@ func (c *Client) PatchV1FilesFsLocationPath(ctx context.Context, location FileLo
 
 func (c *Client) PutV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPutV1FilesFsLocationPathRequestWithBody(c.Server, location, path, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1Flow(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FlowRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1FlowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1FlowRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1Flow(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1FlowRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1FlowFlowIDRequest(c.Server, flowID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FlowFlowIDRequest(c.Server, flowID)
 	if err != nil {
 		return nil, err
 	}
@@ -4378,6 +4682,46 @@ func NewGetV1BillingUsageRequest(server string, params *GetV1BillingUsageParams)
 	return req, nil
 }
 
+// NewPostV1BillingUsageSimulateRequest calls the generic PostV1BillingUsageSimulate builder with application/json body
+func NewPostV1BillingUsageSimulateRequest(server string, body PostV1BillingUsageSimulateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1BillingUsageSimulateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1BillingUsageSimulateRequestWithBody generates requests for PostV1BillingUsageSimulate with any type of body
+func NewPostV1BillingUsageSimulateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/billing/usage/simulate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetV1FilesFsLocationRequest generates requests for GetV1FilesFsLocation
 func NewGetV1FilesFsLocationRequest(server string, location FileLocationSchema) (*http.Request, error) {
 	var err error
@@ -4607,6 +4951,177 @@ func NewPutV1FilesFsLocationPathRequestWithBody(server string, location FileLoca
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1FlowRequest generates requests for GetV1Flow
+func NewGetV1FlowRequest(server string, params *GetV1FlowParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.IncludeTerminated != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "includeTerminated", runtime.ParamLocationQuery, *params.IncludeTerminated); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Fields != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "fields", runtime.ParamLocationQuery, *params.Fields); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1FlowRequest calls the generic PostV1Flow builder with application/json body
+func NewPostV1FlowRequest(server string, body PostV1FlowJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1FlowRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1FlowRequestWithBody generates requests for PostV1Flow with any type of body
+func NewPostV1FlowRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1FlowFlowIDRequest generates requests for DeleteV1FlowFlowID
+func NewDeleteV1FlowFlowIDRequest(server string, flowID FlowID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "flowID", runtime.ParamLocationPath, flowID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1FlowFlowIDRequest generates requests for GetV1FlowFlowID
+func NewGetV1FlowFlowIDRequest(server string, flowID FlowID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "flowID", runtime.ParamLocationPath, flowID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -8773,6 +9288,11 @@ type ClientWithResponsesInterface interface {
 	// GetV1BillingUsage request
 	GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error)
 
+	// PostV1BillingUsageSimulate request with any body
+	PostV1BillingUsageSimulateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error)
+
+	PostV1BillingUsageSimulateWithResponse(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error)
+
 	// GetV1FilesFsLocation request
 	GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error)
 
@@ -8789,6 +9309,20 @@ type ClientWithResponsesInterface interface {
 
 	// PutV1FilesFsLocationPath request with any body
 	PutV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1FilesFsLocationPathResponse, error)
+
+	// GetV1Flow request
+	GetV1FlowWithResponse(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*GetV1FlowResponse, error)
+
+	// PostV1Flow request with any body
+	PostV1FlowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error)
+
+	PostV1FlowWithResponse(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error)
+
+	// DeleteV1FlowFlowID request
+	DeleteV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*DeleteV1FlowFlowIDResponse, error)
+
+	// GetV1FlowFlowID request
+	GetV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*GetV1FlowFlowIDResponse, error)
 
 	// GetV1Invitations request
 	GetV1InvitationsWithResponse(ctx context.Context, params *GetV1InvitationsParams, reqEditors ...RequestEditorFn) (*GetV1InvitationsResponse, error)
@@ -9184,6 +9718,28 @@ func (r GetV1BillingUsageResponse) StatusCode() int {
 	return 0
 }
 
+type PostV1BillingUsageSimulateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SimulateUsageResponse
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1BillingUsageSimulateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1BillingUsageSimulateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV1FilesFsLocationResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -9303,6 +9859,98 @@ func (r PutV1FilesFsLocationPathResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PutV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1FlowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]Flow
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FlowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FlowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1FlowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		FlowID openapi_types.UUID `json:"flowID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1FlowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1FlowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1FlowFlowIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		FlowID openapi_types.UUID `json:"flowID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1FlowFlowIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1FlowFlowIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1FlowFlowIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Flow
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FlowFlowIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FlowFlowIDResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -11442,6 +12090,23 @@ func (c *ClientWithResponses) GetV1BillingUsageWithResponse(ctx context.Context,
 	return ParseGetV1BillingUsageResponse(rsp)
 }
 
+// PostV1BillingUsageSimulateWithBodyWithResponse request with arbitrary body returning *PostV1BillingUsageSimulateResponse
+func (c *ClientWithResponses) PostV1BillingUsageSimulateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error) {
+	rsp, err := c.PostV1BillingUsageSimulateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1BillingUsageSimulateResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1BillingUsageSimulateWithResponse(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error) {
+	rsp, err := c.PostV1BillingUsageSimulate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1BillingUsageSimulateResponse(rsp)
+}
+
 // GetV1FilesFsLocationWithResponse request returning *GetV1FilesFsLocationResponse
 func (c *ClientWithResponses) GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error) {
 	rsp, err := c.GetV1FilesFsLocation(ctx, location, reqEditors...)
@@ -11493,6 +12158,50 @@ func (c *ClientWithResponses) PutV1FilesFsLocationPathWithBodyWithResponse(ctx c
 		return nil, err
 	}
 	return ParsePutV1FilesFsLocationPathResponse(rsp)
+}
+
+// GetV1FlowWithResponse request returning *GetV1FlowResponse
+func (c *ClientWithResponses) GetV1FlowWithResponse(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*GetV1FlowResponse, error) {
+	rsp, err := c.GetV1Flow(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FlowResponse(rsp)
+}
+
+// PostV1FlowWithBodyWithResponse request with arbitrary body returning *PostV1FlowResponse
+func (c *ClientWithResponses) PostV1FlowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error) {
+	rsp, err := c.PostV1FlowWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1FlowResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1FlowWithResponse(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error) {
+	rsp, err := c.PostV1Flow(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1FlowResponse(rsp)
+}
+
+// DeleteV1FlowFlowIDWithResponse request returning *DeleteV1FlowFlowIDResponse
+func (c *ClientWithResponses) DeleteV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*DeleteV1FlowFlowIDResponse, error) {
+	rsp, err := c.DeleteV1FlowFlowID(ctx, flowID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1FlowFlowIDResponse(rsp)
+}
+
+// GetV1FlowFlowIDWithResponse request returning *GetV1FlowFlowIDResponse
+func (c *ClientWithResponses) GetV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*GetV1FlowFlowIDResponse, error) {
+	rsp, err := c.GetV1FlowFlowID(ctx, flowID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FlowFlowIDResponse(rsp)
 }
 
 // GetV1InvitationsWithResponse request returning *GetV1InvitationsResponse
@@ -12640,6 +13349,32 @@ func ParseGetV1BillingUsageResponse(rsp *http.Response) (*GetV1BillingUsageRespo
 	return response, nil
 }
 
+// ParsePostV1BillingUsageSimulateResponse parses an HTTP response from a PostV1BillingUsageSimulateWithResponse call
+func ParsePostV1BillingUsageSimulateResponse(rsp *http.Response) (*PostV1BillingUsageSimulateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1BillingUsageSimulateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SimulateUsageResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1FilesFsLocationResponse parses an HTTP response from a GetV1FilesFsLocationWithResponse call
 func ParseGetV1FilesFsLocationResponse(rsp *http.Response) (*GetV1FilesFsLocationResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -12775,6 +13510,114 @@ func ParsePutV1FilesFsLocationPathResponse(rsp *http.Response) (*PutV1FilesFsLoc
 			Name *string `json:"name,omitempty"`
 			Path *string `json:"path,omitempty"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1FlowResponse parses an HTTP response from a GetV1FlowWithResponse call
+func ParseGetV1FlowResponse(rsp *http.Response) (*GetV1FlowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FlowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Flow
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1FlowResponse parses an HTTP response from a PostV1FlowWithResponse call
+func ParsePostV1FlowResponse(rsp *http.Response) (*PostV1FlowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1FlowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			FlowID openapi_types.UUID `json:"flowID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1FlowFlowIDResponse parses an HTTP response from a DeleteV1FlowFlowIDWithResponse call
+func ParseDeleteV1FlowFlowIDResponse(rsp *http.Response) (*DeleteV1FlowFlowIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1FlowFlowIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			FlowID openapi_types.UUID `json:"flowID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1FlowFlowIDResponse parses an HTTP response from a GetV1FlowFlowIDWithResponse call
+func ParseGetV1FlowFlowIDResponse(rsp *http.Response) (*GetV1FlowFlowIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FlowFlowIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Flow
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

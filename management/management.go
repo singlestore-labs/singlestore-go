@@ -556,6 +556,9 @@ type Flow struct {
 	// CreatedAt Timestamp of when the Flow instance was created
 	CreatedAt time.Time `json:"createdAt"`
 
+	// DatabaseName Name of the SingleStore database associated with the Flow instance
+	DatabaseName *string `json:"databaseName,omitempty"`
+
 	// DeletedAt (If included in the output) The timestamp of when the Flow instance was terminated
 	DeletedAt *time.Time `json:"deletedAt,omitempty"`
 
@@ -570,6 +573,9 @@ type Flow struct {
 
 	// Size Size of the Flow instance (in Flow size notation), such as "F1"
 	Size *string `json:"size,omitempty"`
+
+	// UserName Name of the SingleStore database user associated with the Flow instance
+	UserName *string `json:"userName,omitempty"`
 
 	// WorkspaceID ID of the workspace associated with the Flow instance
 	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`

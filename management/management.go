@@ -44,6 +44,13 @@ const (
 	AuditLogUserTypeUnspecified   AuditLogUserType = "Unspecified"
 )
 
+// Defines values for AutoScaleSensitivity.
+const (
+	HIGH   AutoScaleSensitivity = "HIGH"
+	LOW    AutoScaleSensitivity = "LOW"
+	NORMAL AutoScaleSensitivity = "NORMAL"
+)
+
 // Defines values for BillingUsageMetric.
 const (
 	BillingUsageMetricComputeHour BillingUsageMetric = "compute-hour"
@@ -290,13 +297,6 @@ const (
 	WorkspaceGroupUpdateDeploymentTypePRODUCTION    WorkspaceGroupUpdateDeploymentType = "PRODUCTION"
 )
 
-// Defines values for WorkspaceUpdateAutoScaleSensitivity.
-const (
-	HIGH   WorkspaceUpdateAutoScaleSensitivity = "HIGH"
-	LOW    WorkspaceUpdateAutoScaleSensitivity = "LOW"
-	NORMAL WorkspaceUpdateAutoScaleSensitivity = "NORMAL"
-)
-
 // Defines values for WorkspaceUpdateAutoSuspendSuspendType.
 const (
 	DISABLED  WorkspaceUpdateAutoSuspendSuspendType = "DISABLED"
@@ -392,6 +392,24 @@ type AuditLogSource string
 
 // AuditLogUserType the type of user that triggered the audit log entry
 type AuditLogUserType string
+
+// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting for the workspace.
+type AutoScale struct {
+	// ChangedAt Timestamp of last auto-scale configuration change
+	ChangedAt *time.Time `json:"changedAt,omitempty"`
+
+	// LastAutoScaledAt Timestamp of last auto-scaling event
+	LastAutoScaledAt *time.Time `json:"lastAutoScaledAt,omitempty"`
+
+	// MaxScaleFactor The maximum scale factor allowed for the workspace. It can have the following values: 1, 2, or 4. On creation, if not specified, autoscaling is disabled. To disable autoscaling on update, set to 1.
+	MaxScaleFactor *float32 `json:"maxScaleFactor,omitempty"`
+
+	// Sensitivity Specifies the sensitivity of the autoscale operation to changes in the workload. It can have the following values: `LOW`, `NORMAL`, or `HIGH`. By default, the sensitivity is set to `NORMAL`.
+	Sensitivity *AutoScaleSensitivity `json:"sensitivity,omitempty"`
+}
+
+// AutoScaleSensitivity Specifies the sensitivity of the autoscale operation to changes in the workload. It can have the following values: `LOW`, `NORMAL`, or `HIGH`. By default, the sensitivity is set to `NORMAL`.
+type AutoScaleSensitivity string
 
 // BillingUsage Represents the information related to billing usage
 type BillingUsage struct {
@@ -1410,14 +1428,8 @@ type UserInvitationCreate struct {
 
 // Workspace Represents information related to a workspace
 type Workspace struct {
-	// AutoScale (If included in the output) Indicates whether [autoscaling](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) is enabled and displays the current autoscale configuration for this workspace. If the `autoScale` value is empty, the autoscale settings are disabled.
-	AutoScale *struct {
-		// MaxScaleFactor The maximum scale factor allowed for the workspace.
-		MaxScaleFactor float32 `json:"maxScaleFactor"`
-
-		// Sensitivity The sensitivity of the autoscale operation to changes in the workload.
-		Sensitivity *string `json:"sensitivity,omitempty"`
-	} `json:"autoScale,omitempty"`
+	// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting for the workspace.
+	AutoScale *AutoScale `json:"autoScale,omitempty"`
 
 	// AutoSuspend (If included in the output) Represents the current auto suspend settings enabled for this workspace. If autoSuspend has an empty value, then the auto suspend settings are disabled
 	AutoSuspend *struct {
@@ -1515,6 +1527,9 @@ type WorkspaceState string
 
 // WorkspaceCreate Represents the information specified while creating a workspace
 type WorkspaceCreate struct {
+	// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting for the workspace.
+	AutoScale *AutoScale `json:"autoScale,omitempty"`
+
 	// AutoSuspend Auto suspend settings for the workspace. If this field is not provided, no settings will be enabled.
 	AutoSuspend *struct {
 		// SuspendAfterSeconds When to suspend the workspace, according to the suspend type chosen
@@ -1726,14 +1741,8 @@ type WorkspaceResume struct {
 
 // WorkspaceUpdate Represents the information specified while updating a workspace
 type WorkspaceUpdate struct {
-	// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting (scale factor) for the workspace.
-	AutoScale *struct {
-		// MaxScaleFactor The maximum scale factor allowed for the workspace. It can have the following values: 1, 2, or 4. To disable autoscaling, set to 1.
-		MaxScaleFactor *float32 `json:"maxScaleFactor,omitempty"`
-
-		// Sensitivity Specifies the sensitivity of the autoscale operation to changes in the workload. It can have the following values: `LOW`, `NORMAL`, or `HIGH`. By default, the sensitivity is set to `NORMAL`.
-		Sensitivity *WorkspaceUpdateAutoScaleSensitivity `json:"sensitivity,omitempty"`
-	} `json:"autoScale,omitempty"`
+	// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting for the workspace.
+	AutoScale *AutoScale `json:"autoScale,omitempty"`
 
 	// AutoSuspend Specifies the auto suspend mode for the workspace. It can have one of the following values: `IDLE`, `SCHEDULED`, or `DISABLED`.
 	AutoSuspend *struct {
@@ -1763,9 +1772,6 @@ type WorkspaceUpdate struct {
 	// Size Size of the workspace (in workspace size notation), such as "S-1". The default value is "S-00".
 	Size *string `json:"size,omitempty"`
 }
-
-// WorkspaceUpdateAutoScaleSensitivity Specifies the sensitivity of the autoscale operation to changes in the workload. It can have the following values: `LOW`, `NORMAL`, or `HIGH`. By default, the sensitivity is set to `NORMAL`.
-type WorkspaceUpdateAutoScaleSensitivity string
 
 // WorkspaceUpdateAutoSuspendSuspendType The type of auto suspend mode. Set to `DISABLED` to disable auto suspend.
 type WorkspaceUpdateAutoSuspendSuspendType string

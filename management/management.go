@@ -1597,6 +1597,9 @@ type WorkspaceGroup struct {
 	// ProjectID ID of the project to which the workspace group is assigned.
 	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
 
+	// ProjectName Name of the project to which the workspace group is assigned.
+	ProjectName *string `json:"projectName,omitempty"`
+
 	// Provider Cloud provider
 	Provider CloudProvider `json:"provider"`
 

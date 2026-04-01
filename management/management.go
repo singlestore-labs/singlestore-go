@@ -870,7 +870,7 @@ type PrivateConnectionUpdate struct {
 	AllowList *string `json:"allowList,omitempty"`
 }
 
-// Project Represents information related to a project
+// Project defines model for Project.
 type Project struct {
 	// CreatedAt The timestamp of when the project was created
 	CreatedAt time.Time `json:"createdAt"`
@@ -879,14 +879,32 @@ type Project struct {
 	Edition ProjectEdition `json:"edition"`
 
 	// Name Name of the project
-	Name string `json:"name"`
-
-	// ProjectID ID of the project
+	Name      string             `json:"name"`
 	ProjectID openapi_types.UUID `json:"projectID"`
+}
+
+// ProjectCreate defines model for ProjectCreate.
+type ProjectCreate struct {
+	// Edition Edition of the project
+	Edition ProjectEdition `json:"edition"`
+
+	// Name Name of the project
+	Name string `json:"name"`
 }
 
 // ProjectEdition Edition of the project
 type ProjectEdition string
+
+// ProjectIDResponse Represents the project identifier response payload
+type ProjectIDResponse struct {
+	ProjectID openapi_types.UUID `json:"projectID"`
+}
+
+// ProjectUpdate Request body for updating a project
+type ProjectUpdate struct {
+	// Name Name of the project
+	Name string `json:"name"`
+}
 
 // Region Represents information related to a region in which a workspace group is created
 type Region struct {

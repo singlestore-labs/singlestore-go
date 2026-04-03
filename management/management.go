@@ -1821,6 +1821,9 @@ type JobID = openapi_types.UUID
 // OrganizationID defines model for organizationID.
 type OrganizationID = openapi_types.UUID
 
+// ProjectID defines model for projectID.
+type ProjectID = openapi_types.UUID
+
 // ResourceType defines model for resourceType.
 type ResourceType = string
 
@@ -2140,6 +2143,12 @@ type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
 
 // PatchV1PrivateConnectionsConnectionIDJSONRequestBody defines body for PatchV1PrivateConnectionsConnectionID for application/json ContentType.
 type PatchV1PrivateConnectionsConnectionIDJSONRequestBody = PrivateConnectionUpdate
+
+// PostV1ProjectsJSONRequestBody defines body for PostV1Projects for application/json ContentType.
+type PostV1ProjectsJSONRequestBody = ProjectCreate
+
+// PatchV1ProjectsProjectIDJSONRequestBody defines body for PatchV1ProjectsProjectID for application/json ContentType.
+type PatchV1ProjectsProjectIDJSONRequestBody = ProjectUpdate
 
 // PostV1RolesResourceTypeJSONRequestBody defines body for PostV1RolesResourceType for application/json ContentType.
 type PostV1RolesResourceTypeJSONRequestBody = RoleCreate
@@ -2521,6 +2530,22 @@ type ClientInterface interface {
 
 	// GetV1Projects request
 	GetV1Projects(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Projects request with any body
+	PostV1ProjectsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1Projects(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1ProjectsProjectID request
+	DeleteV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1ProjectsProjectID request
+	GetV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1ProjectsProjectID request with any body
+	PatchV1ProjectsProjectIDWithBody(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1ProjectsProjectID(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1Regions request
 	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3247,6 +3272,78 @@ func (c *Client) PatchV1PrivateConnectionsConnectionID(ctx context.Context, conn
 
 func (c *Client) GetV1Projects(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV1ProjectsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1ProjectsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1ProjectsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1Projects(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1ProjectsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1ProjectsProjectIDRequest(c.Server, projectID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1ProjectsProjectIDRequest(c.Server, projectID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1ProjectsProjectIDWithBody(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1ProjectsProjectIDRequestWithBody(c.Server, projectID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1ProjectsProjectID(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1ProjectsProjectIDRequest(c.Server, projectID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5903,6 +6000,161 @@ func NewGetV1ProjectsRequest(server string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewPostV1ProjectsRequest calls the generic PostV1Projects builder with application/json body
+func NewPostV1ProjectsRequest(server string, body PostV1ProjectsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1ProjectsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1ProjectsRequestWithBody generates requests for PostV1Projects with any type of body
+func NewPostV1ProjectsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1ProjectsProjectIDRequest generates requests for DeleteV1ProjectsProjectID
+func NewDeleteV1ProjectsProjectIDRequest(server string, projectID ProjectID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "projectID", runtime.ParamLocationPath, projectID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1ProjectsProjectIDRequest generates requests for GetV1ProjectsProjectID
+func NewGetV1ProjectsProjectIDRequest(server string, projectID ProjectID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "projectID", runtime.ParamLocationPath, projectID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1ProjectsProjectIDRequest calls the generic PatchV1ProjectsProjectID builder with application/json body
+func NewPatchV1ProjectsProjectIDRequest(server string, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1ProjectsProjectIDRequestWithBody(server, projectID, "application/json", bodyReader)
+}
+
+// NewPatchV1ProjectsProjectIDRequestWithBody generates requests for PatchV1ProjectsProjectID with any type of body
+func NewPatchV1ProjectsProjectIDRequestWithBody(server string, projectID ProjectID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "projectID", runtime.ParamLocationPath, projectID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -9421,6 +9673,22 @@ type ClientWithResponsesInterface interface {
 	// GetV1Projects request
 	GetV1ProjectsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1ProjectsResponse, error)
 
+	// PostV1Projects request with any body
+	PostV1ProjectsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error)
+
+	PostV1ProjectsWithResponse(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error)
+
+	// DeleteV1ProjectsProjectID request
+	DeleteV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*DeleteV1ProjectsProjectIDResponse, error)
+
+	// GetV1ProjectsProjectID request
+	GetV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*GetV1ProjectsProjectIDResponse, error)
+
+	// PatchV1ProjectsProjectID request with any body
+	PatchV1ProjectsProjectIDWithBodyWithResponse(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error)
+
+	PatchV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error)
+
 	// GetV1Regions request
 	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
 
@@ -10387,6 +10655,94 @@ func (r GetV1ProjectsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetV1ProjectsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1ProjectsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ProjectIDResponse
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1ProjectsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1ProjectsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1ProjectsProjectIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ProjectIDResponse
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1ProjectsProjectIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1ProjectsProjectIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1ProjectsProjectIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Project
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1ProjectsProjectIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1ProjectsProjectIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1ProjectsProjectIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ProjectIDResponse
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1ProjectsProjectIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1ProjectsProjectIDResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -12439,6 +12795,58 @@ func (c *ClientWithResponses) GetV1ProjectsWithResponse(ctx context.Context, req
 	return ParseGetV1ProjectsResponse(rsp)
 }
 
+// PostV1ProjectsWithBodyWithResponse request with arbitrary body returning *PostV1ProjectsResponse
+func (c *ClientWithResponses) PostV1ProjectsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error) {
+	rsp, err := c.PostV1ProjectsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1ProjectsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1ProjectsWithResponse(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error) {
+	rsp, err := c.PostV1Projects(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1ProjectsResponse(rsp)
+}
+
+// DeleteV1ProjectsProjectIDWithResponse request returning *DeleteV1ProjectsProjectIDResponse
+func (c *ClientWithResponses) DeleteV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*DeleteV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.DeleteV1ProjectsProjectID(ctx, projectID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1ProjectsProjectIDResponse(rsp)
+}
+
+// GetV1ProjectsProjectIDWithResponse request returning *GetV1ProjectsProjectIDResponse
+func (c *ClientWithResponses) GetV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*GetV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.GetV1ProjectsProjectID(ctx, projectID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1ProjectsProjectIDResponse(rsp)
+}
+
+// PatchV1ProjectsProjectIDWithBodyWithResponse request with arbitrary body returning *PatchV1ProjectsProjectIDResponse
+func (c *ClientWithResponses) PatchV1ProjectsProjectIDWithBodyWithResponse(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.PatchV1ProjectsProjectIDWithBody(ctx, projectID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1ProjectsProjectIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.PatchV1ProjectsProjectID(ctx, projectID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1ProjectsProjectIDResponse(rsp)
+}
+
 // GetV1RegionsWithResponse request returning *GetV1RegionsResponse
 func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error) {
 	rsp, err := c.GetV1Regions(ctx, params, reqEditors...)
@@ -14117,6 +14525,110 @@ func ParseGetV1ProjectsResponse(rsp *http.Response) (*GetV1ProjectsResponse, err
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []Project
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1ProjectsResponse parses an HTTP response from a PostV1ProjectsWithResponse call
+func ParsePostV1ProjectsResponse(rsp *http.Response) (*PostV1ProjectsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1ProjectsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ProjectIDResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1ProjectsProjectIDResponse parses an HTTP response from a DeleteV1ProjectsProjectIDWithResponse call
+func ParseDeleteV1ProjectsProjectIDResponse(rsp *http.Response) (*DeleteV1ProjectsProjectIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1ProjectsProjectIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ProjectIDResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1ProjectsProjectIDResponse parses an HTTP response from a GetV1ProjectsProjectIDWithResponse call
+func ParseGetV1ProjectsProjectIDResponse(rsp *http.Response) (*GetV1ProjectsProjectIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1ProjectsProjectIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Project
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1ProjectsProjectIDResponse parses an HTTP response from a PatchV1ProjectsProjectIDWithResponse call
+func ParsePatchV1ProjectsProjectIDResponse(rsp *http.Response) (*PatchV1ProjectsProjectIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1ProjectsProjectIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ProjectIDResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

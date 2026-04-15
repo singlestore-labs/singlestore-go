@@ -1870,6 +1870,15 @@ type GetV1AuditLogsParams struct {
 
 	// LastName A last name to match against
 	LastName *string `form:"lastName,omitempty" json:"lastName,omitempty"`
+
+	// Email An email address to match against
+	Email *openapi_types.Email `form:"email,omitempty" json:"email,omitempty"`
+
+	// UserID A user ID to match against
+	UserID *openapi_types.UUID `form:"userID,omitempty" json:"userID,omitempty"`
+
+	// SortByDescending If true, sort audit logs by createdAt in descending order
+	SortByDescending *bool `form:"sortByDescending,omitempty" json:"sortByDescending,omitempty"`
 }
 
 // GetV1BillingUsageParams defines parameters for GetV1BillingUsage.
@@ -4702,6 +4711,54 @@ func NewGetV1AuditLogsRequest(server string, params *GetV1AuditLogsParams) (*htt
 	if params.LastName != nil {
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "lastName", runtime.ParamLocationQuery, *params.LastName); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Email != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.UserID != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "userID", runtime.ParamLocationQuery, *params.UserID); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.SortByDescending != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sortByDescending", runtime.ParamLocationQuery, *params.SortByDescending); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err

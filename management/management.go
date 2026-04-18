@@ -2118,6 +2118,9 @@ type DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams struct {
 type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
 	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
 	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+
+	// WorkspaceGroupID ID of the workspace group
+	WorkspaceGroupID openapi_types.UUID `form:"workspaceGroupID" json:"workspaceGroupID"`
 }
 
 // GetV2RegionsParams defines parameters for GetV2Regions.
@@ -9332,6 +9335,18 @@ func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(server string, works
 			}
 		}
 
+	}
+
+	if queryFrag, err := runtime.StyleParamWithLocation("form", true, "workspaceGroupID", runtime.ParamLocationQuery, params.WorkspaceGroupID); err != nil {
+		return nil, err
+	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+		return nil, err
+	} else {
+		for k, v := range parsed {
+			for _, v2 := range v {
+				queryValues.Add(k, v2)
+			}
+		}
 	}
 
 	queryURL.RawQuery = queryValues.Encode()

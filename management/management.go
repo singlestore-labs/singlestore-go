@@ -146,7 +146,9 @@ const (
 
 // Defines values for ProjectEdition.
 const (
+	DEDICATED  ProjectEdition = "DEDICATED"
 	ENTERPRISE ProjectEdition = "ENTERPRISE"
+	PREMIUM    ProjectEdition = "PREMIUM"
 	SHARED     ProjectEdition = "SHARED"
 	STANDARD   ProjectEdition = "STANDARD"
 )
@@ -331,6 +333,9 @@ const (
 
 // AuditLog Represents an audit log entry
 type AuditLog struct {
+	// ApiKeyID The API key ID used to perform this action, if applicable
+	ApiKeyID *openapi_types.UUID `json:"apiKeyID,omitempty"`
+
 	// Attributes additional keys and values that are specific to the audit log type
 	Attributes *map[string]interface{} `json:"attributes,omitempty"`
 	AuditID    *openapi_types.UUID     `json:"auditID,omitempty"`
@@ -1876,6 +1881,21 @@ type GetV1AuditLogsParams struct {
 
 	// UserID A user ID to match against
 	UserID *openapi_types.UUID `form:"userID,omitempty" json:"userID,omitempty"`
+
+	// ApiKeyID Filter by the API key ID used to perform the action
+	ApiKeyID *openapi_types.UUID `form:"apiKeyID,omitempty" json:"apiKeyID,omitempty"`
+
+	// WorkspaceGroupID A workspace group ID to filter by
+	WorkspaceGroupID *openapi_types.UUID `form:"workspaceGroupID,omitempty" json:"workspaceGroupID,omitempty"`
+
+	// ProjectID A project ID to filter by
+	ProjectID *openapi_types.UUID `form:"projectID,omitempty" json:"projectID,omitempty"`
+
+	// TeamID A team ID to filter by
+	TeamID *openapi_types.UUID `form:"teamID,omitempty" json:"teamID,omitempty"`
+
+	// WorkspaceID A workspace ID to filter by
+	WorkspaceID *openapi_types.UUID `form:"workspaceID,omitempty" json:"workspaceID,omitempty"`
 
 	// SortByDescending If true, sort audit logs by createdAt in descending order
 	SortByDescending *bool `form:"sortByDescending,omitempty" json:"sortByDescending,omitempty"`
@@ -4746,6 +4766,86 @@ func NewGetV1AuditLogsRequest(server string, params *GetV1AuditLogsParams) (*htt
 	if params.UserID != nil {
 
 		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "userID", runtime.ParamLocationQuery, *params.UserID); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.ApiKeyID != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "apiKeyID", runtime.ParamLocationQuery, *params.ApiKeyID); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.WorkspaceGroupID != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "workspaceGroupID", runtime.ParamLocationQuery, *params.WorkspaceGroupID); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.ProjectID != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "projectID", runtime.ParamLocationQuery, *params.ProjectID); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.TeamID != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "teamID", runtime.ParamLocationQuery, *params.TeamID); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.WorkspaceID != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "workspaceID", runtime.ParamLocationQuery, *params.WorkspaceID); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err

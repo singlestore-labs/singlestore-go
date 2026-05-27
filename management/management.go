@@ -56,6 +56,20 @@ const (
 	BillingUsageMetricComputeHour BillingUsageMetric = "compute-hour"
 )
 
+// Defines values for CloudFunctionCreateTargetType.
+const (
+	CloudFunctionCreateTargetTypeCLUSTER          CloudFunctionCreateTargetType = "CLUSTER"
+	CloudFunctionCreateTargetTypeVIRTUALWORKSPACE CloudFunctionCreateTargetType = "VIRTUAL_WORKSPACE"
+	CloudFunctionCreateTargetTypeWORKSPACE        CloudFunctionCreateTargetType = "WORKSPACE"
+)
+
+// Defines values for CloudFunctionFieldsTargetType.
+const (
+	CloudFunctionFieldsTargetTypeCLUSTER          CloudFunctionFieldsTargetType = "CLUSTER"
+	CloudFunctionFieldsTargetTypeVIRTUALWORKSPACE CloudFunctionFieldsTargetType = "VIRTUAL_WORKSPACE"
+	CloudFunctionFieldsTargetTypeWORKSPACE        CloudFunctionFieldsTargetType = "WORKSPACE"
+)
+
 // Defines values for CloudProvider.
 const (
 	CloudProviderAWS   CloudProvider = "AWS"
@@ -123,6 +137,15 @@ const (
 	JobTargetConfigTargetTypeCluster          JobTargetConfigTargetType = "Cluster"
 	JobTargetConfigTargetTypeVirtualWorkspace JobTargetConfigTargetType = "VirtualWorkspace"
 	JobTargetConfigTargetTypeWorkspace        JobTargetConfigTargetType = "Workspace"
+)
+
+// Defines values for NotebookCloudFunctionStatus.
+const (
+	NotebookCloudFunctionStatusActive       NotebookCloudFunctionStatus = "Active"
+	NotebookCloudFunctionStatusDeleted      NotebookCloudFunctionStatus = "Deleted"
+	NotebookCloudFunctionStatusFailed       NotebookCloudFunctionStatus = "Failed"
+	NotebookCloudFunctionStatusIdle         NotebookCloudFunctionStatus = "Idle"
+	NotebookCloudFunctionStatusInitializing NotebookCloudFunctionStatus = "Initializing"
 )
 
 // Defines values for PrivateConnectionStatus.
@@ -210,11 +233,11 @@ const (
 
 // Defines values for StorageDRStatusComputeStorageDRState.
 const (
-	Active    StorageDRStatusComputeStorageDRState = "Active"
-	Canceled  StorageDRStatusComputeStorageDRState = "Canceled"
-	Completed StorageDRStatusComputeStorageDRState = "Completed"
-	Expired   StorageDRStatusComputeStorageDRState = "Expired"
-	Failed    StorageDRStatusComputeStorageDRState = "Failed"
+	StorageDRStatusComputeStorageDRStateActive    StorageDRStatusComputeStorageDRState = "Active"
+	StorageDRStatusComputeStorageDRStateCanceled  StorageDRStatusComputeStorageDRState = "Canceled"
+	StorageDRStatusComputeStorageDRStateCompleted StorageDRStatusComputeStorageDRState = "Completed"
+	StorageDRStatusComputeStorageDRStateExpired   StorageDRStatusComputeStorageDRState = "Expired"
+	StorageDRStatusComputeStorageDRStateFailed    StorageDRStatusComputeStorageDRState = "Failed"
 )
 
 // Defines values for StorageDRStatusComputeStorageDRType.
@@ -330,6 +353,15 @@ const (
 	Hour  GetV1BillingUsageParamsAggregateBy = "hour"
 	Month GetV1BillingUsageParamsAggregateBy = "month"
 )
+
+// AppToken defines model for AppToken.
+type AppToken struct {
+	// ExpiresAt The time at which this JWT token will become invalid
+	ExpiresAt string `json:"expiresAt"`
+
+	// Jwt The JWT token that can be used to interact with a singlestore native App
+	Jwt string `json:"jwt"`
+}
 
 // AuditLog Represents an audit log entry
 type AuditLog struct {
@@ -448,6 +480,78 @@ type BillingUsage struct {
 
 // BillingUsageMetric The metric type
 type BillingUsageMetric string
+
+// CloudFunctionCreate defines model for CloudFunctionCreate.
+type CloudFunctionCreate struct {
+	// DatabaseName Name of the database to connect to
+	DatabaseName *string `json:"databaseName"`
+
+	// Description Description of the cloud function
+	Description *string `json:"description"`
+
+	// IdleTimeoutSeconds Idle timeout in seconds
+	IdleTimeoutSeconds *int `json:"idleTimeoutSeconds,omitempty"`
+
+	// Image Container image to use (mutually exclusive with `notebookPath`)
+	Image *string `json:"image"`
+
+	// IsAgent Whether the cloud function runs as an agent
+	IsAgent *bool `json:"isAgent,omitempty"`
+
+	// Name Name of the cloud function
+	Name *string `json:"name,omitempty"`
+
+	// NotebookPath Path to the notebook file (mutually exclusive with `image`)
+	NotebookPath *string `json:"notebookPath"`
+
+	// PoolName Nova pool name for execution
+	PoolName *string `json:"poolName"`
+
+	// TargetID Target resource ID (required if `targetType` is specified)
+	TargetID *openapi_types.UUID `json:"targetID"`
+
+	// TargetType Type of the target resource (required if `targetID` is specified). It can have one of the following values: `WORKSPACE`, `CLUSTER`, or `VIRTUAL_WORKSPACE`.
+	TargetType *CloudFunctionCreateTargetType `json:"targetType"`
+}
+
+// CloudFunctionCreateTargetType Type of the target resource (required if `targetID` is specified). It can have one of the following values: `WORKSPACE`, `CLUSTER`, or `VIRTUAL_WORKSPACE`.
+type CloudFunctionCreateTargetType string
+
+// CloudFunctionFields Common fields for cloud function create and update operations
+type CloudFunctionFields struct {
+	// DatabaseName Name of the database to connect to
+	DatabaseName *string `json:"databaseName"`
+
+	// Description Description of the cloud function
+	Description *string `json:"description"`
+
+	// IdleTimeoutSeconds Idle timeout in seconds
+	IdleTimeoutSeconds *int `json:"idleTimeoutSeconds,omitempty"`
+
+	// Image Container image to use (mutually exclusive with `notebookPath`)
+	Image *string `json:"image"`
+
+	// Name Name of the cloud function
+	Name *string `json:"name,omitempty"`
+
+	// NotebookPath Path to the notebook file (mutually exclusive with `image`)
+	NotebookPath *string `json:"notebookPath"`
+
+	// PoolName Nova pool name for execution
+	PoolName *string `json:"poolName"`
+
+	// TargetID Target resource ID (required if `targetType` is specified)
+	TargetID *openapi_types.UUID `json:"targetID"`
+
+	// TargetType Type of the target resource (required if `targetID` is specified). It can have one of the following values: `WORKSPACE`, `CLUSTER`, or `VIRTUAL_WORKSPACE`.
+	TargetType *CloudFunctionFieldsTargetType `json:"targetType"`
+}
+
+// CloudFunctionFieldsTargetType Type of the target resource (required if `targetID` is specified). It can have one of the following values: `WORKSPACE`, `CLUSTER`, or `VIRTUAL_WORKSPACE`.
+type CloudFunctionFieldsTargetType string
+
+// CloudFunctionUpdate Common fields for cloud function create and update operations
+type CloudFunctionUpdate = CloudFunctionFields
 
 // CloudProvider Cloud provider
 type CloudProvider string
@@ -759,6 +863,51 @@ type JobTargetConfig struct {
 
 // JobTargetConfigTargetType defines model for JobTargetConfig.TargetType.
 type JobTargetConfigTargetType string
+
+// NotebookCloudFunction A cloud function resource
+type NotebookCloudFunction struct {
+	// CreatedAt Timestamp of when the cloud function was created
+	CreatedAt time.Time `json:"createdAt"`
+
+	// CreatedBy ID of the user that created the cloud function
+	CreatedBy openapi_types.UUID `json:"createdBy"`
+
+	// Description Description of the cloud function
+	Description *string `json:"description,omitempty"`
+
+	// Endpoint The endpoint URL for invoking the cloud function
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// LastUpdatedAt Timestamp of when the cloud function was last updated
+	LastUpdatedAt *time.Time `json:"lastUpdatedAt,omitempty"`
+
+	// Name Name of the cloud function
+	Name string `json:"name"`
+
+	// ServiceID Unique identifier for the cloud function
+	ServiceID openapi_types.UUID `json:"serviceID"`
+
+	// Status Current status of the cloud function
+	Status NotebookCloudFunctionStatus `json:"status"`
+}
+
+// NotebookCloudFunctionStatus Current status of the cloud function
+type NotebookCloudFunctionStatus string
+
+// NotebookCloudFunctionPaginationMetadata Pagination metadata for the cloud functions list
+type NotebookCloudFunctionPaginationMetadata struct {
+	// Count Number of cloud functions in the current page
+	Count int `json:"count"`
+
+	// HasNextPage Indicates if there is a next page
+	HasNextPage bool `json:"hasNextPage"`
+
+	// HasPreviousPage Indicates if there is a previous page
+	HasPreviousPage bool `json:"hasPreviousPage"`
+
+	// TotalCount Total number of cloud functions
+	TotalCount int `json:"totalCount"`
+}
 
 // Organization Represents information related to an organization
 type Organization struct {
@@ -1808,6 +1957,9 @@ type WorkspaceUpdateDeploymentType string
 // WorkspaceUpdateEnableKai Whether to enable SingleStore Kai in this workspace
 type WorkspaceUpdateEnableKai bool
 
+// CloudfunctionID defines model for cloudfunctionID.
+type CloudfunctionID = openapi_types.UUID
+
 // ConnectionID defines model for connectionID.
 type ConnectionID = openapi_types.UUID
 
@@ -1822,6 +1974,15 @@ type InvitationID = openapi_types.UUID
 
 // JobID defines model for jobID.
 type JobID = openapi_types.UUID
+
+// LastKnownUpdatedAt defines model for lastKnownUpdatedAt.
+type LastKnownUpdatedAt = time.Time
+
+// Limit defines model for limit.
+type Limit = int
+
+// OffsetID defines model for offsetID.
+type OffsetID = openapi_types.UUID
 
 // OrganizationID defines model for organizationID.
 type OrganizationID = openapi_types.UUID
@@ -1840,6 +2001,9 @@ type SecretID = openapi_types.UUID
 
 // TeamID defines model for teamID.
 type TeamID = openapi_types.UUID
+
+// UpdateNotebookSnapshot defines model for updateNotebookSnapshot.
+type UpdateNotebookSnapshot = bool
 
 // UserID defines model for userID.
 type UserID = openapi_types.UUID
@@ -1926,6 +2090,24 @@ type GetV1BillingUsageParamsMetric string
 
 // GetV1BillingUsageParamsAggregateBy defines parameters for GetV1BillingUsage.
 type GetV1BillingUsageParamsAggregateBy string
+
+// GetV1CloudfunctionsParams defines parameters for GetV1Cloudfunctions.
+type GetV1CloudfunctionsParams struct {
+	// Limit Maximum number of items to return in a paginated query
+	Limit *Limit `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// OffsetID ID of the last item from the previous page, used to continue pagination.
+	OffsetID *OffsetID `form:"offsetID,omitempty" json:"offsetID,omitempty"`
+}
+
+// PatchV1CloudfunctionsCloudfunctionIDParams defines parameters for PatchV1CloudfunctionsCloudfunctionID.
+type PatchV1CloudfunctionsCloudfunctionIDParams struct {
+	// LastKnownUpdatedAt The timestamp used for concurrency control. The resource will be updated only if the current last updated timestamp matches the given value.
+	LastKnownUpdatedAt *LastKnownUpdatedAt `form:"lastKnownUpdatedAt,omitempty" json:"lastKnownUpdatedAt,omitempty"`
+
+	// UpdateNotebookSnapshot Indicates whether to update the notebook snapshot after updating the cloud function.
+	UpdateNotebookSnapshot *UpdateNotebookSnapshot `form:"updateNotebookSnapshot,omitempty" json:"updateNotebookSnapshot,omitempty"`
+}
 
 // GetV1FilesFsLocationPathParams defines parameters for GetV1FilesFsLocationPath.
 type GetV1FilesFsLocationPathParams struct {
@@ -2151,6 +2333,12 @@ type GetV2RegionsParams struct {
 
 // PostV1BillingUsageSimulateJSONRequestBody defines body for PostV1BillingUsageSimulate for application/json ContentType.
 type PostV1BillingUsageSimulateJSONRequestBody = SimulateUsageRequest
+
+// PostV1CloudfunctionsJSONRequestBody defines body for PostV1Cloudfunctions for application/json ContentType.
+type PostV1CloudfunctionsJSONRequestBody = CloudFunctionCreate
+
+// PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody defines body for PatchV1CloudfunctionsCloudfunctionID for application/json ContentType.
+type PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody = CloudFunctionUpdate
 
 // PatchV1FilesFsLocationPathJSONRequestBody defines body for PatchV1FilesFsLocationPath for application/json ContentType.
 type PatchV1FilesFsLocationPathJSONRequestBody PatchV1FilesFsLocationPathJSONBody
@@ -2467,6 +2655,28 @@ type ClientInterface interface {
 	PostV1BillingUsageSimulateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Cloudfunctions request
+	GetV1Cloudfunctions(ctx context.Context, params *GetV1CloudfunctionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Cloudfunctions request with any body
+	PostV1CloudfunctionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1Cloudfunctions(ctx context.Context, body PostV1CloudfunctionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1CloudfunctionsCloudfunctionID request
+	DeleteV1CloudfunctionsCloudfunctionID(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1CloudfunctionsCloudfunctionID request
+	GetV1CloudfunctionsCloudfunctionID(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1CloudfunctionsCloudfunctionID request with any body
+	PatchV1CloudfunctionsCloudfunctionIDWithBody(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1CloudfunctionsCloudfunctionID(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, body PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1CloudfunctionsCloudfunctionIDToken request
+	GetV1CloudfunctionsCloudfunctionIDToken(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1FilesFsLocation request
 	GetV1FilesFsLocation(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2896,6 +3106,102 @@ func (c *Client) PostV1BillingUsageSimulateWithBody(ctx context.Context, content
 
 func (c *Client) PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1BillingUsageSimulateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1Cloudfunctions(ctx context.Context, params *GetV1CloudfunctionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1CloudfunctionsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1CloudfunctionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1CloudfunctionsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1Cloudfunctions(ctx context.Context, body PostV1CloudfunctionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1CloudfunctionsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1CloudfunctionsCloudfunctionID(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1CloudfunctionsCloudfunctionIDRequest(c.Server, cloudfunctionID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1CloudfunctionsCloudfunctionID(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1CloudfunctionsCloudfunctionIDRequest(c.Server, cloudfunctionID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1CloudfunctionsCloudfunctionIDWithBody(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1CloudfunctionsCloudfunctionIDRequestWithBody(c.Server, cloudfunctionID, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1CloudfunctionsCloudfunctionID(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, body PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1CloudfunctionsCloudfunctionIDRequest(c.Server, cloudfunctionID, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV1CloudfunctionsCloudfunctionIDToken(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1CloudfunctionsCloudfunctionIDTokenRequest(c.Server, cloudfunctionID)
 	if err != nil {
 		return nil, err
 	}
@@ -5008,6 +5314,294 @@ func NewPostV1BillingUsageSimulateRequestWithBody(server string, contentType str
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1CloudfunctionsRequest generates requests for GetV1Cloudfunctions
+func NewGetV1CloudfunctionsRequest(server string, params *GetV1CloudfunctionsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudfunctions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.Limit != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "limit", runtime.ParamLocationQuery, *params.Limit); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.OffsetID != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "offsetID", runtime.ParamLocationQuery, *params.OffsetID); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1CloudfunctionsRequest calls the generic PostV1Cloudfunctions builder with application/json body
+func NewPostV1CloudfunctionsRequest(server string, body PostV1CloudfunctionsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1CloudfunctionsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1CloudfunctionsRequestWithBody generates requests for PostV1Cloudfunctions with any type of body
+func NewPostV1CloudfunctionsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudfunctions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1CloudfunctionsCloudfunctionIDRequest generates requests for DeleteV1CloudfunctionsCloudfunctionID
+func NewDeleteV1CloudfunctionsCloudfunctionIDRequest(server string, cloudfunctionID CloudfunctionID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "cloudfunctionID", runtime.ParamLocationPath, cloudfunctionID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudfunctions/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1CloudfunctionsCloudfunctionIDRequest generates requests for GetV1CloudfunctionsCloudfunctionID
+func NewGetV1CloudfunctionsCloudfunctionIDRequest(server string, cloudfunctionID CloudfunctionID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "cloudfunctionID", runtime.ParamLocationPath, cloudfunctionID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudfunctions/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1CloudfunctionsCloudfunctionIDRequest calls the generic PatchV1CloudfunctionsCloudfunctionID builder with application/json body
+func NewPatchV1CloudfunctionsCloudfunctionIDRequest(server string, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, body PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1CloudfunctionsCloudfunctionIDRequestWithBody(server, cloudfunctionID, params, "application/json", bodyReader)
+}
+
+// NewPatchV1CloudfunctionsCloudfunctionIDRequestWithBody generates requests for PatchV1CloudfunctionsCloudfunctionID with any type of body
+func NewPatchV1CloudfunctionsCloudfunctionIDRequestWithBody(server string, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "cloudfunctionID", runtime.ParamLocationPath, cloudfunctionID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudfunctions/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	queryValues := queryURL.Query()
+
+	if params.LastKnownUpdatedAt != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "lastKnownUpdatedAt", runtime.ParamLocationQuery, *params.LastKnownUpdatedAt); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.UpdateNotebookSnapshot != nil {
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "updateNotebookSnapshot", runtime.ParamLocationQuery, *params.UpdateNotebookSnapshot); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	queryURL.RawQuery = queryValues.Encode()
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1CloudfunctionsCloudfunctionIDTokenRequest generates requests for GetV1CloudfunctionsCloudfunctionIDToken
+func NewGetV1CloudfunctionsCloudfunctionIDTokenRequest(server string, cloudfunctionID CloudfunctionID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "cloudfunctionID", runtime.ParamLocationPath, cloudfunctionID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudfunctions/%s/token", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -9750,6 +10344,28 @@ type ClientWithResponsesInterface interface {
 
 	PostV1BillingUsageSimulateWithResponse(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error)
 
+	// GetV1Cloudfunctions request
+	GetV1CloudfunctionsWithResponse(ctx context.Context, params *GetV1CloudfunctionsParams, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsResponse, error)
+
+	// PostV1Cloudfunctions request with any body
+	PostV1CloudfunctionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1CloudfunctionsResponse, error)
+
+	PostV1CloudfunctionsWithResponse(ctx context.Context, body PostV1CloudfunctionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1CloudfunctionsResponse, error)
+
+	// DeleteV1CloudfunctionsCloudfunctionID request
+	DeleteV1CloudfunctionsCloudfunctionIDWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*DeleteV1CloudfunctionsCloudfunctionIDResponse, error)
+
+	// GetV1CloudfunctionsCloudfunctionID request
+	GetV1CloudfunctionsCloudfunctionIDWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsCloudfunctionIDResponse, error)
+
+	// PatchV1CloudfunctionsCloudfunctionID request with any body
+	PatchV1CloudfunctionsCloudfunctionIDWithBodyWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1CloudfunctionsCloudfunctionIDResponse, error)
+
+	PatchV1CloudfunctionsCloudfunctionIDWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, body PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1CloudfunctionsCloudfunctionIDResponse, error)
+
+	// GetV1CloudfunctionsCloudfunctionIDToken request
+	GetV1CloudfunctionsCloudfunctionIDTokenWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsCloudfunctionIDTokenResponse, error)
+
 	// GetV1FilesFsLocation request
 	GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error)
 
@@ -10207,6 +10823,145 @@ func (r PostV1BillingUsageSimulateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PostV1BillingUsageSimulateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1CloudfunctionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		CloudFunctions *[]NotebookCloudFunction `json:"cloudFunctions,omitempty"`
+
+		// Metadata Pagination metadata for the cloud functions list
+		Metadata *NotebookCloudFunctionPaginationMetadata `json:"metadata,omitempty"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1CloudfunctionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1CloudfunctionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1CloudfunctionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		CloudFunctionID *string `json:"cloudFunctionID,omitempty"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1CloudfunctionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1CloudfunctionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1CloudfunctionsCloudfunctionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NotebookCloudFunction
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1CloudfunctionsCloudfunctionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1CloudfunctionsCloudfunctionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1CloudfunctionsCloudfunctionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NotebookCloudFunction
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1CloudfunctionsCloudfunctionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1CloudfunctionsCloudfunctionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1CloudfunctionsCloudfunctionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NotebookCloudFunction
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1CloudfunctionsCloudfunctionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1CloudfunctionsCloudfunctionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV1CloudfunctionsCloudfunctionIDTokenResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *AppToken
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1CloudfunctionsCloudfunctionIDTokenResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1CloudfunctionsCloudfunctionIDTokenResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -12668,6 +13423,76 @@ func (c *ClientWithResponses) PostV1BillingUsageSimulateWithResponse(ctx context
 	return ParsePostV1BillingUsageSimulateResponse(rsp)
 }
 
+// GetV1CloudfunctionsWithResponse request returning *GetV1CloudfunctionsResponse
+func (c *ClientWithResponses) GetV1CloudfunctionsWithResponse(ctx context.Context, params *GetV1CloudfunctionsParams, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsResponse, error) {
+	rsp, err := c.GetV1Cloudfunctions(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1CloudfunctionsResponse(rsp)
+}
+
+// PostV1CloudfunctionsWithBodyWithResponse request with arbitrary body returning *PostV1CloudfunctionsResponse
+func (c *ClientWithResponses) PostV1CloudfunctionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1CloudfunctionsResponse, error) {
+	rsp, err := c.PostV1CloudfunctionsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1CloudfunctionsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1CloudfunctionsWithResponse(ctx context.Context, body PostV1CloudfunctionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1CloudfunctionsResponse, error) {
+	rsp, err := c.PostV1Cloudfunctions(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1CloudfunctionsResponse(rsp)
+}
+
+// DeleteV1CloudfunctionsCloudfunctionIDWithResponse request returning *DeleteV1CloudfunctionsCloudfunctionIDResponse
+func (c *ClientWithResponses) DeleteV1CloudfunctionsCloudfunctionIDWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*DeleteV1CloudfunctionsCloudfunctionIDResponse, error) {
+	rsp, err := c.DeleteV1CloudfunctionsCloudfunctionID(ctx, cloudfunctionID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1CloudfunctionsCloudfunctionIDResponse(rsp)
+}
+
+// GetV1CloudfunctionsCloudfunctionIDWithResponse request returning *GetV1CloudfunctionsCloudfunctionIDResponse
+func (c *ClientWithResponses) GetV1CloudfunctionsCloudfunctionIDWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsCloudfunctionIDResponse, error) {
+	rsp, err := c.GetV1CloudfunctionsCloudfunctionID(ctx, cloudfunctionID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1CloudfunctionsCloudfunctionIDResponse(rsp)
+}
+
+// PatchV1CloudfunctionsCloudfunctionIDWithBodyWithResponse request with arbitrary body returning *PatchV1CloudfunctionsCloudfunctionIDResponse
+func (c *ClientWithResponses) PatchV1CloudfunctionsCloudfunctionIDWithBodyWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1CloudfunctionsCloudfunctionIDResponse, error) {
+	rsp, err := c.PatchV1CloudfunctionsCloudfunctionIDWithBody(ctx, cloudfunctionID, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1CloudfunctionsCloudfunctionIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1CloudfunctionsCloudfunctionIDWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, params *PatchV1CloudfunctionsCloudfunctionIDParams, body PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1CloudfunctionsCloudfunctionIDResponse, error) {
+	rsp, err := c.PatchV1CloudfunctionsCloudfunctionID(ctx, cloudfunctionID, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1CloudfunctionsCloudfunctionIDResponse(rsp)
+}
+
+// GetV1CloudfunctionsCloudfunctionIDTokenWithResponse request returning *GetV1CloudfunctionsCloudfunctionIDTokenResponse
+func (c *ClientWithResponses) GetV1CloudfunctionsCloudfunctionIDTokenWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsCloudfunctionIDTokenResponse, error) {
+	rsp, err := c.GetV1CloudfunctionsCloudfunctionIDToken(ctx, cloudfunctionID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1CloudfunctionsCloudfunctionIDTokenResponse(rsp)
+}
+
 // GetV1FilesFsLocationWithResponse request returning *GetV1FilesFsLocationResponse
 func (c *ClientWithResponses) GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error) {
 	rsp, err := c.GetV1FilesFsLocation(ctx, location, reqEditors...)
@@ -13978,6 +14803,169 @@ func ParsePostV1BillingUsageSimulateResponse(rsp *http.Response) (*PostV1Billing
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SimulateUsageResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1CloudfunctionsResponse parses an HTTP response from a GetV1CloudfunctionsWithResponse call
+func ParseGetV1CloudfunctionsResponse(rsp *http.Response) (*GetV1CloudfunctionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1CloudfunctionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			CloudFunctions *[]NotebookCloudFunction `json:"cloudFunctions,omitempty"`
+
+			// Metadata Pagination metadata for the cloud functions list
+			Metadata *NotebookCloudFunctionPaginationMetadata `json:"metadata,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1CloudfunctionsResponse parses an HTTP response from a PostV1CloudfunctionsWithResponse call
+func ParsePostV1CloudfunctionsResponse(rsp *http.Response) (*PostV1CloudfunctionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1CloudfunctionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			CloudFunctionID *string `json:"cloudFunctionID,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1CloudfunctionsCloudfunctionIDResponse parses an HTTP response from a DeleteV1CloudfunctionsCloudfunctionIDWithResponse call
+func ParseDeleteV1CloudfunctionsCloudfunctionIDResponse(rsp *http.Response) (*DeleteV1CloudfunctionsCloudfunctionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1CloudfunctionsCloudfunctionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NotebookCloudFunction
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1CloudfunctionsCloudfunctionIDResponse parses an HTTP response from a GetV1CloudfunctionsCloudfunctionIDWithResponse call
+func ParseGetV1CloudfunctionsCloudfunctionIDResponse(rsp *http.Response) (*GetV1CloudfunctionsCloudfunctionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1CloudfunctionsCloudfunctionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NotebookCloudFunction
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1CloudfunctionsCloudfunctionIDResponse parses an HTTP response from a PatchV1CloudfunctionsCloudfunctionIDWithResponse call
+func ParsePatchV1CloudfunctionsCloudfunctionIDResponse(rsp *http.Response) (*PatchV1CloudfunctionsCloudfunctionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1CloudfunctionsCloudfunctionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NotebookCloudFunction
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1CloudfunctionsCloudfunctionIDTokenResponse parses an HTTP response from a GetV1CloudfunctionsCloudfunctionIDTokenWithResponse call
+func ParseGetV1CloudfunctionsCloudfunctionIDTokenResponse(rsp *http.Response) (*GetV1CloudfunctionsCloudfunctionIDTokenResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1CloudfunctionsCloudfunctionIDTokenResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest AppToken
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

@@ -212,9 +212,9 @@ const (
 
 // Defines values for SimulationResourceConfigEdition.
 const (
-	Dedicated  SimulationResourceConfigEdition = "Dedicated"
-	Enterprise SimulationResourceConfigEdition = "Enterprise"
-	Standard   SimulationResourceConfigEdition = "Standard"
+	SimulationResourceConfigEditionDedicated  SimulationResourceConfigEdition = "Dedicated"
+	SimulationResourceConfigEditionEnterprise SimulationResourceConfigEdition = "Enterprise"
+	SimulationResourceConfigEditionStandard   SimulationResourceConfigEdition = "Standard"
 )
 
 // Defines values for SimulationResourceConfigScaleFactor.
@@ -246,6 +246,13 @@ const (
 	Failover          StorageDRStatusComputeStorageDRType = "Failover"
 	PreProvisionStart StorageDRStatusComputeStorageDRType = "PreProvisionStart"
 	PreProvisionStop  StorageDRStatusComputeStorageDRType = "PreProvisionStop"
+)
+
+// Defines values for UserUserKind.
+const (
+	UserUserKindCloudPrincipal UserUserKind = "CloudPrincipal"
+	UserUserKindServiceAccount UserUserKind = "ServiceAccount"
+	UserUserKindStandard       UserUserKind = "Standard"
 )
 
 // Defines values for UserInvitationState.
@@ -552,6 +559,54 @@ type CloudFunctionFieldsTargetType string
 
 // CloudFunctionUpdate Common fields for cloud function create and update operations
 type CloudFunctionUpdate = CloudFunctionFields
+
+// CloudPrincipal defines model for CloudPrincipal.
+type CloudPrincipal struct {
+	// CloudPrincipal Customer cloud identity bound to this principal.
+	CloudPrincipal string `json:"cloudPrincipal"`
+
+	// CloudPrincipalID Cloud principal identifier.
+	CloudPrincipalID openapi_types.UUID `json:"cloudPrincipalID"`
+
+	// CreatedBy Identifier of the user that created the cloud principal.
+	CreatedBy *openapi_types.UUID `json:"createdBy,omitempty"`
+
+	// Description Cloud principal description.
+	Description string `json:"description"`
+
+	// Email The generated fake email address for the cloud principal.
+	Email string `json:"email"`
+
+	// Name Cloud principal name.
+	Name string `json:"name"`
+}
+
+// CloudPrincipalCreate defines model for CloudPrincipalCreate.
+type CloudPrincipalCreate struct {
+	// CloudPrincipal Customer cloud identity to bind to this principal.
+	CloudPrincipal string `json:"cloudPrincipal"`
+
+	// Description Cloud principal description.
+	Description *string `json:"description,omitempty"`
+
+	// Name Cloud principal name.
+	Name string `json:"name"`
+}
+
+// CloudPrincipalIDResponse Represents a cloud principal identifier response payload.
+type CloudPrincipalIDResponse struct {
+	// CloudPrincipalID Cloud principal identifier.
+	CloudPrincipalID openapi_types.UUID `json:"cloudPrincipalID"`
+}
+
+// CloudPrincipalUpdate Information specified when updating a cloud principal.
+type CloudPrincipalUpdate struct {
+	// Description Cloud principal description.
+	Description *string `json:"description,omitempty"`
+
+	// Name Cloud principal name.
+	Name *string `json:"name,omitempty"`
+}
 
 // CloudProvider Cloud provider
 type CloudProvider string
@@ -1250,6 +1305,48 @@ type SecretUpdate struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// ServiceAccount defines model for ServiceAccount.
+type ServiceAccount struct {
+	// CreatedBy Identifier of the user that created the service account.
+	CreatedBy *openapi_types.UUID `json:"createdBy,omitempty"`
+
+	// Description Service account description.
+	Description string `json:"description"`
+
+	// Email The generated fake email address for the service account.
+	Email string `json:"email"`
+
+	// Name Service account name.
+	Name string `json:"name"`
+
+	// ServiceAccountID Service account identifier.
+	ServiceAccountID openapi_types.UUID `json:"serviceAccountID"`
+}
+
+// ServiceAccountCreate defines model for ServiceAccountCreate.
+type ServiceAccountCreate struct {
+	// Description Service account description.
+	Description *string `json:"description,omitempty"`
+
+	// Name Service account name.
+	Name string `json:"name"`
+}
+
+// ServiceAccountIDResponse Represents a service account identifier response payload.
+type ServiceAccountIDResponse struct {
+	// ServiceAccountID Service account identifier.
+	ServiceAccountID openapi_types.UUID `json:"serviceAccountID"`
+}
+
+// ServiceAccountUpdate Information specified when updating a service account.
+type ServiceAccountUpdate struct {
+	// Description Service account description.
+	Description *string `json:"description,omitempty"`
+
+	// Name Service account name.
+	Name *string `json:"name,omitempty"`
+}
+
 // SharedTierCreateUser Represents the information specified when creating a user in a shared tier workspace
 type SharedTierCreateUser struct {
 	// Password The starter workspace user password to connect the new user to the database.
@@ -1534,6 +1631,15 @@ type UpdateWindow struct {
 
 // User defines model for User.
 type User struct {
+	// CloudPrincipal Customer cloud identity bound to a cloud principal user.
+	CloudPrincipal *string `json:"cloudPrincipal,omitempty"`
+
+	// CreatedBy Identifier of the user that created a service account or cloud principal user.
+	CreatedBy *openapi_types.UUID `json:"createdBy,omitempty"`
+
+	// Description Description for service account and cloud principal users.
+	Description *string `json:"description,omitempty"`
+
 	// Email The email address of the user.
 	Email string `json:"email"`
 
@@ -1545,7 +1651,13 @@ type User struct {
 
 	// UserID User identifier.
 	UserID openapi_types.UUID `json:"userID"`
+
+	// UserKind User kind.
+	UserKind UserUserKind `json:"userKind"`
 }
+
+// UserUserKind User kind.
+type UserUserKind string
 
 // UserInfo Summary information about a SingleStoreDB Cloud user.
 type UserInfo struct {
@@ -1957,6 +2069,9 @@ type WorkspaceUpdateDeploymentType string
 // WorkspaceUpdateEnableKai Whether to enable SingleStore Kai in this workspace
 type WorkspaceUpdateEnableKai bool
 
+// CloudPrincipalID defines model for cloudPrincipalID.
+type CloudPrincipalID = openapi_types.UUID
+
 // CloudfunctionID defines model for cloudfunctionID.
 type CloudfunctionID = openapi_types.UUID
 
@@ -1998,6 +2113,9 @@ type Role = string
 
 // SecretID defines model for secretID.
 type SecretID = openapi_types.UUID
+
+// ServiceAccountID defines model for serviceAccountID.
+type ServiceAccountID = openapi_types.UUID
 
 // TeamID defines model for teamID.
 type TeamID = openapi_types.UUID
@@ -2334,6 +2452,12 @@ type GetV2RegionsParams struct {
 // PostV1BillingUsageSimulateJSONRequestBody defines body for PostV1BillingUsageSimulate for application/json ContentType.
 type PostV1BillingUsageSimulateJSONRequestBody = SimulateUsageRequest
 
+// PostV1CloudPrincipalsJSONRequestBody defines body for PostV1CloudPrincipals for application/json ContentType.
+type PostV1CloudPrincipalsJSONRequestBody = CloudPrincipalCreate
+
+// PatchV1CloudPrincipalsCloudPrincipalIDJSONRequestBody defines body for PatchV1CloudPrincipalsCloudPrincipalID for application/json ContentType.
+type PatchV1CloudPrincipalsCloudPrincipalIDJSONRequestBody = CloudPrincipalUpdate
+
 // PostV1CloudfunctionsJSONRequestBody defines body for PostV1Cloudfunctions for application/json ContentType.
 type PostV1CloudfunctionsJSONRequestBody = CloudFunctionCreate
 
@@ -2384,6 +2508,12 @@ type PatchV1SecretsSecretIDJSONRequestBody = SecretUpdate
 
 // PatchV1SecretsSecretIDAccessControlsJSONRequestBody defines body for PatchV1SecretsSecretIDAccessControls for application/json ContentType.
 type PatchV1SecretsSecretIDAccessControlsJSONRequestBody = ControlAccessAction
+
+// PostV1ServiceAccountsJSONRequestBody defines body for PostV1ServiceAccounts for application/json ContentType.
+type PostV1ServiceAccountsJSONRequestBody = ServiceAccountCreate
+
+// PatchV1ServiceAccountsServiceAccountIDJSONRequestBody defines body for PatchV1ServiceAccountsServiceAccountID for application/json ContentType.
+type PatchV1ServiceAccountsServiceAccountIDJSONRequestBody = ServiceAccountUpdate
 
 // PostV1SharedtierVirtualWorkspacesJSONRequestBody defines body for PostV1SharedtierVirtualWorkspaces for application/json ContentType.
 type PostV1SharedtierVirtualWorkspacesJSONRequestBody = SharedTierCreateVirtualWorkspace
@@ -2656,6 +2786,19 @@ type ClientInterface interface {
 
 	PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// PostV1CloudPrincipals request with any body
+	PostV1CloudPrincipalsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1CloudPrincipals(ctx context.Context, body PostV1CloudPrincipalsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1CloudPrincipalsCloudPrincipalID request
+	DeleteV1CloudPrincipalsCloudPrincipalID(ctx context.Context, cloudPrincipalID CloudPrincipalID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1CloudPrincipalsCloudPrincipalID request with any body
+	PatchV1CloudPrincipalsCloudPrincipalIDWithBody(ctx context.Context, cloudPrincipalID CloudPrincipalID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1CloudPrincipalsCloudPrincipalID(ctx context.Context, cloudPrincipalID CloudPrincipalID, body PatchV1CloudPrincipalsCloudPrincipalIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1Cloudfunctions request
 	GetV1Cloudfunctions(ctx context.Context, params *GetV1CloudfunctionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2840,6 +2983,19 @@ type ClientInterface interface {
 	PatchV1SecretsSecretIDAccessControlsWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	PatchV1SecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1ServiceAccounts request with any body
+	PostV1ServiceAccountsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV1ServiceAccounts(ctx context.Context, body PostV1ServiceAccountsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1ServiceAccountsServiceAccountID request
+	DeleteV1ServiceAccountsServiceAccountID(ctx context.Context, serviceAccountID ServiceAccountID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1ServiceAccountsServiceAccountID request with any body
+	PatchV1ServiceAccountsServiceAccountIDWithBody(ctx context.Context, serviceAccountID ServiceAccountID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV1ServiceAccountsServiceAccountID(ctx context.Context, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV1SharedtierVirtualWorkspaces request
 	GetV1SharedtierVirtualWorkspaces(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3106,6 +3262,66 @@ func (c *Client) PostV1BillingUsageSimulateWithBody(ctx context.Context, content
 
 func (c *Client) PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1BillingUsageSimulateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1CloudPrincipalsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1CloudPrincipalsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1CloudPrincipals(ctx context.Context, body PostV1CloudPrincipalsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1CloudPrincipalsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1CloudPrincipalsCloudPrincipalID(ctx context.Context, cloudPrincipalID CloudPrincipalID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1CloudPrincipalsCloudPrincipalIDRequest(c.Server, cloudPrincipalID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1CloudPrincipalsCloudPrincipalIDWithBody(ctx context.Context, cloudPrincipalID CloudPrincipalID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1CloudPrincipalsCloudPrincipalIDRequestWithBody(c.Server, cloudPrincipalID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1CloudPrincipalsCloudPrincipalID(ctx context.Context, cloudPrincipalID CloudPrincipalID, body PatchV1CloudPrincipalsCloudPrincipalIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1CloudPrincipalsCloudPrincipalIDRequest(c.Server, cloudPrincipalID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3910,6 +4126,66 @@ func (c *Client) PatchV1SecretsSecretIDAccessControlsWithBody(ctx context.Contex
 
 func (c *Client) PatchV1SecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1SecretsSecretIDAccessControlsRequest(c.Server, secretID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1ServiceAccountsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1ServiceAccountsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV1ServiceAccounts(ctx context.Context, body PostV1ServiceAccountsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1ServiceAccountsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV1ServiceAccountsServiceAccountID(ctx context.Context, serviceAccountID ServiceAccountID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1ServiceAccountsServiceAccountIDRequest(c.Server, serviceAccountID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1ServiceAccountsServiceAccountIDWithBody(ctx context.Context, serviceAccountID ServiceAccountID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1ServiceAccountsServiceAccountIDRequestWithBody(c.Server, serviceAccountID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV1ServiceAccountsServiceAccountID(ctx context.Context, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1ServiceAccountsServiceAccountIDRequest(c.Server, serviceAccountID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -5309,6 +5585,127 @@ func NewPostV1BillingUsageSimulateRequestWithBody(server string, contentType str
 	}
 
 	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPostV1CloudPrincipalsRequest calls the generic PostV1CloudPrincipals builder with application/json body
+func NewPostV1CloudPrincipalsRequest(server string, body PostV1CloudPrincipalsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1CloudPrincipalsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1CloudPrincipalsRequestWithBody generates requests for PostV1CloudPrincipals with any type of body
+func NewPostV1CloudPrincipalsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudPrincipals")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1CloudPrincipalsCloudPrincipalIDRequest generates requests for DeleteV1CloudPrincipalsCloudPrincipalID
+func NewDeleteV1CloudPrincipalsCloudPrincipalIDRequest(server string, cloudPrincipalID CloudPrincipalID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "cloudPrincipalID", runtime.ParamLocationPath, cloudPrincipalID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudPrincipals/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1CloudPrincipalsCloudPrincipalIDRequest calls the generic PatchV1CloudPrincipalsCloudPrincipalID builder with application/json body
+func NewPatchV1CloudPrincipalsCloudPrincipalIDRequest(server string, cloudPrincipalID CloudPrincipalID, body PatchV1CloudPrincipalsCloudPrincipalIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1CloudPrincipalsCloudPrincipalIDRequestWithBody(server, cloudPrincipalID, "application/json", bodyReader)
+}
+
+// NewPatchV1CloudPrincipalsCloudPrincipalIDRequestWithBody generates requests for PatchV1CloudPrincipalsCloudPrincipalID with any type of body
+func NewPatchV1CloudPrincipalsCloudPrincipalIDRequestWithBody(server string, cloudPrincipalID CloudPrincipalID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "cloudPrincipalID", runtime.ParamLocationPath, cloudPrincipalID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/cloudPrincipals/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -7488,6 +7885,127 @@ func NewPatchV1SecretsSecretIDAccessControlsRequestWithBody(server string, secre
 	}
 
 	operationPath := fmt.Sprintf("/v1/secrets/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPostV1ServiceAccountsRequest calls the generic PostV1ServiceAccounts builder with application/json body
+func NewPostV1ServiceAccountsRequest(server string, body PostV1ServiceAccountsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1ServiceAccountsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1ServiceAccountsRequestWithBody generates requests for PostV1ServiceAccounts with any type of body
+func NewPostV1ServiceAccountsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/serviceAccounts")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1ServiceAccountsServiceAccountIDRequest generates requests for DeleteV1ServiceAccountsServiceAccountID
+func NewDeleteV1ServiceAccountsServiceAccountIDRequest(server string, serviceAccountID ServiceAccountID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "serviceAccountID", runtime.ParamLocationPath, serviceAccountID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/serviceAccounts/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1ServiceAccountsServiceAccountIDRequest calls the generic PatchV1ServiceAccountsServiceAccountID builder with application/json body
+func NewPatchV1ServiceAccountsServiceAccountIDRequest(server string, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1ServiceAccountsServiceAccountIDRequestWithBody(server, serviceAccountID, "application/json", bodyReader)
+}
+
+// NewPatchV1ServiceAccountsServiceAccountIDRequestWithBody generates requests for PatchV1ServiceAccountsServiceAccountID with any type of body
+func NewPatchV1ServiceAccountsServiceAccountIDRequestWithBody(server string, serviceAccountID ServiceAccountID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "serviceAccountID", runtime.ParamLocationPath, serviceAccountID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/serviceAccounts/%s", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -10344,6 +10862,19 @@ type ClientWithResponsesInterface interface {
 
 	PostV1BillingUsageSimulateWithResponse(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error)
 
+	// PostV1CloudPrincipals request with any body
+	PostV1CloudPrincipalsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1CloudPrincipalsResponse, error)
+
+	PostV1CloudPrincipalsWithResponse(ctx context.Context, body PostV1CloudPrincipalsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1CloudPrincipalsResponse, error)
+
+	// DeleteV1CloudPrincipalsCloudPrincipalID request
+	DeleteV1CloudPrincipalsCloudPrincipalIDWithResponse(ctx context.Context, cloudPrincipalID CloudPrincipalID, reqEditors ...RequestEditorFn) (*DeleteV1CloudPrincipalsCloudPrincipalIDResponse, error)
+
+	// PatchV1CloudPrincipalsCloudPrincipalID request with any body
+	PatchV1CloudPrincipalsCloudPrincipalIDWithBodyWithResponse(ctx context.Context, cloudPrincipalID CloudPrincipalID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1CloudPrincipalsCloudPrincipalIDResponse, error)
+
+	PatchV1CloudPrincipalsCloudPrincipalIDWithResponse(ctx context.Context, cloudPrincipalID CloudPrincipalID, body PatchV1CloudPrincipalsCloudPrincipalIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1CloudPrincipalsCloudPrincipalIDResponse, error)
+
 	// GetV1Cloudfunctions request
 	GetV1CloudfunctionsWithResponse(ctx context.Context, params *GetV1CloudfunctionsParams, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsResponse, error)
 
@@ -10528,6 +11059,19 @@ type ClientWithResponsesInterface interface {
 	PatchV1SecretsSecretIDAccessControlsWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDAccessControlsResponse, error)
 
 	PatchV1SecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDAccessControlsResponse, error)
+
+	// PostV1ServiceAccounts request with any body
+	PostV1ServiceAccountsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1ServiceAccountsResponse, error)
+
+	PostV1ServiceAccountsWithResponse(ctx context.Context, body PostV1ServiceAccountsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1ServiceAccountsResponse, error)
+
+	// DeleteV1ServiceAccountsServiceAccountID request
+	DeleteV1ServiceAccountsServiceAccountIDWithResponse(ctx context.Context, serviceAccountID ServiceAccountID, reqEditors ...RequestEditorFn) (*DeleteV1ServiceAccountsServiceAccountIDResponse, error)
+
+	// PatchV1ServiceAccountsServiceAccountID request with any body
+	PatchV1ServiceAccountsServiceAccountIDWithBodyWithResponse(ctx context.Context, serviceAccountID ServiceAccountID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1ServiceAccountsServiceAccountIDResponse, error)
+
+	PatchV1ServiceAccountsServiceAccountIDWithResponse(ctx context.Context, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1ServiceAccountsServiceAccountIDResponse, error)
 
 	// GetV1SharedtierVirtualWorkspaces request
 	GetV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1SharedtierVirtualWorkspacesResponse, error)
@@ -10823,6 +11367,72 @@ func (r PostV1BillingUsageSimulateResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PostV1BillingUsageSimulateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1CloudPrincipalsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CloudPrincipal
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1CloudPrincipalsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1CloudPrincipalsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1CloudPrincipalsCloudPrincipalIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CloudPrincipalIDResponse
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1CloudPrincipalsCloudPrincipalIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1CloudPrincipalsCloudPrincipalIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1CloudPrincipalsCloudPrincipalIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CloudPrincipal
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1CloudPrincipalsCloudPrincipalIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1CloudPrincipalsCloudPrincipalIDResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -11979,6 +12589,72 @@ func (r PatchV1SecretsSecretIDAccessControlsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PatchV1SecretsSecretIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV1ServiceAccountsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ServiceAccount
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1ServiceAccountsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1ServiceAccountsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV1ServiceAccountsServiceAccountIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ServiceAccountIDResponse
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1ServiceAccountsServiceAccountIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1ServiceAccountsServiceAccountIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV1ServiceAccountsServiceAccountIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ServiceAccount
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1ServiceAccountsServiceAccountIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1ServiceAccountsServiceAccountIDResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -13423,6 +14099,49 @@ func (c *ClientWithResponses) PostV1BillingUsageSimulateWithResponse(ctx context
 	return ParsePostV1BillingUsageSimulateResponse(rsp)
 }
 
+// PostV1CloudPrincipalsWithBodyWithResponse request with arbitrary body returning *PostV1CloudPrincipalsResponse
+func (c *ClientWithResponses) PostV1CloudPrincipalsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1CloudPrincipalsResponse, error) {
+	rsp, err := c.PostV1CloudPrincipalsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1CloudPrincipalsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1CloudPrincipalsWithResponse(ctx context.Context, body PostV1CloudPrincipalsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1CloudPrincipalsResponse, error) {
+	rsp, err := c.PostV1CloudPrincipals(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1CloudPrincipalsResponse(rsp)
+}
+
+// DeleteV1CloudPrincipalsCloudPrincipalIDWithResponse request returning *DeleteV1CloudPrincipalsCloudPrincipalIDResponse
+func (c *ClientWithResponses) DeleteV1CloudPrincipalsCloudPrincipalIDWithResponse(ctx context.Context, cloudPrincipalID CloudPrincipalID, reqEditors ...RequestEditorFn) (*DeleteV1CloudPrincipalsCloudPrincipalIDResponse, error) {
+	rsp, err := c.DeleteV1CloudPrincipalsCloudPrincipalID(ctx, cloudPrincipalID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1CloudPrincipalsCloudPrincipalIDResponse(rsp)
+}
+
+// PatchV1CloudPrincipalsCloudPrincipalIDWithBodyWithResponse request with arbitrary body returning *PatchV1CloudPrincipalsCloudPrincipalIDResponse
+func (c *ClientWithResponses) PatchV1CloudPrincipalsCloudPrincipalIDWithBodyWithResponse(ctx context.Context, cloudPrincipalID CloudPrincipalID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1CloudPrincipalsCloudPrincipalIDResponse, error) {
+	rsp, err := c.PatchV1CloudPrincipalsCloudPrincipalIDWithBody(ctx, cloudPrincipalID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1CloudPrincipalsCloudPrincipalIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1CloudPrincipalsCloudPrincipalIDWithResponse(ctx context.Context, cloudPrincipalID CloudPrincipalID, body PatchV1CloudPrincipalsCloudPrincipalIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1CloudPrincipalsCloudPrincipalIDResponse, error) {
+	rsp, err := c.PatchV1CloudPrincipalsCloudPrincipalID(ctx, cloudPrincipalID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1CloudPrincipalsCloudPrincipalIDResponse(rsp)
+}
+
 // GetV1CloudfunctionsWithResponse request returning *GetV1CloudfunctionsResponse
 func (c *ClientWithResponses) GetV1CloudfunctionsWithResponse(ctx context.Context, params *GetV1CloudfunctionsParams, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsResponse, error) {
 	rsp, err := c.GetV1Cloudfunctions(ctx, params, reqEditors...)
@@ -14008,6 +14727,49 @@ func (c *ClientWithResponses) PatchV1SecretsSecretIDAccessControlsWithResponse(c
 		return nil, err
 	}
 	return ParsePatchV1SecretsSecretIDAccessControlsResponse(rsp)
+}
+
+// PostV1ServiceAccountsWithBodyWithResponse request with arbitrary body returning *PostV1ServiceAccountsResponse
+func (c *ClientWithResponses) PostV1ServiceAccountsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1ServiceAccountsResponse, error) {
+	rsp, err := c.PostV1ServiceAccountsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1ServiceAccountsResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV1ServiceAccountsWithResponse(ctx context.Context, body PostV1ServiceAccountsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1ServiceAccountsResponse, error) {
+	rsp, err := c.PostV1ServiceAccounts(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1ServiceAccountsResponse(rsp)
+}
+
+// DeleteV1ServiceAccountsServiceAccountIDWithResponse request returning *DeleteV1ServiceAccountsServiceAccountIDResponse
+func (c *ClientWithResponses) DeleteV1ServiceAccountsServiceAccountIDWithResponse(ctx context.Context, serviceAccountID ServiceAccountID, reqEditors ...RequestEditorFn) (*DeleteV1ServiceAccountsServiceAccountIDResponse, error) {
+	rsp, err := c.DeleteV1ServiceAccountsServiceAccountID(ctx, serviceAccountID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1ServiceAccountsServiceAccountIDResponse(rsp)
+}
+
+// PatchV1ServiceAccountsServiceAccountIDWithBodyWithResponse request with arbitrary body returning *PatchV1ServiceAccountsServiceAccountIDResponse
+func (c *ClientWithResponses) PatchV1ServiceAccountsServiceAccountIDWithBodyWithResponse(ctx context.Context, serviceAccountID ServiceAccountID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1ServiceAccountsServiceAccountIDResponse, error) {
+	rsp, err := c.PatchV1ServiceAccountsServiceAccountIDWithBody(ctx, serviceAccountID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1ServiceAccountsServiceAccountIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV1ServiceAccountsServiceAccountIDWithResponse(ctx context.Context, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1ServiceAccountsServiceAccountIDResponse, error) {
+	rsp, err := c.PatchV1ServiceAccountsServiceAccountID(ctx, serviceAccountID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1ServiceAccountsServiceAccountIDResponse(rsp)
 }
 
 // GetV1SharedtierVirtualWorkspacesWithResponse request returning *GetV1SharedtierVirtualWorkspacesResponse
@@ -14803,6 +15565,84 @@ func ParsePostV1BillingUsageSimulateResponse(rsp *http.Response) (*PostV1Billing
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest SimulateUsageResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1CloudPrincipalsResponse parses an HTTP response from a PostV1CloudPrincipalsWithResponse call
+func ParsePostV1CloudPrincipalsResponse(rsp *http.Response) (*PostV1CloudPrincipalsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1CloudPrincipalsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CloudPrincipal
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1CloudPrincipalsCloudPrincipalIDResponse parses an HTTP response from a DeleteV1CloudPrincipalsCloudPrincipalIDWithResponse call
+func ParseDeleteV1CloudPrincipalsCloudPrincipalIDResponse(rsp *http.Response) (*DeleteV1CloudPrincipalsCloudPrincipalIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1CloudPrincipalsCloudPrincipalIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CloudPrincipalIDResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1CloudPrincipalsCloudPrincipalIDResponse parses an HTTP response from a PatchV1CloudPrincipalsCloudPrincipalIDWithResponse call
+func ParsePatchV1CloudPrincipalsCloudPrincipalIDResponse(rsp *http.Response) (*PatchV1CloudPrincipalsCloudPrincipalIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1CloudPrincipalsCloudPrincipalIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CloudPrincipal
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -16150,6 +16990,84 @@ func ParsePatchV1SecretsSecretIDAccessControlsResponse(rsp *http.Response) (*Pat
 	response := &PatchV1SecretsSecretIDAccessControlsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePostV1ServiceAccountsResponse parses an HTTP response from a PostV1ServiceAccountsWithResponse call
+func ParsePostV1ServiceAccountsResponse(rsp *http.Response) (*PostV1ServiceAccountsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1ServiceAccountsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ServiceAccount
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1ServiceAccountsServiceAccountIDResponse parses an HTTP response from a DeleteV1ServiceAccountsServiceAccountIDWithResponse call
+func ParseDeleteV1ServiceAccountsServiceAccountIDResponse(rsp *http.Response) (*DeleteV1ServiceAccountsServiceAccountIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1ServiceAccountsServiceAccountIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ServiceAccountIDResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1ServiceAccountsServiceAccountIDResponse parses an HTTP response from a PatchV1ServiceAccountsServiceAccountIDWithResponse call
+func ParsePatchV1ServiceAccountsServiceAccountIDResponse(rsp *http.Response) (*PatchV1ServiceAccountsServiceAccountIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1ServiceAccountsServiceAccountIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ServiceAccount
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
 	}
 
 	return response, nil

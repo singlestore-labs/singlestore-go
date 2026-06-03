@@ -756,6 +756,9 @@ type Flow struct {
 	// Size Size of the Flow instance (in Flow size notation), such as "F1"
 	Size *string `json:"size,omitempty"`
 
+	// Status Status of the Flow instance, such as whether it is Running or Deleted
+	Status *string `json:"status,omitempty"`
+
 	// UserName Name of the SingleStore database user associated with the Flow instance
 	UserName *string `json:"userName,omitempty"`
 

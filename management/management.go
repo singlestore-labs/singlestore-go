@@ -979,6 +979,36 @@ type Organization struct {
 	OrgID openapi_types.UUID `json:"orgID"`
 }
 
+// PermissionDefinition defines model for PermissionDefinition.
+type PermissionDefinition struct {
+	// Description Permission description
+	Description *string `json:"description,omitempty"`
+
+	// Permission Permission name
+	Permission string `json:"permission"`
+
+	// ResourceType Resource type for the permission
+	ResourceType string `json:"resourceType"`
+}
+
+// PermissionsForResourceType defines model for PermissionsForResourceType.
+type PermissionsForResourceType struct {
+	// Permissions The permissions of the resource type on the role
+	Permissions []string `json:"permissions"`
+
+	// ResourceType Resource type
+	ResourceType string `json:"resourceType"`
+}
+
+// PermissionsSpecification defines model for PermissionsSpecification.
+type PermissionsSpecification struct {
+	// Permissions The permissions of the resource type on the role
+	Permissions []string `json:"permissions"`
+
+	// ResourceType Resource type
+	ResourceType string `json:"resourceType"`
+}
+
 // PrivateConnection Represents information related to a private link connection
 type PrivateConnection struct {
 	// ActiveAt The timestamp of when the private connection became active
@@ -1209,6 +1239,18 @@ type RoleCreate struct {
 	Role string `json:"role"`
 }
 
+// RoleCreateV2 defines model for RoleCreateV2.
+type RoleCreateV2 struct {
+	// Description A description of the role
+	Description *string `json:"description,omitempty"`
+
+	// Permissions All permissions defined for the role to be replaced
+	Permissions []PermissionsSpecification `json:"permissions"`
+
+	// Role The name for the custom role
+	Role string `json:"role"`
+}
+
 // RoleDefinition defines model for RoleDefinition.
 type RoleDefinition struct {
 	// CreatedAt Creation timestamp.
@@ -1240,6 +1282,42 @@ type RoleDefinition struct {
 
 	// UpdatedBy Summary information about a SingleStoreDB Cloud user.
 	UpdatedBy *UserInfo `json:"updatedBy,omitempty"`
+}
+
+// RoleDefinitionV2 defines model for RoleDefinitionV2.
+type RoleDefinitionV2 struct {
+	// CreatedAt Creation timestamp.
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+
+	// CreatedBy Summary information about a SingleStoreDB Cloud user.
+	CreatedBy *UserInfo `json:"createdBy,omitempty"`
+
+	// Description A description of the role
+	Description *string `json:"description,omitempty"`
+
+	// Permissions Permissions for the role definition
+	Permissions []PermissionsForResourceType `json:"permissions"`
+
+	// Role The role name
+	Role string `json:"role"`
+
+	// UpdatedAt Timestamp of most recent state change.
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+
+	// UpdatedBy Summary information about a SingleStoreDB Cloud user.
+	UpdatedBy *UserInfo `json:"updatedBy,omitempty"`
+}
+
+// RoleReplaceV2 defines model for RoleReplaceV2.
+type RoleReplaceV2 struct {
+	// Description A description of the role
+	Description *string `json:"description,omitempty"`
+
+	// Permissions All permissions defined for the role to be replaced
+	Permissions []PermissionsSpecification `json:"permissions"`
+
+	// Role Optional role name and must match the role path parameter when provided
+	Role *string `json:"role,omitempty"`
 }
 
 // RoleUpdate defines model for RoleUpdate.
@@ -1527,6 +1605,9 @@ type StorageDRStatus struct {
 
 		// CompletedWorkspaces The number of workspaces that have been setup
 		CompletedWorkspaces *int `json:"completedWorkspaces,omitempty"`
+
+		// SecondaryWorkspaceGroupIDs The IDs of the secondary (standby) workspace groups in this DR group
+		SecondaryWorkspaceGroupIDs *[]openapi_types.UUID `json:"secondaryWorkspaceGroupIDs,omitempty"`
 
 		// StorageDRState Status of Storage DR operation
 		StorageDRState StorageDRStatusComputeStorageDRState `json:"storageDRState"`
@@ -2581,6 +2662,12 @@ type PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody = DelegatedEnti
 // PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
 type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
 
+// PostV2AuthorizationRolesJSONRequestBody defines body for PostV2AuthorizationRoles for application/json ContentType.
+type PostV2AuthorizationRolesJSONRequestBody = RoleCreateV2
+
+// PutV2AuthorizationRolesRoleJSONRequestBody defines body for PutV2AuthorizationRolesRole for application/json ContentType.
+type PutV2AuthorizationRolesRoleJSONRequestBody = RoleReplaceV2
+
 // AsFileObjectMetadataContent0 returns the union data inside the FileObjectMetadata_Content as a FileObjectMetadataContent0
 func (t FileObjectMetadata_Content) AsFileObjectMetadataContent0() (FileObjectMetadataContent0, error) {
 	var body FileObjectMetadataContent0
@@ -3219,6 +3306,31 @@ type ClientInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2AuthorizationPermissions request
+	GetV2AuthorizationPermissions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2AuthorizationPermissionsResourceType request
+	GetV2AuthorizationPermissionsResourceType(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2AuthorizationRoles request
+	GetV2AuthorizationRoles(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV2AuthorizationRoles request with any body
+	PostV2AuthorizationRolesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV2AuthorizationRoles(ctx context.Context, body PostV2AuthorizationRolesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV2AuthorizationRolesRole request
+	DeleteV2AuthorizationRolesRole(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2AuthorizationRolesRole request
+	GetV2AuthorizationRolesRole(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutV2AuthorizationRolesRole request with any body
+	PutV2AuthorizationRolesRoleWithBody(ctx context.Context, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PutV2AuthorizationRolesRole(ctx context.Context, role Role, body PutV2AuthorizationRolesRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -5149,6 +5261,114 @@ func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspac
 
 func (c *Client) PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPostV1WorkspacesWorkspaceIDSuspendRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2AuthorizationPermissions(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2AuthorizationPermissionsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2AuthorizationPermissionsResourceType(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2AuthorizationPermissionsResourceTypeRequest(c.Server, resourceType)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2AuthorizationRoles(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2AuthorizationRolesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV2AuthorizationRolesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV2AuthorizationRolesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV2AuthorizationRoles(ctx context.Context, body PostV2AuthorizationRolesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV2AuthorizationRolesRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV2AuthorizationRolesRole(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV2AuthorizationRolesRoleRequest(c.Server, role)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2AuthorizationRolesRole(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2AuthorizationRolesRoleRequest(c.Server, role)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutV2AuthorizationRolesRoleWithBody(ctx context.Context, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV2AuthorizationRolesRoleRequestWithBody(c.Server, role, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PutV2AuthorizationRolesRole(ctx context.Context, role Role, body PutV2AuthorizationRolesRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV2AuthorizationRolesRoleRequest(c.Server, role, body)
 	if err != nil {
 		return nil, err
 	}
@@ -10723,6 +10943,249 @@ func NewPostV1WorkspacesWorkspaceIDSuspendRequest(server string, workspaceID Wor
 	return req, nil
 }
 
+// NewGetV2AuthorizationPermissionsRequest generates requests for GetV2AuthorizationPermissions
+func NewGetV2AuthorizationPermissionsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/authorization/permissions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV2AuthorizationPermissionsResourceTypeRequest generates requests for GetV2AuthorizationPermissionsResourceType
+func NewGetV2AuthorizationPermissionsResourceTypeRequest(server string, resourceType ResourceType) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "resourceType", runtime.ParamLocationPath, resourceType)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/authorization/permissions/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV2AuthorizationRolesRequest generates requests for GetV2AuthorizationRoles
+func NewGetV2AuthorizationRolesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/authorization/roles")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV2AuthorizationRolesRequest calls the generic PostV2AuthorizationRoles builder with application/json body
+func NewPostV2AuthorizationRolesRequest(server string, body PostV2AuthorizationRolesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV2AuthorizationRolesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV2AuthorizationRolesRequestWithBody generates requests for PostV2AuthorizationRoles with any type of body
+func NewPostV2AuthorizationRolesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/authorization/roles")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV2AuthorizationRolesRoleRequest generates requests for DeleteV2AuthorizationRolesRole
+func NewDeleteV2AuthorizationRolesRoleRequest(server string, role Role) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/authorization/roles/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV2AuthorizationRolesRoleRequest generates requests for GetV2AuthorizationRolesRole
+func NewGetV2AuthorizationRolesRoleRequest(server string, role Role) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/authorization/roles/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPutV2AuthorizationRolesRoleRequest calls the generic PutV2AuthorizationRolesRole builder with application/json body
+func NewPutV2AuthorizationRolesRoleRequest(server string, role Role, body PutV2AuthorizationRolesRoleJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPutV2AuthorizationRolesRoleRequestWithBody(server, role, "application/json", bodyReader)
+}
+
+// NewPutV2AuthorizationRolesRoleRequestWithBody generates requests for PutV2AuthorizationRolesRole with any type of body
+func NewPutV2AuthorizationRolesRoleRequestWithBody(server string, role Role, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "role", runtime.ParamLocationPath, role)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/authorization/roles/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest generates requests for GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics
 func NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest(server string, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
 	var err error
@@ -11295,6 +11758,31 @@ type ClientWithResponsesInterface interface {
 
 	// PostV1WorkspacesWorkspaceIDSuspend request
 	PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error)
+
+	// GetV2AuthorizationPermissions request
+	GetV2AuthorizationPermissionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2AuthorizationPermissionsResponse, error)
+
+	// GetV2AuthorizationPermissionsResourceType request
+	GetV2AuthorizationPermissionsResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*GetV2AuthorizationPermissionsResourceTypeResponse, error)
+
+	// GetV2AuthorizationRoles request
+	GetV2AuthorizationRolesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2AuthorizationRolesResponse, error)
+
+	// PostV2AuthorizationRoles request with any body
+	PostV2AuthorizationRolesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV2AuthorizationRolesResponse, error)
+
+	PostV2AuthorizationRolesWithResponse(ctx context.Context, body PostV2AuthorizationRolesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV2AuthorizationRolesResponse, error)
+
+	// DeleteV2AuthorizationRolesRole request
+	DeleteV2AuthorizationRolesRoleWithResponse(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*DeleteV2AuthorizationRolesRoleResponse, error)
+
+	// GetV2AuthorizationRolesRole request
+	GetV2AuthorizationRolesRoleWithResponse(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*GetV2AuthorizationRolesRoleResponse, error)
+
+	// PutV2AuthorizationRolesRole request with any body
+	PutV2AuthorizationRolesRoleWithBodyWithResponse(ctx context.Context, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV2AuthorizationRolesRoleResponse, error)
+
+	PutV2AuthorizationRolesRoleWithResponse(ctx context.Context, role Role, body PutV2AuthorizationRolesRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*PutV2AuthorizationRolesRoleResponse, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics request
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error)
@@ -14024,6 +14512,160 @@ func (r PostV1WorkspacesWorkspaceIDSuspendResponse) StatusCode() int {
 	return 0
 }
 
+type GetV2AuthorizationPermissionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]PermissionDefinition
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2AuthorizationPermissionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2AuthorizationPermissionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV2AuthorizationPermissionsResourceTypeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]PermissionDefinition
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2AuthorizationPermissionsResourceTypeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2AuthorizationPermissionsResourceTypeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV2AuthorizationRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]RoleDefinitionV2
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2AuthorizationRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2AuthorizationRolesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV2AuthorizationRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RoleDefinitionV2
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV2AuthorizationRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV2AuthorizationRolesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV2AuthorizationRolesRoleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *bool
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV2AuthorizationRolesRoleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV2AuthorizationRolesRoleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV2AuthorizationRolesRoleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RoleDefinitionV2
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2AuthorizationRolesRoleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2AuthorizationRolesRoleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PutV2AuthorizationRolesRoleResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RoleDefinitionV2
+}
+
+// Status returns HTTPResponse.Status
+func (r PutV2AuthorizationRolesRoleResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PutV2AuthorizationRolesRoleResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15473,6 +16115,85 @@ func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx
 		return nil, err
 	}
 	return ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp)
+}
+
+// GetV2AuthorizationPermissionsWithResponse request returning *GetV2AuthorizationPermissionsResponse
+func (c *ClientWithResponses) GetV2AuthorizationPermissionsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2AuthorizationPermissionsResponse, error) {
+	rsp, err := c.GetV2AuthorizationPermissions(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2AuthorizationPermissionsResponse(rsp)
+}
+
+// GetV2AuthorizationPermissionsResourceTypeWithResponse request returning *GetV2AuthorizationPermissionsResourceTypeResponse
+func (c *ClientWithResponses) GetV2AuthorizationPermissionsResourceTypeWithResponse(ctx context.Context, resourceType ResourceType, reqEditors ...RequestEditorFn) (*GetV2AuthorizationPermissionsResourceTypeResponse, error) {
+	rsp, err := c.GetV2AuthorizationPermissionsResourceType(ctx, resourceType, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2AuthorizationPermissionsResourceTypeResponse(rsp)
+}
+
+// GetV2AuthorizationRolesWithResponse request returning *GetV2AuthorizationRolesResponse
+func (c *ClientWithResponses) GetV2AuthorizationRolesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2AuthorizationRolesResponse, error) {
+	rsp, err := c.GetV2AuthorizationRoles(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2AuthorizationRolesResponse(rsp)
+}
+
+// PostV2AuthorizationRolesWithBodyWithResponse request with arbitrary body returning *PostV2AuthorizationRolesResponse
+func (c *ClientWithResponses) PostV2AuthorizationRolesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV2AuthorizationRolesResponse, error) {
+	rsp, err := c.PostV2AuthorizationRolesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV2AuthorizationRolesResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV2AuthorizationRolesWithResponse(ctx context.Context, body PostV2AuthorizationRolesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV2AuthorizationRolesResponse, error) {
+	rsp, err := c.PostV2AuthorizationRoles(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV2AuthorizationRolesResponse(rsp)
+}
+
+// DeleteV2AuthorizationRolesRoleWithResponse request returning *DeleteV2AuthorizationRolesRoleResponse
+func (c *ClientWithResponses) DeleteV2AuthorizationRolesRoleWithResponse(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*DeleteV2AuthorizationRolesRoleResponse, error) {
+	rsp, err := c.DeleteV2AuthorizationRolesRole(ctx, role, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV2AuthorizationRolesRoleResponse(rsp)
+}
+
+// GetV2AuthorizationRolesRoleWithResponse request returning *GetV2AuthorizationRolesRoleResponse
+func (c *ClientWithResponses) GetV2AuthorizationRolesRoleWithResponse(ctx context.Context, role Role, reqEditors ...RequestEditorFn) (*GetV2AuthorizationRolesRoleResponse, error) {
+	rsp, err := c.GetV2AuthorizationRolesRole(ctx, role, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2AuthorizationRolesRoleResponse(rsp)
+}
+
+// PutV2AuthorizationRolesRoleWithBodyWithResponse request with arbitrary body returning *PutV2AuthorizationRolesRoleResponse
+func (c *ClientWithResponses) PutV2AuthorizationRolesRoleWithBodyWithResponse(ctx context.Context, role Role, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV2AuthorizationRolesRoleResponse, error) {
+	rsp, err := c.PutV2AuthorizationRolesRoleWithBody(ctx, role, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV2AuthorizationRolesRoleResponse(rsp)
+}
+
+func (c *ClientWithResponses) PutV2AuthorizationRolesRoleWithResponse(ctx context.Context, role Role, body PutV2AuthorizationRolesRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*PutV2AuthorizationRolesRoleResponse, error) {
+	rsp, err := c.PutV2AuthorizationRolesRole(ctx, role, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV2AuthorizationRolesRoleResponse(rsp)
 }
 
 // GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse request returning *GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse
@@ -18585,6 +19306,188 @@ func ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp *http.Response) (*PostV
 		var dest struct {
 			WorkspaceID openapi_types.UUID `json:"workspaceID"`
 		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV2AuthorizationPermissionsResponse parses an HTTP response from a GetV2AuthorizationPermissionsWithResponse call
+func ParseGetV2AuthorizationPermissionsResponse(rsp *http.Response) (*GetV2AuthorizationPermissionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2AuthorizationPermissionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PermissionDefinition
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV2AuthorizationPermissionsResourceTypeResponse parses an HTTP response from a GetV2AuthorizationPermissionsResourceTypeWithResponse call
+func ParseGetV2AuthorizationPermissionsResourceTypeResponse(rsp *http.Response) (*GetV2AuthorizationPermissionsResourceTypeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2AuthorizationPermissionsResourceTypeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PermissionDefinition
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV2AuthorizationRolesResponse parses an HTTP response from a GetV2AuthorizationRolesWithResponse call
+func ParseGetV2AuthorizationRolesResponse(rsp *http.Response) (*GetV2AuthorizationRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2AuthorizationRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RoleDefinitionV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV2AuthorizationRolesResponse parses an HTTP response from a PostV2AuthorizationRolesWithResponse call
+func ParsePostV2AuthorizationRolesResponse(rsp *http.Response) (*PostV2AuthorizationRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV2AuthorizationRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RoleDefinitionV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV2AuthorizationRolesRoleResponse parses an HTTP response from a DeleteV2AuthorizationRolesRoleWithResponse call
+func ParseDeleteV2AuthorizationRolesRoleResponse(rsp *http.Response) (*DeleteV2AuthorizationRolesRoleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV2AuthorizationRolesRoleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV2AuthorizationRolesRoleResponse parses an HTTP response from a GetV2AuthorizationRolesRoleWithResponse call
+func ParseGetV2AuthorizationRolesRoleResponse(rsp *http.Response) (*GetV2AuthorizationRolesRoleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2AuthorizationRolesRoleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RoleDefinitionV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePutV2AuthorizationRolesRoleResponse parses an HTTP response from a PutV2AuthorizationRolesRoleWithResponse call
+func ParsePutV2AuthorizationRolesRoleResponse(rsp *http.Response) (*PutV2AuthorizationRolesRoleResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PutV2AuthorizationRolesRoleResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RoleDefinitionV2
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

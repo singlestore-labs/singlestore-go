@@ -184,11 +184,18 @@ const (
 	ReplicatedDatabaseDuplicationStatePending  ReplicatedDatabaseDuplicationState = "Pending"
 )
 
+// Defines values for SharedTierCreateVirtualClusterProvider.
+const (
+	SharedTierCreateVirtualClusterProviderAWS   SharedTierCreateVirtualClusterProvider = "AWS"
+	SharedTierCreateVirtualClusterProviderAZURE SharedTierCreateVirtualClusterProvider = "AZURE"
+	SharedTierCreateVirtualClusterProviderGCP   SharedTierCreateVirtualClusterProvider = "GCP"
+)
+
 // Defines values for SharedTierCreateVirtualWorkspaceProvider.
 const (
-	SharedTierCreateVirtualWorkspaceProviderAWS   SharedTierCreateVirtualWorkspaceProvider = "AWS"
-	SharedTierCreateVirtualWorkspaceProviderAZURE SharedTierCreateVirtualWorkspaceProvider = "AZURE"
-	SharedTierCreateVirtualWorkspaceProviderGCP   SharedTierCreateVirtualWorkspaceProvider = "GCP"
+	AWS   SharedTierCreateVirtualWorkspaceProvider = "AWS"
+	AZURE SharedTierCreateVirtualWorkspaceProvider = "AZURE"
+	GCP   SharedTierCreateVirtualWorkspaceProvider = "GCP"
 )
 
 // Defines values for SimulatedResourceUsageMetric.
@@ -1437,6 +1444,27 @@ type SharedTierCreateUser struct {
 	UserName string `json:"userName"`
 }
 
+// SharedTierCreateVirtualCluster defines model for SharedTierCreateVirtualCluster.
+type SharedTierCreateVirtualCluster struct {
+	// DatabaseName Name of the database
+	DatabaseName string `json:"databaseName"`
+
+	// Name Name of the starter cluster
+	Name string `json:"name"`
+
+	// ProjectID Assigns the starter cluster to a project
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// Provider Name of the provider
+	Provider SharedTierCreateVirtualClusterProvider `json:"provider"`
+
+	// RegionName The region code
+	RegionName string `json:"regionName"`
+}
+
+// SharedTierCreateVirtualClusterProvider Name of the provider
+type SharedTierCreateVirtualClusterProvider string
+
 // SharedTierCreateVirtualWorkspace defines model for SharedTierCreateVirtualWorkspace.
 type SharedTierCreateVirtualWorkspace struct {
 	// DatabaseName Name of the database
@@ -1462,6 +1490,30 @@ type SharedTierCreateVirtualWorkspaceProvider string
 type SharedTierUpdateUser struct {
 	// Password The virtual workspace user password to connect the new user to the database.
 	Password *string `json:"password,omitempty"`
+}
+
+// SharedTierVirtualCluster defines model for SharedTierVirtualCluster.
+type SharedTierVirtualCluster struct {
+	// DatabaseName Name of the database
+	DatabaseName *string `json:"databaseName,omitempty"`
+
+	// Endpoint The application endpoint of the SingleStore database
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// MysqlDmlPort The MySQL DML port
+	MysqlDmlPort *int `json:"mysqlDmlPort,omitempty"`
+
+	// Name Name of the starter cluster
+	Name *string `json:"name,omitempty"`
+
+	// ProjectID ID of the project to which the virtual cluster is assigned.
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// VirtualClusterID ID of the starter cluster
+	VirtualClusterID *openapi_types.UUID `json:"virtualClusterID,omitempty"`
+
+	// WebsocketPort The websockets port
+	WebsocketPort *int `json:"websocketPort,omitempty"`
 }
 
 // SharedTierVirtualWorkspace defines model for SharedTierVirtualWorkspace.
@@ -2668,6 +2720,15 @@ type PostV2AuthorizationRolesJSONRequestBody = RoleCreateV2
 // PutV2AuthorizationRolesRoleJSONRequestBody defines body for PutV2AuthorizationRolesRole for application/json ContentType.
 type PutV2AuthorizationRolesRoleJSONRequestBody = RoleReplaceV2
 
+// PostV2SharedtierVirtualClustersJSONRequestBody defines body for PostV2SharedtierVirtualClusters for application/json ContentType.
+type PostV2SharedtierVirtualClustersJSONRequestBody = SharedTierCreateVirtualCluster
+
+// PostV2SharedtierVirtualClustersVirtualClusterIDUsersJSONRequestBody defines body for PostV2SharedtierVirtualClustersVirtualClusterIDUsers for application/json ContentType.
+type PostV2SharedtierVirtualClustersVirtualClusterIDUsersJSONRequestBody = SharedTierCreateUser
+
+// PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDJSONRequestBody defines body for PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID for application/json ContentType.
+type PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDJSONRequestBody = SharedTierUpdateUser
+
 // AsFileObjectMetadataContent0 returns the union data inside the FileObjectMetadata_Content as a FileObjectMetadataContent0
 func (t FileObjectMetadata_Content) AsFileObjectMetadataContent0() (FileObjectMetadataContent0, error) {
 	var body FileObjectMetadataContent0
@@ -3337,6 +3398,33 @@ type ClientInterface interface {
 
 	// GetV2Regions request
 	GetV2Regions(ctx context.Context, params *GetV2RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2SharedtierVirtualClusters request
+	GetV2SharedtierVirtualClusters(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV2SharedtierVirtualClusters request with any body
+	PostV2SharedtierVirtualClustersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV2SharedtierVirtualClusters(ctx context.Context, body PostV2SharedtierVirtualClustersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV2SharedtierVirtualClustersVirtualClusterID request
+	DeleteV2SharedtierVirtualClustersVirtualClusterID(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2SharedtierVirtualClustersVirtualClusterID request
+	GetV2SharedtierVirtualClustersVirtualClusterID(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV2SharedtierVirtualClustersVirtualClusterIDUsers request with any body
+	PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithBody(ctx context.Context, virtualClusterID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostV2SharedtierVirtualClustersVirtualClusterIDUsers(ctx context.Context, virtualClusterID openapi_types.UUID, body PostV2SharedtierVirtualClustersVirtualClusterIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserID request
+	DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserID(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID request with any body
+	PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithBody(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, body PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) GetV1AuditLogs(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -5393,6 +5481,126 @@ func (c *Client) GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupID
 
 func (c *Client) GetV2Regions(ctx context.Context, params *GetV2RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV2RegionsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2SharedtierVirtualClusters(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2SharedtierVirtualClustersRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV2SharedtierVirtualClustersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV2SharedtierVirtualClustersRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV2SharedtierVirtualClusters(ctx context.Context, body PostV2SharedtierVirtualClustersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV2SharedtierVirtualClustersRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV2SharedtierVirtualClustersVirtualClusterID(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV2SharedtierVirtualClustersVirtualClusterIDRequest(c.Server, virtualClusterID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetV2SharedtierVirtualClustersVirtualClusterID(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2SharedtierVirtualClustersVirtualClusterIDRequest(c.Server, virtualClusterID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithBody(ctx context.Context, virtualClusterID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV2SharedtierVirtualClustersVirtualClusterIDUsersRequestWithBody(c.Server, virtualClusterID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PostV2SharedtierVirtualClustersVirtualClusterIDUsers(ctx context.Context, virtualClusterID openapi_types.UUID, body PostV2SharedtierVirtualClustersVirtualClusterIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV2SharedtierVirtualClustersVirtualClusterIDUsersRequest(c.Server, virtualClusterID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserID(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequest(c.Server, virtualClusterID, userID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithBody(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequestWithBody(c.Server, virtualClusterID, userID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, body PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequest(c.Server, virtualClusterID, userID, body)
 	if err != nil {
 		return nil, err
 	}
@@ -11274,6 +11482,283 @@ func NewGetV2RegionsRequest(server string, params *GetV2RegionsParams) (*http.Re
 	return req, nil
 }
 
+// NewGetV2SharedtierVirtualClustersRequest generates requests for GetV2SharedtierVirtualClusters
+func NewGetV2SharedtierVirtualClustersRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/sharedtier/virtualClusters")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV2SharedtierVirtualClustersRequest calls the generic PostV2SharedtierVirtualClusters builder with application/json body
+func NewPostV2SharedtierVirtualClustersRequest(server string, body PostV2SharedtierVirtualClustersJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV2SharedtierVirtualClustersRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV2SharedtierVirtualClustersRequestWithBody generates requests for PostV2SharedtierVirtualClusters with any type of body
+func NewPostV2SharedtierVirtualClustersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/sharedtier/virtualClusters")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV2SharedtierVirtualClustersVirtualClusterIDRequest generates requests for DeleteV2SharedtierVirtualClustersVirtualClusterID
+func NewDeleteV2SharedtierVirtualClustersVirtualClusterIDRequest(server string, virtualClusterID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "virtualClusterID", runtime.ParamLocationPath, virtualClusterID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/sharedtier/virtualClusters/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV2SharedtierVirtualClustersVirtualClusterIDRequest generates requests for GetV2SharedtierVirtualClustersVirtualClusterID
+func NewGetV2SharedtierVirtualClustersVirtualClusterIDRequest(server string, virtualClusterID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "virtualClusterID", runtime.ParamLocationPath, virtualClusterID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/sharedtier/virtualClusters/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV2SharedtierVirtualClustersVirtualClusterIDUsersRequest calls the generic PostV2SharedtierVirtualClustersVirtualClusterIDUsers builder with application/json body
+func NewPostV2SharedtierVirtualClustersVirtualClusterIDUsersRequest(server string, virtualClusterID openapi_types.UUID, body PostV2SharedtierVirtualClustersVirtualClusterIDUsersJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV2SharedtierVirtualClustersVirtualClusterIDUsersRequestWithBody(server, virtualClusterID, "application/json", bodyReader)
+}
+
+// NewPostV2SharedtierVirtualClustersVirtualClusterIDUsersRequestWithBody generates requests for PostV2SharedtierVirtualClustersVirtualClusterIDUsers with any type of body
+func NewPostV2SharedtierVirtualClustersVirtualClusterIDUsersRequestWithBody(server string, virtualClusterID openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "virtualClusterID", runtime.ParamLocationPath, virtualClusterID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/sharedtier/virtualClusters/%s/users", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequest generates requests for DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserID
+func NewDeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequest(server string, virtualClusterID openapi_types.UUID, userID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "virtualClusterID", runtime.ParamLocationPath, virtualClusterID)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/sharedtier/virtualClusters/%s/users/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequest calls the generic PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID builder with application/json body
+func NewPatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequest(server string, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, body PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequestWithBody(server, virtualClusterID, userID, "application/json", bodyReader)
+}
+
+// NewPatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequestWithBody generates requests for PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID with any type of body
+func NewPatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDRequestWithBody(server string, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "virtualClusterID", runtime.ParamLocationPath, virtualClusterID)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "userID", runtime.ParamLocationPath, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/sharedtier/virtualClusters/%s/users/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -11789,6 +12274,33 @@ type ClientWithResponsesInterface interface {
 
 	// GetV2Regions request
 	GetV2RegionsWithResponse(ctx context.Context, params *GetV2RegionsParams, reqEditors ...RequestEditorFn) (*GetV2RegionsResponse, error)
+
+	// GetV2SharedtierVirtualClusters request
+	GetV2SharedtierVirtualClustersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2SharedtierVirtualClustersResponse, error)
+
+	// PostV2SharedtierVirtualClusters request with any body
+	PostV2SharedtierVirtualClustersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersResponse, error)
+
+	PostV2SharedtierVirtualClustersWithResponse(ctx context.Context, body PostV2SharedtierVirtualClustersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersResponse, error)
+
+	// DeleteV2SharedtierVirtualClustersVirtualClusterID request
+	DeleteV2SharedtierVirtualClustersVirtualClusterIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse, error)
+
+	// GetV2SharedtierVirtualClustersVirtualClusterID request
+	GetV2SharedtierVirtualClustersVirtualClusterIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV2SharedtierVirtualClustersVirtualClusterIDResponse, error)
+
+	// PostV2SharedtierVirtualClustersVirtualClusterIDUsers request with any body
+	PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithBodyWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse, error)
+
+	PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, body PostV2SharedtierVirtualClustersVirtualClusterIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse, error)
+
+	// DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserID request
+	DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error)
+
+	// PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID request with any body
+	PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error)
+
+	PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, body PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error)
 }
 
 type GetV1AuditLogsResponse struct {
@@ -14709,6 +15221,165 @@ func (r GetV2RegionsResponse) StatusCode() int {
 	return 0
 }
 
+type GetV2SharedtierVirtualClustersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *[]SharedTierVirtualCluster
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2SharedtierVirtualClustersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2SharedtierVirtualClustersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV2SharedtierVirtualClustersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		VirtualClusterID openapi_types.UUID `json:"virtualClusterID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV2SharedtierVirtualClustersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV2SharedtierVirtualClustersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *bool
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetV2SharedtierVirtualClustersVirtualClusterIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SharedTierVirtualCluster
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2SharedtierVirtualClustersVirtualClusterIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2SharedtierVirtualClustersVirtualClusterIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Password string             `json:"password"`
+		UserID   openapi_types.UUID `json:"userID"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *bool
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *bool
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // GetV1AuditLogsWithResponse request returning *GetV1AuditLogsResponse
 func (c *ClientWithResponses) GetV1AuditLogsWithResponse(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*GetV1AuditLogsResponse, error) {
 	rsp, err := c.GetV1AuditLogs(ctx, params, reqEditors...)
@@ -16212,6 +16883,93 @@ func (c *ClientWithResponses) GetV2RegionsWithResponse(ctx context.Context, para
 		return nil, err
 	}
 	return ParseGetV2RegionsResponse(rsp)
+}
+
+// GetV2SharedtierVirtualClustersWithResponse request returning *GetV2SharedtierVirtualClustersResponse
+func (c *ClientWithResponses) GetV2SharedtierVirtualClustersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2SharedtierVirtualClustersResponse, error) {
+	rsp, err := c.GetV2SharedtierVirtualClusters(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2SharedtierVirtualClustersResponse(rsp)
+}
+
+// PostV2SharedtierVirtualClustersWithBodyWithResponse request with arbitrary body returning *PostV2SharedtierVirtualClustersResponse
+func (c *ClientWithResponses) PostV2SharedtierVirtualClustersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersResponse, error) {
+	rsp, err := c.PostV2SharedtierVirtualClustersWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV2SharedtierVirtualClustersResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV2SharedtierVirtualClustersWithResponse(ctx context.Context, body PostV2SharedtierVirtualClustersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersResponse, error) {
+	rsp, err := c.PostV2SharedtierVirtualClusters(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV2SharedtierVirtualClustersResponse(rsp)
+}
+
+// DeleteV2SharedtierVirtualClustersVirtualClusterIDWithResponse request returning *DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse
+func (c *ClientWithResponses) DeleteV2SharedtierVirtualClustersVirtualClusterIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse, error) {
+	rsp, err := c.DeleteV2SharedtierVirtualClustersVirtualClusterID(ctx, virtualClusterID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV2SharedtierVirtualClustersVirtualClusterIDResponse(rsp)
+}
+
+// GetV2SharedtierVirtualClustersVirtualClusterIDWithResponse request returning *GetV2SharedtierVirtualClustersVirtualClusterIDResponse
+func (c *ClientWithResponses) GetV2SharedtierVirtualClustersVirtualClusterIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV2SharedtierVirtualClustersVirtualClusterIDResponse, error) {
+	rsp, err := c.GetV2SharedtierVirtualClustersVirtualClusterID(ctx, virtualClusterID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2SharedtierVirtualClustersVirtualClusterIDResponse(rsp)
+}
+
+// PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithBodyWithResponse request with arbitrary body returning *PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse
+func (c *ClientWithResponses) PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithBodyWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse, error) {
+	rsp, err := c.PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithBody(ctx, virtualClusterID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, body PostV2SharedtierVirtualClustersVirtualClusterIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse, error) {
+	rsp, err := c.PostV2SharedtierVirtualClustersVirtualClusterIDUsers(ctx, virtualClusterID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse(rsp)
+}
+
+// DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithResponse request returning *DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse
+func (c *ClientWithResponses) DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error) {
+	rsp, err := c.DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserID(ctx, virtualClusterID, userID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse(rsp)
+}
+
+// PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithBodyWithResponse request with arbitrary body returning *PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse
+func (c *ClientWithResponses) PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error) {
+	rsp, err := c.PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithBody(ctx, virtualClusterID, userID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse(rsp)
+}
+
+func (c *ClientWithResponses) PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithResponse(ctx context.Context, virtualClusterID openapi_types.UUID, userID openapi_types.UUID, body PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error) {
+	rsp, err := c.PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserID(ctx, virtualClusterID, userID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse(rsp)
 }
 
 // ParseGetV1AuditLogsResponse parses an HTTP response from a GetV1AuditLogsWithResponse call
@@ -19530,6 +20288,193 @@ func ParseGetV2RegionsResponse(rsp *http.Response) (*GetV2RegionsResponse, error
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest []RegionV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV2SharedtierVirtualClustersResponse parses an HTTP response from a GetV2SharedtierVirtualClustersWithResponse call
+func ParseGetV2SharedtierVirtualClustersResponse(rsp *http.Response) (*GetV2SharedtierVirtualClustersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2SharedtierVirtualClustersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []SharedTierVirtualCluster
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV2SharedtierVirtualClustersResponse parses an HTTP response from a PostV2SharedtierVirtualClustersWithResponse call
+func ParsePostV2SharedtierVirtualClustersResponse(rsp *http.Response) (*PostV2SharedtierVirtualClustersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV2SharedtierVirtualClustersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			VirtualClusterID openapi_types.UUID `json:"virtualClusterID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV2SharedtierVirtualClustersVirtualClusterIDResponse parses an HTTP response from a DeleteV2SharedtierVirtualClustersVirtualClusterIDWithResponse call
+func ParseDeleteV2SharedtierVirtualClustersVirtualClusterIDResponse(rsp *http.Response) (*DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV2SharedtierVirtualClustersVirtualClusterIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV2SharedtierVirtualClustersVirtualClusterIDResponse parses an HTTP response from a GetV2SharedtierVirtualClustersVirtualClusterIDWithResponse call
+func ParseGetV2SharedtierVirtualClustersVirtualClusterIDResponse(rsp *http.Response) (*GetV2SharedtierVirtualClustersVirtualClusterIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2SharedtierVirtualClustersVirtualClusterIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SharedTierVirtualCluster
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse parses an HTTP response from a PostV2SharedtierVirtualClustersVirtualClusterIDUsersWithResponse call
+func ParsePostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse(rsp *http.Response) (*PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV2SharedtierVirtualClustersVirtualClusterIDUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Password string             `json:"password"`
+			UserID   openapi_types.UUID `json:"userID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse parses an HTTP response from a DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithResponse call
+func ParseDeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse(rsp *http.Response) (*DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse parses an HTTP response from a PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDWithResponse call
+func ParsePatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse(rsp *http.Response) (*PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV2SharedtierVirtualClustersVirtualClusterIDUsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

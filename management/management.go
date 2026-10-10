@@ -1528,8 +1528,8 @@ type SimulationResourceConfig struct {
 	// Edition The edition of the resource (optional)
 	Edition *SimulationResourceConfigEdition `json:"edition,omitempty"`
 
-	// EndBefore The end time for this resource configuration
-	EndBefore time.Time `json:"endBefore"`
+	// EndBefore Ignored. A configuration stays in effect until the next configuration for the same resource starts, or until the simulation's endBefore. To end a resource mid-simulation, add a configuration with status Paused or Terminated.
+	EndBefore *time.Time `json:"endBefore,omitempty"`
 
 	// Id The ID of the resource
 	Id openapi_types.UUID `json:"id"`
@@ -1543,7 +1543,7 @@ type SimulationResourceConfig struct {
 	// Size The size of the resource, e.g., S-00, S-1, S-2 (optional)
 	Size *string `json:"size,omitempty"`
 
-	// StartAt The start time for this resource configuration
+	// StartAt The start time for this resource configuration. It stays in effect until the next configuration for the same resource starts, or until the simulation's endBefore.
 	StartAt time.Time `json:"startAt"`
 
 	// Status The status of the resource (optional)

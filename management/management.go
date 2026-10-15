@@ -941,7 +941,13 @@ type JobParameterType string
 
 // JobSchedule defines model for JobSchedule.
 type JobSchedule struct {
-	// ExecutionIntervalInMinutes The time interval between executions of this job. This is required for a Recurring job.
+	// CronSpec A standard 5-field cron expression, evaluated in cronTz, that keeps a Recurring job on a fixed clock time. A Recurring job needs either this or executionIntervalInMinutes, not both.
+	CronSpec *string `json:"cronSpec"`
+
+	// CronTz Timezone cronSpec is evaluated in. Returned by Get; not accepted on create, where cronSpec is always evaluated in UTC.
+	CronTz *string `json:"cronTz"`
+
+	// ExecutionIntervalInMinutes The time interval between executions of this job. A Recurring job needs either this or cronSpec, not both.
 	ExecutionIntervalInMinutes *int            `json:"executionIntervalInMinutes"`
 	Mode                       JobScheduleMode `json:"mode"`
 

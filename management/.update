@@ -9,7 +9,7 @@ cd "${root}"/management
 
 curl -sS https://api.singlestore.com/spec > ${schema}
 
-go install github.com/mikefarah/yq/v4@v4.23.1
+go install github.com/mikefarah/yq/v4@v4.54.1
 
 version_without_prefix="v$(cat ${schema} | yq .info.version)"
 version="management/${version_without_prefix}"
@@ -21,7 +21,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.12.1
+go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@v2.8.1
 output="${root}/management/management.go"
 oapi-codegen -package management -generate types,client -o "${output}" "${schema}"
 

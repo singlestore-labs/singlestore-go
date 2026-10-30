@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+# Regenerates v1-compat.yaml from the full (internal) Management API spec.
+#
+# Public spec 1.2.178 hides every /v1 route that was still public in 1.2.158
+# and has a v2 replacement, even though the Management API still serves those
+# routes. This script extracts those paths, together with every component they
+# reference, so that .update can merge them back.
+#
+# Usage: ./management/.extract-v1-compat <path-to-management-api.yaml>
+
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+    echo "usage: $0 <path-to-management-api.yaml>" >&2
+    exit 1
+fi
+
+source_spec="$1"
+root="$(git rev-parse --show-toplevel)"
+overlay="${root}/management/v1-compat.yaml"
+
+# Paths present in the public 1.2.158 spec and absent from the public 1.2.178 spec.
+paths=(
+    "/v1/auditLogs"
+    "/v1/billing/usage"
+    "/v1/billing/usage/simulate"
+    "/v1/files/fs/{location}"
+    "/v1/files/fs/{location}/{path}"
+    "/v1/flow"
+    "/v1/flow/{flowID}"
+    "/v1/invitations"
+    "/v1/invitations/{invitationID}"
+    "/v1/jobs"
+    "/v1/jobs/runtimes"
+    "/v1/jobs/{jobID}"
+    "/v1/jobs/{jobID}/executions"
+    "/v1/jobs/{jobID}/parameters"
+    "/v1/organizations/current"
+    "/v1/organizations/{organizationID}/accessControls"
+    "/v1/privateConnections"
+    "/v1/privateConnections/{connectionID}"
+    "/v1/projects"
+    "/v1/projects/{projectID}"
+    "/v1/regions"
+    "/v1/regions/sharedtier"
+    "/v1/secrets"
+    "/v1/secrets/{secretID}"
+    "/v1/secrets/{secretID}/accessControls"
+    "/v1/sharedtier/virtualWorkspaces"
+    "/v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}"
+    "/v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users"
+    "/v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID}"
+    "/v1/stage/{deploymentID}/fs"
+    "/v1/stage/{deploymentID}/fs/{path}"
+    "/v1/teams"
+    "/v1/teams/{teamID}"
+    "/v1/teams/{teamID}/accessControls"
+    "/v1/teams/{teamID}/identityRoles"
+    "/v1/users"
+    "/v1/users/current"
+    "/v1/users/{userID}"
+    "/v1/users/{userID}/identityRoles"
+    "/v1/workspaceGroups"
+    "/v1/workspaceGroups/{workspaceGroupID}"
+    "/v1/workspaceGroups/{workspaceGroupID}/accessControls"
+    "/v1/workspaceGroups/{workspaceGroupID}/delegatedEntities"
+    "/v1/workspaceGroups/{workspaceGroupID}/identity"
+    "/v1/workspaceGroups/{workspaceGroupID}/privateConnections"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/DR/failback"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/DR/failover"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/DR/regions"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/DR/startPreProvision"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/DR/status"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/DR/stopPreProvision"
+    "/v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod"
+    "/v1/workspaces"
+    "/v1/workspaces/{workspaceID}"
+    "/v1/workspaces/{workspaceID}/delegatedEntities"
+    "/v1/workspaces/{workspaceID}/identity"
+    "/v1/workspaces/{workspaceID}/privateConnections"
+    "/v1/workspaces/{workspaceID}/privateConnections/kai"
+    "/v1/workspaces/{workspaceID}/privateConnections/outboundAllowList"
+    "/v1/workspaces/{workspaceID}/resume"
+    "/v1/workspaces/{workspaceID}/suspend"
+)
+
+paths_csv="$(IFS=,; echo "${paths[*]}")"
+
+PATHS="${paths_csv}" yq '{"paths": (.paths | with_entries(select(.key as $k | strenv(PATHS) | split(",") | any_c(. == $k))))}' \
+    "${source_spec}" > "${overlay}.tmp"
+
+# Pull in referenced components until the overlay is closed under $ref.
+while true; do
+    missing="$(yq '[.. | select(has("$ref")) | ."$ref"] | unique | .[]' "${overlay}.tmp" |
+        while read -r ref; do
+            kind="$(echo "${ref}" | cut -d/ -f3)"
+            name="$(echo "${ref}" | cut -d/ -f4)"
+            KIND="${kind}" NAME="${name}" yq -e '.components[strenv(KIND)] | has(strenv(NAME))' "${overlay}.tmp" >/dev/null 2>&1 ||
+                echo "${kind}/${name}"
+        done)"
+
+    [[ -z "${missing}" ]] && break
+
+    for item in ${missing}; do
+        kind="${item%%/*}"
+        name="${item#*/}"
+        KIND="${kind}" NAME="${name}" yq -i \
+            ".components[strenv(KIND)][strenv(NAME)] = load(\"${source_spec}\").components[strenv(KIND)][strenv(NAME)]" \
+            "${overlay}.tmp"
+    done
+done
+
+# Internal-only properties that were never part of the public v1 schemas.
+yq -i '
+  del(.components.schemas.WorkspaceGroupCreate.properties["releaseID", "operatorReleaseID", "plan", "firewallPolicyIDs", "smartDR", "cmekID", "dataBucketKMSKeyID", "backupBucketKMSKeyID"]) |
+  del(.components.schemas.WorkspaceGroupUpdate.properties.nodeImage) |
+  del(.components.schemas.StorageDRSetup.properties["cmekID", "dataBucketKMSKeyID", "backupBucketKMSKeyID"])
+' "${overlay}.tmp"
+
+yq -i 'sort_keys(.components) | sort_keys(.components.*)' "${overlay}.tmp"
+
+{
+    echo "# Generated by management/.extract-v1-compat. Do not edit by hand."
+    echo "# /v1 endpoints that were public in spec 1.2.158 and hidden in spec 1.2.178."
+    echo "# The Management API still serves them."
+    cat "${overlay}.tmp"
+} > "${overlay}"
+rm "${overlay}.tmp"
+
+echo "Wrote ${overlay}"

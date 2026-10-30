@@ -11,6 +11,16 @@ curl -sS https://api.singlestore.com/spec > ${schema}
 
 go install github.com/mikefarah/yq/v4@v4.54.1
 
+# Merge v1 endpoints that were public in spec 1.2.158 and hidden in 1.2.178.
+# Components already present in the public spec take precedence over the overlay.
+yq -i '
+  . as $live |
+  load("v1-compat.yaml") as $o |
+  .paths = .paths * ($o.paths | with_entries(select(.key as $k | $live.paths | has($k) | not))) |
+  .components.schemas = .components.schemas * ($o.components.schemas | with_entries(select(.key as $k | $live.components.schemas | has($k) | not))) |
+  .components.parameters = .components.parameters * ($o.components.parameters | with_entries(select(.key as $k | $live.components.parameters | has($k) | not)))
+' "${schema}"
+
 version_without_prefix="v$(cat ${schema} | yq .info.version)"
 version="management/${version_without_prefix}"
 

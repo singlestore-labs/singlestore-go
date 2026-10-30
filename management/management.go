@@ -107,19 +107,34 @@ func (e AutoScaleSensitivity) Valid() bool {
 
 // Defines values for AutoSuspendSuspendType.
 const (
-	DISABLED  AutoSuspendSuspendType = "DISABLED"
-	IDLE      AutoSuspendSuspendType = "IDLE"
-	SCHEDULED AutoSuspendSuspendType = "SCHEDULED"
+	AutoSuspendSuspendTypeDISABLED  AutoSuspendSuspendType = "DISABLED"
+	AutoSuspendSuspendTypeIDLE      AutoSuspendSuspendType = "IDLE"
+	AutoSuspendSuspendTypeSCHEDULED AutoSuspendSuspendType = "SCHEDULED"
 )
 
 // Valid indicates whether the value is a known member of the AutoSuspendSuspendType enum.
 func (e AutoSuspendSuspendType) Valid() bool {
 	switch e {
-	case DISABLED:
+	case AutoSuspendSuspendTypeDISABLED:
 		return true
-	case IDLE:
+	case AutoSuspendSuspendTypeIDLE:
 		return true
-	case SCHEDULED:
+	case AutoSuspendSuspendTypeSCHEDULED:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BillingUsageMetric.
+const (
+	BillingUsageMetricComputeHour BillingUsageMetric = "compute-hour"
+)
+
+// Valid indicates whether the value is a known member of the BillingUsageMetric enum.
+func (e BillingUsageMetric) Valid() bool {
+	switch e {
+	case BillingUsageMetricComputeHour:
 		return true
 	default:
 		return false
@@ -191,16 +206,16 @@ func (e CloudProvider) Valid() bool {
 
 // Defines values for ClusterDeploymentType.
 const (
-	NONPRODUCTION ClusterDeploymentType = "NON-PRODUCTION"
-	PRODUCTION    ClusterDeploymentType = "PRODUCTION"
+	ClusterDeploymentTypeNONPRODUCTION ClusterDeploymentType = "NON-PRODUCTION"
+	ClusterDeploymentTypePRODUCTION    ClusterDeploymentType = "PRODUCTION"
 )
 
 // Valid indicates whether the value is a known member of the ClusterDeploymentType enum.
 func (e ClusterDeploymentType) Valid() bool {
 	switch e {
-	case NONPRODUCTION:
+	case ClusterDeploymentTypeNONPRODUCTION:
 		return true
-	case PRODUCTION:
+	case ClusterDeploymentTypePRODUCTION:
 		return true
 	default:
 		return false
@@ -441,6 +456,27 @@ func (e JobScheduleMode) Valid() bool {
 	}
 }
 
+// Defines values for JobTargetConfigTargetType.
+const (
+	JobTargetConfigTargetTypeCluster          JobTargetConfigTargetType = "Cluster"
+	JobTargetConfigTargetTypeVirtualWorkspace JobTargetConfigTargetType = "VirtualWorkspace"
+	JobTargetConfigTargetTypeWorkspace        JobTargetConfigTargetType = "Workspace"
+)
+
+// Valid indicates whether the value is a known member of the JobTargetConfigTargetType enum.
+func (e JobTargetConfigTargetType) Valid() bool {
+	switch e {
+	case JobTargetConfigTargetTypeCluster:
+		return true
+	case JobTargetConfigTargetTypeVirtualWorkspace:
+		return true
+	case JobTargetConfigTargetTypeWorkspace:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for JobTargetConfigV2TargetType.
 const (
 	JobTargetConfigV2TargetTypeCluster        JobTargetConfigV2TargetType = "Cluster"
@@ -480,6 +516,63 @@ func (e NotebookCloudFunctionStatus) Valid() bool {
 	case NotebookCloudFunctionStatusIdle:
 		return true
 	case NotebookCloudFunctionStatusInitializing:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PrivateConnectionStatus.
+const (
+	PrivateConnectionStatusACTIVE  PrivateConnectionStatus = "ACTIVE"
+	PrivateConnectionStatusDELETED PrivateConnectionStatus = "DELETED"
+	PrivateConnectionStatusPENDING PrivateConnectionStatus = "PENDING"
+)
+
+// Valid indicates whether the value is a known member of the PrivateConnectionStatus enum.
+func (e PrivateConnectionStatus) Valid() bool {
+	switch e {
+	case PrivateConnectionStatusACTIVE:
+		return true
+	case PrivateConnectionStatusDELETED:
+		return true
+	case PrivateConnectionStatusPENDING:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PrivateConnectionType.
+const (
+	PrivateConnectionTypeINBOUND  PrivateConnectionType = "INBOUND"
+	PrivateConnectionTypeOUTBOUND PrivateConnectionType = "OUTBOUND"
+)
+
+// Valid indicates whether the value is a known member of the PrivateConnectionType enum.
+func (e PrivateConnectionType) Valid() bool {
+	switch e {
+	case PrivateConnectionTypeINBOUND:
+		return true
+	case PrivateConnectionTypeOUTBOUND:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for PrivateConnectionCreateType.
+const (
+	PrivateConnectionCreateTypeINBOUND  PrivateConnectionCreateType = "INBOUND"
+	PrivateConnectionCreateTypeOUTBOUND PrivateConnectionCreateType = "OUTBOUND"
+)
+
+// Valid indicates whether the value is a known member of the PrivateConnectionCreateType enum.
+func (e PrivateConnectionCreateType) Valid() bool {
+	switch e {
+	case PrivateConnectionCreateTypeINBOUND:
+		return true
+	case PrivateConnectionCreateTypeOUTBOUND:
 		return true
 	default:
 		return false
@@ -531,6 +624,30 @@ func (e ProjectEdition) Valid() bool {
 	}
 }
 
+// Defines values for ReplicatedDatabaseDuplicationState.
+const (
+	ReplicatedDatabaseDuplicationStateActive   ReplicatedDatabaseDuplicationState = "Active"
+	ReplicatedDatabaseDuplicationStateError    ReplicatedDatabaseDuplicationState = "Error"
+	ReplicatedDatabaseDuplicationStateInactive ReplicatedDatabaseDuplicationState = "Inactive"
+	ReplicatedDatabaseDuplicationStatePending  ReplicatedDatabaseDuplicationState = "Pending"
+)
+
+// Valid indicates whether the value is a known member of the ReplicatedDatabaseDuplicationState enum.
+func (e ReplicatedDatabaseDuplicationState) Valid() bool {
+	switch e {
+	case ReplicatedDatabaseDuplicationStateActive:
+		return true
+	case ReplicatedDatabaseDuplicationStateError:
+		return true
+	case ReplicatedDatabaseDuplicationStateInactive:
+		return true
+	case ReplicatedDatabaseDuplicationStatePending:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for SharedTierCreateVirtualClusterProvider.
 const (
 	SharedTierCreateVirtualClusterProviderAWS   SharedTierCreateVirtualClusterProvider = "AWS"
@@ -546,6 +663,63 @@ func (e SharedTierCreateVirtualClusterProvider) Valid() bool {
 	case SharedTierCreateVirtualClusterProviderAZURE:
 		return true
 	case SharedTierCreateVirtualClusterProviderGCP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SharedTierCreateVirtualWorkspaceProvider.
+const (
+	SharedTierCreateVirtualWorkspaceProviderAWS   SharedTierCreateVirtualWorkspaceProvider = "AWS"
+	SharedTierCreateVirtualWorkspaceProviderAZURE SharedTierCreateVirtualWorkspaceProvider = "AZURE"
+	SharedTierCreateVirtualWorkspaceProviderGCP   SharedTierCreateVirtualWorkspaceProvider = "GCP"
+)
+
+// Valid indicates whether the value is a known member of the SharedTierCreateVirtualWorkspaceProvider enum.
+func (e SharedTierCreateVirtualWorkspaceProvider) Valid() bool {
+	switch e {
+	case SharedTierCreateVirtualWorkspaceProviderAWS:
+		return true
+	case SharedTierCreateVirtualWorkspaceProviderAZURE:
+		return true
+	case SharedTierCreateVirtualWorkspaceProviderGCP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SimulatedResourceUsageMetric.
+const (
+	SimulatedResourceUsageMetricComputeHour SimulatedResourceUsageMetric = "ComputeHour"
+)
+
+// Valid indicates whether the value is a known member of the SimulatedResourceUsageMetric enum.
+func (e SimulatedResourceUsageMetric) Valid() bool {
+	switch e {
+	case SimulatedResourceUsageMetricComputeHour:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SimulatedResourceUsageType.
+const (
+	SimulatedResourceUsageTypeCluster        SimulatedResourceUsageType = "Cluster"
+	SimulatedResourceUsageTypeWorkspace      SimulatedResourceUsageType = "Workspace"
+	SimulatedResourceUsageTypeWorkspaceGroup SimulatedResourceUsageType = "WorkspaceGroup"
+)
+
+// Valid indicates whether the value is a known member of the SimulatedResourceUsageType enum.
+func (e SimulatedResourceUsageType) Valid() bool {
+	switch e {
+	case SimulatedResourceUsageTypeCluster:
+		return true
+	case SimulatedResourceUsageTypeWorkspace:
+		return true
+	case SimulatedResourceUsageTypeWorkspaceGroup:
 		return true
 	default:
 		return false
@@ -636,6 +810,57 @@ func (e SimulationResourceConfigStatus) Valid() bool {
 	}
 }
 
+// Defines values for StorageDRStatusComputeStorageDRState.
+const (
+	StorageDRStatusComputeStorageDRStateActive    StorageDRStatusComputeStorageDRState = "Active"
+	StorageDRStatusComputeStorageDRStateCanceled  StorageDRStatusComputeStorageDRState = "Canceled"
+	StorageDRStatusComputeStorageDRStateCompleted StorageDRStatusComputeStorageDRState = "Completed"
+	StorageDRStatusComputeStorageDRStateExpired   StorageDRStatusComputeStorageDRState = "Expired"
+	StorageDRStatusComputeStorageDRStateFailed    StorageDRStatusComputeStorageDRState = "Failed"
+)
+
+// Valid indicates whether the value is a known member of the StorageDRStatusComputeStorageDRState enum.
+func (e StorageDRStatusComputeStorageDRState) Valid() bool {
+	switch e {
+	case StorageDRStatusComputeStorageDRStateActive:
+		return true
+	case StorageDRStatusComputeStorageDRStateCanceled:
+		return true
+	case StorageDRStatusComputeStorageDRStateCompleted:
+		return true
+	case StorageDRStatusComputeStorageDRStateExpired:
+		return true
+	case StorageDRStatusComputeStorageDRStateFailed:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StorageDRStatusComputeStorageDRType.
+const (
+	Failback          StorageDRStatusComputeStorageDRType = "Failback"
+	Failover          StorageDRStatusComputeStorageDRType = "Failover"
+	PreProvisionStart StorageDRStatusComputeStorageDRType = "PreProvisionStart"
+	PreProvisionStop  StorageDRStatusComputeStorageDRType = "PreProvisionStop"
+)
+
+// Valid indicates whether the value is a known member of the StorageDRStatusComputeStorageDRType enum.
+func (e StorageDRStatusComputeStorageDRType) Valid() bool {
+	switch e {
+	case Failback:
+		return true
+	case Failover:
+		return true
+	case PreProvisionStart:
+		return true
+	case PreProvisionStop:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for UserUserKind.
 const (
 	UserUserKindCloudPrincipal UserUserKind = "CloudPrincipal"
@@ -659,22 +884,22 @@ func (e UserUserKind) Valid() bool {
 
 // Defines values for UserInvitationState.
 const (
-	Accepted UserInvitationState = "Accepted"
-	Pending  UserInvitationState = "Pending"
-	Refused  UserInvitationState = "Refused"
-	Revoked  UserInvitationState = "Revoked"
+	UserInvitationStateAccepted UserInvitationState = "Accepted"
+	UserInvitationStatePending  UserInvitationState = "Pending"
+	UserInvitationStateRefused  UserInvitationState = "Refused"
+	UserInvitationStateRevoked  UserInvitationState = "Revoked"
 )
 
 // Valid indicates whether the value is a known member of the UserInvitationState enum.
 func (e UserInvitationState) Valid() bool {
 	switch e {
-	case Accepted:
+	case UserInvitationStateAccepted:
 		return true
-	case Pending:
+	case UserInvitationStatePending:
 		return true
-	case Refused:
+	case UserInvitationStateRefused:
 		return true
-	case Revoked:
+	case UserInvitationStateRevoked:
 		return true
 	default:
 		return false
@@ -716,13 +941,13 @@ func (e V2BillingUsageUsageResourceType) Valid() bool {
 
 // Defines values for V2SimulatedResourceUsageMetric.
 const (
-	ComputeHour V2SimulatedResourceUsageMetric = "ComputeHour"
+	V2SimulatedResourceUsageMetricComputeHour V2SimulatedResourceUsageMetric = "ComputeHour"
 )
 
 // Valid indicates whether the value is a known member of the V2SimulatedResourceUsageMetric enum.
 func (e V2SimulatedResourceUsageMetric) Valid() bool {
 	switch e {
-	case ComputeHour:
+	case V2SimulatedResourceUsageMetricComputeHour:
 		return true
 	default:
 		return false
@@ -738,6 +963,300 @@ const (
 func (e V2SimulatedResourceUsageType) Valid() bool {
 	switch e {
 	case V2SimulatedResourceUsageTypeCluster:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceAutoSuspendSuspendType.
+const (
+	WorkspaceAutoSuspendSuspendTypeIDLE      WorkspaceAutoSuspendSuspendType = "IDLE"
+	WorkspaceAutoSuspendSuspendTypeSCHEDULED WorkspaceAutoSuspendSuspendType = "SCHEDULED"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceAutoSuspendSuspendType enum.
+func (e WorkspaceAutoSuspendSuspendType) Valid() bool {
+	switch e {
+	case WorkspaceAutoSuspendSuspendTypeIDLE:
+		return true
+	case WorkspaceAutoSuspendSuspendTypeSCHEDULED:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceDeploymentType.
+const (
+	WorkspaceDeploymentTypeNONPRODUCTION WorkspaceDeploymentType = "NON-PRODUCTION"
+	WorkspaceDeploymentTypePRODUCTION    WorkspaceDeploymentType = "PRODUCTION"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceDeploymentType enum.
+func (e WorkspaceDeploymentType) Valid() bool {
+	switch e {
+	case WorkspaceDeploymentTypeNONPRODUCTION:
+		return true
+	case WorkspaceDeploymentTypePRODUCTION:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceResumeAttachmentsAttachment.
+const (
+	READONLY  WorkspaceResumeAttachmentsAttachment = "READONLY"
+	READWRITE WorkspaceResumeAttachmentsAttachment = "READWRITE"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceResumeAttachmentsAttachment enum.
+func (e WorkspaceResumeAttachmentsAttachment) Valid() bool {
+	switch e {
+	case READONLY:
+		return true
+	case READWRITE:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceState.
+const (
+	WorkspaceStateACTIVE     WorkspaceState = "ACTIVE"
+	WorkspaceStateFAILED     WorkspaceState = "FAILED"
+	WorkspaceStatePENDING    WorkspaceState = "PENDING"
+	WorkspaceStateSUSPENDED  WorkspaceState = "SUSPENDED"
+	WorkspaceStateTERMINATED WorkspaceState = "TERMINATED"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceState enum.
+func (e WorkspaceState) Valid() bool {
+	switch e {
+	case WorkspaceStateACTIVE:
+		return true
+	case WorkspaceStateFAILED:
+		return true
+	case WorkspaceStatePENDING:
+		return true
+	case WorkspaceStateSUSPENDED:
+		return true
+	case WorkspaceStateTERMINATED:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceCreateAutoSuspendSuspendType.
+const (
+	WorkspaceCreateAutoSuspendSuspendTypeDISABLED  WorkspaceCreateAutoSuspendSuspendType = "DISABLED"
+	WorkspaceCreateAutoSuspendSuspendTypeIDLE      WorkspaceCreateAutoSuspendSuspendType = "IDLE"
+	WorkspaceCreateAutoSuspendSuspendTypeSCHEDULED WorkspaceCreateAutoSuspendSuspendType = "SCHEDULED"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceCreateAutoSuspendSuspendType enum.
+func (e WorkspaceCreateAutoSuspendSuspendType) Valid() bool {
+	switch e {
+	case WorkspaceCreateAutoSuspendSuspendTypeDISABLED:
+		return true
+	case WorkspaceCreateAutoSuspendSuspendTypeIDLE:
+		return true
+	case WorkspaceCreateAutoSuspendSuspendTypeSCHEDULED:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceGroupDeploymentType.
+const (
+	WorkspaceGroupDeploymentTypeNONPRODUCTION WorkspaceGroupDeploymentType = "NON-PRODUCTION"
+	WorkspaceGroupDeploymentTypePRODUCTION    WorkspaceGroupDeploymentType = "PRODUCTION"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceGroupDeploymentType enum.
+func (e WorkspaceGroupDeploymentType) Valid() bool {
+	switch e {
+	case WorkspaceGroupDeploymentTypeNONPRODUCTION:
+		return true
+	case WorkspaceGroupDeploymentTypePRODUCTION:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceGroupSmartDRStatus.
+const (
+	WorkspaceGroupSmartDRStatusACTIVE  WorkspaceGroupSmartDRStatus = "ACTIVE"
+	WorkspaceGroupSmartDRStatusSTANDBY WorkspaceGroupSmartDRStatus = "STANDBY"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceGroupSmartDRStatus enum.
+func (e WorkspaceGroupSmartDRStatus) Valid() bool {
+	switch e {
+	case WorkspaceGroupSmartDRStatusACTIVE:
+		return true
+	case WorkspaceGroupSmartDRStatusSTANDBY:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceGroupState.
+const (
+	WorkspaceGroupStateACTIVE     WorkspaceGroupState = "ACTIVE"
+	WorkspaceGroupStateFAILED     WorkspaceGroupState = "FAILED"
+	WorkspaceGroupStatePENDING    WorkspaceGroupState = "PENDING"
+	WorkspaceGroupStateTERMINATED WorkspaceGroupState = "TERMINATED"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceGroupState enum.
+func (e WorkspaceGroupState) Valid() bool {
+	switch e {
+	case WorkspaceGroupStateACTIVE:
+		return true
+	case WorkspaceGroupStateFAILED:
+		return true
+	case WorkspaceGroupStatePENDING:
+		return true
+	case WorkspaceGroupStateTERMINATED:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceGroupCreateDeploymentType.
+const (
+	WorkspaceGroupCreateDeploymentTypeNONPRODUCTION WorkspaceGroupCreateDeploymentType = "NON-PRODUCTION"
+	WorkspaceGroupCreateDeploymentTypePRODUCTION    WorkspaceGroupCreateDeploymentType = "PRODUCTION"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceGroupCreateDeploymentType enum.
+func (e WorkspaceGroupCreateDeploymentType) Valid() bool {
+	switch e {
+	case WorkspaceGroupCreateDeploymentTypeNONPRODUCTION:
+		return true
+	case WorkspaceGroupCreateDeploymentTypePRODUCTION:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceGroupUpdateDeploymentType.
+const (
+	WorkspaceGroupUpdateDeploymentTypeNONPRODUCTION WorkspaceGroupUpdateDeploymentType = "NON-PRODUCTION"
+	WorkspaceGroupUpdateDeploymentTypePRODUCTION    WorkspaceGroupUpdateDeploymentType = "PRODUCTION"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceGroupUpdateDeploymentType enum.
+func (e WorkspaceGroupUpdateDeploymentType) Valid() bool {
+	switch e {
+	case WorkspaceGroupUpdateDeploymentTypeNONPRODUCTION:
+		return true
+	case WorkspaceGroupUpdateDeploymentTypePRODUCTION:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceUpdateAutoSuspendSuspendType.
+const (
+	WorkspaceUpdateAutoSuspendSuspendTypeDISABLED  WorkspaceUpdateAutoSuspendSuspendType = "DISABLED"
+	WorkspaceUpdateAutoSuspendSuspendTypeIDLE      WorkspaceUpdateAutoSuspendSuspendType = "IDLE"
+	WorkspaceUpdateAutoSuspendSuspendTypeSCHEDULED WorkspaceUpdateAutoSuspendSuspendType = "SCHEDULED"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceUpdateAutoSuspendSuspendType enum.
+func (e WorkspaceUpdateAutoSuspendSuspendType) Valid() bool {
+	switch e {
+	case WorkspaceUpdateAutoSuspendSuspendTypeDISABLED:
+		return true
+	case WorkspaceUpdateAutoSuspendSuspendTypeIDLE:
+		return true
+	case WorkspaceUpdateAutoSuspendSuspendTypeSCHEDULED:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceUpdateDeploymentType.
+const (
+	WorkspaceUpdateDeploymentTypeNONPRODUCTION WorkspaceUpdateDeploymentType = "NON-PRODUCTION"
+	WorkspaceUpdateDeploymentTypePRODUCTION    WorkspaceUpdateDeploymentType = "PRODUCTION"
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceUpdateDeploymentType enum.
+func (e WorkspaceUpdateDeploymentType) Valid() bool {
+	switch e {
+	case WorkspaceUpdateDeploymentTypeNONPRODUCTION:
+		return true
+	case WorkspaceUpdateDeploymentTypePRODUCTION:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for WorkspaceUpdateEnableKai.
+const (
+	False WorkspaceUpdateEnableKai = false
+	True  WorkspaceUpdateEnableKai = true
+)
+
+// Valid indicates whether the value is a known member of the WorkspaceUpdateEnableKai enum.
+func (e WorkspaceUpdateEnableKai) Valid() bool {
+	switch e {
+	case False:
+		return true
+	case True:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetV1BillingUsageParamsMetric.
+const (
+	GetV1BillingUsageParamsMetricComputeCredit  GetV1BillingUsageParamsMetric = "ComputeCredit"
+	GetV1BillingUsageParamsMetricStorageAvgByte GetV1BillingUsageParamsMetric = "StorageAvgByte"
+)
+
+// Valid indicates whether the value is a known member of the GetV1BillingUsageParamsMetric enum.
+func (e GetV1BillingUsageParamsMetric) Valid() bool {
+	switch e {
+	case GetV1BillingUsageParamsMetricComputeCredit:
+		return true
+	case GetV1BillingUsageParamsMetricStorageAvgByte:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetV1BillingUsageParamsAggregateBy.
+const (
+	GetV1BillingUsageParamsAggregateByDay   GetV1BillingUsageParamsAggregateBy = "day"
+	GetV1BillingUsageParamsAggregateByHour  GetV1BillingUsageParamsAggregateBy = "hour"
+	GetV1BillingUsageParamsAggregateByMonth GetV1BillingUsageParamsAggregateBy = "month"
+)
+
+// Valid indicates whether the value is a known member of the GetV1BillingUsageParamsAggregateBy enum.
+func (e GetV1BillingUsageParamsAggregateBy) Valid() bool {
+	switch e {
+	case GetV1BillingUsageParamsAggregateByDay:
+		return true
+	case GetV1BillingUsageParamsAggregateByHour:
+		return true
+	case GetV1BillingUsageParamsAggregateByMonth:
 		return true
 	default:
 		return false
@@ -764,19 +1283,19 @@ func (e GetV2BillingUsageParamsMetric) Valid() bool {
 
 // Defines values for GetV2BillingUsageParamsAggregateBy.
 const (
-	Day   GetV2BillingUsageParamsAggregateBy = "day"
-	Hour  GetV2BillingUsageParamsAggregateBy = "hour"
-	Month GetV2BillingUsageParamsAggregateBy = "month"
+	GetV2BillingUsageParamsAggregateByDay   GetV2BillingUsageParamsAggregateBy = "day"
+	GetV2BillingUsageParamsAggregateByHour  GetV2BillingUsageParamsAggregateBy = "hour"
+	GetV2BillingUsageParamsAggregateByMonth GetV2BillingUsageParamsAggregateBy = "month"
 )
 
 // Valid indicates whether the value is a known member of the GetV2BillingUsageParamsAggregateBy enum.
 func (e GetV2BillingUsageParamsAggregateBy) Valid() bool {
 	switch e {
-	case Day:
+	case GetV2BillingUsageParamsAggregateByDay:
 		return true
-	case Hour:
+	case GetV2BillingUsageParamsAggregateByHour:
 		return true
-	case Month:
+	case GetV2BillingUsageParamsAggregateByMonth:
 		return true
 	default:
 		return false
@@ -936,6 +1455,53 @@ type AutoSuspend struct {
 
 // AutoSuspendSuspendType Type of auto-suspend
 type AutoSuspendSuspendType string
+
+// BillingUsage Represents the information related to billing usage
+type BillingUsage struct {
+	// Metric The metric type
+	Metric *BillingUsageMetric `json:"metric,omitempty"`
+
+	// Usage Usage information
+	Usage *[]struct {
+		// EndTime The end time of the interval
+		//
+		// Example: 2024-06-01 09:00:00 +0000 UTC
+		EndTime *string `json:"endTime,omitempty"`
+
+		// OwnerId ID of the owner of the resource
+		//
+		// Example: 78af2f46-0000-1000-9000-3f6f5365d878
+		OwnerId *string `json:"ownerId,omitempty"`
+
+		// ResourceId ID of the resource
+		//
+		// Example: 78af2f46-0000-1000-9000-3f6f5365d878
+		ResourceId *string `json:"resourceId,omitempty"`
+
+		// ResourceName Name of the resource
+		//
+		// Example: test-workspace
+		ResourceName *string `json:"resourceName,omitempty"`
+
+		// ResourceType The resource type
+		//
+		// Example: Workspace
+		ResourceType *string `json:"resourceType,omitempty"`
+
+		// StartTime The start time of the interval
+		//
+		// Example: 2024-06-01 08:00:00 +0000 UTC
+		StartTime *string `json:"startTime,omitempty"`
+
+		// Value Resource usage value
+		//
+		// Example: 30.00
+		Value *string `json:"value,omitempty"`
+	} `json:"usage,omitempty"`
+}
+
+// BillingUsageMetric The metric type
+type BillingUsageMetric string
 
 // CloudFunctionCreate Represents information specified while creating a cloud function
 type CloudFunctionCreate struct {
@@ -1493,6 +2059,67 @@ type FileObjectMetadataFormat string
 // FileObjectMetadataType Object type
 type FileObjectMetadataType string
 
+// Flow Represents information related to a SingleStore Flow instance
+type Flow struct {
+	// CreatedAt Timestamp of when the Flow instance was created
+	CreatedAt time.Time `json:"createdAt"`
+
+	// DatabaseName Name of the SingleStore database associated with the Flow instance
+	DatabaseName *string `json:"databaseName,omitempty"`
+
+	// DeletedAt (If included in the output) The timestamp of when the Flow instance was terminated
+	DeletedAt *time.Time `json:"deletedAt,omitempty"`
+
+	// Endpoint Endpoint of the Flow instance
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// FlowID ID of the Flow instance
+	FlowID openapi_types.UUID `json:"flowID"`
+
+	// Name Name of the Flow instance
+	Name string `json:"name"`
+
+	// Size Size of the Flow instance (in Flow size notation), such as "F1"
+	Size *string `json:"size,omitempty"`
+
+	// Status Status of the Flow instance, such as whether it is Running or Deleted
+	Status *string `json:"status,omitempty"`
+
+	// UserName Name of the SingleStore database user associated with the Flow instance
+	UserName *string `json:"userName,omitempty"`
+
+	// WorkspaceID ID of the workspace associated with the Flow instance
+	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`
+}
+
+// FlowCreate Represents the information specified while creating a SingleStore Flow instance
+type FlowCreate struct {
+	// DatabaseName Name of the SingleStore database to connect to
+	//
+	// Example: database_1
+	DatabaseName *string `json:"databaseName,omitempty"`
+
+	// Name Name of the Flow instance
+	//
+	// Example: flow-instance-1
+	Name string `json:"name"`
+
+	// Size Size of the Flow instance (in Flow size notation), such as "F1"
+	//
+	// Example: F2
+	Size *string `json:"size,omitempty"`
+
+	// UserName Username of the SingleStore database user with which to connect to the SingleStore database
+	//
+	// Example: admin
+	UserName *string `json:"userName,omitempty"`
+
+	// WorkspaceID The ID of the workspace to associate the Flow instance with
+	//
+	// Example: 7d6b3a5a-0000-1000-9000-d454af4c785b
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+}
+
 // FlowCreateV2 Represents the information specified while creating a SingleStore Flow instance (v2; cluster terminology)
 type FlowCreateV2 struct {
 	// ClusterID The ID of the cluster to associate the Flow instance with
@@ -1564,6 +2191,74 @@ type IdentityRole struct {
 
 	// Role The role can access the resource
 	Role string `json:"role"`
+}
+
+// Job defines model for Job.
+type Job struct {
+	// CompletedExecutionsCount Count of completed executions for the job
+	//
+	// Example: 10
+	CompletedExecutionsCount int `json:"completedExecutionsCount"`
+
+	// CreatedAt Creation time of the job
+	CreatedAt time.Time `json:"createdAt"`
+
+	// Description Description of the job
+	//
+	// Example: Sample Description
+	Description *string `json:"description,omitempty"`
+
+	// EnqueuedBy ID of the user who created the job
+	EnqueuedBy      openapi_types.UUID `json:"enqueuedBy"`
+	ExecutionConfig JobExecutionConfig `json:"executionConfig"`
+
+	// JobID ID of the job
+	JobID openapi_types.UUID `json:"jobID"`
+
+	// JobMetadata Array containing information about the max/avg execution duration and the number of executions with a particular status for the job
+	JobMetadata []JobMetadata `json:"jobMetadata"`
+
+	// Name Name of the job
+	//
+	// Example: Sample Job
+	Name         *string          `json:"name,omitempty"`
+	Schedule     JobSchedule      `json:"schedule"`
+	TargetConfig *JobTargetConfig `json:"targetConfig,omitempty"`
+
+	// TerminatedAt Termination time of the job
+	TerminatedAt *time.Time `json:"terminatedAt,omitempty"`
+}
+
+// JobCreate Represents the information specified when creating a job.
+type JobCreate struct {
+	// Description Description of the job
+	//
+	// Example: Job Description
+	Description     *string `json:"description,omitempty"`
+	ExecutionConfig struct {
+		// CreateSnapshot Indicates whether the job will save snapshots
+		CreateSnapshot bool `json:"createSnapshot"`
+
+		// NotebookPath Path to the shared notebook file that contains the code that needs to be run on a schedule as part of this job
+		//
+		// Example: sample_notebook.ipynb
+		NotebookPath string `json:"notebookPath"`
+
+		// RuntimeName Name of the runtime
+		//
+		// Example: notebooks-cpu-small
+		RuntimeName *string `json:"runtimeName,omitempty"`
+	} `json:"executionConfig"`
+
+	// Name Name of the job
+	//
+	// Example: Job Name
+	Name *string `json:"name"`
+
+	// Parameters Array containing the parameters for the job
+	Parameters   *[]JobParameter  `json:"parameters,omitempty"`
+	Schedule     JobSchedule      `json:"schedule"`
+	TargetConfig *JobTargetConfig `json:"targetConfig,omitempty"`
 }
 
 // JobCreateV2 Represents the information specified when creating a job (v2; cluster terminology).
@@ -1689,6 +2384,26 @@ type JobSchedule struct {
 
 // JobScheduleMode defines model for JobSchedule.Mode.
 type JobScheduleMode string
+
+// JobTargetConfig defines model for JobTargetConfig.
+type JobTargetConfig struct {
+	// DatabaseName Name of the database
+	//
+	// Example: sample_db
+	DatabaseName *string `json:"databaseName,omitempty"`
+
+	// ResumeTarget Indicates whether executions of this job will resume the target associated with the job, if it is suspended
+	//
+	// Example: true
+	ResumeTarget bool `json:"resumeTarget"`
+
+	// TargetID The target ID for the job, this could be the ID of Workspace, Cluster or VirtualWorkspace (in case of shared-tier).
+	TargetID   openapi_types.UUID        `json:"targetID"`
+	TargetType JobTargetConfigTargetType `json:"targetType"`
+}
+
+// JobTargetConfigTargetType defines model for JobTargetConfig.TargetType.
+type JobTargetConfigTargetType string
 
 // JobTargetConfigV2 Represents the target configuration for a job (v2; cluster terminology).
 type JobTargetConfigV2 struct {
@@ -1861,6 +2576,141 @@ type PermissionsSpecification struct {
 	ResourceType string `json:"resourceType"`
 }
 
+// PrivateConnection Represents information related to a private link connection
+type PrivateConnection struct {
+	// ActiveAt The timestamp of when the private connection became active
+	//
+	// Example: 2023-09-18T09:56:56Z
+	ActiveAt *string `json:"activeAt,omitempty"`
+
+	// AllowList The private connection allow list. This is the account ID for AWS,  subscription ID for Azure, and the project name GCP
+	//
+	// Example: my-allow-list
+	AllowList             *string   `json:"allowList,omitempty"`
+	AllowedPrivateLinkIDs *[]string `json:"allowedPrivateLinkIDs,omitempty"`
+
+	// CreatedAt The timestamp of when the private connection was created
+	//
+	// Example: 2023-09-18T09:56:56Z
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// DeletedAt The timestamp of when the private connection was deleted
+	//
+	// Example: 2023-09-18T09:56:56Z
+	DeletedAt *string `json:"deletedAt,omitempty"`
+
+	// Endpoint The service endpoint
+	//
+	// Example: com.amazonaws.vpce.us-east-1.vpce-svc-08e20961f648f9d
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// OutboundAllowList The account ID which must be allowed for outbound connections
+	//
+	// Example: arn:aws:iam:xxxxxxxxx:root
+	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
+
+	// PrivateConnectionID The ID of the private connection
+	//
+	// Example: 8900372e-0000-1000-9000-4c47638040af
+	PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+
+	// ServiceName The name of the private connection service
+	//
+	// Example: My service
+	ServiceName *string `json:"serviceName,omitempty"`
+
+	// SqlPort The SQL port
+	//
+	// Example: 3306
+	SqlPort *float32 `json:"sqlPort,omitempty"`
+
+	// Status The status of the private connection
+	//
+	// Example: ACTIVE
+	Status *PrivateConnectionStatus `json:"status,omitempty"`
+
+	// Type The private connection type
+	//
+	// Example: INBOUND
+	Type *PrivateConnectionType `json:"type,omitempty"`
+
+	// UpdatedAt The timestamp of when the private connection was last updated
+	//
+	// Example: 2023-09-18T09:56:56Z
+	UpdatedAt *string `json:"updatedAt,omitempty"`
+
+	// WebsocketsPort The websockets port
+	//
+	// Example: 443
+	WebsocketsPort *float32 `json:"websocketsPort,omitempty"`
+
+	// WorkspaceGroupID The ID of the workspace group containing the private connection
+	//
+	// Example: 68af2f46-0000-1000-9000-3f6f5365d878
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+
+	// WorkspaceID The ID of the workspace to connect with
+	//
+	// Example: 7d6b3a5a-0000-1000-9000-d454af4c785b
+	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`
+}
+
+// PrivateConnectionStatus The status of the private connection
+//
+// Example: ACTIVE
+type PrivateConnectionStatus string
+
+// PrivateConnectionType The private connection type
+//
+// Example: INBOUND
+type PrivateConnectionType string
+
+// PrivateConnectionCreate Represents the information specified when creating a private connection
+type PrivateConnectionCreate struct {
+	// AllowList The private connection allow list
+	//
+	// Example: my-allow-list
+	AllowList *string `json:"allowList,omitempty"`
+
+	// KaiEndpointID VPC Endpoint ID for AWS
+	//
+	// Example: vpce-12345678901234567
+	KaiEndpointID *string `json:"kaiEndpointID,omitempty"`
+
+	// ServiceName The name of the private connection service
+	//
+	// Example: My private link
+	ServiceName *string `json:"serviceName,omitempty"`
+
+	// SqlPort The SQL port
+	//
+	// Example: 3306
+	SqlPort *float32 `json:"sqlPort,omitempty"`
+
+	// Type The private connection type
+	//
+	// Example: INBOUND
+	Type *PrivateConnectionCreateType `json:"type,omitempty"`
+
+	// WebsocketsPort The websockets port
+	//
+	// Example: 443
+	WebsocketsPort *float32 `json:"websocketsPort,omitempty"`
+
+	// WorkspaceGroupID The ID of the workspace group containing the private connection
+	//
+	// Example: 68af2f46-0000-1000-9000-3f6f5365d878
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+
+	// WorkspaceID The ID of the workspace to connect with
+	WorkspaceID *openapi_types.UUID `json:"workspaceID,omitempty"`
+}
+
+// PrivateConnectionCreateType The private connection type
+//
+// Example: INBOUND
+type PrivateConnectionCreateType string
+
 // PrivateConnectionCreateV2 Represents the information specified when creating a private connection for a cluster
 type PrivateConnectionCreateV2 struct {
 	// AllowList The private connection allow list
@@ -1923,6 +2773,14 @@ type PrivateConnectionOutboundAllowList struct {
 	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
 }
 
+// PrivateConnectionUpdate Represents the information specfied when updating a private connection
+type PrivateConnectionUpdate struct {
+	// AllowList The private connection allow list
+	//
+	// Example: my-allow-list
+	AllowList *string `json:"allowList,omitempty"`
+}
+
 // PrivateConnectionUpdateV2 Represents the information specified when updating a private connection for a cluster
 type PrivateConnectionUpdateV2 struct {
 	// AllowList The private connection allow list
@@ -1970,6 +2828,20 @@ type ProjectUpdate struct {
 	Name string `json:"name"`
 }
 
+// Region Represents information related to a region in which a workspace group is created
+//
+// Deprecated: this type has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+type Region struct {
+	// Provider Cloud provider
+	Provider CloudProvider `json:"provider"`
+
+	// Region Name of the region
+	Region string `json:"region"`
+
+	// RegionID ID of the region
+	RegionID openapi_types.UUID `json:"regionID"`
+}
+
 // RegionV2 Represents information related to a region in which a workspace group is created
 type RegionV2 struct {
 	// Provider Cloud provider
@@ -1981,6 +2853,21 @@ type RegionV2 struct {
 	// RegionName The region code name
 	RegionName string `json:"regionName"`
 }
+
+// ReplicatedDatabase Represents information related to a database's replication status
+type ReplicatedDatabase struct {
+	// DatabaseName Name of the database
+	DatabaseName string `json:"databaseName"`
+
+	// DuplicationState Duplication state of the database
+	DuplicationState ReplicatedDatabaseDuplicationState `json:"duplicationState"`
+
+	// Region Name of the region
+	Region string `json:"region"`
+}
+
+// ReplicatedDatabaseDuplicationState Duplication state of the database
+type ReplicatedDatabaseDuplicationState string
 
 // ResourceInfo defines model for ResourceInfo.
 type ResourceInfo struct {
@@ -2327,6 +3214,35 @@ type SharedTierCreateVirtualCluster struct {
 // SharedTierCreateVirtualClusterProvider Name of the provider
 type SharedTierCreateVirtualClusterProvider string
 
+// SharedTierCreateVirtualWorkspace defines model for SharedTierCreateVirtualWorkspace.
+type SharedTierCreateVirtualWorkspace struct {
+	// DatabaseName Name of the database
+	//
+	// Example: database_60c6b
+	DatabaseName string `json:"databaseName"`
+
+	// Name Name of the shared workspace
+	//
+	// Example: shared-workspace-1
+	Name string `json:"name"`
+
+	// ProjectID Assigns the shared workspace to a project
+	//
+	// Example: 2d7bd375-6303-46c4-903a-8a3d5b4922c0
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// Provider Name of the provider
+	Provider SharedTierCreateVirtualWorkspaceProvider `json:"provider"`
+
+	// RegionName The region code
+	//
+	// Example: us-east-1
+	RegionName string `json:"regionName"`
+}
+
+// SharedTierCreateVirtualWorkspaceProvider Name of the provider
+type SharedTierCreateVirtualWorkspaceProvider string
+
 // SharedTierUpdateUser Represents the information specified when updating a user in a shared tier workspace
 type SharedTierUpdateUser struct {
 	// Password The virtual workspace user password to connect the new user to the database.
@@ -2371,6 +3287,42 @@ type SharedTierVirtualCluster struct {
 	WebsocketPort *int `json:"websocketPort,omitempty"`
 }
 
+// SharedTierVirtualWorkspace defines model for SharedTierVirtualWorkspace.
+type SharedTierVirtualWorkspace struct {
+	// DatabaseName Name of the database
+	//
+	// Example: database_60c6b
+	DatabaseName *string `json:"databaseName,omitempty"`
+
+	// Endpoint The application endpoint of the SingleStore database
+	//
+	// Example: svc-3482219c-a389-4079-b18b-d50662524e8a-shared-dml.aws-virginia-6.svc.singlestore.com:3333
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// MysqlDmlPort The MySQL DML port
+	//
+	// Example: 3333
+	MysqlDmlPort *int `json:"mysqlDmlPort,omitempty"`
+
+	// Name Name of the starter workspace
+	//
+	// Example: starter-workspace-1
+	Name *string `json:"name,omitempty"`
+
+	// ProjectID ID of the project to which the virtual workspace is assigned.
+	//
+	// Example: 2d7bd375-0000-1000-9000-8a3d5b4922c0
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// VirtualWorkspaceID ID of the starter workspace
+	VirtualWorkspaceID *openapi_types.UUID `json:"virtualWorkspaceID,omitempty"`
+
+	// WebsocketPort The websockets port
+	//
+	// Example: 3334
+	WebsocketPort *int `json:"websocketPort,omitempty"`
+}
+
 // SimulateUsageRequest Request body for simulating billing usage
 //
 // Example: {"endBefore":"2024-01-31T23:59:59Z","resourceConfigurations":[{"edition":"Standard","id":"7d6b3a5a-0000-1000-9000-d454af4c785b","multiAZ":false,"size":"S-1","startAt":"2024-01-01T00:00:00Z","status":"Active"}],"startAt":"2024-01-01T00:00:00Z"}
@@ -2388,6 +3340,47 @@ type SimulateUsageRequest struct {
 	// Example: 2024-06-01T08:00:00Z
 	StartAt time.Time `json:"startAt"`
 }
+
+// SimulateUsageResponse Response containing simulated usage data
+type SimulateUsageResponse struct {
+	// ResourceUsage Array of simulated resource usage entries
+	ResourceUsage *[]SimulatedResourceUsage `json:"resourceUsage,omitempty"`
+}
+
+// SimulatedResourceUsage Simulated usage data for a single resource
+//
+// Example: {"amount":720.5,"endBefore":"2024-01-31T23:59:59Z","id":"7d6b3a5a-0000-1000-9000-d454af4c785b","metric":"ComputeHour","name":"test-workspace","startAt":"2024-01-01T00:00:00Z","type":"Workspace"}
+type SimulatedResourceUsage struct {
+	// Amount The computed usage amount
+	Amount float64 `json:"amount"`
+
+	// EndBefore The end time of the usage period (optional)
+	EndBefore *time.Time `json:"endBefore,omitempty"`
+
+	// Id The ID of the resource
+	Id openapi_types.UUID `json:"id"`
+
+	// Metric The metric used to measure usage (optional)
+	Metric *SimulatedResourceUsageMetric `json:"metric,omitempty"`
+
+	// Name The name of the resource (optional)
+	Name *string `json:"name,omitempty"`
+
+	// ParentID The ID of the parent resource (optional)
+	ParentID *openapi_types.UUID `json:"parentID,omitempty"`
+
+	// StartAt The start time of the usage period (optional)
+	StartAt *time.Time `json:"startAt,omitempty"`
+
+	// Type The type of resource (optional)
+	Type *SimulatedResourceUsageType `json:"type,omitempty"`
+}
+
+// SimulatedResourceUsageMetric The metric used to measure usage (optional)
+type SimulatedResourceUsageMetric string
+
+// SimulatedResourceUsageType The type of resource (optional)
+type SimulatedResourceUsageType string
 
 // SimulationResourceConfig Configuration for a simulated resource
 type SimulationResourceConfig struct {
@@ -2452,6 +3445,52 @@ type SizeConfig struct {
 	// Example: S-2
 	Size *string `json:"size,omitempty"`
 }
+
+// StorageDRSetup Represents the information specified to setup Storage DR
+type StorageDRSetup struct {
+	// AutoReplication If set to true, all existing and future databases created will be automatically replicated to the secondary region. If set to false, turns off auto replication.
+	AutoReplication *bool `json:"autoReplication,omitempty"`
+
+	// DatabaseNames List of database names (can be an empty list if setting up Auto-Replication).
+	DatabaseNames []string `json:"databaseNames"`
+
+	// RegionID Region ID of the secondary region
+	RegionID openapi_types.UUID `json:"regionID"`
+}
+
+// StorageDRStatus Represents Storage DR status information
+type StorageDRStatus struct {
+	// Compute Represents information related to a workspace group's latest storage DR operation
+	Compute struct {
+		// CompletedAttachments The number of database attachments that have been setup
+		CompletedAttachments *int `json:"completedAttachments,omitempty"`
+
+		// CompletedWorkspaces The number of workspaces that have been setup
+		CompletedWorkspaces *int `json:"completedWorkspaces,omitempty"`
+
+		// SecondaryWorkspaceGroupIDs The IDs of the secondary (standby) workspace groups in this DR group
+		SecondaryWorkspaceGroupIDs *[]openapi_types.UUID `json:"secondaryWorkspaceGroupIDs,omitempty"`
+
+		// StorageDRState Status of Storage DR operation
+		StorageDRState StorageDRStatusComputeStorageDRState `json:"storageDRState"`
+
+		// StorageDRType Name of Storage DR operation
+		StorageDRType StorageDRStatusComputeStorageDRType `json:"storageDRType"`
+
+		// TotalAttachments The total number of database attachments to setup
+		TotalAttachments *int `json:"totalAttachments,omitempty"`
+
+		// TotalWorkspaces The total number of workspaces to setup
+		TotalWorkspaces *int `json:"totalWorkspaces,omitempty"`
+	} `json:"compute"`
+	Storage []ReplicatedDatabase `json:"storage"`
+}
+
+// StorageDRStatusComputeStorageDRState Status of Storage DR operation
+type StorageDRStatusComputeStorageDRState string
+
+// StorageDRStatusComputeStorageDRType Name of Storage DR operation
+type StorageDRStatusComputeStorageDRType string
 
 // Team A SingleStoreDB Cloud team.
 //
@@ -2777,6 +3816,612 @@ type V2SimulatedResourceUsageMetric string
 // V2SimulatedResourceUsageType The type of resource (optional)
 type V2SimulatedResourceUsageType string
 
+// Workspace Represents information related to a workspace
+type Workspace struct {
+	// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting for the workspace.
+	AutoScale *AutoScale `json:"autoScale,omitempty"`
+
+	// AutoSuspend (If included in the output) Represents the current auto suspend settings enabled for this workspace. If autoSuspend has an empty value, then the auto suspend settings are disabled
+	AutoSuspend *struct {
+		// IdleAfterSeconds (If included in the output) The duration (in seconds) the workspace must be inactive until it automatically suspends
+		IdleAfterSeconds *float32 `json:"idleAfterSeconds,omitempty"`
+
+		// IdleChangedAt (If included in the output) The timestamp when idleAfterSeconds was last changed
+		IdleChangedAt *string `json:"idleChangedAt,omitempty"`
+
+		// ScheduledAfterSeconds (If included in the output) The scheduled duration (in seconds) after which the workspace must be suspended
+		ScheduledAfterSeconds *float32 `json:"scheduledAfterSeconds,omitempty"`
+
+		// ScheduledChangedAt (If included in the output) The timestamp when scheduledSuspendAt was last changed
+		ScheduledChangedAt *string `json:"scheduledChangedAt,omitempty"`
+
+		// ScheduledSuspendAt (If included in the output) The timestamp when the workspace will be suspended
+		ScheduledSuspendAt *string `json:"scheduledSuspendAt,omitempty"`
+
+		// SuspendType The type of auto suspend currently enabled
+		SuspendType WorkspaceAutoSuspendSuspendType `json:"suspendType"`
+
+		// SuspendTypeChangedAt (If included in the output) The timestamp when suspendType was last changed
+		SuspendTypeChangedAt *string `json:"suspendTypeChangedAt,omitempty"`
+	} `json:"autoSuspend,omitempty"`
+
+	// CacheConfig Specifies the multiplier for the persistent cache associated with the workspace. It can have one of the following values: 1, 2, or 4.
+	CacheConfig *float32 `json:"cacheConfig,omitempty"`
+
+	// CreatedAt The timestamp of when the workspace was created
+	CreatedAt string `json:"createdAt"`
+
+	// DeploymentType Specifies the deployment type for the workspace. It can have one of the following values: `PRODUCTION` or `NON-PRODUCTION`. If the value wasn't changed on creation, then the default will be `PRODUCTION`. If set to `NON-PRODUCTION`, the upgrades are only applied to the non-production workspaces.
+	DeploymentType *WorkspaceDeploymentType `json:"deploymentType,omitempty"`
+
+	// Endpoint Endpoint to connect to the workspace
+	Endpoint *string `json:"endpoint,omitempty"`
+
+	// KaiEnabled Specifies if the workspace is kai enabled or not.
+	KaiEnabled *bool `json:"kaiEnabled,omitempty"`
+
+	// LastResumedAt (If included in the output) The timestamp of when the workspace was last resumed
+	LastResumedAt *string `json:"lastResumedAt,omitempty"`
+
+	// Name Name of the workspace
+	Name string `json:"name"`
+
+	// ResumeAttachments (If included in the output) The result of database attachments after the workspace was resumed
+	ResumeAttachments *[]struct {
+		// Attachment The type of attachment
+		Attachment WorkspaceResumeAttachmentsAttachment `json:"attachment"`
+
+		// Database Name of the database
+		Database string `json:"database"`
+
+		// Error The error if the attachment was not successful
+		Error *string `json:"error,omitempty"`
+
+		// Success Whether the attachment was successful or not
+		Success bool `json:"success"`
+	} `json:"resumeAttachments,omitempty"`
+
+	// ScaleFactor (If included in the output) The scale factor specified for the workspace. The scale factor can be 1, 2 or 4.
+	ScaleFactor *float32 `json:"scaleFactor,omitempty"`
+
+	// ScalingProgress (If included in the output) The current progress percentage for the scaling workspace
+	ScalingProgress *float32 `json:"scalingProgress,omitempty"`
+
+	// Size Size of the workspace (in workspace size notation), such as "S-00" or "S-1"
+	Size string `json:"size"`
+
+	// State State of the workspace
+	State WorkspaceState `json:"state"`
+
+	// TerminatedAt (If included in the output) The timestamp of when the workspace was terminated
+	TerminatedAt *string `json:"terminatedAt,omitempty"`
+
+	// WorkspaceGroupID ID of the workspace group containing the workspace
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+
+	// WorkspaceID ID of the workspace
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+}
+
+// WorkspaceAutoSuspendSuspendType The type of auto suspend currently enabled
+type WorkspaceAutoSuspendSuspendType string
+
+// WorkspaceDeploymentType Specifies the deployment type for the workspace. It can have one of the following values: `PRODUCTION` or `NON-PRODUCTION`. If the value wasn't changed on creation, then the default will be `PRODUCTION`. If set to `NON-PRODUCTION`, the upgrades are only applied to the non-production workspaces.
+type WorkspaceDeploymentType string
+
+// WorkspaceResumeAttachmentsAttachment The type of attachment
+type WorkspaceResumeAttachmentsAttachment string
+
+// WorkspaceState State of the workspace
+type WorkspaceState string
+
+// WorkspaceCreate Represents the information specified while creating a workspace
+type WorkspaceCreate struct {
+	// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting for the workspace.
+	AutoScale *AutoScale `json:"autoScale,omitempty"`
+
+	// AutoSuspend Auto suspend settings for the workspace. If this field is not provided, no settings will be enabled.
+	AutoSuspend *struct {
+		// SuspendAfterSeconds When to suspend the workspace, according to the suspend type chosen
+		//
+		// Example: 1200
+		SuspendAfterSeconds *float32 `json:"suspendAfterSeconds,omitempty"`
+
+		// SuspendType The auto suspend mode for the workspace can have the values `IDLE`, `SCHEDULED`, or `DISABLED` (to create the workspace with no auto suspend settings).
+		//
+		// Example: IDLE
+		SuspendType *WorkspaceCreateAutoSuspendSuspendType `json:"suspendType,omitempty"`
+	} `json:"autoSuspend,omitempty"`
+
+	// CacheConfig Specifies the multiplier for the persistent cache associated with the workspace. If specified, it enables the cache configuration multiplier. It can have one of the following values: 1, 2, or 4.
+	//
+	//
+	// Example: 2
+	CacheConfig *float32 `json:"cacheConfig,omitempty"`
+
+	// EnableKai Whether to create a SingleStore Kai-enabled workspace
+	EnableKai *bool `json:"enableKai,omitempty"`
+
+	// Name Name of the workspace
+	//
+	// Example: demo-workspace
+	Name string `json:"name"`
+
+	// ScaleFactor Specifies the scale factor for scaling the workspace base size.
+	// When specified, the compute resources are scaled in proportion to the specified scale factor, while the disk remains unaffected.
+	// Consequently, the credit consumption is also increased proportionately.
+	// It can have one of the following values: 1, 2, or 4.
+	// For more information, refer to [Workspace Scaling](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/).
+	//
+	//
+	// Example: 2
+	ScaleFactor *float32 `json:"scaleFactor,omitempty"`
+
+	// Size Size of the workspace (in workspace size notation), such as "S-1". The default value is "S-00".
+	//
+	//
+	// Example: S-2
+	Size *string `json:"size,omitempty"`
+
+	// WorkspaceGroupID ID of the workspace group in which the workspace is created
+	//
+	// Example: c74bb6a6-0000-1000-9000-1d874fa277b0
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+}
+
+// WorkspaceCreateAutoSuspendSuspendType The auto suspend mode for the workspace can have the values `IDLE`, `SCHEDULED`, or `DISABLED` (to create the workspace with no auto suspend settings).
+//
+// Example: IDLE
+type WorkspaceCreateAutoSuspendSuspendType string
+
+// WorkspaceGroup Represents information related to a workspace group
+type WorkspaceGroup struct {
+	// AllowAllTraffic Whether or not all traffic is allowed to the workspace group
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
+	// CreatedAt The timestamp of when the workspace was created
+	CreatedAt string `json:"createdAt"`
+
+	// DeploymentType Deployment type of the workspace group
+	DeploymentType *WorkspaceGroupDeploymentType `json:"deploymentType,omitempty"`
+
+	// ExpiresAt The timestamp of when the workspace group will expire. At expiration, the workspace group is terminated and all the data is lost.
+	ExpiresAt *string `json:"expiresAt,omitempty"`
+
+	// FirewallRanges The list of allowed inbound IP addresses. An empty list indicates that no inbound requests are allowed.
+	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
+
+	// HighAvailabilityTwoZones Whether deployment across two Availability Zones is enabled.
+	HighAvailabilityTwoZones *bool `json:"highAvailabilityTwoZones,omitempty"`
+
+	// Name Name of the workspace group
+	Name string `json:"name"`
+
+	// OptInPreviewFeature Whether 'Opt-in to Preview Features & Updates' is enabled
+	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
+
+	// OutboundAllowList The account ID which must be allowed for outbound connections. This is only applicable to AWS provider.
+	OutboundAllowList *string `json:"outboundAllowList,omitempty"`
+
+	// ProjectID ID of the project to which the workspace group is assigned.
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// ProjectName Name of the project to which the workspace group is assigned.
+	ProjectName *string `json:"projectName,omitempty"`
+
+	// Provider Cloud provider
+	Provider CloudProvider `json:"provider"`
+
+	// RegionID ID of the region
+	RegionID openapi_types.UUID `json:"regionID"`
+
+	// RegionName The region code name
+	RegionName string `json:"regionName"`
+
+	// SmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
+	SmartDRStatus *WorkspaceGroupSmartDRStatus `json:"smartDRStatus,omitempty"`
+
+	// State State of the workspace group
+	State WorkspaceGroupState `json:"state"`
+
+	// TerminatedAt (If included in the output) The timestamp of when the workspace group was terminated
+	TerminatedAt *string `json:"terminatedAt,omitempty"`
+
+	// UpdateWindow Represents information related to an update window
+	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
+
+	// WorkspaceGroupID ID of the workspace group
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+}
+
+// WorkspaceGroupDeploymentType Deployment type of the workspace group
+type WorkspaceGroupDeploymentType string
+
+// WorkspaceGroupSmartDRStatus The status of Smart Disaster Recovery (SmartDR) for the workspace group. For more information, refer to [the documentation](https://docs.singlestore.com/cloud/manage-data/smart-disaster-recovery-dr-smartdr/).
+type WorkspaceGroupSmartDRStatus string
+
+// WorkspaceGroupState State of the workspace group
+type WorkspaceGroupState string
+
+// WorkspaceGroupCreate Represents the information specified while creating a workspace group
+type WorkspaceGroupCreate struct {
+	// AdminPassword The admin password for the workspace group. The password must contain:
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//   * At least 14 characters
+	//   * At least one uppercase character
+	//   * At least one lowercase character
+	//   * At least one numeric character
+	//   * At least one special character
+	//   * At most two consecutive sequential characters
+	//   * At most three consecutive identical characters
+	//
+	// If a password is not specified while creating a workspace group or if an invalid password is provided, a valid password is generated and returned in the response object.
+	//
+	//
+	// Example:
+	AdminPassword *string `json:"adminPassword,omitempty"`
+
+	// AllowAllTraffic If enabled, allows all traffic to the workspace group.
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
+	// DeploymentType The deployment type that will be applied to all the workspaces within the workspace group. The default value is `PRODUCTION`
+	//
+	// Example: PRODUCTION
+	DeploymentType *WorkspaceGroupCreateDeploymentType `json:"deploymentType,omitempty"`
+
+	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
+	//
+	//   * "2023-09-02T15:04:05Z07:00"
+	//   * "2023-09-02T15:04:05-0700"
+	//   * "2023-09-02T15:04:05"
+	//   * "2023-09-02"
+	//   * "3h30m"
+	//
+	//
+	// Example:
+	ExpiresAt *string `json:"expiresAt,omitempty"`
+
+	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed. Required
+	//
+	//
+	// Example: ["192.168.0.1/32","192.168.0.81/12"]
+	FirewallRanges []string `json:"firewallRanges"`
+
+	// HighAvailabilityTwoZones Enables deployment across two Availability Zones.
+	//
+	// Example: false
+	HighAvailabilityTwoZones *bool `json:"highAvailabilityTwoZones,omitempty"`
+
+	// Name Name of the workspace group
+	//
+	// Example: demo-workspace-group
+	Name string `json:"name"`
+
+	// OptInPreviewFeature If enabled, the deployment gets the latest features and updates immediately. Suitable only for `NON-PRODUCTION` deployments and cannot be changed after creation.
+	//
+	// Example: false
+	OptInPreviewFeature *bool `json:"optInPreviewFeature,omitempty"`
+
+	// ProjectID Assigns the workspace group to a project, which specifies the edition of the workspace group.
+	//
+	// Example: 2d7bd375-0000-1000-9000-8a3d5b4922c0
+	ProjectID *openapi_types.UUID `json:"projectID,omitempty"`
+
+	// Provider Cloud provider
+	Provider *CloudProvider `json:"provider,omitempty"`
+
+	// RegionID ID of the region where the new workspace group is created
+	//
+	// Example: 7e7ffd27-0000-1000-9000-e72828a81ac7
+	RegionID *openapi_types.UUID `json:"regionID,omitempty"`
+
+	// RegionName The region code name
+	//
+	// Example: us-west1
+	RegionName *string `json:"regionName,omitempty"`
+
+	// UpdateWindow Represents information related to an update window
+	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
+}
+
+// WorkspaceGroupCreateDeploymentType The deployment type that will be applied to all the workspaces within the workspace group. The default value is `PRODUCTION`
+//
+// Example: PRODUCTION
+type WorkspaceGroupCreateDeploymentType string
+
+// WorkspaceGroupUpdate Represents the information specified while updating a workspace group
+type WorkspaceGroupUpdate struct {
+	// AdminPassword The admin password for the workspace group. The password must contain:
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//   * At least 14 characters
+	//   * At least one uppercase character
+	//   * At least one lowercase character
+	//   * At least one numeric character
+	//   * At least one special character
+	//   * At most two consecutive sequential characters
+	//   * At most three consecutive identical characters
+	//
+	//
+	// Example:
+	AdminPassword *string `json:"adminPassword,omitempty"`
+
+	// AllowAllTraffic Whether to allow all traffic to the workspace group
+	AllowAllTraffic *bool `json:"allowAllTraffic,omitempty"`
+
+	// DeploymentType The deployment type that will be applied to all the workspaces within the workspace group
+	//
+	// Example: PRODUCTION
+	DeploymentType *WorkspaceGroupUpdateDeploymentType `json:"deploymentType,omitempty"`
+
+	// ExpiresAt The timestamp of when the workspace group will expire. If the expiration time is not specified, the workspace group will have no expiration time. At expiration, the workspace group is terminated and all the data is lost. Expiration time can be specified as a timestamp or duration. For example,
+	//
+	//   * "2023-09-02T15:04:05Z07:00"
+	//   * "2023-09-02T15:04:05-0700"
+	//   * "2023-09-02T15:04:05"
+	//   * "2023-09-02"
+	//   * "3h30m"
+	//
+	//
+	// Example:
+	ExpiresAt *string `json:"expiresAt,omitempty"`
+
+	// FirewallRanges A list of allowed CIDR ranges. An empty list indicates that no inbound requests are allowed.
+	//
+	// Example: ["192.168.0.1/32","192.168.0.81/12"]
+	FirewallRanges *[]string `json:"firewallRanges,omitempty"`
+
+	// Name Name of the workspace group
+	//
+	// Example: new-workspace-group-name
+	Name *string `json:"name,omitempty"`
+
+	// UpdateWindow Represents information related to an update window
+	UpdateWindow *UpdateWindow `json:"updateWindow,omitempty"`
+}
+
+// WorkspaceGroupUpdateDeploymentType The deployment type that will be applied to all the workspaces within the workspace group
+//
+// Example: PRODUCTION
+type WorkspaceGroupUpdateDeploymentType string
+
+// WorkspaceResume Represents additional information specified when resuming a workspace
+type WorkspaceResume struct {
+	// DisableAutoSuspend Whether to disable auto suspend or keep the existing auto suspend settings. By default, `disableAutoSuspend` is set to `false`, and the existing auto suspend settings are preserved.
+	//
+	// Example: false
+	DisableAutoSuspend *bool `json:"disableAutoSuspend,omitempty"`
+}
+
+// WorkspaceUpdate Represents the information specified while updating a workspace
+type WorkspaceUpdate struct {
+	// AutoScale Specifies the [autoscale](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/#autoscaling) setting for the workspace.
+	AutoScale *AutoScale `json:"autoScale,omitempty"`
+
+	// AutoSuspend Specifies the auto suspend mode for the workspace. It can have one of the following values: `IDLE`, `SCHEDULED`, or `DISABLED`.
+	AutoSuspend *struct {
+		// SuspendAfterSeconds The time interval (in seconds) after which the workspace is suspended, depending on the auto suspend mode.
+		//
+		// Example: 1200
+		SuspendAfterSeconds *float32 `json:"suspendAfterSeconds,omitempty"`
+
+		// SuspendType The type of auto suspend mode. Set to `DISABLED` to disable auto suspend.
+		//
+		// Example: IDLE
+		SuspendType *WorkspaceUpdateAutoSuspendSuspendType `json:"suspendType,omitempty"`
+	} `json:"autoSuspend,omitempty"`
+
+	// CacheConfig Specifies the multiplier for the persistent cache associated with the workspace. If specified, it enables the cache configuration multiplier. It can have one of the following values: 1, 2, or 4.
+	//
+	//
+	// Example: 2
+	CacheConfig *float32 `json:"cacheConfig,omitempty"`
+
+	// DeploymentType The deployment type that will be applied to all the workspaces within the group
+	//
+	// Example: PRODUCTION
+	DeploymentType *WorkspaceUpdateDeploymentType `json:"deploymentType,omitempty"`
+
+	// EnableKai Whether to enable SingleStore Kai in this workspace
+	EnableKai *WorkspaceUpdateEnableKai `json:"enableKai,omitempty"`
+
+	// ScaleFactor Specifies the scale factor for scaling the workspace base size.
+	// When specified, the compute resources are scaled in proportion to the specified scale factor, while the disk remains unaffected.
+	// Consequently, the credit consumption is also increased proportionately.
+	// It can have one of the following values: 1, 2, or 4.
+	// For more information, refer to [Workspace Scaling](https://docs.singlestore.com/cloud/getting-started-with-singlestore-helios/about-workspaces/workspace-scaling/).
+	//
+	//
+	// Example: 2
+	ScaleFactor *float32 `json:"scaleFactor,omitempty"`
+
+	// Size Size of the workspace (in workspace size notation), such as "S-1". The default value is "S-00".
+	//
+	//
+	// Example: S-2
+	Size *string `json:"size,omitempty"`
+}
+
+// WorkspaceUpdateAutoSuspendSuspendType The type of auto suspend mode. Set to `DISABLED` to disable auto suspend.
+//
+// Example: IDLE
+type WorkspaceUpdateAutoSuspendSuspendType string
+
+// WorkspaceUpdateDeploymentType The deployment type that will be applied to all the workspaces within the group
+//
+// Example: PRODUCTION
+type WorkspaceUpdateDeploymentType string
+
+// WorkspaceUpdateEnableKai Whether to enable SingleStore Kai in this workspace
+type WorkspaceUpdateEnableKai bool
+
 // CloudPrincipalID defines model for cloudPrincipalID.
 type CloudPrincipalID = openapi_types.UUID
 
@@ -2840,6 +4485,174 @@ type UserID = openapi_types.UUID
 // WorkspaceGroupID defines model for workspaceGroupID.
 type WorkspaceGroupID = openapi_types.UUID
 
+// WorkspaceID defines model for workspaceID.
+type WorkspaceID = openapi_types.UUID
+
+// GetV1AuditLogsParams defines parameters for GetV1AuditLogs.
+type GetV1AuditLogsParams struct {
+	// Type The audit log type
+	Type *string `form:"type,omitempty" json:"type,omitempty"`
+
+	// Source The audit log source
+	Source *string `form:"source,omitempty" json:"source,omitempty"`
+
+	// StartDate The start date (inclusive) for the query in RFC3339 format (2019-10-12T07:20:50.52Z)
+	StartDate *string `form:"startDate,omitempty" json:"startDate,omitempty"`
+
+	// EndDate The end date (inclusive) for the query in RFC3339 format (2019-10-12T07:20:50.52Z)
+	EndDate *string `form:"endDate,omitempty" json:"endDate,omitempty"`
+
+	// Limit The maximum number of rows to return
+	Limit *float32 `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// NextToken The value of the nextToken returned from a previous query. This will guarantee the next results are new since the last query
+	NextToken *string `form:"nextToken,omitempty" json:"nextToken,omitempty"`
+
+	// FirstName A first name to match against
+	FirstName *string `form:"firstName,omitempty" json:"firstName,omitempty"`
+
+	// LastName A last name to match against
+	LastName *string `form:"lastName,omitempty" json:"lastName,omitempty"`
+
+	// Email An email address to match against
+	Email *openapi_types.Email `form:"email,omitempty" json:"email,omitempty"`
+
+	// UserID A user ID to match against
+	UserID *openapi_types.UUID `form:"userID,omitempty" json:"userID,omitempty"`
+
+	// ApiKeyID Filter by the API key ID used to perform the action
+	ApiKeyID *openapi_types.UUID `form:"apiKeyID,omitempty" json:"apiKeyID,omitempty"`
+
+	// WorkspaceGroupID A workspace group ID to filter by
+	WorkspaceGroupID *openapi_types.UUID `form:"workspaceGroupID,omitempty" json:"workspaceGroupID,omitempty"`
+
+	// ProjectID A project ID to filter by
+	ProjectID *openapi_types.UUID `form:"projectID,omitempty" json:"projectID,omitempty"`
+
+	// TeamID A team ID to filter by
+	TeamID *openapi_types.UUID `form:"teamID,omitempty" json:"teamID,omitempty"`
+
+	// WorkspaceID A workspace ID to filter by
+	WorkspaceID *openapi_types.UUID `form:"workspaceID,omitempty" json:"workspaceID,omitempty"`
+
+	// SortByDescending If true, sort audit logs by createdAt in descending order
+	SortByDescending *bool `form:"sortByDescending,omitempty" json:"sortByDescending,omitempty"`
+}
+
+// GetV1BillingUsageParams defines parameters for GetV1BillingUsage.
+type GetV1BillingUsageParams struct {
+	// Metric The metric type. It can have the following values:
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//   * `ComputeCredit`: Returns the compute usage.
+	//   * `StorageAvgByte`: Returns the average bytes of storage usage.
+	//
+	// By default, usage for both metrics is returned.
+	Metric *GetV1BillingUsageParamsMetric `form:"metric,omitempty" json:"metric,omitempty"`
+
+	// StartTime The start time for the usage interval in UTC ISO8601 format. For example, "2023-07-30T18:30:00Z".
+	StartTime string `form:"startTime" json:"startTime"`
+
+	// EndTime The end time for the usage interval in UTC ISO8601 format. For example, "2023-07-30T18:30:00Z".
+	EndTime string `form:"endTime" json:"endTime"`
+
+	// AggregateBy The interval used to aggregate the usage. It can have the following values: `hour`, `day`, and `month`. By default, the results are grouped by hour.
+	AggregateBy *GetV1BillingUsageParamsAggregateBy `form:"aggregateBy,omitempty" json:"aggregateBy,omitempty"`
+}
+
+// GetV1BillingUsageParamsMetric defines parameters for GetV1BillingUsage.
+type GetV1BillingUsageParamsMetric string
+
+// GetV1BillingUsageParamsAggregateBy defines parameters for GetV1BillingUsage.
+type GetV1BillingUsageParamsAggregateBy string
+
 // GetV1CloudfunctionsParams defines parameters for GetV1Cloudfunctions.
 type GetV1CloudfunctionsParams struct {
 	// Limit Maximum number of items to return in a paginated query
@@ -2856,6 +4669,222 @@ type PatchV1CloudfunctionsCloudfunctionIDParams struct {
 
 	// UpdateNotebookSnapshot Indicates whether to update the notebook snapshot after updating the cloud function.
 	UpdateNotebookSnapshot *UpdateNotebookSnapshot `form:"updateNotebookSnapshot,omitempty" json:"updateNotebookSnapshot,omitempty"`
+}
+
+// GetV1FilesFsLocationPathParams defines parameters for GetV1FilesFsLocationPath.
+type GetV1FilesFsLocationPathParams struct {
+	// Metadata If enabled, the API request returns only metadata for the specified file instead of downloading it.
+	Metadata *bool `form:"metadata,omitempty" json:"metadata,omitempty"`
+}
+
+// PatchV1FilesFsLocationPathJSONBody defines parameters for PatchV1FilesFsLocationPath.
+type PatchV1FilesFsLocationPathJSONBody struct {
+	// NewPath New path of the file
+	NewPath *string `json:"newPath,omitempty"`
+}
+
+// PutV1FilesFsLocationPathMultipartBody defines parameters for PutV1FilesFsLocationPath.
+type PutV1FilesFsLocationPathMultipartBody struct {
+	// File File to upload
+	File openapi_types.File `json:"file"`
+}
+
+// GetV1FlowParams defines parameters for GetV1Flow.
+type GetV1FlowParams struct {
+	// IncludeTerminated To include any terminated Flow instances, set to `true`
+	IncludeTerminated *bool `form:"includeTerminated,omitempty" json:"includeTerminated,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1InvitationsParams defines parameters for GetV1Invitations.
+type GetV1InvitationsParams struct {
+	// Email Show only invitations with emails matching this value or regular expression.
+	Email *string `form:"email,omitempty" json:"email,omitempty"`
+
+	// State Show only invitations with state matching this value.
+	State *string `form:"state,omitempty" json:"state,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1InvitationsInvitationIDParams defines parameters for GetV1InvitationsInvitationID.
+type GetV1InvitationsInvitationIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1JobsJobIDExecutionsParams defines parameters for GetV1JobsJobIDExecutions.
+type GetV1JobsJobIDExecutionsParams struct {
+	// Start Start execution number.
+	Start float32 `form:"start" json:"start"`
+
+	// End End execution number.
+	End float32 `form:"end" json:"end"`
+}
+
+// GetV1PrivateConnectionsConnectionIDParams defines parameters for GetV1PrivateConnectionsConnectionID.
+type GetV1PrivateConnectionsConnectionIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1RegionsParams defines parameters for GetV1Regions.
+type GetV1RegionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1RegionsSharedtierParams defines parameters for GetV1RegionsSharedtier.
+type GetV1RegionsSharedtierParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1SecretsParams defines parameters for GetV1Secrets.
+type GetV1SecretsParams struct {
+	// Name Name of the secret.
+	Name *string `form:"name,omitempty" json:"name,omitempty"`
+}
+
+// GetV1StageDeploymentIDFsPathParams defines parameters for GetV1StageDeploymentIDFsPath.
+type GetV1StageDeploymentIDFsPathParams struct {
+	// Metadata If enabled, the API request returns only metadata for the specified file instead of downloading it. This parameter is ignored if the specified path is a folder.
+	Metadata *bool `form:"metadata,omitempty" json:"metadata,omitempty"`
+}
+
+// PatchV1StageDeploymentIDFsPathJSONBody defines parameters for PatchV1StageDeploymentIDFsPath.
+type PatchV1StageDeploymentIDFsPathJSONBody struct {
+	// NewPath New path of the file or folder
+	NewPath *string `json:"newPath,omitempty"`
+}
+
+// PutV1StageDeploymentIDFsPathMultipartBody defines parameters for PutV1StageDeploymentIDFsPath.
+type PutV1StageDeploymentIDFsPathMultipartBody struct {
+	// File File to upload
+	File *openapi_types.File `json:"file,omitempty"`
+}
+
+// GetV1TeamsParams defines parameters for GetV1Teams.
+type GetV1TeamsParams struct {
+	// Name Show only teams with names matching this value or regular expression.
+	Name *string `form:"name,omitempty" json:"name,omitempty"`
+
+	// Description Show only teams with descriptions matching this value or regular expression.
+	Description *string `form:"description,omitempty" json:"description,omitempty"`
+}
+
+// GetV1TeamsTeamIDIdentityRolesParams defines parameters for GetV1TeamsTeamIDIdentityRoles.
+type GetV1TeamsTeamIDIdentityRolesParams struct {
+	// ResourceType Show only granted roles by resource type
+	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
+}
+
+// GetV1UsersParams defines parameters for GetV1Users.
+type GetV1UsersParams struct {
+	// Email Show only users with an email address matching this value or regular expression.
+	Email *string `form:"email,omitempty" json:"email,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// PostV1UsersJSONBody defines parameters for PostV1Users.
+type PostV1UsersJSONBody struct {
+	// Email The email address of the user to add to the organization.
+	Email openapi_types.Email `json:"email"`
+}
+
+// GetV1UsersCurrentParams defines parameters for GetV1UsersCurrent.
+type GetV1UsersCurrentParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1UsersUserIDParams defines parameters for GetV1UsersUserID.
+type GetV1UsersUserIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1UsersUserIDIdentityRolesParams defines parameters for GetV1UsersUserIDIdentityRoles.
+type GetV1UsersUserIDIdentityRolesParams struct {
+	// ResourceType Show only granted roles by resource type
+	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
+}
+
+// GetV1WorkspaceGroupsParams defines parameters for GetV1WorkspaceGroups.
+type GetV1WorkspaceGroupsParams struct {
+	// IncludeTerminated To include any terminated workspace groups, set to `true`
+	IncludeTerminated *bool `form:"includeTerminated,omitempty" json:"includeTerminated,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDParams defines parameters for DeleteV1WorkspaceGroupsWorkspaceGroupID.
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDParams struct {
+	// Force To terminate a workspace group even if it has active workspaces, set to `true`
+	Force *bool `form:"force,omitempty" json:"force,omitempty"`
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupID.
+type GetV1WorkspaceGroupsWorkspaceGroupIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams defines parameters for DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities.
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams struct {
+	// Entities Entities to remove. Supports comma-separated values or multiple parameters.
+	Entities *string `form:"entities,omitempty" json:"entities,omitempty"`
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections.
+type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams defines parameters for GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions.
+type GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1WorkspacesParams defines parameters for GetV1Workspaces.
+type GetV1WorkspacesParams struct {
+	// WorkspaceGroupID ID of the workspace group
+	WorkspaceGroupID openapi_types.UUID `form:"workspaceGroupID" json:"workspaceGroupID"`
+
+	// IncludeTerminated To include any terminated workspaces, set to `true`
+	IncludeTerminated *bool `form:"includeTerminated,omitempty" json:"includeTerminated,omitempty"`
+
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// GetV1WorkspacesWorkspaceIDParams defines parameters for GetV1WorkspacesWorkspaceID.
+type GetV1WorkspacesWorkspaceIDParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+}
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams defines parameters for DeleteV1WorkspacesWorkspaceIDDelegatedEntities.
+type DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams struct {
+	// Entities Entities to remove. Supports comma-separated values or multiple parameters.
+	Entities *string `form:"entities,omitempty" json:"entities,omitempty"`
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsParams defines parameters for GetV1WorkspacesWorkspaceIDPrivateConnections.
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsParams struct {
+	// Fields Comma-separated values list that correspond to the filtered fields for returned entities
+	Fields *Fields `form:"fields,omitempty" json:"fields,omitempty"`
+
+	// WorkspaceGroupID ID of the workspace group
+	WorkspaceGroupID openapi_types.UUID `form:"workspaceGroupID" json:"workspaceGroupID"`
 }
 
 // GetV2AuditLogsParams defines parameters for GetV2AuditLogs.
@@ -3115,6 +5144,9 @@ type GetV2UsersUserIDIdentityRolesParams struct {
 	ResourceType *string `form:"resourceType,omitempty" json:"resourceType,omitempty"`
 }
 
+// PostV1BillingUsageSimulateJSONRequestBody defines body for PostV1BillingUsageSimulate for application/json ContentType.
+type PostV1BillingUsageSimulateJSONRequestBody = SimulateUsageRequest
+
 // PostV1CloudPrincipalsJSONRequestBody defines body for PostV1CloudPrincipals for application/json ContentType.
 type PostV1CloudPrincipalsJSONRequestBody = CloudPrincipalCreate
 
@@ -3127,17 +5159,119 @@ type PostV1CloudfunctionsJSONRequestBody = CloudFunctionCreate
 // PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody defines body for PatchV1CloudfunctionsCloudfunctionID for application/json ContentType.
 type PatchV1CloudfunctionsCloudfunctionIDJSONRequestBody = CloudFunctionUpdate
 
+// PatchV1FilesFsLocationPathJSONRequestBody defines body for PatchV1FilesFsLocationPath for application/json ContentType.
+type PatchV1FilesFsLocationPathJSONRequestBody PatchV1FilesFsLocationPathJSONBody
+
+// PutV1FilesFsLocationPathMultipartRequestBody defines body for PutV1FilesFsLocationPath for multipart/form-data ContentType.
+type PutV1FilesFsLocationPathMultipartRequestBody PutV1FilesFsLocationPathMultipartBody
+
+// PostV1FlowJSONRequestBody defines body for PostV1Flow for application/json ContentType.
+type PostV1FlowJSONRequestBody = FlowCreate
+
+// PostV1InvitationsJSONRequestBody defines body for PostV1Invitations for application/json ContentType.
+type PostV1InvitationsJSONRequestBody = UserInvitationCreate
+
+// PostV1JobsJSONRequestBody defines body for PostV1Jobs for application/json ContentType.
+type PostV1JobsJSONRequestBody = JobCreate
+
+// PatchV1OrganizationsOrganizationIDAccessControlsJSONRequestBody defines body for PatchV1OrganizationsOrganizationIDAccessControls for application/json ContentType.
+type PatchV1OrganizationsOrganizationIDAccessControlsJSONRequestBody = ControlAccessAction
+
+// PostV1PrivateConnectionsJSONRequestBody defines body for PostV1PrivateConnections for application/json ContentType.
+type PostV1PrivateConnectionsJSONRequestBody = PrivateConnectionCreate
+
+// PatchV1PrivateConnectionsConnectionIDJSONRequestBody defines body for PatchV1PrivateConnectionsConnectionID for application/json ContentType.
+type PatchV1PrivateConnectionsConnectionIDJSONRequestBody = PrivateConnectionUpdate
+
+// PostV1ProjectsJSONRequestBody defines body for PostV1Projects for application/json ContentType.
+type PostV1ProjectsJSONRequestBody = ProjectCreate
+
+// PatchV1ProjectsProjectIDJSONRequestBody defines body for PatchV1ProjectsProjectID for application/json ContentType.
+type PatchV1ProjectsProjectIDJSONRequestBody = ProjectUpdate
+
 // PostV1RolesResourceTypeJSONRequestBody defines body for PostV1RolesResourceType for application/json ContentType.
 type PostV1RolesResourceTypeJSONRequestBody = RoleCreate
 
 // PutV1RolesResourceTypeRoleJSONRequestBody defines body for PutV1RolesResourceTypeRole for application/json ContentType.
 type PutV1RolesResourceTypeRoleJSONRequestBody = RoleUpdate
 
+// PostV1SecretsJSONRequestBody defines body for PostV1Secrets for application/json ContentType.
+type PostV1SecretsJSONRequestBody = SecretCreate
+
+// PatchV1SecretsSecretIDJSONRequestBody defines body for PatchV1SecretsSecretID for application/json ContentType.
+type PatchV1SecretsSecretIDJSONRequestBody = SecretUpdate
+
+// PatchV1SecretsSecretIDAccessControlsJSONRequestBody defines body for PatchV1SecretsSecretIDAccessControls for application/json ContentType.
+type PatchV1SecretsSecretIDAccessControlsJSONRequestBody = ControlAccessAction
+
 // PostV1ServiceAccountsJSONRequestBody defines body for PostV1ServiceAccounts for application/json ContentType.
 type PostV1ServiceAccountsJSONRequestBody = ServiceAccountCreate
 
 // PatchV1ServiceAccountsServiceAccountIDJSONRequestBody defines body for PatchV1ServiceAccountsServiceAccountID for application/json ContentType.
 type PatchV1ServiceAccountsServiceAccountIDJSONRequestBody = ServiceAccountUpdate
+
+// PostV1SharedtierVirtualWorkspacesJSONRequestBody defines body for PostV1SharedtierVirtualWorkspaces for application/json ContentType.
+type PostV1SharedtierVirtualWorkspacesJSONRequestBody = SharedTierCreateVirtualWorkspace
+
+// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersJSONRequestBody defines body for PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers for application/json ContentType.
+type PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersJSONRequestBody = SharedTierCreateUser
+
+// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody defines body for PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID for application/json ContentType.
+type PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody = SharedTierUpdateUser
+
+// PatchV1StageDeploymentIDFsPathJSONRequestBody defines body for PatchV1StageDeploymentIDFsPath for application/json ContentType.
+type PatchV1StageDeploymentIDFsPathJSONRequestBody PatchV1StageDeploymentIDFsPathJSONBody
+
+// PutV1StageDeploymentIDFsPathMultipartRequestBody defines body for PutV1StageDeploymentIDFsPath for multipart/form-data ContentType.
+type PutV1StageDeploymentIDFsPathMultipartRequestBody PutV1StageDeploymentIDFsPathMultipartBody
+
+// PostV1TeamsJSONRequestBody defines body for PostV1Teams for application/json ContentType.
+type PostV1TeamsJSONRequestBody = TeamCreate
+
+// PatchV1TeamsTeamIDJSONRequestBody defines body for PatchV1TeamsTeamID for application/json ContentType.
+type PatchV1TeamsTeamIDJSONRequestBody = TeamUpdate
+
+// PatchV1TeamsTeamIDAccessControlsJSONRequestBody defines body for PatchV1TeamsTeamIDAccessControls for application/json ContentType.
+type PatchV1TeamsTeamIDAccessControlsJSONRequestBody = ControlAccessAction
+
+// PostV1UsersJSONRequestBody defines body for PostV1Users for application/json ContentType.
+type PostV1UsersJSONRequestBody PostV1UsersJSONBody
+
+// PostV1WorkspaceGroupsJSONRequestBody defines body for PostV1WorkspaceGroups for application/json ContentType.
+type PostV1WorkspaceGroupsJSONRequestBody = WorkspaceGroupCreate
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupID for application/json ContentType.
+type PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody = WorkspaceGroupUpdate
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls for application/json ContentType.
+type PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody = ControlAccessAction
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody defines body for DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities for application/json ContentType.
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesRemove
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities for application/json ContentType.
+type PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesAppend
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody defines body for PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup for application/json ContentType.
+type PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody = StorageDRSetup
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody defines body for PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod for application/json ContentType.
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody = RetentionPeriodParams
+
+// PostV1WorkspacesJSONRequestBody defines body for PostV1Workspaces for application/json ContentType.
+type PostV1WorkspacesJSONRequestBody = WorkspaceCreate
+
+// PatchV1WorkspacesWorkspaceIDJSONRequestBody defines body for PatchV1WorkspacesWorkspaceID for application/json ContentType.
+type PatchV1WorkspacesWorkspaceIDJSONRequestBody = WorkspaceUpdate
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody defines body for DeleteV1WorkspacesWorkspaceIDDelegatedEntities for application/json ContentType.
+type DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesRemove
+
+// PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDDelegatedEntities for application/json ContentType.
+type PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody = DelegatedEntitiesAppend
+
+// PostV1WorkspacesWorkspaceIDResumeJSONRequestBody defines body for PostV1WorkspacesWorkspaceIDResume for application/json ContentType.
+type PostV1WorkspacesWorkspaceIDResumeJSONRequestBody = WorkspaceResume
 
 // PatchV2AccessControlTemplatesResourceTypeJSONRequestBody defines body for PatchV2AccessControlTemplatesResourceType for application/json ContentType.
 type PatchV2AccessControlTemplatesResourceTypeJSONRequestBody = ControlAccessAction
@@ -3436,6 +5570,47 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 // The interface specification for the client above.
 type ClientInterface interface {
 
+	// GetV1AuditLogs Lists all of the audit logs for the user organization or audit logs for user redaction
+	//
+	// Returns a list of all of the audit log entries for the user organization or audit logs for user redaction.
+	//
+	// Corresponds with GET /v1/auditLogs (the `GetV1AuditLogs` operationId).
+	GetV1AuditLogs(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1BillingUsage Returns the compute and storage usage of an organization
+	//
+	// Returns the compute and storage usage of an organization in a specified timeframe. The results can be grouped by hour, day, and month using the `aggregateType` parameter. The usage entries in the result set also include information on the resource ID, type, name, and usage.
+	// Note that the usage periods are rounded to the nearest hour/day/month that includes the requested range.
+	// For example, if the start time is "2023-07-30T18:30:00Z" and the end time is "2023-07-31T18:30:00Z",
+	// the hourly usage entries would be returned for the period from "2023-07-30T18:00:00Z" to "2023-07-31T19:00:00Z". Same goes for daily and monthly usage entries.
+	//
+	// Corresponds with GET /v1/billing/usage (the `GetV1BillingUsage` operationId).
+	GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1BillingUsageSimulateWithBody Returns an array of simulated compute usage for the given resource configurations.
+	//
+	// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+	// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+	// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+	// existing resources in the project for the time range based on their current configurations.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+	PostV1BillingUsageSimulateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1BillingUsageSimulate Returns an array of simulated compute usage for the given resource configurations.
+	//
+	// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+	// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+	// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+	// existing resources in the project for the time range based on their current configurations.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+	PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// PostV1CloudPrincipalsWithBody Creates a cloud principal in the current organization.
 	//
 	// There are no dedicated list or get endpoints for cloud principals. To query
@@ -3571,6 +5746,355 @@ type ClientInterface interface {
 	// Corresponds with GET /v1/cloudfunctions/{cloudfunctionID}/token (the `GetV1CloudfunctionsCloudfunctionIDToken` operationId).
 	GetV1CloudfunctionsCloudfunctionIDToken(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1FilesFsLocation Lists all files from personal, shared or models space.
+	//
+	// Returns a list of all files from personal, shared or models space.
+	//
+	// You must specify the `location`.
+	//
+	// Corresponds with GET /v1/files/fs/{location} (the `GetV1FilesFsLocation` operationId).
+	GetV1FilesFsLocation(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1FilesFsLocationPath Deletes a file from personal, shared or models space.
+	//
+	// Deletes the file at the specified path in personal, shared or models space.
+	//
+	// You must specify the `location` and file `path` in the API call.
+	//
+	// Corresponds with DELETE /v1/files/fs/{location}/{path} (the `DeleteV1FilesFsLocationPath` operationId).
+	DeleteV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1FilesFsLocationPath Gets information about a file or downloads a file from personal, shared or models space.
+	//
+	// Returns the information about a file or redirects to the file download URL.
+	//
+	// You must specify the `location` and the file `path` in the API call.
+	//
+	// Corresponds with GET /v1/files/fs/{location}/{path} (the `GetV1FilesFsLocationPath` operationId).
+	GetV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1FilesFsLocationPathWithBody Modifies a file in personal, shared or models space.
+	//
+	// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+	//
+	// You must specify the `location` and file `path` in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+	PatchV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1FilesFsLocationPath Modifies a file in personal, shared or models space.
+	//
+	// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+	//
+	// You must specify the `location` and file `path` in the API call.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+	PatchV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutV1FilesFsLocationPathWithBody Creates a new file or uploads a file to personal, shared or models space.
+	//
+	// This endpoint allows you to create or upload a new file at a specified path within personal, shared or models space. The behavior depends on the contents of the request body and the format of the path:
+	//  - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within personal, shared or models space.
+	//
+	// You must specify the `location` and the file `path` in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v1/files/fs/{location}/{path} (the `PutV1FilesFsLocationPath` operationId).
+	PutV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Flow Lists the Flow instances the user can access
+	//
+	// Returns a list of all of the SingleStore Flow instances accessible to the user. Use the `includeTerminated` parameter to get a list of terminated Flow instances.
+	//
+	// Corresponds with GET /v1/flow (the `GetV1Flow` operationId).
+	GetV1Flow(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1FlowWithBody Creates a new Flow instance
+	//
+	// Creates a new SingleStore Flow instance for the current user.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+	PostV1FlowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Flow Creates a new Flow instance
+	//
+	// Creates a new SingleStore Flow instance for the current user.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+	PostV1Flow(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1FlowFlowID Terminates a Flow instance
+	//
+	// Terminates a SingleStore Flow instance with the specified ID. You must specify the Flow instance ID in the API call.
+	//
+	// Corresponds with DELETE /v1/flow/{flowID} (the `DeleteV1FlowFlowID` operationId).
+	DeleteV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1FlowFlowID Gets information about a Flow instance
+	//
+	// Returns information about the SingleStore Flow instance with the specified ID, in JSON format. You must specify the Flow instance ID in the API call.
+	//
+	// Corresponds with GET /v1/flow/{flowID} (the `GetV1FlowFlowID` operationId).
+	GetV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Invitations Lists open invitations for the current organization.
+	//
+	// Returns a list of open invitations for the current organization.
+	//
+	// Corresponds with GET /v1/invitations (the `GetV1Invitations` operationId).
+	GetV1Invitations(ctx context.Context, params *GetV1InvitationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1InvitationsWithBody Invites a user to the current organization
+	//
+	// Creates and sends an invitation to join the organization to an email address.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+	PostV1InvitationsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Invitations Invites a user to the current organization
+	//
+	// Creates and sends an invitation to join the organization to an email address.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+	PostV1Invitations(ctx context.Context, body PostV1InvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1InvitationsInvitationID Revokes an invitation
+	//
+	// Revokes the specified invitation.
+	//
+	// Corresponds with DELETE /v1/invitations/{invitationID} (the `DeleteV1InvitationsInvitationID` operationId).
+	DeleteV1InvitationsInvitationID(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1InvitationsInvitationID Gets information about an invitation.
+	//
+	// Returns information for the specified invitation.
+	//
+	// Corresponds with GET /v1/invitations/{invitationID} (the `GetV1InvitationsInvitationID` operationId).
+	GetV1InvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1InvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1JobsWithBody Creates a new job
+	//
+	// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+	PostV1JobsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Jobs Creates a new job
+	//
+	// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+	PostV1Jobs(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1JobsRuntimes Get the list of available job runtimes
+	//
+	// Returns the list of available runtimes for jobs.
+	//
+	// Corresponds with GET /v1/jobs/runtimes (the `GetV1JobsRuntimes` operationId).
+	GetV1JobsRuntimes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1JobsJobID Deletes a job
+	//
+	// This deletes a job and all execution snapshots associated with a job.
+	//
+	// Corresponds with DELETE /v1/jobs/{jobID} (the `DeleteV1JobsJobID` operationId).
+	DeleteV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1JobsJobID Gets information about the specified job
+	//
+	// Returns the metadata on target, schedule and notebook for a job specified by a jobid.
+	//
+	// Corresponds with GET /v1/jobs/{jobID} (the `GetV1JobsJobID` operationId).
+	GetV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1JobsJobIDExecutions Get executions for a job
+	//
+	// Returns the information of the executions of a specified job. Specify which executions you want with the parameters.
+	//
+	// Corresponds with GET /v1/jobs/{jobID}/executions (the `GetV1JobsJobIDExecutions` operationId).
+	GetV1JobsJobIDExecutions(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1JobsJobIDParameters Get parameters for a job
+	//
+	// Returns the array of the parameters of a specified job.
+	//
+	// Corresponds with GET /v1/jobs/{jobID}/parameters (the `GetV1JobsJobIDParameters` operationId).
+	GetV1JobsJobIDParameters(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1OrganizationsCurrent Gets information about the current organization
+	//
+	// Returns information about the current authorized user's organization.
+	//
+	// Corresponds with GET /v1/organizations/current (the `GetV1OrganizationsCurrent` operationId).
+	GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1OrganizationsOrganizationIDAccessControls Get RBAC access information about the organization
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Corresponds with GET /v1/organizations/{organizationID}/accessControls (the `GetV1OrganizationsOrganizationIDAccessControls` operationId).
+	GetV1OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1OrganizationsOrganizationIDAccessControlsWithBody Update the RBAC grants on the organization
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+	PatchV1OrganizationsOrganizationIDAccessControlsWithBody(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1OrganizationsOrganizationIDAccessControls Update the RBAC grants on the organization
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+	PatchV1OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, body PatchV1OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1PrivateConnectionsWithBody Creates a new private connection
+	//
+	// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+	PostV1PrivateConnectionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1PrivateConnections Creates a new private connection
+	//
+	// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+	PostV1PrivateConnections(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1PrivateConnectionsConnectionID Deletes a private connection
+	//
+	// Deletes a private connection for the specified connection ID. Upon successful completion, a private connection is scheduled for deletion.
+	//
+	// Corresponds with DELETE /v1/privateConnections/{connectionID} (the `DeleteV1PrivateConnectionsConnectionID` operationId).
+	DeleteV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1PrivateConnectionsConnectionID Gets information about a private connection
+	//
+	// Returns private connection information for the specified connection ID, in JSON format. You must specify the connection ID in the API call.
+	//
+	// Corresponds with GET /v1/privateConnections/{connectionID} (the `GetV1PrivateConnectionsConnectionID` operationId).
+	GetV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1PrivateConnectionsConnectionIDWithBody Updates a private connection
+	//
+	// Updates a private connection. You must specify the connection ID in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+	PatchV1PrivateConnectionsConnectionIDWithBody(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1PrivateConnectionsConnectionID Updates a private connection
+	//
+	// Updates a private connection. You must specify the connection ID in the API call.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+	PatchV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Projects Lists the projects the user can access
+	//
+	// Returns a list of all of the projects accessible to the user.
+	//
+	// Corresponds with GET /v1/projects (the `GetV1Projects` operationId).
+	GetV1Projects(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1ProjectsWithBody Creates a new project
+	//
+	// Creates a new project for the current user.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+	PostV1ProjectsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Projects Creates a new project
+	//
+	// Creates a new project for the current user.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+	PostV1Projects(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1ProjectsProjectID Deletes a project
+	//
+	// Deletes a project with the specified project ID.
+	//
+	// Corresponds with DELETE /v1/projects/{projectID} (the `DeleteV1ProjectsProjectID` operationId).
+	DeleteV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1ProjectsProjectID Gets information about a project
+	//
+	// Returns information for the specified project ID in JSON format.
+	//
+	// Corresponds with GET /v1/projects/{projectID} (the `GetV1ProjectsProjectID` operationId).
+	GetV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1ProjectsProjectIDWithBody Updates a project
+	//
+	// Updates the specified project. You can only update its name.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+	PatchV1ProjectsProjectIDWithBody(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1ProjectsProjectID Updates a project
+	//
+	// Updates the specified project. You can only update its name.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+	PatchV1ProjectsProjectID(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Regions Lists all of the regions for the user that support workspaces
+	//
+	// **Note**: This endpoint is deprecated. Use `/v2/regions` instead.
+	//
+	// Returns a list of valid regions for the user that support workspaces, including the region ID and provider for each region.
+	//
+	// Corresponds with GET /v1/regions (the `GetV1Regions` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1RegionsSharedtier Lists all the regions that support Shared Edition deployments (starter workspaces) for the user
+	//
+	// Returns a list of valid regions that support Shared Edition deployments (starter workspaces) for the user, including the region code and provider for each region.
+	//
+	// Corresponds with GET /v1/regions/sharedtier (the `GetV1RegionsSharedtier` operationId).
+	GetV1RegionsSharedtier(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV1RolesResourceType Lists all roles for the given resource type, including custom roles
 	//
 	//
@@ -3642,6 +6166,88 @@ type ClientInterface interface {
 	// Corresponds with PUT /v1/roles/{resourceType}/{role} (the `PutV1RolesResourceTypeRole` operationId).
 	PutV1RolesResourceTypeRole(ctx context.Context, resourceType ResourceType, role Role, body PutV1RolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV1Secrets Lists the secrets the user can access.
+	//
+	// Returns a list of all of the secrets accessible to the user.
+	//
+	// Corresponds with GET /v1/secrets (the `GetV1Secrets` operationId).
+	GetV1Secrets(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1SecretsWithBody Creates a new secret
+	//
+	// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+	PostV1SecretsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Secrets Creates a new secret
+	//
+	// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+	PostV1Secrets(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1SecretsSecretID Deletes a secret
+	//
+	// Deletes a secret with the specified ID. You must specify the secret ID in the API call.
+	//
+	// Corresponds with DELETE /v1/secrets/{secretID} (the `DeleteV1SecretsSecretID` operationId).
+	DeleteV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1SecretsSecretID Gets information about a secret
+	//
+	// Returns information for the specified secret ID, in JSON format. You must specify the secret ID in the API call.
+	//
+	// Corresponds with GET /v1/secrets/{secretID} (the `GetV1SecretsSecretID` operationId).
+	GetV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1SecretsSecretIDWithBody Updates the name or value of a secret
+	//
+	// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+	PatchV1SecretsSecretIDWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1SecretsSecretID Updates the name or value of a secret
+	//
+	// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+	PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1SecretsSecretIDAccessControls Get RBAC access information about the secret
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Corresponds with GET /v1/secrets/{secretID}/accessControls (the `GetV1SecretsSecretIDAccessControls` operationId).
+	GetV1SecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1SecretsSecretIDAccessControlsWithBody Update the RBAC grants on the secret
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+	PatchV1SecretsSecretIDAccessControlsWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1SecretsSecretIDAccessControls Update the RBAC grants on the secret
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+	PatchV1SecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// PostV1ServiceAccountsWithBody Creates a service account in the current organization.
 	//
 	// Creates a service account in the current organization.
@@ -3694,6 +6300,735 @@ type ClientInterface interface {
 	//
 	// Corresponds with PATCH /v1/serviceAccounts/{serviceAccountID} (the `PatchV1ServiceAccountsServiceAccountID` operationId).
 	PatchV1ServiceAccountsServiceAccountID(ctx context.Context, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1SharedtierVirtualWorkspaces List all Shared Edition deployments (starter workspaces)
+	//
+	// Returns a list of all Shared Edition deployments (starter workspaces) for the current user.
+	//
+	// Corresponds with GET /v1/sharedtier/virtualWorkspaces (the `GetV1SharedtierVirtualWorkspaces` operationId).
+	GetV1SharedtierVirtualWorkspaces(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1SharedtierVirtualWorkspacesWithBody Creates a new Shared Edition deployment (starter workspace)
+	//
+	// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+	PostV1SharedtierVirtualWorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1SharedtierVirtualWorkspaces Creates a new Shared Edition deployment (starter workspace)
+	//
+	// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+	PostV1SharedtierVirtualWorkspaces(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID Deletes a Shared Edition deployment (starter workspace)
+	//
+	// Deletes a Shared Edition deployment (starter workspace) for the specified ID. You must specify the ID of the starter workspace in the API call.
+	//
+	// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID Returns information about a Shared Edition deployment (starter workspace)
+	//
+	// Returns information about a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call.
+	//
+	// Corresponds with GET /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+	GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBody Creates a new user in a Shared Edition deployment (starter workspace)
+	//
+	// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+	PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers Creates a new user in a Shared Edition deployment (starter workspace)
+	//
+	// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+	PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers(ctx context.Context, virtualWorkspaceID openapi_types.UUID, body PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID Deletes a user from a Shared Edition deployment (starter workspace)
+	//
+	// Deletes a user with the specified user ID from a Shared Edition deployment (starter workspace). You must specify the ID of the starter workspace and the user in the API call.
+	//
+	// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody Updates a user in a Shared Edition deployment (starter workspace)
+	//
+	// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID Updates a user in a Shared Edition deployment (starter workspace)
+	//
+	// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1StageDeploymentIDFs Lists files and folders in the root folder.
+	//
+	// Returns a list of all files and folders located in the Stage's root folder of the specified deployment (either a workspace group or starter workspace).
+	//
+	// You must specify the `deploymentID`.
+	//
+	// Corresponds with GET /v1/stage/{deploymentID}/fs (the `GetV1StageDeploymentIDFs` operationId).
+	GetV1StageDeploymentIDFs(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1StageDeploymentIDFsPath Deletes a file or folder
+	//
+	// Deletes the file or folder at the specified path in a Stage.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+	//
+	// - Delete a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Delete a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To delete a folder, ensure that the path includes a trailing slash.
+	//
+	// Corresponds with DELETE /v1/stage/{deploymentID}/fs/{path} (the `DeleteV1StageDeploymentIDFsPath` operationId).
+	DeleteV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1StageDeploymentIDFsPath Gets information about a folder or downloads a file
+	//
+	// If the specified path is a folder, the API returns the list of files and folders inside this folder in the Stage. If the specified path is a file, the API call is redirected to a download URL.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+	//
+	// - Get a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Get a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To Get a folder, ensure that the path includes a trailing slash.
+	//
+	// Corresponds with GET /v1/stage/{deploymentID}/fs/{path} (the `GetV1StageDeploymentIDFsPath` operationId).
+	GetV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1StageDeploymentIDFsPathWithBody Modifies a file or folder in a Stage
+	//
+	// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+	//
+	// - Modify a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Modify a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+	PatchV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1StageDeploymentIDFsPath Modifies a file or folder in a Stage
+	//
+	// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+	//
+	// - Modify a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Modify a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+	PatchV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PutV1StageDeploymentIDFsPathWithBody Creates a new folder or uploads a file
+	//
+	// This endpoint allows you to create a new folder or upload a new file at a specified path within Stage. The behavior depends on the contents of the request body and the format of the path:
+	//  - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within the Stage.
+	//  - **Folder Creation:** If the request body does not contain a file and the path ends with a trailing slash (`/`), a new folder is created at the specified path.
+	//  - **Empty File Creation:** If the request body does not contain a file and the path does not end with a trailing slash, an empty file is created at the specified path.
+	//
+	// **Please ensure that the path is correctly formatted according to the desired action. Misformatted paths may lead to unexpected behavior.**
+	//
+	// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+	//
+	// - Create a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Upload a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/file.json
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2Ffile.json
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PUT /v1/stage/{deploymentID}/fs/{path} (the `PutV1StageDeploymentIDFsPath` operationId).
+	PutV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Teams Lists the teams defined for the current organization. Teams may be filtered by name or description. An empty list is returned if no teams match the filter.
+	//
+	// Returns a list of teams in the current organization.
+	//
+	// Corresponds with GET /v1/teams (the `GetV1Teams` operationId).
+	GetV1Teams(ctx context.Context, params *GetV1TeamsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1TeamsWithBody Creates a new team
+	//
+	// Creates a new team. You must specify a name in the API request body.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+	PostV1TeamsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Teams Creates a new team
+	//
+	// Creates a new team. You must specify a name in the API request body.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+	PostV1Teams(ctx context.Context, body PostV1TeamsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1TeamsTeamID Deletes a team
+	//
+	// Deletes the specified team.
+	//
+	// Corresponds with DELETE /v1/teams/{teamID} (the `DeleteV1TeamsTeamID` operationId).
+	DeleteV1TeamsTeamID(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1TeamsTeamID Gets information about a team.
+	//
+	// Returns information for the specified team.
+	//
+	// Corresponds with GET /v1/teams/{teamID} (the `GetV1TeamsTeamID` operationId).
+	GetV1TeamsTeamID(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1TeamsTeamIDWithBody Updates the name, description, and/or members of a team
+	//
+	// Updates the name, description, and/or members for the specified team.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+	PatchV1TeamsTeamIDWithBody(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1TeamsTeamID Updates the name, description, and/or members of a team
+	//
+	// Updates the name, description, and/or members for the specified team.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+	PatchV1TeamsTeamID(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1TeamsTeamIDAccessControls Get RBAC access information about the team
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Corresponds with GET /v1/teams/{teamID}/accessControls (the `GetV1TeamsTeamIDAccessControls` operationId).
+	GetV1TeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1TeamsTeamIDAccessControlsWithBody Update the RBAC grants on the team
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+	PatchV1TeamsTeamIDAccessControlsWithBody(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1TeamsTeamIDAccessControls Update the RBAC grants on the team
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+	PatchV1TeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1TeamsTeamIDIdentityRoles Get granted roles to the team
+	//
+	// Return granted roles to the team.
+	//
+	// Corresponds with GET /v1/teams/{teamID}/identityRoles (the `GetV1TeamsTeamIDIdentityRoles` operationId).
+	GetV1TeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Users Lists the users in the current organization.
+	//
+	// Returns a list of users in the current organization.
+	//
+	// Corresponds with GET /v1/users (the `GetV1Users` operationId).
+	GetV1Users(ctx context.Context, params *GetV1UsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1UsersWithBody Adds an existing user to the current organization
+	//
+	// Adds a user already known to the portal to the current organization.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+	PostV1UsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Users Adds an existing user to the current organization
+	//
+	// Adds a user already known to the portal to the current organization.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+	PostV1Users(ctx context.Context, body PostV1UsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1UsersCurrent Gets information about the current user
+	//
+	// Returns information about the current user (i.e., the user making the API call).
+	//
+	// Corresponds with GET /v1/users/current (the `GetV1UsersCurrent` operationId).
+	GetV1UsersCurrent(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1UsersUserID Removes a user from the organization
+	//
+	// Removes the specified user from the organization.
+	//
+	// Corresponds with DELETE /v1/users/{userID} (the `DeleteV1UsersUserID` operationId).
+	DeleteV1UsersUserID(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1UsersUserID Gets information about a user.
+	//
+	// Returns information for the specified user.
+	//
+	// Corresponds with GET /v1/users/{userID} (the `GetV1UsersUserID` operationId).
+	GetV1UsersUserID(ctx context.Context, userID UserID, params *GetV1UsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1UsersUserIDIdentityRoles Get granted roles to the user
+	//
+	// Return granted roles to the user.
+	//
+	// Corresponds with GET /v1/users/{userID}/identityRoles (the `GetV1UsersUserIDIdentityRoles` operationId).
+	GetV1UsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroups Lists the workspace groups the user can access
+	//
+	// Returns a list of all of the workspace groups accessible to the user. Use the `includeTerminated` parameter to get a list of terminated workspace groups.
+	//
+	// Corresponds with GET /v1/workspaceGroups (the `GetV1WorkspaceGroups` operationId).
+	GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWithBody Creates a new workspace group
+	//
+	// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+	//
+	// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+	PostV1WorkspaceGroupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroups Creates a new workspace group
+	//
+	// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+	//
+	// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+	PostV1WorkspaceGroups(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupID Terminates a workspace group
+	//
+	// Terminates a workspace group with the specified workspace group ID. You must specify the workspace group ID in the API call.
+	//
+	// By default, you may only terminate empty workspace groups (a workspace group without workspaces). To terminate a workspace group with active workspaces, use the `force` parameter.
+	//
+	// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID} (the `DeleteV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupID Gets information about a workspace group
+	//
+	// Returns information for the specified
+	// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID} (the `GetV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody Updates a workspace group
+	//
+	// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupID Updates a workspace group
+	//
+	// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls Get RBAC access information about the workspace group
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody Update the RBAC grants on the workspace group
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls Update the RBAC grants on the workspace group
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody Removes entities that the workspace group's cloud workload identity can assume
+	//
+	// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities Removes entities that the workspace group's cloud workload identity can assume
+	//
+	// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities Gets the list of entities that the workspace group's cloud workload identity can assume
+	//
+	// Returns the list of customer-provided entities, such as IAM roles, that the workspace group's cloud workload identity can assume to access customer resources.
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody Adds entities that the workspace group's cloud workload identity can assume
+	//
+	// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities Adds entities that the workspace group's cloud workload identity can assume
+	//
+	// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDIdentity Get the workspace group's cloud workload identity information
+	//
+	// Returns the cloud workload identity information associated with the workspace group. The identity format is determined by the cloud provider where the workspace group is hosted. For example, on AWS it's an IAM role ARN.
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/identity (the `GetV1WorkspaceGroupsWorkspaceGroupIDIdentity` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDIdentity(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections Gets private connection information for a workspace group
+	//
+	// Returns private connection information for the specified
+	// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/privateConnections (the `GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback Starts failback to the primary region
+	//
+	// You must specify the workspace group ID of the group in the standby (secondary) region from which you are triggering the failback.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failback (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover Starts failover to the secondary region
+	//
+	// You must specify the workspace group ID of the group in the inactive (primary) region from which you are triggering the failover.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failover (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions Gets information about which regions you can setup as a disaster recovery backup
+	//
+	// Returns a list of regions with regions IDs in JSON format. You must specify the workspace group ID of the group you are setting up for disaster recovery.
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/regions (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+	//
+	// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+	//
+	// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision Start pre-provisioning from primary region
+	//
+	// You must specify the workspace group ID of the group in the primary region from which you are requesting to start pre-provision.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/startPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus Gets information about the storage DR status of the workspace group
+	//
+	// Returns the replication status of each database and the status of the latest Storage DR operation (Failover, Failback, etc.). You must specify the workspace group ID of the group that you are requesting status information for.
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/status (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision Stops pre-provisioning from primary region
+	//
+	// You must specify the workspace group ID of the group in the primary region from which you are requesting to stop pre-provision.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/stopPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody Updates the retention period for continuous backups
+	//
+	// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod Updates the retention period for continuous backups
+	//
+	// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1Workspaces Lists the workspaces the user can access
+	//
+	// Returns a list of all of the workspaces accessible to the user in the specified workspace group. You must specify the workspace group ID in the API call to list the workspaces in the group. Use the `includeTerminated` parameter to list the terminated workspaces.
+	//
+	// Corresponds with GET /v1/workspaces (the `GetV1Workspaces` operationId).
+	GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWithBody Creates a new workspace
+	//
+	// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+	// This API call does not take any request parameters.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+	PostV1WorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1Workspaces Creates a new workspace
+	//
+	// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+	// This API call does not take any request parameters.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+	PostV1Workspaces(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspacesWorkspaceID Terminates a workspace
+	//
+	// Terminates a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// All the databases attached to the workspace are detached when the workspace is terminated.
+	//
+	// Corresponds with DELETE /v1/workspaces/{workspaceID} (the `DeleteV1WorkspacesWorkspaceID` operationId).
+	DeleteV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceID Gets information about a workspace
+	//
+	// Returns workspace information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID} (the `GetV1WorkspacesWorkspaceID` operationId).
+	GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspacesWorkspaceIDWithBody Updates information about a workspace
+	//
+	// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+	PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV1WorkspacesWorkspaceID Updates information about a workspace
+	//
+	// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+	PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody Removes entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteV1WorkspacesWorkspaceIDDelegatedEntities Removes entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDDelegatedEntities Gets the list of entities that the workspace's cloud workload identity can assume
+	//
+	// Returns the same list of delegated entities as the workspace group delegated entities endpoint. The workspace inherits and operates on the delegated entities configuration from its parent workspace group.
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/delegatedEntities (the `GetV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	GetV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody Adds entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDDelegatedEntities Adds entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	PostV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDIdentity Get the workspace's cloud workload identity information
+	//
+	// Returns the same cloud workload identity information as the workspace group's cloud workload identity endpoint. The workspace inherits the identity configuration from its parent workspace group.
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/identity (the `GetV1WorkspacesWorkspaceIDIdentity` operationId).
+	GetV1WorkspacesWorkspaceIDIdentity(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnections Gets private connection information for a workspace
+	//
+	// Returns private connection information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections (the `GetV1WorkspacesWorkspaceIDPrivateConnections` operationId).
+	GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsKai Gets information to create private connection to SingleStore Kai for a workspace
+	//
+	// Returns the information needed to create private connection to SingleStore Kai.
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/kai (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsKai` operationId).
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsKai(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList Gets the outbound allow list for a workspace
+	//
+	// Returns the account ID which must be allowed for outbound connections.
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/outboundAllowList (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList` operationId).
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDResumeWithBody Resumes a workspace
+	//
+	// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+	PostV1WorkspacesWorkspaceIDResumeWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDResume Resumes a workspace
+	//
+	// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+	PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostV1WorkspacesWorkspaceIDSuspend Suspends a workspace
+	//
+	// Suspends a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/suspend (the `PostV1WorkspacesWorkspaceIDSuspend` operationId).
+	PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV2AccessControlTemplatesResourceType Lists default grants for new clusters or databases
 	//
@@ -4985,6 +8320,87 @@ type ClientInterface interface {
 	GetV2UsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV2UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
+// GetV1AuditLogs Lists all of the audit logs for the user organization or audit logs for user redaction
+//
+// Returns a list of all of the audit log entries for the user organization or audit logs for user redaction.
+//
+// Corresponds with GET /v1/auditLogs (the `GetV1AuditLogs` operationId).
+func (c *Client) GetV1AuditLogs(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1AuditLogsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1BillingUsage Returns the compute and storage usage of an organization
+//
+// Returns the compute and storage usage of an organization in a specified timeframe. The results can be grouped by hour, day, and month using the `aggregateType` parameter. The usage entries in the result set also include information on the resource ID, type, name, and usage.
+// Note that the usage periods are rounded to the nearest hour/day/month that includes the requested range.
+// For example, if the start time is "2023-07-30T18:30:00Z" and the end time is "2023-07-31T18:30:00Z",
+// the hourly usage entries would be returned for the period from "2023-07-30T18:00:00Z" to "2023-07-31T19:00:00Z". Same goes for daily and monthly usage entries.
+//
+// Corresponds with GET /v1/billing/usage (the `GetV1BillingUsage` operationId).
+func (c *Client) GetV1BillingUsage(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1BillingUsageRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1BillingUsageSimulateWithBody Returns an array of simulated compute usage for the given resource configurations.
+//
+// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+// existing resources in the project for the time range based on their current configurations.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+func (c *Client) PostV1BillingUsageSimulateWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1BillingUsageSimulateRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1BillingUsageSimulate Returns an array of simulated compute usage for the given resource configurations.
+//
+// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+// existing resources in the project for the time range based on their current configurations.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+func (c *Client) PostV1BillingUsageSimulate(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1BillingUsageSimulateRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // PostV1CloudPrincipalsWithBody Creates a cloud principal in the current organization.
 //
 // There are no dedicated list or get endpoints for cloud principals. To query
@@ -5250,6 +8666,774 @@ func (c *Client) GetV1CloudfunctionsCloudfunctionIDToken(ctx context.Context, cl
 	return c.Client.Do(req)
 }
 
+// GetV1FilesFsLocation Lists all files from personal, shared or models space.
+//
+// Returns a list of all files from personal, shared or models space.
+//
+// You must specify the `location`.
+//
+// Corresponds with GET /v1/files/fs/{location} (the `GetV1FilesFsLocation` operationId).
+func (c *Client) GetV1FilesFsLocation(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FilesFsLocationRequest(c.Server, location)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1FilesFsLocationPath Deletes a file from personal, shared or models space.
+//
+// Deletes the file at the specified path in personal, shared or models space.
+//
+// You must specify the `location` and file `path` in the API call.
+//
+// Corresponds with DELETE /v1/files/fs/{location}/{path} (the `DeleteV1FilesFsLocationPath` operationId).
+func (c *Client) DeleteV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1FilesFsLocationPathRequest(c.Server, location, path)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1FilesFsLocationPath Gets information about a file or downloads a file from personal, shared or models space.
+//
+// Returns the information about a file or redirects to the file download URL.
+//
+// You must specify the `location` and the file `path` in the API call.
+//
+// Corresponds with GET /v1/files/fs/{location}/{path} (the `GetV1FilesFsLocationPath` operationId).
+func (c *Client) GetV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FilesFsLocationPathRequest(c.Server, location, path, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1FilesFsLocationPathWithBody Modifies a file in personal, shared or models space.
+//
+// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+//
+// You must specify the `location` and file `path` in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+func (c *Client) PatchV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1FilesFsLocationPathRequestWithBody(c.Server, location, path, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1FilesFsLocationPath Modifies a file in personal, shared or models space.
+//
+// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+//
+// You must specify the `location` and file `path` in the API call.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+func (c *Client) PatchV1FilesFsLocationPath(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1FilesFsLocationPathRequest(c.Server, location, path, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PutV1FilesFsLocationPathWithBody Creates a new file or uploads a file to personal, shared or models space.
+//
+// This endpoint allows you to create or upload a new file at a specified path within personal, shared or models space. The behavior depends on the contents of the request body and the format of the path:
+//   - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within personal, shared or models space.
+//
+// You must specify the `location` and the file `path` in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v1/files/fs/{location}/{path} (the `PutV1FilesFsLocationPath` operationId).
+func (c *Client) PutV1FilesFsLocationPathWithBody(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1FilesFsLocationPathRequestWithBody(c.Server, location, path, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1Flow Lists the Flow instances the user can access
+//
+// Returns a list of all of the SingleStore Flow instances accessible to the user. Use the `includeTerminated` parameter to get a list of terminated Flow instances.
+//
+// Corresponds with GET /v1/flow (the `GetV1Flow` operationId).
+func (c *Client) GetV1Flow(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FlowRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1FlowWithBody Creates a new Flow instance
+//
+// Creates a new SingleStore Flow instance for the current user.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+func (c *Client) PostV1FlowWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1FlowRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Flow Creates a new Flow instance
+//
+// Creates a new SingleStore Flow instance for the current user.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+func (c *Client) PostV1Flow(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1FlowRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1FlowFlowID Terminates a Flow instance
+//
+// Terminates a SingleStore Flow instance with the specified ID. You must specify the Flow instance ID in the API call.
+//
+// Corresponds with DELETE /v1/flow/{flowID} (the `DeleteV1FlowFlowID` operationId).
+func (c *Client) DeleteV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1FlowFlowIDRequest(c.Server, flowID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1FlowFlowID Gets information about a Flow instance
+//
+// Returns information about the SingleStore Flow instance with the specified ID, in JSON format. You must specify the Flow instance ID in the API call.
+//
+// Corresponds with GET /v1/flow/{flowID} (the `GetV1FlowFlowID` operationId).
+func (c *Client) GetV1FlowFlowID(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FlowFlowIDRequest(c.Server, flowID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1Invitations Lists open invitations for the current organization.
+//
+// Returns a list of open invitations for the current organization.
+//
+// Corresponds with GET /v1/invitations (the `GetV1Invitations` operationId).
+func (c *Client) GetV1Invitations(ctx context.Context, params *GetV1InvitationsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1InvitationsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1InvitationsWithBody Invites a user to the current organization
+//
+// Creates and sends an invitation to join the organization to an email address.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+func (c *Client) PostV1InvitationsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1InvitationsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Invitations Invites a user to the current organization
+//
+// Creates and sends an invitation to join the organization to an email address.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+func (c *Client) PostV1Invitations(ctx context.Context, body PostV1InvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1InvitationsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1InvitationsInvitationID Revokes an invitation
+//
+// Revokes the specified invitation.
+//
+// Corresponds with DELETE /v1/invitations/{invitationID} (the `DeleteV1InvitationsInvitationID` operationId).
+func (c *Client) DeleteV1InvitationsInvitationID(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1InvitationsInvitationIDRequest(c.Server, invitationID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1InvitationsInvitationID Gets information about an invitation.
+//
+// Returns information for the specified invitation.
+//
+// Corresponds with GET /v1/invitations/{invitationID} (the `GetV1InvitationsInvitationID` operationId).
+func (c *Client) GetV1InvitationsInvitationID(ctx context.Context, invitationID InvitationID, params *GetV1InvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1InvitationsInvitationIDRequest(c.Server, invitationID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1JobsWithBody Creates a new job
+//
+// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+func (c *Client) PostV1JobsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1JobsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Jobs Creates a new job
+//
+// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+func (c *Client) PostV1Jobs(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1JobsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1JobsRuntimes Get the list of available job runtimes
+//
+// Returns the list of available runtimes for jobs.
+//
+// Corresponds with GET /v1/jobs/runtimes (the `GetV1JobsRuntimes` operationId).
+func (c *Client) GetV1JobsRuntimes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsRuntimesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1JobsJobID Deletes a job
+//
+// This deletes a job and all execution snapshots associated with a job.
+//
+// Corresponds with DELETE /v1/jobs/{jobID} (the `DeleteV1JobsJobID` operationId).
+func (c *Client) DeleteV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1JobsJobIDRequest(c.Server, jobID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1JobsJobID Gets information about the specified job
+//
+// Returns the metadata on target, schedule and notebook for a job specified by a jobid.
+//
+// Corresponds with GET /v1/jobs/{jobID} (the `GetV1JobsJobID` operationId).
+func (c *Client) GetV1JobsJobID(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsJobIDRequest(c.Server, jobID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1JobsJobIDExecutions Get executions for a job
+//
+// Returns the information of the executions of a specified job. Specify which executions you want with the parameters.
+//
+// Corresponds with GET /v1/jobs/{jobID}/executions (the `GetV1JobsJobIDExecutions` operationId).
+func (c *Client) GetV1JobsJobIDExecutions(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsJobIDExecutionsRequest(c.Server, jobID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1JobsJobIDParameters Get parameters for a job
+//
+// Returns the array of the parameters of a specified job.
+//
+// Corresponds with GET /v1/jobs/{jobID}/parameters (the `GetV1JobsJobIDParameters` operationId).
+func (c *Client) GetV1JobsJobIDParameters(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1JobsJobIDParametersRequest(c.Server, jobID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1OrganizationsCurrent Gets information about the current organization
+//
+// Returns information about the current authorized user's organization.
+//
+// Corresponds with GET /v1/organizations/current (the `GetV1OrganizationsCurrent` operationId).
+func (c *Client) GetV1OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1OrganizationsCurrentRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1OrganizationsOrganizationIDAccessControls Get RBAC access information about the organization
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Corresponds with GET /v1/organizations/{organizationID}/accessControls (the `GetV1OrganizationsOrganizationIDAccessControls` operationId).
+func (c *Client) GetV1OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1OrganizationsOrganizationIDAccessControlsRequest(c.Server, organizationID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1OrganizationsOrganizationIDAccessControlsWithBody Update the RBAC grants on the organization
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+func (c *Client) PatchV1OrganizationsOrganizationIDAccessControlsWithBody(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1OrganizationsOrganizationIDAccessControlsRequestWithBody(c.Server, organizationID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1OrganizationsOrganizationIDAccessControls Update the RBAC grants on the organization
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+func (c *Client) PatchV1OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, body PatchV1OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1OrganizationsOrganizationIDAccessControlsRequest(c.Server, organizationID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1PrivateConnectionsWithBody Creates a new private connection
+//
+// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+func (c *Client) PostV1PrivateConnectionsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1PrivateConnectionsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1PrivateConnections Creates a new private connection
+//
+// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+func (c *Client) PostV1PrivateConnections(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1PrivateConnectionsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1PrivateConnectionsConnectionID Deletes a private connection
+//
+// Deletes a private connection for the specified connection ID. Upon successful completion, a private connection is scheduled for deletion.
+//
+// Corresponds with DELETE /v1/privateConnections/{connectionID} (the `DeleteV1PrivateConnectionsConnectionID` operationId).
+func (c *Client) DeleteV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1PrivateConnectionsConnectionIDRequest(c.Server, connectionID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1PrivateConnectionsConnectionID Gets information about a private connection
+//
+// Returns private connection information for the specified connection ID, in JSON format. You must specify the connection ID in the API call.
+//
+// Corresponds with GET /v1/privateConnections/{connectionID} (the `GetV1PrivateConnectionsConnectionID` operationId).
+func (c *Client) GetV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1PrivateConnectionsConnectionIDRequest(c.Server, connectionID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1PrivateConnectionsConnectionIDWithBody Updates a private connection
+//
+// Updates a private connection. You must specify the connection ID in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+func (c *Client) PatchV1PrivateConnectionsConnectionIDWithBody(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1PrivateConnectionsConnectionIDRequestWithBody(c.Server, connectionID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1PrivateConnectionsConnectionID Updates a private connection
+//
+// Updates a private connection. You must specify the connection ID in the API call.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+func (c *Client) PatchV1PrivateConnectionsConnectionID(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1PrivateConnectionsConnectionIDRequest(c.Server, connectionID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1Projects Lists the projects the user can access
+//
+// Returns a list of all of the projects accessible to the user.
+//
+// Corresponds with GET /v1/projects (the `GetV1Projects` operationId).
+func (c *Client) GetV1Projects(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1ProjectsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1ProjectsWithBody Creates a new project
+//
+// Creates a new project for the current user.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+func (c *Client) PostV1ProjectsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1ProjectsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Projects Creates a new project
+//
+// Creates a new project for the current user.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+func (c *Client) PostV1Projects(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1ProjectsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1ProjectsProjectID Deletes a project
+//
+// Deletes a project with the specified project ID.
+//
+// Corresponds with DELETE /v1/projects/{projectID} (the `DeleteV1ProjectsProjectID` operationId).
+func (c *Client) DeleteV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1ProjectsProjectIDRequest(c.Server, projectID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1ProjectsProjectID Gets information about a project
+//
+// Returns information for the specified project ID in JSON format.
+//
+// Corresponds with GET /v1/projects/{projectID} (the `GetV1ProjectsProjectID` operationId).
+func (c *Client) GetV1ProjectsProjectID(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1ProjectsProjectIDRequest(c.Server, projectID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1ProjectsProjectIDWithBody Updates a project
+//
+// Updates the specified project. You can only update its name.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+func (c *Client) PatchV1ProjectsProjectIDWithBody(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1ProjectsProjectIDRequestWithBody(c.Server, projectID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1ProjectsProjectID Updates a project
+//
+// Updates the specified project. You can only update its name.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+func (c *Client) PatchV1ProjectsProjectID(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1ProjectsProjectIDRequest(c.Server, projectID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1Regions Lists all of the regions for the user that support workspaces
+//
+// **Note**: This endpoint is deprecated. Use `/v2/regions` instead.
+//
+// Returns a list of valid regions for the user that support workspaces, including the region ID and provider for each region.
+//
+// Corresponds with GET /v1/regions (the `GetV1Regions` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+func (c *Client) GetV1Regions(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1RegionsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1RegionsSharedtier Lists all the regions that support Shared Edition deployments (starter workspaces) for the user
+//
+// Returns a list of valid regions that support Shared Edition deployments (starter workspaces) for the user, including the region code and provider for each region.
+//
+// Corresponds with GET /v1/regions/sharedtier (the `GetV1RegionsSharedtier` operationId).
+func (c *Client) GetV1RegionsSharedtier(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1RegionsSharedtierRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // GetV1RolesResourceType Lists all roles for the given resource type, including custom roles
 //
 // This route is currently not supported by BYOC.
@@ -5379,6 +9563,188 @@ func (c *Client) PutV1RolesResourceTypeRole(ctx context.Context, resourceType Re
 	return c.Client.Do(req)
 }
 
+// GetV1Secrets Lists the secrets the user can access.
+//
+// Returns a list of all of the secrets accessible to the user.
+//
+// Corresponds with GET /v1/secrets (the `GetV1Secrets` operationId).
+func (c *Client) GetV1Secrets(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SecretsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1SecretsWithBody Creates a new secret
+//
+// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+func (c *Client) PostV1SecretsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SecretsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Secrets Creates a new secret
+//
+// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+func (c *Client) PostV1Secrets(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SecretsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1SecretsSecretID Deletes a secret
+//
+// Deletes a secret with the specified ID. You must specify the secret ID in the API call.
+//
+// Corresponds with DELETE /v1/secrets/{secretID} (the `DeleteV1SecretsSecretID` operationId).
+func (c *Client) DeleteV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1SecretsSecretIDRequest(c.Server, secretID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1SecretsSecretID Gets information about a secret
+//
+// Returns information for the specified secret ID, in JSON format. You must specify the secret ID in the API call.
+//
+// Corresponds with GET /v1/secrets/{secretID} (the `GetV1SecretsSecretID` operationId).
+func (c *Client) GetV1SecretsSecretID(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SecretsSecretIDRequest(c.Server, secretID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1SecretsSecretIDWithBody Updates the name or value of a secret
+//
+// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+func (c *Client) PatchV1SecretsSecretIDWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SecretsSecretIDRequestWithBody(c.Server, secretID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1SecretsSecretID Updates the name or value of a secret
+//
+// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+func (c *Client) PatchV1SecretsSecretID(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SecretsSecretIDRequest(c.Server, secretID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1SecretsSecretIDAccessControls Get RBAC access information about the secret
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Corresponds with GET /v1/secrets/{secretID}/accessControls (the `GetV1SecretsSecretIDAccessControls` operationId).
+func (c *Client) GetV1SecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SecretsSecretIDAccessControlsRequest(c.Server, secretID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1SecretsSecretIDAccessControlsWithBody Update the RBAC grants on the secret
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+func (c *Client) PatchV1SecretsSecretIDAccessControlsWithBody(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SecretsSecretIDAccessControlsRequestWithBody(c.Server, secretID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1SecretsSecretIDAccessControls Update the RBAC grants on the secret
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+func (c *Client) PatchV1SecretsSecretIDAccessControls(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SecretsSecretIDAccessControlsRequest(c.Server, secretID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // PostV1ServiceAccountsWithBody Creates a service account in the current organization.
 //
 // Creates a service account in the current organization.
@@ -5472,6 +9838,1535 @@ func (c *Client) PatchV1ServiceAccountsServiceAccountIDWithBody(ctx context.Cont
 // Corresponds with PATCH /v1/serviceAccounts/{serviceAccountID} (the `PatchV1ServiceAccountsServiceAccountID` operationId).
 func (c *Client) PatchV1ServiceAccountsServiceAccountID(ctx context.Context, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV1ServiceAccountsServiceAccountIDRequest(c.Server, serviceAccountID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1SharedtierVirtualWorkspaces List all Shared Edition deployments (starter workspaces)
+//
+// Returns a list of all Shared Edition deployments (starter workspaces) for the current user.
+//
+// Corresponds with GET /v1/sharedtier/virtualWorkspaces (the `GetV1SharedtierVirtualWorkspaces` operationId).
+func (c *Client) GetV1SharedtierVirtualWorkspaces(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SharedtierVirtualWorkspacesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1SharedtierVirtualWorkspacesWithBody Creates a new Shared Edition deployment (starter workspace)
+//
+// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+func (c *Client) PostV1SharedtierVirtualWorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SharedtierVirtualWorkspacesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1SharedtierVirtualWorkspaces Creates a new Shared Edition deployment (starter workspace)
+//
+// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+func (c *Client) PostV1SharedtierVirtualWorkspaces(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SharedtierVirtualWorkspacesRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID Deletes a Shared Edition deployment (starter workspace)
+//
+// Deletes a Shared Edition deployment (starter workspace) for the specified ID. You must specify the ID of the starter workspace in the API call.
+//
+// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+func (c *Client) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDRequest(c.Server, virtualWorkspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID Returns information about a Shared Edition deployment (starter workspace)
+//
+// Returns information about a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call.
+//
+// Corresponds with GET /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+func (c *Client) GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDRequest(c.Server, virtualWorkspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBody Creates a new user in a Shared Edition deployment (starter workspace)
+//
+// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+func (c *Client) PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersRequestWithBody(c.Server, virtualWorkspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers Creates a new user in a Shared Edition deployment (starter workspace)
+//
+// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+func (c *Client) PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers(ctx context.Context, virtualWorkspaceID openapi_types.UUID, body PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersRequest(c.Server, virtualWorkspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID Deletes a user from a Shared Edition deployment (starter workspace)
+//
+// Deletes a user with the specified user ID from a Shared Edition deployment (starter workspace). You must specify the ID of the starter workspace and the user in the API call.
+//
+// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+func (c *Client) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(c.Server, virtualWorkspaceID, userID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody Updates a user in a Shared Edition deployment (starter workspace)
+//
+// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+func (c *Client) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(c.Server, virtualWorkspaceID, userID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID Updates a user in a Shared Edition deployment (starter workspace)
+//
+// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+func (c *Client) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(c.Server, virtualWorkspaceID, userID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1StageDeploymentIDFs Lists files and folders in the root folder.
+//
+// Returns a list of all files and folders located in the Stage's root folder of the specified deployment (either a workspace group or starter workspace).
+//
+// You must specify the `deploymentID`.
+//
+// Corresponds with GET /v1/stage/{deploymentID}/fs (the `GetV1StageDeploymentIDFs` operationId).
+func (c *Client) GetV1StageDeploymentIDFs(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1StageDeploymentIDFsRequest(c.Server, deploymentID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1StageDeploymentIDFsPath Deletes a file or folder
+//
+// Deletes the file or folder at the specified path in a Stage.
+//
+// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+//
+// - Delete a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Delete a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To delete a folder, ensure that the path includes a trailing slash.
+//
+// Corresponds with DELETE /v1/stage/{deploymentID}/fs/{path} (the `DeleteV1StageDeploymentIDFsPath` operationId).
+func (c *Client) DeleteV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1StageDeploymentIDFsPathRequest(c.Server, deploymentID, path)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1StageDeploymentIDFsPath Gets information about a folder or downloads a file
+//
+// If the specified path is a folder, the API returns the list of files and folders inside this folder in the Stage. If the specified path is a file, the API call is redirected to a download URL.
+//
+// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+//
+// - Get a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Get a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To Get a folder, ensure that the path includes a trailing slash.
+//
+// Corresponds with GET /v1/stage/{deploymentID}/fs/{path} (the `GetV1StageDeploymentIDFsPath` operationId).
+func (c *Client) GetV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1StageDeploymentIDFsPathRequest(c.Server, deploymentID, path, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1StageDeploymentIDFsPathWithBody Modifies a file or folder in a Stage
+//
+// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+//
+// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+//
+// - Modify a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Modify a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+func (c *Client) PatchV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1StageDeploymentIDFsPathRequestWithBody(c.Server, deploymentID, path, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1StageDeploymentIDFsPath Modifies a file or folder in a Stage
+//
+// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+//
+// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+//
+// - Modify a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Modify a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+func (c *Client) PatchV1StageDeploymentIDFsPath(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1StageDeploymentIDFsPathRequest(c.Server, deploymentID, path, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PutV1StageDeploymentIDFsPathWithBody Creates a new folder or uploads a file
+//
+// This endpoint allows you to create a new folder or upload a new file at a specified path within Stage. The behavior depends on the contents of the request body and the format of the path:
+//   - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within the Stage.
+//   - **Folder Creation:** If the request body does not contain a file and the path ends with a trailing slash (`/`), a new folder is created at the specified path.
+//   - **Empty File Creation:** If the request body does not contain a file and the path does not end with a trailing slash, an empty file is created at the specified path.
+//
+// **Please ensure that the path is correctly formatted according to the desired action. Misformatted paths may lead to unexpected behavior.**
+//
+// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+//
+// - Create a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Upload a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/file.json
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2Ffile.json
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PUT /v1/stage/{deploymentID}/fs/{path} (the `PutV1StageDeploymentIDFsPath` operationId).
+func (c *Client) PutV1StageDeploymentIDFsPathWithBody(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPutV1StageDeploymentIDFsPathRequestWithBody(c.Server, deploymentID, path, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1Teams Lists the teams defined for the current organization. Teams may be filtered by name or description. An empty list is returned if no teams match the filter.
+//
+// Returns a list of teams in the current organization.
+//
+// Corresponds with GET /v1/teams (the `GetV1Teams` operationId).
+func (c *Client) GetV1Teams(ctx context.Context, params *GetV1TeamsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1TeamsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1TeamsWithBody Creates a new team
+//
+// Creates a new team. You must specify a name in the API request body.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+func (c *Client) PostV1TeamsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1TeamsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Teams Creates a new team
+//
+// Creates a new team. You must specify a name in the API request body.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+func (c *Client) PostV1Teams(ctx context.Context, body PostV1TeamsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1TeamsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1TeamsTeamID Deletes a team
+//
+// Deletes the specified team.
+//
+// Corresponds with DELETE /v1/teams/{teamID} (the `DeleteV1TeamsTeamID` operationId).
+func (c *Client) DeleteV1TeamsTeamID(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1TeamsTeamIDRequest(c.Server, teamID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1TeamsTeamID Gets information about a team.
+//
+// Returns information for the specified team.
+//
+// Corresponds with GET /v1/teams/{teamID} (the `GetV1TeamsTeamID` operationId).
+func (c *Client) GetV1TeamsTeamID(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1TeamsTeamIDRequest(c.Server, teamID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1TeamsTeamIDWithBody Updates the name, description, and/or members of a team
+//
+// Updates the name, description, and/or members for the specified team.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+func (c *Client) PatchV1TeamsTeamIDWithBody(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1TeamsTeamIDRequestWithBody(c.Server, teamID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1TeamsTeamID Updates the name, description, and/or members of a team
+//
+// Updates the name, description, and/or members for the specified team.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+func (c *Client) PatchV1TeamsTeamID(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1TeamsTeamIDRequest(c.Server, teamID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1TeamsTeamIDAccessControls Get RBAC access information about the team
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Corresponds with GET /v1/teams/{teamID}/accessControls (the `GetV1TeamsTeamIDAccessControls` operationId).
+func (c *Client) GetV1TeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1TeamsTeamIDAccessControlsRequest(c.Server, teamID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1TeamsTeamIDAccessControlsWithBody Update the RBAC grants on the team
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+func (c *Client) PatchV1TeamsTeamIDAccessControlsWithBody(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1TeamsTeamIDAccessControlsRequestWithBody(c.Server, teamID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1TeamsTeamIDAccessControls Update the RBAC grants on the team
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+func (c *Client) PatchV1TeamsTeamIDAccessControls(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1TeamsTeamIDAccessControlsRequest(c.Server, teamID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1TeamsTeamIDIdentityRoles Get granted roles to the team
+//
+// Return granted roles to the team.
+//
+// Corresponds with GET /v1/teams/{teamID}/identityRoles (the `GetV1TeamsTeamIDIdentityRoles` operationId).
+func (c *Client) GetV1TeamsTeamIDIdentityRoles(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1TeamsTeamIDIdentityRolesRequest(c.Server, teamID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1Users Lists the users in the current organization.
+//
+// Returns a list of users in the current organization.
+//
+// Corresponds with GET /v1/users (the `GetV1Users` operationId).
+func (c *Client) GetV1Users(ctx context.Context, params *GetV1UsersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1UsersRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1UsersWithBody Adds an existing user to the current organization
+//
+// Adds a user already known to the portal to the current organization.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+func (c *Client) PostV1UsersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1UsersRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Users Adds an existing user to the current organization
+//
+// Adds a user already known to the portal to the current organization.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+func (c *Client) PostV1Users(ctx context.Context, body PostV1UsersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1UsersRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1UsersCurrent Gets information about the current user
+//
+// Returns information about the current user (i.e., the user making the API call).
+//
+// Corresponds with GET /v1/users/current (the `GetV1UsersCurrent` operationId).
+func (c *Client) GetV1UsersCurrent(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1UsersCurrentRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1UsersUserID Removes a user from the organization
+//
+// Removes the specified user from the organization.
+//
+// Corresponds with DELETE /v1/users/{userID} (the `DeleteV1UsersUserID` operationId).
+func (c *Client) DeleteV1UsersUserID(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1UsersUserIDRequest(c.Server, userID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1UsersUserID Gets information about a user.
+//
+// Returns information for the specified user.
+//
+// Corresponds with GET /v1/users/{userID} (the `GetV1UsersUserID` operationId).
+func (c *Client) GetV1UsersUserID(ctx context.Context, userID UserID, params *GetV1UsersUserIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1UsersUserIDRequest(c.Server, userID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1UsersUserIDIdentityRoles Get granted roles to the user
+//
+// Return granted roles to the user.
+//
+// Corresponds with GET /v1/users/{userID}/identityRoles (the `GetV1UsersUserIDIdentityRoles` operationId).
+func (c *Client) GetV1UsersUserIDIdentityRoles(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1UsersUserIDIdentityRolesRequest(c.Server, userID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroups Lists the workspace groups the user can access
+//
+// Returns a list of all of the workspace groups accessible to the user. Use the `includeTerminated` parameter to get a list of terminated workspace groups.
+//
+// Corresponds with GET /v1/workspaceGroups (the `GetV1WorkspaceGroups` operationId).
+func (c *Client) GetV1WorkspaceGroups(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspaceGroupsWithBody Creates a new workspace group
+//
+// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+//
+// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+func (c *Client) PostV1WorkspaceGroupsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspaceGroups Creates a new workspace group
+//
+// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+//
+// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+func (c *Client) PostV1WorkspaceGroups(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupID Terminates a workspace group
+//
+// Terminates a workspace group with the specified workspace group ID. You must specify the workspace group ID in the API call.
+//
+// By default, you may only terminate empty workspace groups (a workspace group without workspaces). To terminate a workspace group with active workspaces, use the `force` parameter.
+//
+// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID} (the `DeleteV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *Client) DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupID Gets information about a workspace group
+//
+// Returns information for the specified
+// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID} (the `GetV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody Updates a workspace group
+//
+// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupID Updates a workspace group
+//
+// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupID(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls Get RBAC access information about the workspace group
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody Update the RBAC grants on the workspace group
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls Update the RBAC grants on the workspace group
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody Removes entities that the workspace group's cloud workload identity can assume
+//
+// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *Client) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(c.Server, workspaceGroupID, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities Removes entities that the workspace group's cloud workload identity can assume
+//
+// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *Client) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(c.Server, workspaceGroupID, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities Gets the list of entities that the workspace group's cloud workload identity can assume
+//
+// Returns the list of customer-provided entities, such as IAM roles, that the workspace group's cloud workload identity can assume to access customer resources.
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody Adds entities that the workspace group's cloud workload identity can assume
+//
+// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities Adds entities that the workspace group's cloud workload identity can assume
+//
+// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDIdentity Get the workspace group's cloud workload identity information
+//
+// Returns the cloud workload identity information associated with the workspace group. The identity format is determined by the cloud provider where the workspace group is hosted. For example, on AWS it's an IAM role ARN.
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/identity (the `GetV1WorkspaceGroupsWorkspaceGroupIDIdentity` operationId).
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDIdentity(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDIdentityRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections Gets private connection information for a workspace group
+//
+// Returns private connection information for the specified
+// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/privateConnections (the `GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections` operationId).
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback Starts failback to the primary region
+//
+// You must specify the workspace group ID of the group in the standby (secondary) region from which you are triggering the failback.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failback (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover Starts failover to the secondary region
+//
+// You must specify the workspace group ID of the group in the inactive (primary) region from which you are triggering the failover.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failover (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions Gets information about which regions you can setup as a disaster recovery backup
+//
+// Returns a list of regions with regions IDs in JSON format. You must specify the workspace group ID of the group you are setting up for disaster recovery.
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/regions (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions` operationId).
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsRequest(c.Server, workspaceGroupID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+//
+// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+//
+// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+func (c *Client) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision Start pre-provisioning from primary region
+//
+// You must specify the workspace group ID of the group in the primary region from which you are requesting to start pre-provision.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/startPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus Gets information about the storage DR status of the workspace group
+//
+// Returns the replication status of each database and the status of the latest Storage DR operation (Failover, Failback, etc.). You must specify the workspace group ID of the group that you are requesting status information for.
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/status (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus` operationId).
+func (c *Client) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision Stops pre-provisioning from primary region
+//
+// You must specify the workspace group ID of the group in the primary region from which you are requesting to stop pre-provision.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/stopPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionRequest(c.Server, workspaceGroupID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody Updates the retention period for continuous backups
+//
+// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody(c.Server, workspaceGroupID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod Updates the retention period for continuous backups
+//
+// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+func (c *Client) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequest(c.Server, workspaceGroupID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1Workspaces Lists the workspaces the user can access
+//
+// Returns a list of all of the workspaces accessible to the user in the specified workspace group. You must specify the workspace group ID in the API call to list the workspaces in the group. Use the `includeTerminated` parameter to list the terminated workspaces.
+//
+// Corresponds with GET /v1/workspaces (the `GetV1Workspaces` operationId).
+func (c *Client) GetV1Workspaces(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspacesWithBody Creates a new workspace
+//
+// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+// This API call does not take any request parameters.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+func (c *Client) PostV1WorkspacesWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1Workspaces Creates a new workspace
+//
+// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+// This API call does not take any request parameters.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+func (c *Client) PostV1Workspaces(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1WorkspacesWorkspaceID Terminates a workspace
+//
+// Terminates a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// All the databases attached to the workspace are detached when the workspace is terminated.
+//
+// Corresponds with DELETE /v1/workspaces/{workspaceID} (the `DeleteV1WorkspacesWorkspaceID` operationId).
+func (c *Client) DeleteV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspacesWorkspaceID Gets information about a workspace
+//
+// Returns workspace information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+//
+// Corresponds with GET /v1/workspaces/{workspaceID} (the `GetV1WorkspacesWorkspaceID` operationId).
+func (c *Client) GetV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspacesWorkspaceIDWithBody Updates information about a workspace
+//
+// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+func (c *Client) PatchV1WorkspacesWorkspaceIDWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspacesWorkspaceIDRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV1WorkspacesWorkspaceID Updates information about a workspace
+//
+// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+func (c *Client) PatchV1WorkspacesWorkspaceID(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV1WorkspacesWorkspaceIDRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody Removes entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *Client) DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(c.Server, workspaceID, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntities Removes entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *Client) DeleteV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(c.Server, workspaceID, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspacesWorkspaceIDDelegatedEntities Gets the list of entities that the workspace's cloud workload identity can assume
+//
+// Returns the same list of delegated entities as the workspace group delegated entities endpoint. The workspace inherits and operates on the delegated entities configuration from its parent workspace group.
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/delegatedEntities (the `GetV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *Client) GetV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody Adds entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *Client) PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspacesWorkspaceIDDelegatedEntities Adds entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *Client) PostV1WorkspacesWorkspaceIDDelegatedEntities(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspacesWorkspaceIDIdentity Get the workspace's cloud workload identity information
+//
+// Returns the same cloud workload identity information as the workspace group's cloud workload identity endpoint. The workspace inherits the identity configuration from its parent workspace group.
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/identity (the `GetV1WorkspacesWorkspaceIDIdentity` operationId).
+func (c *Client) GetV1WorkspacesWorkspaceIDIdentity(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDIdentityRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnections Gets private connection information for a workspace
+//
+// Returns private connection information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections (the `GetV1WorkspacesWorkspaceIDPrivateConnections` operationId).
+func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnections(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(c.Server, workspaceID, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsKai Gets information to create private connection to SingleStore Kai for a workspace
+//
+// Returns the information needed to create private connection to SingleStore Kai.
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/kai (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsKai` operationId).
+func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnectionsKai(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList Gets the outbound allow list for a workspace
+//
+// Returns the account ID which must be allowed for outbound connections.
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/outboundAllowList (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList` operationId).
+func (c *Client) GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest(c.Server, workspaceID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspacesWorkspaceIDResumeWithBody Resumes a workspace
+//
+// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+func (c *Client) PostV1WorkspacesWorkspaceIDResumeWithBody(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody(c.Server, workspaceID, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspacesWorkspaceIDResume Resumes a workspace
+//
+// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+func (c *Client) PostV1WorkspacesWorkspaceIDResume(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDResumeRequest(c.Server, workspaceID, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PostV1WorkspacesWorkspaceIDSuspend Suspends a workspace
+//
+// Suspends a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/suspend (the `PostV1WorkspacesWorkspaceIDSuspend` operationId).
+func (c *Client) PostV1WorkspacesWorkspaceIDSuspend(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostV1WorkspacesWorkspaceIDSuspendRequest(c.Server, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -8043,6 +13938,362 @@ func (c *Client) GetV2UsersUserIDIdentityRoles(ctx context.Context, userID UserI
 	return c.Client.Do(req)
 }
 
+// NewGetV1AuditLogsRequest constructs an http.Request for the GetV1AuditLogs method
+func NewGetV1AuditLogsRequest(server string, params *GetV1AuditLogsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/auditLogs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Type != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "type", *params.Type, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Source != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "source", *params.Source, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.StartDate != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "startDate", *params.StartDate, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.EndDate != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "endDate", *params.EndDate, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "limit", *params.Limit, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.NextToken != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "nextToken", *params.NextToken, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.FirstName != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "firstName", *params.FirstName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.LastName != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "lastName", *params.LastName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Email != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "email", *params.Email, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "email"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.UserID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "userID", *params.UserID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.ApiKeyID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "apiKeyID", *params.ApiKeyID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.WorkspaceGroupID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workspaceGroupID", *params.WorkspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.ProjectID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "projectID", *params.ProjectID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.TeamID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "teamID", *params.TeamID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.WorkspaceID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workspaceID", *params.WorkspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.SortByDescending != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sortByDescending", *params.SortByDescending, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1BillingUsageRequest constructs an http.Request for the GetV1BillingUsage method
+func NewGetV1BillingUsageRequest(server string, params *GetV1BillingUsageParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/billing/usage")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Metric != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "metric", *params.Metric, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "startTime", params.StartTime, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "endTime", params.EndTime, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if params.AggregateBy != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "aggregateBy", *params.AggregateBy, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1BillingUsageSimulateRequest calls the generic PostV1BillingUsageSimulate builder with application/json body
+func NewPostV1BillingUsageSimulateRequest(server string, body PostV1BillingUsageSimulateJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1BillingUsageSimulateRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1BillingUsageSimulateRequestWithBody constructs an http.Request for the PostV1BillingUsageSimulate method, with any body, and a specified content type
+func NewPostV1BillingUsageSimulateRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/billing/usage/simulate")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewPostV1CloudPrincipalsRequest calls the generic PostV1CloudPrincipals builder with application/json body
 func NewPostV1CloudPrincipalsRequest(server string, body PostV1CloudPrincipalsJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -8458,6 +14709,1447 @@ func NewGetV1CloudfunctionsCloudfunctionIDTokenRequest(server string, cloudfunct
 	return req, nil
 }
 
+// NewGetV1FilesFsLocationRequest constructs an http.Request for the GetV1FilesFsLocation method
+func NewGetV1FilesFsLocationRequest(server string, location FileLocationSchema) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "location", location, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteV1FilesFsLocationPathRequest constructs an http.Request for the DeleteV1FilesFsLocationPath method
+func NewDeleteV1FilesFsLocationPathRequest(server string, location FileLocationSchema, path string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "location", location, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1FilesFsLocationPathRequest constructs an http.Request for the GetV1FilesFsLocationPath method
+func NewGetV1FilesFsLocationPathRequest(server string, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "location", location, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Metadata != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "metadata", *params.Metadata, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1FilesFsLocationPathRequest calls the generic PatchV1FilesFsLocationPath builder with application/json body
+func NewPatchV1FilesFsLocationPathRequest(server string, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1FilesFsLocationPathRequestWithBody(server, location, path, "application/json", bodyReader)
+}
+
+// NewPatchV1FilesFsLocationPathRequestWithBody constructs an http.Request for the PatchV1FilesFsLocationPath method, with any body, and a specified content type
+func NewPatchV1FilesFsLocationPathRequestWithBody(server string, location FileLocationSchema, path string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "location", location, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPutV1FilesFsLocationPathRequestWithBody constructs an http.Request for the PutV1FilesFsLocationPath method, with any body, and a specified content type
+func NewPutV1FilesFsLocationPathRequestWithBody(server string, location FileLocationSchema, path string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "location", location, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/files/fs/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1FlowRequest constructs an http.Request for the GetV1Flow method
+func NewGetV1FlowRequest(server string, params *GetV1FlowParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.IncludeTerminated != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "includeTerminated", *params.IncludeTerminated, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1FlowRequest calls the generic PostV1Flow builder with application/json body
+func NewPostV1FlowRequest(server string, body PostV1FlowJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1FlowRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1FlowRequestWithBody constructs an http.Request for the PostV1Flow method, with any body, and a specified content type
+func NewPostV1FlowRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1FlowFlowIDRequest constructs an http.Request for the DeleteV1FlowFlowID method
+func NewDeleteV1FlowFlowIDRequest(server string, flowID FlowID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowID", flowID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1FlowFlowIDRequest constructs an http.Request for the GetV1FlowFlowID method
+func NewGetV1FlowFlowIDRequest(server string, flowID FlowID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "flowID", flowID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/flow/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1InvitationsRequest constructs an http.Request for the GetV1Invitations method
+func NewGetV1InvitationsRequest(server string, params *GetV1InvitationsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/invitations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Email != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "email", *params.Email, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.State != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "state", *params.State, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1InvitationsRequest calls the generic PostV1Invitations builder with application/json body
+func NewPostV1InvitationsRequest(server string, body PostV1InvitationsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1InvitationsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1InvitationsRequestWithBody constructs an http.Request for the PostV1Invitations method, with any body, and a specified content type
+func NewPostV1InvitationsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/invitations")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1InvitationsInvitationIDRequest constructs an http.Request for the DeleteV1InvitationsInvitationID method
+func NewDeleteV1InvitationsInvitationIDRequest(server string, invitationID InvitationID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "invitationID", invitationID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/invitations/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1InvitationsInvitationIDRequest constructs an http.Request for the GetV1InvitationsInvitationID method
+func NewGetV1InvitationsInvitationIDRequest(server string, invitationID InvitationID, params *GetV1InvitationsInvitationIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "invitationID", invitationID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/invitations/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1JobsRequest calls the generic PostV1Jobs builder with application/json body
+func NewPostV1JobsRequest(server string, body PostV1JobsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1JobsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1JobsRequestWithBody constructs an http.Request for the PostV1Jobs method, with any body, and a specified content type
+func NewPostV1JobsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1JobsRuntimesRequest constructs an http.Request for the GetV1JobsRuntimes method
+func NewGetV1JobsRuntimesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/runtimes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteV1JobsJobIDRequest constructs an http.Request for the DeleteV1JobsJobID method
+func NewDeleteV1JobsJobIDRequest(server string, jobID JobID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "jobID", jobID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1JobsJobIDRequest constructs an http.Request for the GetV1JobsJobID method
+func NewGetV1JobsJobIDRequest(server string, jobID JobID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "jobID", jobID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1JobsJobIDExecutionsRequest constructs an http.Request for the GetV1JobsJobIDExecutions method
+func NewGetV1JobsJobIDExecutionsRequest(server string, jobID JobID, params *GetV1JobsJobIDExecutionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "jobID", jobID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s/executions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "start", params.Start, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "end", params.End, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "number", Format: ""}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1JobsJobIDParametersRequest constructs an http.Request for the GetV1JobsJobIDParameters method
+func NewGetV1JobsJobIDParametersRequest(server string, jobID JobID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "jobID", jobID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/jobs/%s/parameters", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1OrganizationsCurrentRequest constructs an http.Request for the GetV1OrganizationsCurrent method
+func NewGetV1OrganizationsCurrentRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/organizations/current")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1OrganizationsOrganizationIDAccessControlsRequest constructs an http.Request for the GetV1OrganizationsOrganizationIDAccessControls method
+func NewGetV1OrganizationsOrganizationIDAccessControlsRequest(server string, organizationID OrganizationID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "organizationID", organizationID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/organizations/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1OrganizationsOrganizationIDAccessControlsRequest calls the generic PatchV1OrganizationsOrganizationIDAccessControls builder with application/json body
+func NewPatchV1OrganizationsOrganizationIDAccessControlsRequest(server string, organizationID OrganizationID, body PatchV1OrganizationsOrganizationIDAccessControlsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1OrganizationsOrganizationIDAccessControlsRequestWithBody(server, organizationID, "application/json", bodyReader)
+}
+
+// NewPatchV1OrganizationsOrganizationIDAccessControlsRequestWithBody constructs an http.Request for the PatchV1OrganizationsOrganizationIDAccessControls method, with any body, and a specified content type
+func NewPatchV1OrganizationsOrganizationIDAccessControlsRequestWithBody(server string, organizationID OrganizationID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "organizationID", organizationID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/organizations/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPostV1PrivateConnectionsRequest calls the generic PostV1PrivateConnections builder with application/json body
+func NewPostV1PrivateConnectionsRequest(server string, body PostV1PrivateConnectionsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1PrivateConnectionsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1PrivateConnectionsRequestWithBody constructs an http.Request for the PostV1PrivateConnections method, with any body, and a specified content type
+func NewPostV1PrivateConnectionsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1PrivateConnectionsConnectionIDRequest constructs an http.Request for the DeleteV1PrivateConnectionsConnectionID method
+func NewDeleteV1PrivateConnectionsConnectionIDRequest(server string, connectionID ConnectionID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "connectionID", connectionID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1PrivateConnectionsConnectionIDRequest constructs an http.Request for the GetV1PrivateConnectionsConnectionID method
+func NewGetV1PrivateConnectionsConnectionIDRequest(server string, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "connectionID", connectionID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1PrivateConnectionsConnectionIDRequest calls the generic PatchV1PrivateConnectionsConnectionID builder with application/json body
+func NewPatchV1PrivateConnectionsConnectionIDRequest(server string, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1PrivateConnectionsConnectionIDRequestWithBody(server, connectionID, "application/json", bodyReader)
+}
+
+// NewPatchV1PrivateConnectionsConnectionIDRequestWithBody constructs an http.Request for the PatchV1PrivateConnectionsConnectionID method, with any body, and a specified content type
+func NewPatchV1PrivateConnectionsConnectionIDRequestWithBody(server string, connectionID ConnectionID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "connectionID", connectionID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/privateConnections/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1ProjectsRequest constructs an http.Request for the GetV1Projects method
+func NewGetV1ProjectsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1ProjectsRequest calls the generic PostV1Projects builder with application/json body
+func NewPostV1ProjectsRequest(server string, body PostV1ProjectsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1ProjectsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1ProjectsRequestWithBody constructs an http.Request for the PostV1Projects method, with any body, and a specified content type
+func NewPostV1ProjectsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1ProjectsProjectIDRequest constructs an http.Request for the DeleteV1ProjectsProjectID method
+func NewDeleteV1ProjectsProjectIDRequest(server string, projectID ProjectID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "projectID", projectID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1ProjectsProjectIDRequest constructs an http.Request for the GetV1ProjectsProjectID method
+func NewGetV1ProjectsProjectIDRequest(server string, projectID ProjectID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "projectID", projectID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1ProjectsProjectIDRequest calls the generic PatchV1ProjectsProjectID builder with application/json body
+func NewPatchV1ProjectsProjectIDRequest(server string, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1ProjectsProjectIDRequestWithBody(server, projectID, "application/json", bodyReader)
+}
+
+// NewPatchV1ProjectsProjectIDRequestWithBody constructs an http.Request for the PatchV1ProjectsProjectID method, with any body, and a specified content type
+func NewPatchV1ProjectsProjectIDRequestWithBody(server string, projectID ProjectID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "projectID", projectID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/projects/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1RegionsRequest constructs an http.Request for the GetV1Regions method
+func NewGetV1RegionsRequest(server string, params *GetV1RegionsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/regions")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1RegionsSharedtierRequest constructs an http.Request for the GetV1RegionsSharedtier method
+func NewGetV1RegionsSharedtierRequest(server string, params *GetV1RegionsSharedtierParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/regions/sharedtier")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV1RolesResourceTypeRequest constructs an http.Request for the GetV1RolesResourceType method
 func NewGetV1RolesResourceTypeRequest(server string, resourceType ResourceType) (*http.Request, error) {
 	var err error
@@ -8675,6 +16367,296 @@ func NewPutV1RolesResourceTypeRoleRequestWithBody(server string, resourceType Re
 	return req, nil
 }
 
+// NewGetV1SecretsRequest constructs an http.Request for the GetV1Secrets method
+func NewGetV1SecretsRequest(server string, params *GetV1SecretsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Name != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "name", *params.Name, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1SecretsRequest calls the generic PostV1Secrets builder with application/json body
+func NewPostV1SecretsRequest(server string, body PostV1SecretsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1SecretsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1SecretsRequestWithBody constructs an http.Request for the PostV1Secrets method, with any body, and a specified content type
+func NewPostV1SecretsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1SecretsSecretIDRequest constructs an http.Request for the DeleteV1SecretsSecretID method
+func NewDeleteV1SecretsSecretIDRequest(server string, secretID SecretID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "secretID", secretID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1SecretsSecretIDRequest constructs an http.Request for the GetV1SecretsSecretID method
+func NewGetV1SecretsSecretIDRequest(server string, secretID SecretID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "secretID", secretID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1SecretsSecretIDRequest calls the generic PatchV1SecretsSecretID builder with application/json body
+func NewPatchV1SecretsSecretIDRequest(server string, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1SecretsSecretIDRequestWithBody(server, secretID, "application/json", bodyReader)
+}
+
+// NewPatchV1SecretsSecretIDRequestWithBody constructs an http.Request for the PatchV1SecretsSecretID method, with any body, and a specified content type
+func NewPatchV1SecretsSecretIDRequestWithBody(server string, secretID SecretID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "secretID", secretID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1SecretsSecretIDAccessControlsRequest constructs an http.Request for the GetV1SecretsSecretIDAccessControls method
+func NewGetV1SecretsSecretIDAccessControlsRequest(server string, secretID SecretID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "secretID", secretID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1SecretsSecretIDAccessControlsRequest calls the generic PatchV1SecretsSecretIDAccessControls builder with application/json body
+func NewPatchV1SecretsSecretIDAccessControlsRequest(server string, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1SecretsSecretIDAccessControlsRequestWithBody(server, secretID, "application/json", bodyReader)
+}
+
+// NewPatchV1SecretsSecretIDAccessControlsRequestWithBody constructs an http.Request for the PatchV1SecretsSecretIDAccessControls method, with any body, and a specified content type
+func NewPatchV1SecretsSecretIDAccessControlsRequestWithBody(server string, secretID SecretID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "secretID", secretID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/secrets/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewPostV1ServiceAccountsRequest calls the generic PostV1ServiceAccounts builder with application/json body
 func NewPostV1ServiceAccountsRequest(server string, body PostV1ServiceAccountsJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -8792,6 +16774,2796 @@ func NewPatchV1ServiceAccountsServiceAccountIDRequestWithBody(server string, ser
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1SharedtierVirtualWorkspacesRequest constructs an http.Request for the GetV1SharedtierVirtualWorkspaces method
+func NewGetV1SharedtierVirtualWorkspacesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1SharedtierVirtualWorkspacesRequest calls the generic PostV1SharedtierVirtualWorkspaces builder with application/json body
+func NewPostV1SharedtierVirtualWorkspacesRequest(server string, body PostV1SharedtierVirtualWorkspacesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1SharedtierVirtualWorkspacesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1SharedtierVirtualWorkspacesRequestWithBody constructs an http.Request for the PostV1SharedtierVirtualWorkspaces method, with any body, and a specified content type
+func NewPostV1SharedtierVirtualWorkspacesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDRequest constructs an http.Request for the DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID method
+func NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDRequest(server string, virtualWorkspaceID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "virtualWorkspaceID", virtualWorkspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDRequest constructs an http.Request for the GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID method
+func NewGetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDRequest(server string, virtualWorkspaceID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "virtualWorkspaceID", virtualWorkspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersRequest calls the generic PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers builder with application/json body
+func NewPostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersRequest(server string, virtualWorkspaceID openapi_types.UUID, body PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersRequestWithBody(server, virtualWorkspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersRequestWithBody constructs an http.Request for the PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers method, with any body, and a specified content type
+func NewPostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersRequestWithBody(server string, virtualWorkspaceID openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "virtualWorkspaceID", virtualWorkspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces/%s/users", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest constructs an http.Request for the DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID method
+func NewDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(server string, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "virtualWorkspaceID", virtualWorkspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "userID", userID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces/%s/users/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest calls the generic PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID builder with application/json body
+func NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequest(server string, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(server, virtualWorkspaceID, userID, "application/json", bodyReader)
+}
+
+// NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody constructs an http.Request for the PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID method, with any body, and a specified content type
+func NewPatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDRequestWithBody(server string, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "virtualWorkspaceID", virtualWorkspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "userID", userID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/sharedtier/virtualWorkspaces/%s/users/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1StageDeploymentIDFsRequest constructs an http.Request for the GetV1StageDeploymentIDFs method
+func NewGetV1StageDeploymentIDFsRequest(server string, deploymentID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "deploymentID", deploymentID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteV1StageDeploymentIDFsPathRequest constructs an http.Request for the DeleteV1StageDeploymentIDFsPath method
+func NewDeleteV1StageDeploymentIDFsPathRequest(server string, deploymentID openapi_types.UUID, path string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "deploymentID", deploymentID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1StageDeploymentIDFsPathRequest constructs an http.Request for the GetV1StageDeploymentIDFsPath method
+func NewGetV1StageDeploymentIDFsPathRequest(server string, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "deploymentID", deploymentID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Metadata != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "metadata", *params.Metadata, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1StageDeploymentIDFsPathRequest calls the generic PatchV1StageDeploymentIDFsPath builder with application/json body
+func NewPatchV1StageDeploymentIDFsPathRequest(server string, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1StageDeploymentIDFsPathRequestWithBody(server, deploymentID, path, "application/json", bodyReader)
+}
+
+// NewPatchV1StageDeploymentIDFsPathRequestWithBody constructs an http.Request for the PatchV1StageDeploymentIDFsPath method, with any body, and a specified content type
+func NewPatchV1StageDeploymentIDFsPathRequestWithBody(server string, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "deploymentID", deploymentID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPutV1StageDeploymentIDFsPathRequestWithBody constructs an http.Request for the PutV1StageDeploymentIDFsPath method, with any body, and a specified content type
+func NewPutV1StageDeploymentIDFsPathRequestWithBody(server string, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "deploymentID", deploymentID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "path", path, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/stage/%s/fs/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1TeamsRequest constructs an http.Request for the GetV1Teams method
+func NewGetV1TeamsRequest(server string, params *GetV1TeamsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Name != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "name", *params.Name, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Description != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "description", *params.Description, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1TeamsRequest calls the generic PostV1Teams builder with application/json body
+func NewPostV1TeamsRequest(server string, body PostV1TeamsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1TeamsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1TeamsRequestWithBody constructs an http.Request for the PostV1Teams method, with any body, and a specified content type
+func NewPostV1TeamsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1TeamsTeamIDRequest constructs an http.Request for the DeleteV1TeamsTeamID method
+func NewDeleteV1TeamsTeamIDRequest(server string, teamID TeamID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "teamID", teamID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1TeamsTeamIDRequest constructs an http.Request for the GetV1TeamsTeamID method
+func NewGetV1TeamsTeamIDRequest(server string, teamID TeamID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "teamID", teamID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1TeamsTeamIDRequest calls the generic PatchV1TeamsTeamID builder with application/json body
+func NewPatchV1TeamsTeamIDRequest(server string, teamID TeamID, body PatchV1TeamsTeamIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1TeamsTeamIDRequestWithBody(server, teamID, "application/json", bodyReader)
+}
+
+// NewPatchV1TeamsTeamIDRequestWithBody constructs an http.Request for the PatchV1TeamsTeamID method, with any body, and a specified content type
+func NewPatchV1TeamsTeamIDRequestWithBody(server string, teamID TeamID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "teamID", teamID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1TeamsTeamIDAccessControlsRequest constructs an http.Request for the GetV1TeamsTeamIDAccessControls method
+func NewGetV1TeamsTeamIDAccessControlsRequest(server string, teamID TeamID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "teamID", teamID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1TeamsTeamIDAccessControlsRequest calls the generic PatchV1TeamsTeamIDAccessControls builder with application/json body
+func NewPatchV1TeamsTeamIDAccessControlsRequest(server string, teamID TeamID, body PatchV1TeamsTeamIDAccessControlsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1TeamsTeamIDAccessControlsRequestWithBody(server, teamID, "application/json", bodyReader)
+}
+
+// NewPatchV1TeamsTeamIDAccessControlsRequestWithBody constructs an http.Request for the PatchV1TeamsTeamIDAccessControls method, with any body, and a specified content type
+func NewPatchV1TeamsTeamIDAccessControlsRequestWithBody(server string, teamID TeamID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "teamID", teamID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1TeamsTeamIDIdentityRolesRequest constructs an http.Request for the GetV1TeamsTeamIDIdentityRoles method
+func NewGetV1TeamsTeamIDIdentityRolesRequest(server string, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "teamID", teamID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/teams/%s/identityRoles", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.ResourceType != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resourceType", *params.ResourceType, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1UsersRequest constructs an http.Request for the GetV1Users method
+func NewGetV1UsersRequest(server string, params *GetV1UsersParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Email != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "email", *params.Email, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1UsersRequest calls the generic PostV1Users builder with application/json body
+func NewPostV1UsersRequest(server string, body PostV1UsersJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1UsersRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1UsersRequestWithBody constructs an http.Request for the PostV1Users method, with any body, and a specified content type
+func NewPostV1UsersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1UsersCurrentRequest constructs an http.Request for the GetV1UsersCurrent method
+func NewGetV1UsersCurrentRequest(server string, params *GetV1UsersCurrentParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users/current")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteV1UsersUserIDRequest constructs an http.Request for the DeleteV1UsersUserID method
+func NewDeleteV1UsersUserIDRequest(server string, userID UserID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "userID", userID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1UsersUserIDRequest constructs an http.Request for the GetV1UsersUserID method
+func NewGetV1UsersUserIDRequest(server string, userID UserID, params *GetV1UsersUserIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "userID", userID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1UsersUserIDIdentityRolesRequest constructs an http.Request for the GetV1UsersUserIDIdentityRoles method
+func NewGetV1UsersUserIDIdentityRolesRequest(server string, userID UserID, params *GetV1UsersUserIDIdentityRolesParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "userID", userID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/users/%s/identityRoles", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.ResourceType != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "resourceType", *params.ResourceType, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsRequest constructs an http.Request for the GetV1WorkspaceGroups method
+func NewGetV1WorkspaceGroupsRequest(server string, params *GetV1WorkspaceGroupsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.IncludeTerminated != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "includeTerminated", *params.IncludeTerminated, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspaceGroupsRequest calls the generic PostV1WorkspaceGroups builder with application/json body
+func NewPostV1WorkspaceGroupsRequest(server string, body PostV1WorkspaceGroupsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsRequestWithBody constructs an http.Request for the PostV1WorkspaceGroups method, with any body, and a specified content type
+func NewPostV1WorkspaceGroupsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1WorkspaceGroupsWorkspaceGroupIDRequest constructs an http.Request for the DeleteV1WorkspaceGroupsWorkspaceGroupID method
+func NewDeleteV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Force != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "force", *params.Force, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest constructs an http.Request for the GetV1WorkspaceGroupsWorkspaceGroupID method
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequest calls the generic PatchV1WorkspaceGroupsWorkspaceGroupID builder with application/json body
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequest(server string, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody constructs an http.Request for the PatchV1WorkspaceGroupsWorkspaceGroupID method, with any body, and a specified content type
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequest constructs an http.Request for the GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls method
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequest calls the generic PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls builder with application/json body
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequest(server string, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody constructs an http.Request for the PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls method, with any body, and a specified content type
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/accessControls", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest calls the generic DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities builder with application/json body
+func NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(server string, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server, workspaceGroupID, params, "application/json", bodyReader)
+}
+
+// NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody constructs an http.Request for the DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities method, with any body, and a specified content type
+func NewDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Entities != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "entities", *params.Entities, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest constructs an http.Request for the GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities method
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest calls the generic PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities builder with application/json body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequest(server string, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody constructs an http.Request for the PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities method, with any body, and a specified content type
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDIdentityRequest constructs an http.Request for the GetV1WorkspaceGroupsWorkspaceGroupIDIdentity method
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDIdentityRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/identity", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest constructs an http.Request for the GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections method
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/privateConnections", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackRequest constructs an http.Request for the PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback method
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/failback", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverRequest constructs an http.Request for the PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover method
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/failover", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsRequest constructs an http.Request for the GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions method
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsRequest(server string, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/regions", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequest calls the generic PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup builder with application/json body
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequest(server string, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody constructs an http.Request for the PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup method, with any body, and a specified content type
+func NewPostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/setup", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionRequest constructs an http.Request for the PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision method
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/startPreProvision", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusRequest constructs an http.Request for the GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus method
+func NewGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/status", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionRequest constructs an http.Request for the PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision method
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionRequest(server string, workspaceGroupID WorkspaceGroupID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/DR/stopPreProvision", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequest calls the generic PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod builder with application/json body
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequest(server string, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody(server, workspaceGroupID, "application/json", bodyReader)
+}
+
+// NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody constructs an http.Request for the PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod method, with any body, and a specified content type
+func NewPatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodRequestWithBody(server string, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceGroupID", workspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaceGroups/%s/storage/retentionPeriod", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesRequest constructs an http.Request for the GetV1Workspaces method
+func NewGetV1WorkspacesRequest(server string, params *GetV1WorkspacesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workspaceGroupID", params.WorkspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if params.IncludeTerminated != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "includeTerminated", *params.IncludeTerminated, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "boolean", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesRequest calls the generic PostV1Workspaces builder with application/json body
+func NewPostV1WorkspacesRequest(server string, body PostV1WorkspacesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesRequestWithBody constructs an http.Request for the PostV1Workspaces method, with any body, and a specified content type
+func NewPostV1WorkspacesRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1WorkspacesWorkspaceIDRequest constructs an http.Request for the DeleteV1WorkspacesWorkspaceID method
+func NewDeleteV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDRequest constructs an http.Request for the GetV1WorkspacesWorkspaceID method
+func NewGetV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV1WorkspacesWorkspaceIDRequest calls the generic PatchV1WorkspacesWorkspaceID builder with application/json body
+func NewPatchV1WorkspacesWorkspaceIDRequest(server string, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPatchV1WorkspacesWorkspaceIDRequestWithBody constructs an http.Request for the PatchV1WorkspacesWorkspaceID method, with any body, and a specified content type
+func NewPatchV1WorkspacesWorkspaceIDRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequest calls the generic DeleteV1WorkspacesWorkspaceIDDelegatedEntities builder with application/json body
+func NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(server string, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server, workspaceID, params, "application/json", bodyReader)
+}
+
+// NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody constructs an http.Request for the DeleteV1WorkspacesWorkspaceIDDelegatedEntities method, with any body, and a specified content type
+func NewDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server string, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Entities != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "entities", *params.Entities, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDDelegatedEntitiesRequest constructs an http.Request for the GetV1WorkspacesWorkspaceIDDelegatedEntities method
+func NewGetV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequest calls the generic PostV1WorkspacesWorkspaceIDDelegatedEntities builder with application/json body
+func NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequest(server string, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody constructs an http.Request for the PostV1WorkspacesWorkspaceIDDelegatedEntities method, with any body, and a specified content type
+func NewPostV1WorkspacesWorkspaceIDDelegatedEntitiesRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/delegatedEntities", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDIdentityRequest constructs an http.Request for the GetV1WorkspacesWorkspaceIDIdentity method
+func NewGetV1WorkspacesWorkspaceIDIdentityRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/identity", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest constructs an http.Request for the GetV1WorkspacesWorkspaceIDPrivateConnections method
+func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsRequest(server string, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/privateConnections", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Fields != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "fields", *params.Fields, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if queryFrag, err := runtime.StyleParamWithOptions("form", true, "workspaceGroupID", params.WorkspaceGroupID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: "uuid"}); err != nil {
+			return nil, err
+		} else {
+			for _, qp := range strings.Split(queryFrag, "&") {
+				rawQueryFragments = append(rawQueryFragments, qp)
+			}
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiRequest constructs an http.Request for the GetV1WorkspacesWorkspaceIDPrivateConnectionsKai method
+func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiRequest(server string, workspaceID openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/privateConnections/kai", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest constructs an http.Request for the GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList method
+func NewGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/privateConnections/outboundAllowList", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesWorkspaceIDResumeRequest calls the generic PostV1WorkspacesWorkspaceIDResume builder with application/json body
+func NewPostV1WorkspacesWorkspaceIDResumeRequest(server string, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody(server, workspaceID, "application/json", bodyReader)
+}
+
+// NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody constructs an http.Request for the PostV1WorkspacesWorkspaceIDResume method, with any body, and a specified content type
+func NewPostV1WorkspacesWorkspaceIDResumeRequestWithBody(server string, workspaceID WorkspaceID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/resume", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewPostV1WorkspacesWorkspaceIDSuspendRequest constructs an http.Request for the PostV1WorkspacesWorkspaceIDSuspend method
+func NewPostV1WorkspacesWorkspaceIDSuspendRequest(server string, workspaceID WorkspaceID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "workspaceID", workspaceID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/workspaces/%s/suspend", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -13370,6 +24142,51 @@ func WithBaseURL(baseURL string) ClientOption {
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
 
+	// GetV1AuditLogsWithResponse Lists all of the audit logs for the user organization or audit logs for user redaction
+	//
+	// Returns a list of all of the audit log entries for the user organization or audit logs for user redaction.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/auditLogs (the `GetV1AuditLogs` operationId).
+	GetV1AuditLogsWithResponse(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*GetV1AuditLogsResponse, error)
+
+	// GetV1BillingUsageWithResponse Returns the compute and storage usage of an organization
+	//
+	// Returns the compute and storage usage of an organization in a specified timeframe. The results can be grouped by hour, day, and month using the `aggregateType` parameter. The usage entries in the result set also include information on the resource ID, type, name, and usage.
+	// Note that the usage periods are rounded to the nearest hour/day/month that includes the requested range.
+	// For example, if the start time is "2023-07-30T18:30:00Z" and the end time is "2023-07-31T18:30:00Z",
+	// the hourly usage entries would be returned for the period from "2023-07-30T18:00:00Z" to "2023-07-31T19:00:00Z". Same goes for daily and monthly usage entries.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/billing/usage (the `GetV1BillingUsage` operationId).
+	GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error)
+
+	// PostV1BillingUsageSimulateWithBodyWithResponse Returns an array of simulated compute usage for the given resource configurations.
+	//
+	// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+	// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+	// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+	// existing resources in the project for the time range based on their current configurations.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+	PostV1BillingUsageSimulateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error)
+
+	// PostV1BillingUsageSimulateWithResponse Returns an array of simulated compute usage for the given resource configurations.
+	//
+	// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+	// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+	// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+	// existing resources in the project for the time range based on their current configurations.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+	PostV1BillingUsageSimulateWithResponse(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error)
+
 	// PostV1CloudPrincipalsWithBodyWithResponse Creates a cloud principal in the current organization.
 	//
 	// There are no dedicated list or get endpoints for cloud principals. To query
@@ -13515,6 +24332,401 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v1/cloudfunctions/{cloudfunctionID}/token (the `GetV1CloudfunctionsCloudfunctionIDToken` operationId).
 	GetV1CloudfunctionsCloudfunctionIDTokenWithResponse(ctx context.Context, cloudfunctionID CloudfunctionID, reqEditors ...RequestEditorFn) (*GetV1CloudfunctionsCloudfunctionIDTokenResponse, error)
 
+	// GetV1FilesFsLocationWithResponse Lists all files from personal, shared or models space.
+	//
+	// Returns a list of all files from personal, shared or models space.
+	//
+	// You must specify the `location`.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/files/fs/{location} (the `GetV1FilesFsLocation` operationId).
+	GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error)
+
+	// DeleteV1FilesFsLocationPathWithResponse Deletes a file from personal, shared or models space.
+	//
+	// Deletes the file at the specified path in personal, shared or models space.
+	//
+	// You must specify the `location` and file `path` in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/files/fs/{location}/{path} (the `DeleteV1FilesFsLocationPath` operationId).
+	DeleteV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*DeleteV1FilesFsLocationPathResponse, error)
+
+	// GetV1FilesFsLocationPathWithResponse Gets information about a file or downloads a file from personal, shared or models space.
+	//
+	// Returns the information about a file or redirects to the file download URL.
+	//
+	// You must specify the `location` and the file `path` in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/files/fs/{location}/{path} (the `GetV1FilesFsLocationPath` operationId).
+	GetV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationPathResponse, error)
+
+	// PatchV1FilesFsLocationPathWithBodyWithResponse Modifies a file in personal, shared or models space.
+	//
+	// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+	//
+	// You must specify the `location` and file `path` in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+	PatchV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error)
+
+	// PatchV1FilesFsLocationPathWithResponse Modifies a file in personal, shared or models space.
+	//
+	// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+	//
+	// You must specify the `location` and file `path` in the API call.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+	PatchV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error)
+
+	// PutV1FilesFsLocationPathWithBodyWithResponse Creates a new file or uploads a file to personal, shared or models space.
+	//
+	// This endpoint allows you to create or upload a new file at a specified path within personal, shared or models space. The behavior depends on the contents of the request body and the format of the path:
+	//  - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within personal, shared or models space.
+	//
+	// You must specify the `location` and the file `path` in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v1/files/fs/{location}/{path} (the `PutV1FilesFsLocationPath` operationId).
+	PutV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1FilesFsLocationPathResponse, error)
+
+	// GetV1FlowWithResponse Lists the Flow instances the user can access
+	//
+	// Returns a list of all of the SingleStore Flow instances accessible to the user. Use the `includeTerminated` parameter to get a list of terminated Flow instances.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/flow (the `GetV1Flow` operationId).
+	GetV1FlowWithResponse(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*GetV1FlowResponse, error)
+
+	// PostV1FlowWithBodyWithResponse Creates a new Flow instance
+	//
+	// Creates a new SingleStore Flow instance for the current user.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+	PostV1FlowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error)
+
+	// PostV1FlowWithResponse Creates a new Flow instance
+	//
+	// Creates a new SingleStore Flow instance for the current user.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+	PostV1FlowWithResponse(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error)
+
+	// DeleteV1FlowFlowIDWithResponse Terminates a Flow instance
+	//
+	// Terminates a SingleStore Flow instance with the specified ID. You must specify the Flow instance ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/flow/{flowID} (the `DeleteV1FlowFlowID` operationId).
+	DeleteV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*DeleteV1FlowFlowIDResponse, error)
+
+	// GetV1FlowFlowIDWithResponse Gets information about a Flow instance
+	//
+	// Returns information about the SingleStore Flow instance with the specified ID, in JSON format. You must specify the Flow instance ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/flow/{flowID} (the `GetV1FlowFlowID` operationId).
+	GetV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*GetV1FlowFlowIDResponse, error)
+
+	// GetV1InvitationsWithResponse Lists open invitations for the current organization.
+	//
+	// Returns a list of open invitations for the current organization.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/invitations (the `GetV1Invitations` operationId).
+	GetV1InvitationsWithResponse(ctx context.Context, params *GetV1InvitationsParams, reqEditors ...RequestEditorFn) (*GetV1InvitationsResponse, error)
+
+	// PostV1InvitationsWithBodyWithResponse Invites a user to the current organization
+	//
+	// Creates and sends an invitation to join the organization to an email address.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+	PostV1InvitationsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1InvitationsResponse, error)
+
+	// PostV1InvitationsWithResponse Invites a user to the current organization
+	//
+	// Creates and sends an invitation to join the organization to an email address.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+	PostV1InvitationsWithResponse(ctx context.Context, body PostV1InvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1InvitationsResponse, error)
+
+	// DeleteV1InvitationsInvitationIDWithResponse Revokes an invitation
+	//
+	// Revokes the specified invitation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/invitations/{invitationID} (the `DeleteV1InvitationsInvitationID` operationId).
+	DeleteV1InvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*DeleteV1InvitationsInvitationIDResponse, error)
+
+	// GetV1InvitationsInvitationIDWithResponse Gets information about an invitation.
+	//
+	// Returns information for the specified invitation.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/invitations/{invitationID} (the `GetV1InvitationsInvitationID` operationId).
+	GetV1InvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, params *GetV1InvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*GetV1InvitationsInvitationIDResponse, error)
+
+	// PostV1JobsWithBodyWithResponse Creates a new job
+	//
+	// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+	PostV1JobsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error)
+
+	// PostV1JobsWithResponse Creates a new job
+	//
+	// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+	PostV1JobsWithResponse(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error)
+
+	// GetV1JobsRuntimesWithResponse Get the list of available job runtimes
+	//
+	// Returns the list of available runtimes for jobs.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/jobs/runtimes (the `GetV1JobsRuntimes` operationId).
+	GetV1JobsRuntimesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1JobsRuntimesResponse, error)
+
+	// DeleteV1JobsJobIDWithResponse Deletes a job
+	//
+	// This deletes a job and all execution snapshots associated with a job.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/jobs/{jobID} (the `DeleteV1JobsJobID` operationId).
+	DeleteV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*DeleteV1JobsJobIDResponse, error)
+
+	// GetV1JobsJobIDWithResponse Gets information about the specified job
+	//
+	// Returns the metadata on target, schedule and notebook for a job specified by a jobid.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/jobs/{jobID} (the `GetV1JobsJobID` operationId).
+	GetV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDResponse, error)
+
+	// GetV1JobsJobIDExecutionsWithResponse Get executions for a job
+	//
+	// Returns the information of the executions of a specified job. Specify which executions you want with the parameters.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/jobs/{jobID}/executions (the `GetV1JobsJobIDExecutions` operationId).
+	GetV1JobsJobIDExecutionsWithResponse(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDExecutionsResponse, error)
+
+	// GetV1JobsJobIDParametersWithResponse Get parameters for a job
+	//
+	// Returns the array of the parameters of a specified job.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/jobs/{jobID}/parameters (the `GetV1JobsJobIDParameters` operationId).
+	GetV1JobsJobIDParametersWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDParametersResponse, error)
+
+	// GetV1OrganizationsCurrentWithResponse Gets information about the current organization
+	//
+	// Returns information about the current authorized user's organization.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/organizations/current (the `GetV1OrganizationsCurrent` operationId).
+	GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error)
+
+	// GetV1OrganizationsOrganizationIDAccessControlsWithResponse Get RBAC access information about the organization
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/organizations/{organizationID}/accessControls (the `GetV1OrganizationsOrganizationIDAccessControls` operationId).
+	GetV1OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*GetV1OrganizationsOrganizationIDAccessControlsResponse, error)
+
+	// PatchV1OrganizationsOrganizationIDAccessControlsWithBodyWithResponse Update the RBAC grants on the organization
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+	PatchV1OrganizationsOrganizationIDAccessControlsWithBodyWithResponse(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1OrganizationsOrganizationIDAccessControlsResponse, error)
+
+	// PatchV1OrganizationsOrganizationIDAccessControlsWithResponse Update the RBAC grants on the organization
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+	PatchV1OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, body PatchV1OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1OrganizationsOrganizationIDAccessControlsResponse, error)
+
+	// PostV1PrivateConnectionsWithBodyWithResponse Creates a new private connection
+	//
+	// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+	PostV1PrivateConnectionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error)
+
+	// PostV1PrivateConnectionsWithResponse Creates a new private connection
+	//
+	// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+	PostV1PrivateConnectionsWithResponse(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error)
+
+	// DeleteV1PrivateConnectionsConnectionIDWithResponse Deletes a private connection
+	//
+	// Deletes a private connection for the specified connection ID. Upon successful completion, a private connection is scheduled for deletion.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/privateConnections/{connectionID} (the `DeleteV1PrivateConnectionsConnectionID` operationId).
+	DeleteV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*DeleteV1PrivateConnectionsConnectionIDResponse, error)
+
+	// GetV1PrivateConnectionsConnectionIDWithResponse Gets information about a private connection
+	//
+	// Returns private connection information for the specified connection ID, in JSON format. You must specify the connection ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/privateConnections/{connectionID} (the `GetV1PrivateConnectionsConnectionID` operationId).
+	GetV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*GetV1PrivateConnectionsConnectionIDResponse, error)
+
+	// PatchV1PrivateConnectionsConnectionIDWithBodyWithResponse Updates a private connection
+	//
+	// Updates a private connection. You must specify the connection ID in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+	PatchV1PrivateConnectionsConnectionIDWithBodyWithResponse(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error)
+
+	// PatchV1PrivateConnectionsConnectionIDWithResponse Updates a private connection
+	//
+	// Updates a private connection. You must specify the connection ID in the API call.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+	PatchV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error)
+
+	// GetV1ProjectsWithResponse Lists the projects the user can access
+	//
+	// Returns a list of all of the projects accessible to the user.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/projects (the `GetV1Projects` operationId).
+	GetV1ProjectsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1ProjectsResponse, error)
+
+	// PostV1ProjectsWithBodyWithResponse Creates a new project
+	//
+	// Creates a new project for the current user.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+	PostV1ProjectsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error)
+
+	// PostV1ProjectsWithResponse Creates a new project
+	//
+	// Creates a new project for the current user.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+	PostV1ProjectsWithResponse(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error)
+
+	// DeleteV1ProjectsProjectIDWithResponse Deletes a project
+	//
+	// Deletes a project with the specified project ID.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/projects/{projectID} (the `DeleteV1ProjectsProjectID` operationId).
+	DeleteV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*DeleteV1ProjectsProjectIDResponse, error)
+
+	// GetV1ProjectsProjectIDWithResponse Gets information about a project
+	//
+	// Returns information for the specified project ID in JSON format.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/projects/{projectID} (the `GetV1ProjectsProjectID` operationId).
+	GetV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*GetV1ProjectsProjectIDResponse, error)
+
+	// PatchV1ProjectsProjectIDWithBodyWithResponse Updates a project
+	//
+	// Updates the specified project. You can only update its name.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+	PatchV1ProjectsProjectIDWithBodyWithResponse(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error)
+
+	// PatchV1ProjectsProjectIDWithResponse Updates a project
+	//
+	// Updates the specified project. You can only update its name.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+	PatchV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error)
+
+	// GetV1RegionsWithResponse Lists all of the regions for the user that support workspaces
+	//
+	// **Note**: This endpoint is deprecated. Use `/v2/regions` instead.
+	//
+	// Returns a list of valid regions for the user that support workspaces, including the region ID and provider for each region.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/regions (the `GetV1Regions` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+	GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error)
+
+	// GetV1RegionsSharedtierWithResponse Lists all the regions that support Shared Edition deployments (starter workspaces) for the user
+	//
+	// Returns a list of valid regions that support Shared Edition deployments (starter workspaces) for the user, including the region code and provider for each region.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/regions/sharedtier (the `GetV1RegionsSharedtier` operationId).
+	GetV1RegionsSharedtierWithResponse(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*GetV1RegionsSharedtierResponse, error)
+
 	// GetV1RolesResourceTypeWithResponse Lists all roles for the given resource type, including custom roles
 	//
 	//
@@ -13592,6 +24804,96 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with PUT /v1/roles/{resourceType}/{role} (the `PutV1RolesResourceTypeRole` operationId).
 	PutV1RolesResourceTypeRoleWithResponse(ctx context.Context, resourceType ResourceType, role Role, body PutV1RolesResourceTypeRoleJSONRequestBody, reqEditors ...RequestEditorFn) (*PutV1RolesResourceTypeRoleResponse, error)
 
+	// GetV1SecretsWithResponse Lists the secrets the user can access.
+	//
+	// Returns a list of all of the secrets accessible to the user.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/secrets (the `GetV1Secrets` operationId).
+	GetV1SecretsWithResponse(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*GetV1SecretsResponse, error)
+
+	// PostV1SecretsWithBodyWithResponse Creates a new secret
+	//
+	// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+	PostV1SecretsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error)
+
+	// PostV1SecretsWithResponse Creates a new secret
+	//
+	// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+	PostV1SecretsWithResponse(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error)
+
+	// DeleteV1SecretsSecretIDWithResponse Deletes a secret
+	//
+	// Deletes a secret with the specified ID. You must specify the secret ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/secrets/{secretID} (the `DeleteV1SecretsSecretID` operationId).
+	DeleteV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*DeleteV1SecretsSecretIDResponse, error)
+
+	// GetV1SecretsSecretIDWithResponse Gets information about a secret
+	//
+	// Returns information for the specified secret ID, in JSON format. You must specify the secret ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/secrets/{secretID} (the `GetV1SecretsSecretID` operationId).
+	GetV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1SecretsSecretIDResponse, error)
+
+	// PatchV1SecretsSecretIDWithBodyWithResponse Updates the name or value of a secret
+	//
+	// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+	PatchV1SecretsSecretIDWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error)
+
+	// PatchV1SecretsSecretIDWithResponse Updates the name or value of a secret
+	//
+	// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+	PatchV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error)
+
+	// GetV1SecretsSecretIDAccessControlsWithResponse Get RBAC access information about the secret
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/secrets/{secretID}/accessControls (the `GetV1SecretsSecretIDAccessControls` operationId).
+	GetV1SecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1SecretsSecretIDAccessControlsResponse, error)
+
+	// PatchV1SecretsSecretIDAccessControlsWithBodyWithResponse Update the RBAC grants on the secret
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+	PatchV1SecretsSecretIDAccessControlsWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDAccessControlsResponse, error)
+
+	// PatchV1SecretsSecretIDAccessControlsWithResponse Update the RBAC grants on the secret
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+	PatchV1SecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDAccessControlsResponse, error)
+
 	// PostV1ServiceAccountsWithBodyWithResponse Creates a service account in the current organization.
 	//
 	// Creates a service account in the current organization.
@@ -13646,6 +24948,813 @@ type ClientWithResponsesInterface interface {
 	//
 	// Corresponds with PATCH /v1/serviceAccounts/{serviceAccountID} (the `PatchV1ServiceAccountsServiceAccountID` operationId).
 	PatchV1ServiceAccountsServiceAccountIDWithResponse(ctx context.Context, serviceAccountID ServiceAccountID, body PatchV1ServiceAccountsServiceAccountIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1ServiceAccountsServiceAccountIDResponse, error)
+
+	// GetV1SharedtierVirtualWorkspacesWithResponse List all Shared Edition deployments (starter workspaces)
+	//
+	// Returns a list of all Shared Edition deployments (starter workspaces) for the current user.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/sharedtier/virtualWorkspaces (the `GetV1SharedtierVirtualWorkspaces` operationId).
+	GetV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1SharedtierVirtualWorkspacesResponse, error)
+
+	// PostV1SharedtierVirtualWorkspacesWithBodyWithResponse Creates a new Shared Edition deployment (starter workspace)
+	//
+	// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+	PostV1SharedtierVirtualWorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error)
+
+	// PostV1SharedtierVirtualWorkspacesWithResponse Creates a new Shared Edition deployment (starter workspace)
+	//
+	// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+	PostV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error)
+
+	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse Deletes a Shared Edition deployment (starter workspace)
+	//
+	// Deletes a Shared Edition deployment (starter workspace) for the specified ID. You must specify the ID of the starter workspace in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse, error)
+
+	// GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse Returns information about a Shared Edition deployment (starter workspace)
+	//
+	// Returns information about a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+	GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse, error)
+
+	// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBodyWithResponse Creates a new user in a Shared Edition deployment (starter workspace)
+	//
+	// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+	PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse, error)
+
+	// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithResponse Creates a new user in a Shared Edition deployment (starter workspace)
+	//
+	// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+	PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, body PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse, error)
+
+	// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse Deletes a user from a Shared Edition deployment (starter workspace)
+	//
+	// Deletes a user with the specified user ID from a Shared Edition deployment (starter workspace). You must specify the ID of the starter workspace and the user in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+	DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
+
+	// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse Updates a user in a Shared Edition deployment (starter workspace)
+	//
+	// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
+
+	// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse Updates a user in a Shared Edition deployment (starter workspace)
+	//
+	// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+	PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error)
+
+	// GetV1StageDeploymentIDFsWithResponse Lists files and folders in the root folder.
+	//
+	// Returns a list of all files and folders located in the Stage's root folder of the specified deployment (either a workspace group or starter workspace).
+	//
+	// You must specify the `deploymentID`.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/stage/{deploymentID}/fs (the `GetV1StageDeploymentIDFs` operationId).
+	GetV1StageDeploymentIDFsWithResponse(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsResponse, error)
+
+	// DeleteV1StageDeploymentIDFsPathWithResponse Deletes a file or folder
+	//
+	// Deletes the file or folder at the specified path in a Stage.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+	//
+	// - Delete a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Delete a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To delete a folder, ensure that the path includes a trailing slash.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/stage/{deploymentID}/fs/{path} (the `DeleteV1StageDeploymentIDFsPath` operationId).
+	DeleteV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageDeploymentIDFsPathResponse, error)
+
+	// GetV1StageDeploymentIDFsPathWithResponse Gets information about a folder or downloads a file
+	//
+	// If the specified path is a folder, the API returns the list of files and folders inside this folder in the Stage. If the specified path is a file, the API call is redirected to a download URL.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+	//
+	// - Get a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Get a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To Get a folder, ensure that the path includes a trailing slash.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/stage/{deploymentID}/fs/{path} (the `GetV1StageDeploymentIDFsPath` operationId).
+	GetV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsPathResponse, error)
+
+	// PatchV1StageDeploymentIDFsPathWithBodyWithResponse Modifies a file or folder in a Stage
+	//
+	// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+	//
+	// - Modify a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Modify a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+	PatchV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error)
+
+	// PatchV1StageDeploymentIDFsPathWithResponse Modifies a file or folder in a Stage
+	//
+	// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+	//
+	// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+	//
+	// - Modify a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Modify a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+	PatchV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error)
+
+	// PutV1StageDeploymentIDFsPathWithBodyWithResponse Creates a new folder or uploads a file
+	//
+	// This endpoint allows you to create a new folder or upload a new file at a specified path within Stage. The behavior depends on the contents of the request body and the format of the path:
+	//  - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within the Stage.
+	//  - **Folder Creation:** If the request body does not contain a file and the path ends with a trailing slash (`/`), a new folder is created at the specified path.
+	//  - **Empty File Creation:** If the request body does not contain a file and the path does not end with a trailing slash, an empty file is created at the specified path.
+	//
+	// **Please ensure that the path is correctly formatted according to the desired action. Misformatted paths may lead to unexpected behavior.**
+	//
+	// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+	//
+	// - Create a folder:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+	//
+	// - Upload a file:
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/file.json
+	//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2Ffile.json
+	//
+	// You must specify the `deploymentID` and the folder/file path in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PUT /v1/stage/{deploymentID}/fs/{path} (the `PutV1StageDeploymentIDFsPath` operationId).
+	PutV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageDeploymentIDFsPathResponse, error)
+
+	// GetV1TeamsWithResponse Lists the teams defined for the current organization. Teams may be filtered by name or description. An empty list is returned if no teams match the filter.
+	//
+	// Returns a list of teams in the current organization.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/teams (the `GetV1Teams` operationId).
+	GetV1TeamsWithResponse(ctx context.Context, params *GetV1TeamsParams, reqEditors ...RequestEditorFn) (*GetV1TeamsResponse, error)
+
+	// PostV1TeamsWithBodyWithResponse Creates a new team
+	//
+	// Creates a new team. You must specify a name in the API request body.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+	PostV1TeamsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1TeamsResponse, error)
+
+	// PostV1TeamsWithResponse Creates a new team
+	//
+	// Creates a new team. You must specify a name in the API request body.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+	PostV1TeamsWithResponse(ctx context.Context, body PostV1TeamsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1TeamsResponse, error)
+
+	// DeleteV1TeamsTeamIDWithResponse Deletes a team
+	//
+	// Deletes the specified team.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/teams/{teamID} (the `DeleteV1TeamsTeamID` operationId).
+	DeleteV1TeamsTeamIDWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*DeleteV1TeamsTeamIDResponse, error)
+
+	// GetV1TeamsTeamIDWithResponse Gets information about a team.
+	//
+	// Returns information for the specified team.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/teams/{teamID} (the `GetV1TeamsTeamID` operationId).
+	GetV1TeamsTeamIDWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDResponse, error)
+
+	// PatchV1TeamsTeamIDWithBodyWithResponse Updates the name, description, and/or members of a team
+	//
+	// Updates the name, description, and/or members for the specified team.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+	PatchV1TeamsTeamIDWithBodyWithResponse(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDResponse, error)
+
+	// PatchV1TeamsTeamIDWithResponse Updates the name, description, and/or members of a team
+	//
+	// Updates the name, description, and/or members for the specified team.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+	PatchV1TeamsTeamIDWithResponse(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDResponse, error)
+
+	// GetV1TeamsTeamIDAccessControlsWithResponse Get RBAC access information about the team
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/teams/{teamID}/accessControls (the `GetV1TeamsTeamIDAccessControls` operationId).
+	GetV1TeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDAccessControlsResponse, error)
+
+	// PatchV1TeamsTeamIDAccessControlsWithBodyWithResponse Update the RBAC grants on the team
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+	PatchV1TeamsTeamIDAccessControlsWithBodyWithResponse(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDAccessControlsResponse, error)
+
+	// PatchV1TeamsTeamIDAccessControlsWithResponse Update the RBAC grants on the team
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+	PatchV1TeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDAccessControlsResponse, error)
+
+	// GetV1TeamsTeamIDIdentityRolesWithResponse Get granted roles to the team
+	//
+	// Return granted roles to the team.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/teams/{teamID}/identityRoles (the `GetV1TeamsTeamIDIdentityRoles` operationId).
+	GetV1TeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDIdentityRolesResponse, error)
+
+	// GetV1UsersWithResponse Lists the users in the current organization.
+	//
+	// Returns a list of users in the current organization.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/users (the `GetV1Users` operationId).
+	GetV1UsersWithResponse(ctx context.Context, params *GetV1UsersParams, reqEditors ...RequestEditorFn) (*GetV1UsersResponse, error)
+
+	// PostV1UsersWithBodyWithResponse Adds an existing user to the current organization
+	//
+	// Adds a user already known to the portal to the current organization.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+	PostV1UsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1UsersResponse, error)
+
+	// PostV1UsersWithResponse Adds an existing user to the current organization
+	//
+	// Adds a user already known to the portal to the current organization.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+	PostV1UsersWithResponse(ctx context.Context, body PostV1UsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1UsersResponse, error)
+
+	// GetV1UsersCurrentWithResponse Gets information about the current user
+	//
+	// Returns information about the current user (i.e., the user making the API call).
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/users/current (the `GetV1UsersCurrent` operationId).
+	GetV1UsersCurrentWithResponse(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*GetV1UsersCurrentResponse, error)
+
+	// DeleteV1UsersUserIDWithResponse Removes a user from the organization
+	//
+	// Removes the specified user from the organization.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/users/{userID} (the `DeleteV1UsersUserID` operationId).
+	DeleteV1UsersUserIDWithResponse(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*DeleteV1UsersUserIDResponse, error)
+
+	// GetV1UsersUserIDWithResponse Gets information about a user.
+	//
+	// Returns information for the specified user.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/users/{userID} (the `GetV1UsersUserID` operationId).
+	GetV1UsersUserIDWithResponse(ctx context.Context, userID UserID, params *GetV1UsersUserIDParams, reqEditors ...RequestEditorFn) (*GetV1UsersUserIDResponse, error)
+
+	// GetV1UsersUserIDIdentityRolesWithResponse Get granted roles to the user
+	//
+	// Return granted roles to the user.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/users/{userID}/identityRoles (the `GetV1UsersUserIDIdentityRoles` operationId).
+	GetV1UsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1UsersUserIDIdentityRolesResponse, error)
+
+	// GetV1WorkspaceGroupsWithResponse Lists the workspace groups the user can access
+	//
+	// Returns a list of all of the workspace groups accessible to the user. Use the `includeTerminated` parameter to get a list of terminated workspace groups.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups (the `GetV1WorkspaceGroups` operationId).
+	GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error)
+
+	// PostV1WorkspaceGroupsWithBodyWithResponse Creates a new workspace group
+	//
+	// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+	//
+	// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+	PostV1WorkspaceGroupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error)
+
+	// PostV1WorkspaceGroupsWithResponse Creates a new workspace group
+	//
+	// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+	//
+	// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+	PostV1WorkspaceGroupsWithResponse(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse Terminates a workspace group
+	//
+	// Terminates a workspace group with the specified workspace group ID. You must specify the workspace group ID in the API call.
+	//
+	// By default, you may only terminate empty workspace groups (a workspace group without workspaces). To terminate a workspace group with active workspaces, use the `force` parameter.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID} (the `DeleteV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse Gets information about a workspace group
+	//
+	// Returns information for the specified
+	// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID} (the `GetV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse Updates a workspace group
+	//
+	// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse Updates a workspace group
+	//
+	// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse Get RBAC access information about the workspace group
+	//
+	// Return all the roles on the resource type, which include all grants of the given resource
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBodyWithResponse Update the RBAC grants on the workspace group
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse Update the RBAC grants on the workspace group
+	//
+	// Grant or revoke grants on roles of the resource.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse Removes entities that the workspace group's cloud workload identity can assume
+	//
+	// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse Removes entities that the workspace group's cloud workload identity can assume
+	//
+	// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse Gets the list of entities that the workspace group's cloud workload identity can assume
+	//
+	// Returns the list of customer-provided entities, such as IAM roles, that the workspace group's cloud workload identity can assume to access customer resources.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse Adds entities that the workspace group's cloud workload identity can assume
+	//
+	// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse Adds entities that the workspace group's cloud workload identity can assume
+	//
+	// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse Get the workspace group's cloud workload identity information
+	//
+	// Returns the cloud workload identity information associated with the workspace group. The identity format is determined by the cloud provider where the workspace group is hosted. For example, on AWS it's an IAM role ARN.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/identity (the `GetV1WorkspaceGroupsWorkspaceGroupIDIdentity` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse Gets private connection information for a workspace group
+	//
+	// Returns private connection information for the specified
+	// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/privateConnections (the `GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse Starts failback to the primary region
+	//
+	// You must specify the workspace group ID of the group in the standby (secondary) region from which you are triggering the failback.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failback (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse Starts failover to the secondary region
+	//
+	// You must specify the workspace group ID of the group in the inactive (primary) region from which you are triggering the failover.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failover (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse Gets information about which regions you can setup as a disaster recovery backup
+	//
+	// Returns a list of regions with regions IDs in JSON format. You must specify the workspace group ID of the group you are setting up for disaster recovery.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/regions (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBodyWithResponse Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+	//
+	// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error)
+
+	// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+	//
+	// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+	PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionWithResponse Start pre-provisioning from primary region
+	//
+	// You must specify the workspace group ID of the group in the primary region from which you are requesting to start pre-provision.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/startPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse, error)
+
+	// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse Gets information about the storage DR status of the workspace group
+	//
+	// Returns the replication status of each database and the status of the latest Storage DR operation (Failover, Failback, etc.). You must specify the workspace group ID of the group that you are requesting status information for.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/status (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus` operationId).
+	GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionWithResponse Stops pre-provisioning from primary region
+	//
+	// You must specify the workspace group ID of the group in the primary region from which you are requesting to stop pre-provision.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/stopPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBodyWithResponse Updates the retention period for continuous backups
+	//
+	// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error)
+
+	// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse Updates the retention period for continuous backups
+	//
+	// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+	PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error)
+
+	// GetV1WorkspacesWithResponse Lists the workspaces the user can access
+	//
+	// Returns a list of all of the workspaces accessible to the user in the specified workspace group. You must specify the workspace group ID in the API call to list the workspaces in the group. Use the `includeTerminated` parameter to list the terminated workspaces.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaces (the `GetV1Workspaces` operationId).
+	GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error)
+
+	// PostV1WorkspacesWithBodyWithResponse Creates a new workspace
+	//
+	// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+	// This API call does not take any request parameters.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+	PostV1WorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error)
+
+	// PostV1WorkspacesWithResponse Creates a new workspace
+	//
+	// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+	// This API call does not take any request parameters.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+	PostV1WorkspacesWithResponse(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error)
+
+	// DeleteV1WorkspacesWorkspaceIDWithResponse Terminates a workspace
+	//
+	// Terminates a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// All the databases attached to the workspace are detached when the workspace is terminated.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/workspaces/{workspaceID} (the `DeleteV1WorkspacesWorkspaceID` operationId).
+	DeleteV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDWithResponse Gets information about a workspace
+	//
+	// Returns workspace information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID} (the `GetV1WorkspacesWorkspaceID` operationId).
+	GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error)
+
+	// PatchV1WorkspacesWorkspaceIDWithBodyWithResponse Updates information about a workspace
+	//
+	// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+	PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
+
+	// PatchV1WorkspacesWorkspaceIDWithResponse Updates information about a workspace
+	//
+	// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+	PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error)
+
+	// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse Removes entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse Removes entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse Gets the list of entities that the workspace's cloud workload identity can assume
+	//
+	// Returns the same list of delegated entities as the workspace group delegated entities endpoint. The workspace inherits and operates on the delegated entities configuration from its parent workspace group.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/delegatedEntities (the `GetV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse Adds entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse Adds entities that the workspace's cloud workload identity can assume
+	//
+	// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+	PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDIdentityWithResponse Get the workspace's cloud workload identity information
+	//
+	// Returns the same cloud workload identity information as the workspace group's cloud workload identity endpoint. The workspace inherits the identity configuration from its parent workspace group.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/identity (the `GetV1WorkspacesWorkspaceIDIdentity` operationId).
+	GetV1WorkspacesWorkspaceIDIdentityWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDIdentityResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse Gets private connection information for a workspace
+	//
+	// Returns private connection information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections (the `GetV1WorkspacesWorkspaceIDPrivateConnections` operationId).
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse Gets information to create private connection to SingleStore Kai for a workspace
+	//
+	// Returns the information needed to create private connection to SingleStore Kai.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/kai (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsKai` operationId).
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse, error)
+
+	// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse Gets the outbound allow list for a workspace
+	//
+	// Returns the account ID which must be allowed for outbound connections.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/outboundAllowList (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList` operationId).
+	GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse Resumes a workspace
+	//
+	// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+	PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDResumeWithResponse Resumes a workspace
+	//
+	// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+	PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error)
+
+	// PostV1WorkspacesWorkspaceIDSuspendWithResponse Suspends a workspace
+	//
+	// Suspends a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with POST /v1/workspaces/{workspaceID}/suspend (the `PostV1WorkspacesWorkspaceIDSuspend` operationId).
+	PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error)
 
 	// GetV2AccessControlTemplatesResourceTypeWithResponse Lists default grants for new clusters or databases
 	//
@@ -15067,6 +27176,143 @@ type ClientWithResponsesInterface interface {
 	GetV2UsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV2UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV2UsersUserIDIdentityRolesResponse, error)
 }
 
+type GetV1AuditLogsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		AuditLogs *[]AuditLog `json:"auditLogs,omitempty"`
+
+		// NextToken The nextToken value can be used in a subsequent query to guarantee any log entries are new since this query
+		NextToken *string `json:"nextToken,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1AuditLogsResponse) GetJSON200() *struct {
+	AuditLogs *[]AuditLog `json:"auditLogs,omitempty"`
+
+	// NextToken The nextToken value can be used in a subsequent query to guarantee any log entries are new since this query
+	NextToken *string `json:"nextToken,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1AuditLogsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1AuditLogsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1AuditLogsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1AuditLogsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1BillingUsageResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		BillingUsage *[]BillingUsage `json:"billingUsage,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1BillingUsageResponse) GetJSON200() *struct {
+	BillingUsage *[]BillingUsage `json:"billingUsage,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1BillingUsageResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1BillingUsageResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1BillingUsageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1BillingUsageResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1BillingUsageSimulateResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *SimulateUsageResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1BillingUsageSimulateResponse) GetJSON200() *SimulateUsageResponse {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1BillingUsageSimulateResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1BillingUsageSimulateResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1BillingUsageSimulateResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1BillingUsageSimulateResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type PostV1CloudPrincipalsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15452,6 +27698,1412 @@ func (r GetV1CloudfunctionsCloudfunctionIDTokenResponse) ContentType() string {
 	return ""
 }
 
+type GetV1FilesFsLocationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *FileObjectMetadata
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1FilesFsLocationResponse) GetJSON200() *FileObjectMetadata {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1FilesFsLocationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FilesFsLocationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FilesFsLocationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1FilesFsLocationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Name filename.ipynb
+		Name *string `json:"name,omitempty"`
+
+		// Path /
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1FilesFsLocationPathResponse) GetJSON200() *struct {
+	// Name filename.ipynb
+	Name *string `json:"name,omitempty"`
+
+	// Path /
+	Path *string `json:"path,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1FilesFsLocationPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1FilesFsLocationPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *FileObjectMetadata
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1FilesFsLocationPathResponse) GetJSON200() *FileObjectMetadata {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1FilesFsLocationPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1FilesFsLocationPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Name filename.ipynb
+		Name *string `json:"name,omitempty"`
+
+		// Path /
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1FilesFsLocationPathResponse) GetJSON200() *struct {
+	// Name filename.ipynb
+	Name *string `json:"name,omitempty"`
+
+	// Path /
+	Path *string `json:"path,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1FilesFsLocationPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1FilesFsLocationPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PutV1FilesFsLocationPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Name Example: filename.ipynb
+		Name *string `json:"name,omitempty"`
+
+		// Path Example: /
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PutV1FilesFsLocationPathResponse) GetJSON200() *struct {
+	// Name Example: filename.ipynb
+	Name *string `json:"name,omitempty"`
+
+	// Path Example: /
+	Path *string `json:"path,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PutV1FilesFsLocationPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PutV1FilesFsLocationPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PutV1FilesFsLocationPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PutV1FilesFsLocationPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1FlowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]Flow
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1FlowResponse) GetJSON200() *[]Flow {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1FlowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FlowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FlowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1FlowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1FlowResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		FlowID openapi_types.UUID `json:"flowID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1FlowResponse) GetJSON200() *struct {
+	FlowID openapi_types.UUID `json:"flowID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1FlowResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1FlowResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1FlowResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1FlowResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1FlowFlowIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		FlowID openapi_types.UUID `json:"flowID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1FlowFlowIDResponse) GetJSON200() *struct {
+	FlowID openapi_types.UUID `json:"flowID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1FlowFlowIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1FlowFlowIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1FlowFlowIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1FlowFlowIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1FlowFlowIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Flow
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1FlowFlowIDResponse) GetJSON200() *Flow {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1FlowFlowIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1FlowFlowIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1FlowFlowIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1FlowFlowIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1InvitationsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]UserInvitation
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1InvitationsResponse) GetJSON200() *[]UserInvitation {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1InvitationsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1InvitationsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1InvitationsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1InvitationsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1InvitationsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *UserInvitation
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1InvitationsResponse) GetJSON200() *UserInvitation {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1InvitationsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1InvitationsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1InvitationsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1InvitationsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1InvitationsInvitationIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		InvitationID openapi_types.UUID `json:"invitationID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1InvitationsInvitationIDResponse) GetJSON200() *struct {
+	InvitationID openapi_types.UUID `json:"invitationID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1InvitationsInvitationIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1InvitationsInvitationIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1InvitationsInvitationIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1InvitationsInvitationIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1InvitationsInvitationIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *UserInvitation
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1InvitationsInvitationIDResponse) GetJSON200() *UserInvitation {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1InvitationsInvitationIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1InvitationsInvitationIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1InvitationsInvitationIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1InvitationsInvitationIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1JobsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Job
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1JobsResponse) GetJSON200() *Job {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1JobsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1JobsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1JobsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1JobsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1JobsRuntimesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]RuntimesResult
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1JobsRuntimesResponse) GetJSON200() *[]RuntimesResult {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1JobsRuntimesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsRuntimesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsRuntimesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1JobsRuntimesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1JobsJobIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *bool
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1JobsJobIDResponse) GetJSON200() *bool {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1JobsJobIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1JobsJobIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1JobsJobIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1JobsJobIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1JobsJobIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Job
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1JobsJobIDResponse) GetJSON200() *Job {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1JobsJobIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsJobIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsJobIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1JobsJobIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1JobsJobIDExecutionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *ExecutionsResult
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1JobsJobIDExecutionsResponse) GetJSON200() *ExecutionsResult {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1JobsJobIDExecutionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsJobIDExecutionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsJobIDExecutionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1JobsJobIDExecutionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1JobsJobIDParametersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]JobParameter
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1JobsJobIDParametersResponse) GetJSON200() *[]JobParameter {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1JobsJobIDParametersResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1JobsJobIDParametersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1JobsJobIDParametersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1JobsJobIDParametersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1OrganizationsCurrentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Organization
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1OrganizationsCurrentResponse) GetJSON200() *Organization {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1OrganizationsCurrentResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1OrganizationsCurrentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1OrganizationsCurrentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1OrganizationsCurrentResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1OrganizationsOrganizationIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]ResourceRole
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1OrganizationsOrganizationIDAccessControlsResponse) GetJSON200() *[]ResourceRole {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1OrganizationsOrganizationIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1OrganizationsOrganizationIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1OrganizationsOrganizationIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1OrganizationsOrganizationIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1OrganizationsOrganizationIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1OrganizationsOrganizationIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1OrganizationsOrganizationIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1OrganizationsOrganizationIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1OrganizationsOrganizationIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1PrivateConnectionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1PrivateConnectionsResponse) GetJSON200() *struct {
+	PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1PrivateConnectionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1PrivateConnectionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1PrivateConnectionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1PrivateConnectionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1PrivateConnectionsConnectionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1PrivateConnectionsConnectionIDResponse) GetJSON200() *struct {
+	PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1PrivateConnectionsConnectionIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1PrivateConnectionsConnectionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1PrivateConnectionsConnectionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1PrivateConnectionsConnectionIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1PrivateConnectionsConnectionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *PrivateConnection
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1PrivateConnectionsConnectionIDResponse) GetJSON200() *PrivateConnection {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1PrivateConnectionsConnectionIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1PrivateConnectionsConnectionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1PrivateConnectionsConnectionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1PrivateConnectionsConnectionIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1PrivateConnectionsConnectionIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1PrivateConnectionsConnectionIDResponse) GetJSON200() *struct {
+	PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1PrivateConnectionsConnectionIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1PrivateConnectionsConnectionIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1PrivateConnectionsConnectionIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1PrivateConnectionsConnectionIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1ProjectsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]Project
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1ProjectsResponse) GetJSON200() *[]Project {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1ProjectsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1ProjectsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1ProjectsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1ProjectsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1ProjectsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *ProjectIDResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1ProjectsResponse) GetJSON200() *ProjectIDResponse {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1ProjectsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1ProjectsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1ProjectsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1ProjectsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1ProjectsProjectIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *ProjectIDResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1ProjectsProjectIDResponse) GetJSON200() *ProjectIDResponse {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1ProjectsProjectIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1ProjectsProjectIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1ProjectsProjectIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1ProjectsProjectIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1ProjectsProjectIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Project
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1ProjectsProjectIDResponse) GetJSON200() *Project {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1ProjectsProjectIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1ProjectsProjectIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1ProjectsProjectIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1ProjectsProjectIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1ProjectsProjectIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *ProjectIDResponse
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1ProjectsProjectIDResponse) GetJSON200() *ProjectIDResponse {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1ProjectsProjectIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1ProjectsProjectIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1ProjectsProjectIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1ProjectsProjectIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1RegionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]Region
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1RegionsResponse) GetJSON200() *[]Region {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1RegionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1RegionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1RegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1RegionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1RegionsSharedtierResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]RegionV2
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1RegionsSharedtierResponse) GetJSON200() *[]RegionV2 {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1RegionsSharedtierResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1RegionsSharedtierResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1RegionsSharedtierResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1RegionsSharedtierResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type GetV1RolesResourceTypeResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15657,6 +29309,290 @@ func (r PutV1RolesResourceTypeRoleResponse) ContentType() string {
 	return ""
 }
 
+type GetV1SecretsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]Secret
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1SecretsResponse) GetJSON200() *[]Secret {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1SecretsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SecretsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SecretsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1SecretsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1SecretsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Secret
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1SecretsResponse) GetJSON200() *Secret {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1SecretsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1SecretsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1SecretsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1SecretsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1SecretsSecretIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		SecretID openapi_types.UUID `json:"secretID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1SecretsSecretIDResponse) GetJSON200() *struct {
+	SecretID openapi_types.UUID `json:"secretID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1SecretsSecretIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1SecretsSecretIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1SecretsSecretIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1SecretsSecretIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1SecretsSecretIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Secret
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1SecretsSecretIDResponse) GetJSON200() *Secret {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1SecretsSecretIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SecretsSecretIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SecretsSecretIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1SecretsSecretIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1SecretsSecretIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Secret
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1SecretsSecretIDResponse) GetJSON200() *Secret {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1SecretsSecretIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1SecretsSecretIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1SecretsSecretIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1SecretsSecretIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1SecretsSecretIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]ResourceRole
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1SecretsSecretIDAccessControlsResponse) GetJSON200() *[]ResourceRole {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1SecretsSecretIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SecretsSecretIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SecretsSecretIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1SecretsSecretIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1SecretsSecretIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1SecretsSecretIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1SecretsSecretIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1SecretsSecretIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1SecretsSecretIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type PostV1ServiceAccountsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -15774,6 +29710,2507 @@ func (r PatchV1ServiceAccountsServiceAccountIDResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r PatchV1ServiceAccountsServiceAccountIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1SharedtierVirtualWorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]SharedTierVirtualWorkspace
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1SharedtierVirtualWorkspacesResponse) GetJSON200() *[]SharedTierVirtualWorkspace {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1SharedtierVirtualWorkspacesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SharedtierVirtualWorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SharedtierVirtualWorkspacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1SharedtierVirtualWorkspacesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1SharedtierVirtualWorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		VirtualWorkspaceID openapi_types.UUID `json:"virtualWorkspaceID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1SharedtierVirtualWorkspacesResponse) GetJSON200() *struct {
+	VirtualWorkspaceID openapi_types.UUID `json:"virtualWorkspaceID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1SharedtierVirtualWorkspacesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1SharedtierVirtualWorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1SharedtierVirtualWorkspacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1SharedtierVirtualWorkspacesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *bool
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) GetJSON200() *bool {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *SharedTierVirtualWorkspace
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) GetJSON200() *SharedTierVirtualWorkspace {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		Password string             `json:"password"`
+		UserID   openapi_types.UUID `json:"userID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse) GetJSON200() *struct {
+	Password string             `json:"password"`
+	UserID   openapi_types.UUID `json:"userID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *bool
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) GetJSON200() *bool {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *bool
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) GetJSON200() *bool {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1StageDeploymentIDFsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *FileObjectMetadata
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1StageDeploymentIDFsResponse) GetJSON200() *FileObjectMetadata {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1StageDeploymentIDFsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1StageDeploymentIDFsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1StageDeploymentIDFsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1StageDeploymentIDFsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1StageDeploymentIDFsPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Name sample_file.txt
+		Name *string `json:"name,omitempty"`
+
+		// Path parent_folder/sample_file.txt
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1StageDeploymentIDFsPathResponse) GetJSON200() *struct {
+	// Name sample_file.txt
+	Name *string `json:"name,omitempty"`
+
+	// Path parent_folder/sample_file.txt
+	Path *string `json:"path,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1StageDeploymentIDFsPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1StageDeploymentIDFsPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1StageDeploymentIDFsPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1StageDeploymentIDFsPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1StageDeploymentIDFsPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *FileObjectMetadata
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1StageDeploymentIDFsPathResponse) GetJSON200() *FileObjectMetadata {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1StageDeploymentIDFsPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1StageDeploymentIDFsPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1StageDeploymentIDFsPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1StageDeploymentIDFsPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1StageDeploymentIDFsPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Name sample_file.txt
+		Name *string `json:"name,omitempty"`
+
+		// Path parent_folder/sample_file.txt
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1StageDeploymentIDFsPathResponse) GetJSON200() *struct {
+	// Name sample_file.txt
+	Name *string `json:"name,omitempty"`
+
+	// Path parent_folder/sample_file.txt
+	Path *string `json:"path,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1StageDeploymentIDFsPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1StageDeploymentIDFsPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1StageDeploymentIDFsPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1StageDeploymentIDFsPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PutV1StageDeploymentIDFsPathResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		// Name Example: file.json
+		Name *string `json:"name,omitempty"`
+
+		// Path Example: /parent_folder/sample_folder
+		Path *string `json:"path,omitempty"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PutV1StageDeploymentIDFsPathResponse) GetJSON200() *struct {
+	// Name Example: file.json
+	Name *string `json:"name,omitempty"`
+
+	// Path Example: /parent_folder/sample_folder
+	Path *string `json:"path,omitempty"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PutV1StageDeploymentIDFsPathResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PutV1StageDeploymentIDFsPathResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PutV1StageDeploymentIDFsPathResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PutV1StageDeploymentIDFsPathResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1TeamsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]Team
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1TeamsResponse) GetJSON200() *[]Team {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1TeamsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1TeamsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1TeamsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1TeamsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1TeamsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Team
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1TeamsResponse) GetJSON200() *Team {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1TeamsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1TeamsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1TeamsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1TeamsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1TeamsTeamIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		TeamID openapi_types.UUID `json:"teamID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1TeamsTeamIDResponse) GetJSON200() *struct {
+	TeamID openapi_types.UUID `json:"teamID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1TeamsTeamIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1TeamsTeamIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1TeamsTeamIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1TeamsTeamIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1TeamsTeamIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Team
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1TeamsTeamIDResponse) GetJSON200() *Team {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1TeamsTeamIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1TeamsTeamIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1TeamsTeamIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1TeamsTeamIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1TeamsTeamIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		TeamID openapi_types.UUID `json:"teamID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1TeamsTeamIDResponse) GetJSON200() *struct {
+	TeamID openapi_types.UUID `json:"teamID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1TeamsTeamIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1TeamsTeamIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1TeamsTeamIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1TeamsTeamIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1TeamsTeamIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]ResourceRole
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1TeamsTeamIDAccessControlsResponse) GetJSON200() *[]ResourceRole {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1TeamsTeamIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1TeamsTeamIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1TeamsTeamIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1TeamsTeamIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1TeamsTeamIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1TeamsTeamIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1TeamsTeamIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1TeamsTeamIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1TeamsTeamIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1TeamsTeamIDIdentityRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]IdentityRole
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1TeamsTeamIDIdentityRolesResponse) GetJSON200() *[]IdentityRole {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1TeamsTeamIDIdentityRolesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1TeamsTeamIDIdentityRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1TeamsTeamIDIdentityRolesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1TeamsTeamIDIdentityRolesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1UsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]User
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1UsersResponse) GetJSON200() *[]User {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1UsersResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1UsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1UsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1UsersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1UsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1UsersResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1UsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1UsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1UsersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1UsersCurrentResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *User
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1UsersCurrentResponse) GetJSON200() *User {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1UsersCurrentResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1UsersCurrentResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1UsersCurrentResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1UsersCurrentResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1UsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		UserID openapi_types.UUID `json:"userID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1UsersUserIDResponse) GetJSON200() *struct {
+	UserID openapi_types.UUID `json:"userID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1UsersUserIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1UsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1UsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1UsersUserIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1UsersUserIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *User
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1UsersUserIDResponse) GetJSON200() *User {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1UsersUserIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1UsersUserIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1UsersUserIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1UsersUserIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1UsersUserIDIdentityRolesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]IdentityRole
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1UsersUserIDIdentityRolesResponse) GetJSON200() *[]IdentityRole {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1UsersUserIDIdentityRolesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1UsersUserIDIdentityRolesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1UsersUserIDIdentityRolesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1UsersUserIDIdentityRolesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]WorkspaceGroup
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsResponse) GetJSON200() *[]WorkspaceGroup {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1WorkspaceGroupsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		AdminPassword    *string            `json:"adminPassword,omitempty"`
+		WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1WorkspaceGroupsResponse) GetJSON200() *struct {
+	AdminPassword    *string            `json:"adminPassword,omitempty"`
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1WorkspaceGroupsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1WorkspaceGroupsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse) GetJSON200() *struct {
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *WorkspaceGroup
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDResponse) GetJSON200() *WorkspaceGroup {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) GetJSON200() *struct {
+	WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]ResourceRole
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) GetJSON200() *[]ResourceRole {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON207 the response for an HTTP 207 `application/json` response
+	JSON207 *struct {
+		Deleted []string `json:"deleted"`
+		Failed  []string `json:"failed"`
+	}
+}
+
+// GetJSON207 returns the response for an HTTP 207 `application/json` response
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) GetJSON207() *struct {
+	Deleted []string `json:"deleted"`
+	Failed  []string `json:"failed"`
+} {
+	return r.JSON207
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]DelegatedEntity
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) GetJSON200() *[]DelegatedEntity {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]DelegatedEntity
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) GetJSON200() *[]DelegatedEntity {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CloudWorkloadIdentity
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse) GetJSON200() *CloudWorkloadIdentity {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]PrivateConnection
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) GetJSON200() *[]PrivateConnection {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]Region
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse) GetJSON200() *[]Region {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *StorageDRStatus
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse) GetJSON200() *StorageDRStatus {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]Workspace
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspacesResponse) GetJSON200() *[]Workspace {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspacesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspacesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1WorkspacesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		WorkspaceID openapi_types.UUID `json:"workspaceID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1WorkspacesResponse) GetJSON200() *struct {
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1WorkspacesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1WorkspacesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1WorkspacesWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		WorkspaceID openapi_types.UUID `json:"workspaceID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r DeleteV1WorkspacesWorkspaceIDResponse) GetJSON200() *struct {
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1WorkspacesWorkspaceIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspacesWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1WorkspacesWorkspaceIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspacesWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Workspace
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspacesWorkspaceIDResponse) GetJSON200() *Workspace {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspacesWorkspaceIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspacesWorkspaceIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV1WorkspacesWorkspaceIDResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		WorkspaceID openapi_types.UUID `json:"workspaceID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PatchV1WorkspacesWorkspaceIDResponse) GetJSON200() *struct {
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV1WorkspacesWorkspaceIDResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV1WorkspacesWorkspaceIDResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV1WorkspacesWorkspaceIDResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV1WorkspacesWorkspaceIDResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON207 the response for an HTTP 207 `application/json` response
+	JSON207 *struct {
+		Deleted []string `json:"deleted"`
+		Failed  []string `json:"failed"`
+	}
+}
+
+// GetJSON207 returns the response for an HTTP 207 `application/json` response
+func (r DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) GetJSON207() *struct {
+	Deleted []string `json:"deleted"`
+	Failed  []string `json:"failed"`
+} {
+	return r.JSON207
+}
+
+// GetBody returns the raw response body bytes
+func (r DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]DelegatedEntity
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) GetJSON200() *[]DelegatedEntity {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]DelegatedEntity
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) GetJSON200() *[]DelegatedEntity {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspacesWorkspaceIDIdentityResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *CloudWorkloadIdentity
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspacesWorkspaceIDIdentityResponse) GetJSON200() *CloudWorkloadIdentity {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspacesWorkspaceIDIdentityResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDIdentityResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDIdentityResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspacesWorkspaceIDIdentityResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]PrivateConnection
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) GetJSON200() *[]PrivateConnection {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *PrivateConnectionKaiInfo
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse) GetJSON200() *PrivateConnectionKaiInfo {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]PrivateConnectionOutboundAllowList
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse) GetJSON200() *[]PrivateConnectionOutboundAllowList {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1WorkspacesWorkspaceIDResumeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		WorkspaceID openapi_types.UUID `json:"workspaceID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1WorkspacesWorkspaceIDResumeResponse) GetJSON200() *struct {
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1WorkspacesWorkspaceIDResumeResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDResumeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDResumeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1WorkspacesWorkspaceIDResumeResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PostV1WorkspacesWorkspaceIDSuspendResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *struct {
+		WorkspaceID openapi_types.UUID `json:"workspaceID"`
+	}
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r PostV1WorkspacesWorkspaceIDSuspendResponse) GetJSON200() *struct {
+	WorkspaceID openapi_types.UUID `json:"workspaceID"`
+} {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r PostV1WorkspacesWorkspaceIDSuspendResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PostV1WorkspacesWorkspaceIDSuspendResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostV1WorkspacesWorkspaceIDSuspendResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PostV1WorkspacesWorkspaceIDSuspendResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -19936,6 +36373,75 @@ func (r GetV2UsersUserIDIdentityRolesResponse) ContentType() string {
 	return ""
 }
 
+// GetV1AuditLogsWithResponse Lists all of the audit logs for the user organization or audit logs for user redaction
+//
+// Returns a list of all of the audit log entries for the user organization or audit logs for user redaction.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/auditLogs (the `GetV1AuditLogs` operationId).
+func (c *ClientWithResponses) GetV1AuditLogsWithResponse(ctx context.Context, params *GetV1AuditLogsParams, reqEditors ...RequestEditorFn) (*GetV1AuditLogsResponse, error) {
+	rsp, err := c.GetV1AuditLogs(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1AuditLogsResponse(rsp)
+}
+
+// GetV1BillingUsageWithResponse Returns the compute and storage usage of an organization
+//
+// Returns the compute and storage usage of an organization in a specified timeframe. The results can be grouped by hour, day, and month using the `aggregateType` parameter. The usage entries in the result set also include information on the resource ID, type, name, and usage.
+// Note that the usage periods are rounded to the nearest hour/day/month that includes the requested range.
+// For example, if the start time is "2023-07-30T18:30:00Z" and the end time is "2023-07-31T18:30:00Z",
+// the hourly usage entries would be returned for the period from "2023-07-30T18:00:00Z" to "2023-07-31T19:00:00Z". Same goes for daily and monthly usage entries.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/billing/usage (the `GetV1BillingUsage` operationId).
+func (c *ClientWithResponses) GetV1BillingUsageWithResponse(ctx context.Context, params *GetV1BillingUsageParams, reqEditors ...RequestEditorFn) (*GetV1BillingUsageResponse, error) {
+	rsp, err := c.GetV1BillingUsage(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1BillingUsageResponse(rsp)
+}
+
+// PostV1BillingUsageSimulateWithBodyWithResponse Returns an array of simulated compute usage for the given resource configurations.
+//
+// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+// existing resources in the project for the time range based on their current configurations.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+func (c *ClientWithResponses) PostV1BillingUsageSimulateWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error) {
+	rsp, err := c.PostV1BillingUsageSimulateWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1BillingUsageSimulateResponse(rsp)
+}
+
+// PostV1BillingUsageSimulateWithResponse Returns an array of simulated compute usage for the given resource configurations.
+//
+// Simulates billing usage for resources based on provided configurations. This endpoint allows you to estimate compute usage costs by specifying resource configurations and time ranges.
+// You must provide a time range (startAt and endBefore). An array of resource configurations may optionally be provided to simulate state changes of resources over time.
+// Each resource configuration defines the characteristics of a resource during a specific time period. If no configurations are provided, a simulation will be run using the
+// existing resources in the project for the time range based on their current configurations.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/billing/usage/simulate (the `PostV1BillingUsageSimulate` operationId).
+func (c *ClientWithResponses) PostV1BillingUsageSimulateWithResponse(ctx context.Context, body PostV1BillingUsageSimulateJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1BillingUsageSimulateResponse, error) {
+	rsp, err := c.PostV1BillingUsageSimulate(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1BillingUsageSimulateResponse(rsp)
+}
+
 // PostV1CloudPrincipalsWithBodyWithResponse Creates a cloud principal in the current organization.
 //
 // There are no dedicated list or get endpoints for cloud principals. To query
@@ -20159,6 +36665,653 @@ func (c *ClientWithResponses) GetV1CloudfunctionsCloudfunctionIDTokenWithRespons
 	return ParseGetV1CloudfunctionsCloudfunctionIDTokenResponse(rsp)
 }
 
+// GetV1FilesFsLocationWithResponse Lists all files from personal, shared or models space.
+//
+// Returns a list of all files from personal, shared or models space.
+//
+// You must specify the `location`.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/files/fs/{location} (the `GetV1FilesFsLocation` operationId).
+func (c *ClientWithResponses) GetV1FilesFsLocationWithResponse(ctx context.Context, location FileLocationSchema, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationResponse, error) {
+	rsp, err := c.GetV1FilesFsLocation(ctx, location, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FilesFsLocationResponse(rsp)
+}
+
+// DeleteV1FilesFsLocationPathWithResponse Deletes a file from personal, shared or models space.
+//
+// Deletes the file at the specified path in personal, shared or models space.
+//
+// You must specify the `location` and file `path` in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/files/fs/{location}/{path} (the `DeleteV1FilesFsLocationPath` operationId).
+func (c *ClientWithResponses) DeleteV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, reqEditors ...RequestEditorFn) (*DeleteV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.DeleteV1FilesFsLocationPath(ctx, location, path, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1FilesFsLocationPathResponse(rsp)
+}
+
+// GetV1FilesFsLocationPathWithResponse Gets information about a file or downloads a file from personal, shared or models space.
+//
+// Returns the information about a file or redirects to the file download URL.
+//
+// You must specify the `location` and the file `path` in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/files/fs/{location}/{path} (the `GetV1FilesFsLocationPath` operationId).
+func (c *ClientWithResponses) GetV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, params *GetV1FilesFsLocationPathParams, reqEditors ...RequestEditorFn) (*GetV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.GetV1FilesFsLocationPath(ctx, location, path, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FilesFsLocationPathResponse(rsp)
+}
+
+// PatchV1FilesFsLocationPathWithBodyWithResponse Modifies a file in personal, shared or models space.
+//
+// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+//
+// You must specify the `location` and file `path` in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+func (c *ClientWithResponses) PatchV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.PatchV1FilesFsLocationPathWithBody(ctx, location, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1FilesFsLocationPathResponse(rsp)
+}
+
+// PatchV1FilesFsLocationPathWithResponse Modifies a file in personal, shared or models space.
+//
+// Modifies the path of the existing file in personal, shared or models space to the new path specified in the request body.
+//
+// You must specify the `location` and file `path` in the API call.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/files/fs/{location}/{path} (the `PatchV1FilesFsLocationPath` operationId).
+func (c *ClientWithResponses) PatchV1FilesFsLocationPathWithResponse(ctx context.Context, location FileLocationSchema, path string, body PatchV1FilesFsLocationPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.PatchV1FilesFsLocationPath(ctx, location, path, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1FilesFsLocationPathResponse(rsp)
+}
+
+// PutV1FilesFsLocationPathWithBodyWithResponse Creates a new file or uploads a file to personal, shared or models space.
+//
+// This endpoint allows you to create or upload a new file at a specified path within personal, shared or models space. The behavior depends on the contents of the request body and the format of the path:
+//   - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within personal, shared or models space.
+//
+// You must specify the `location` and the file `path` in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v1/files/fs/{location}/{path} (the `PutV1FilesFsLocationPath` operationId).
+func (c *ClientWithResponses) PutV1FilesFsLocationPathWithBodyWithResponse(ctx context.Context, location FileLocationSchema, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1FilesFsLocationPathResponse, error) {
+	rsp, err := c.PutV1FilesFsLocationPathWithBody(ctx, location, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV1FilesFsLocationPathResponse(rsp)
+}
+
+// GetV1FlowWithResponse Lists the Flow instances the user can access
+//
+// Returns a list of all of the SingleStore Flow instances accessible to the user. Use the `includeTerminated` parameter to get a list of terminated Flow instances.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/flow (the `GetV1Flow` operationId).
+func (c *ClientWithResponses) GetV1FlowWithResponse(ctx context.Context, params *GetV1FlowParams, reqEditors ...RequestEditorFn) (*GetV1FlowResponse, error) {
+	rsp, err := c.GetV1Flow(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FlowResponse(rsp)
+}
+
+// PostV1FlowWithBodyWithResponse Creates a new Flow instance
+//
+// Creates a new SingleStore Flow instance for the current user.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+func (c *ClientWithResponses) PostV1FlowWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error) {
+	rsp, err := c.PostV1FlowWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1FlowResponse(rsp)
+}
+
+// PostV1FlowWithResponse Creates a new Flow instance
+//
+// Creates a new SingleStore Flow instance for the current user.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/flow (the `PostV1Flow` operationId).
+func (c *ClientWithResponses) PostV1FlowWithResponse(ctx context.Context, body PostV1FlowJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1FlowResponse, error) {
+	rsp, err := c.PostV1Flow(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1FlowResponse(rsp)
+}
+
+// DeleteV1FlowFlowIDWithResponse Terminates a Flow instance
+//
+// Terminates a SingleStore Flow instance with the specified ID. You must specify the Flow instance ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/flow/{flowID} (the `DeleteV1FlowFlowID` operationId).
+func (c *ClientWithResponses) DeleteV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*DeleteV1FlowFlowIDResponse, error) {
+	rsp, err := c.DeleteV1FlowFlowID(ctx, flowID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1FlowFlowIDResponse(rsp)
+}
+
+// GetV1FlowFlowIDWithResponse Gets information about a Flow instance
+//
+// Returns information about the SingleStore Flow instance with the specified ID, in JSON format. You must specify the Flow instance ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/flow/{flowID} (the `GetV1FlowFlowID` operationId).
+func (c *ClientWithResponses) GetV1FlowFlowIDWithResponse(ctx context.Context, flowID FlowID, reqEditors ...RequestEditorFn) (*GetV1FlowFlowIDResponse, error) {
+	rsp, err := c.GetV1FlowFlowID(ctx, flowID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1FlowFlowIDResponse(rsp)
+}
+
+// GetV1InvitationsWithResponse Lists open invitations for the current organization.
+//
+// Returns a list of open invitations for the current organization.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/invitations (the `GetV1Invitations` operationId).
+func (c *ClientWithResponses) GetV1InvitationsWithResponse(ctx context.Context, params *GetV1InvitationsParams, reqEditors ...RequestEditorFn) (*GetV1InvitationsResponse, error) {
+	rsp, err := c.GetV1Invitations(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1InvitationsResponse(rsp)
+}
+
+// PostV1InvitationsWithBodyWithResponse Invites a user to the current organization
+//
+// Creates and sends an invitation to join the organization to an email address.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+func (c *ClientWithResponses) PostV1InvitationsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1InvitationsResponse, error) {
+	rsp, err := c.PostV1InvitationsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1InvitationsResponse(rsp)
+}
+
+// PostV1InvitationsWithResponse Invites a user to the current organization
+//
+// Creates and sends an invitation to join the organization to an email address.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/invitations (the `PostV1Invitations` operationId).
+func (c *ClientWithResponses) PostV1InvitationsWithResponse(ctx context.Context, body PostV1InvitationsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1InvitationsResponse, error) {
+	rsp, err := c.PostV1Invitations(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1InvitationsResponse(rsp)
+}
+
+// DeleteV1InvitationsInvitationIDWithResponse Revokes an invitation
+//
+// Revokes the specified invitation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/invitations/{invitationID} (the `DeleteV1InvitationsInvitationID` operationId).
+func (c *ClientWithResponses) DeleteV1InvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, reqEditors ...RequestEditorFn) (*DeleteV1InvitationsInvitationIDResponse, error) {
+	rsp, err := c.DeleteV1InvitationsInvitationID(ctx, invitationID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1InvitationsInvitationIDResponse(rsp)
+}
+
+// GetV1InvitationsInvitationIDWithResponse Gets information about an invitation.
+//
+// Returns information for the specified invitation.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/invitations/{invitationID} (the `GetV1InvitationsInvitationID` operationId).
+func (c *ClientWithResponses) GetV1InvitationsInvitationIDWithResponse(ctx context.Context, invitationID InvitationID, params *GetV1InvitationsInvitationIDParams, reqEditors ...RequestEditorFn) (*GetV1InvitationsInvitationIDResponse, error) {
+	rsp, err := c.GetV1InvitationsInvitationID(ctx, invitationID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1InvitationsInvitationIDResponse(rsp)
+}
+
+// PostV1JobsWithBodyWithResponse Creates a new job
+//
+// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+func (c *ClientWithResponses) PostV1JobsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error) {
+	rsp, err := c.PostV1JobsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1JobsResponse(rsp)
+}
+
+// PostV1JobsWithResponse Creates a new job
+//
+// This creates a job. A job sets a scheduled execution of a notebook and can cause notebooks to be run on a schedule or one-time only
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/jobs (the `PostV1Jobs` operationId).
+func (c *ClientWithResponses) PostV1JobsWithResponse(ctx context.Context, body PostV1JobsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1JobsResponse, error) {
+	rsp, err := c.PostV1Jobs(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1JobsResponse(rsp)
+}
+
+// GetV1JobsRuntimesWithResponse Get the list of available job runtimes
+//
+// Returns the list of available runtimes for jobs.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/jobs/runtimes (the `GetV1JobsRuntimes` operationId).
+func (c *ClientWithResponses) GetV1JobsRuntimesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1JobsRuntimesResponse, error) {
+	rsp, err := c.GetV1JobsRuntimes(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsRuntimesResponse(rsp)
+}
+
+// DeleteV1JobsJobIDWithResponse Deletes a job
+//
+// This deletes a job and all execution snapshots associated with a job.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/jobs/{jobID} (the `DeleteV1JobsJobID` operationId).
+func (c *ClientWithResponses) DeleteV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*DeleteV1JobsJobIDResponse, error) {
+	rsp, err := c.DeleteV1JobsJobID(ctx, jobID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1JobsJobIDResponse(rsp)
+}
+
+// GetV1JobsJobIDWithResponse Gets information about the specified job
+//
+// Returns the metadata on target, schedule and notebook for a job specified by a jobid.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/jobs/{jobID} (the `GetV1JobsJobID` operationId).
+func (c *ClientWithResponses) GetV1JobsJobIDWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDResponse, error) {
+	rsp, err := c.GetV1JobsJobID(ctx, jobID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsJobIDResponse(rsp)
+}
+
+// GetV1JobsJobIDExecutionsWithResponse Get executions for a job
+//
+// Returns the information of the executions of a specified job. Specify which executions you want with the parameters.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/jobs/{jobID}/executions (the `GetV1JobsJobIDExecutions` operationId).
+func (c *ClientWithResponses) GetV1JobsJobIDExecutionsWithResponse(ctx context.Context, jobID JobID, params *GetV1JobsJobIDExecutionsParams, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDExecutionsResponse, error) {
+	rsp, err := c.GetV1JobsJobIDExecutions(ctx, jobID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsJobIDExecutionsResponse(rsp)
+}
+
+// GetV1JobsJobIDParametersWithResponse Get parameters for a job
+//
+// Returns the array of the parameters of a specified job.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/jobs/{jobID}/parameters (the `GetV1JobsJobIDParameters` operationId).
+func (c *ClientWithResponses) GetV1JobsJobIDParametersWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV1JobsJobIDParametersResponse, error) {
+	rsp, err := c.GetV1JobsJobIDParameters(ctx, jobID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1JobsJobIDParametersResponse(rsp)
+}
+
+// GetV1OrganizationsCurrentWithResponse Gets information about the current organization
+//
+// Returns information about the current authorized user's organization.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/organizations/current (the `GetV1OrganizationsCurrent` operationId).
+func (c *ClientWithResponses) GetV1OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1OrganizationsCurrentResponse, error) {
+	rsp, err := c.GetV1OrganizationsCurrent(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1OrganizationsCurrentResponse(rsp)
+}
+
+// GetV1OrganizationsOrganizationIDAccessControlsWithResponse Get RBAC access information about the organization
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/organizations/{organizationID}/accessControls (the `GetV1OrganizationsOrganizationIDAccessControls` operationId).
+func (c *ClientWithResponses) GetV1OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*GetV1OrganizationsOrganizationIDAccessControlsResponse, error) {
+	rsp, err := c.GetV1OrganizationsOrganizationIDAccessControls(ctx, organizationID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1OrganizationsOrganizationIDAccessControlsResponse(rsp)
+}
+
+// PatchV1OrganizationsOrganizationIDAccessControlsWithBodyWithResponse Update the RBAC grants on the organization
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1OrganizationsOrganizationIDAccessControlsWithBodyWithResponse(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1OrganizationsOrganizationIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1OrganizationsOrganizationIDAccessControlsWithBody(ctx, organizationID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1OrganizationsOrganizationIDAccessControlsResponse(rsp)
+}
+
+// PatchV1OrganizationsOrganizationIDAccessControlsWithResponse Update the RBAC grants on the organization
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/organizations/{organizationID}/accessControls (the `PatchV1OrganizationsOrganizationIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, body PatchV1OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1OrganizationsOrganizationIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1OrganizationsOrganizationIDAccessControls(ctx, organizationID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1OrganizationsOrganizationIDAccessControlsResponse(rsp)
+}
+
+// PostV1PrivateConnectionsWithBodyWithResponse Creates a new private connection
+//
+// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+func (c *ClientWithResponses) PostV1PrivateConnectionsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error) {
+	rsp, err := c.PostV1PrivateConnectionsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1PrivateConnectionsResponse(rsp)
+}
+
+// PostV1PrivateConnectionsWithResponse Creates a new private connection
+//
+// Creates a new private connection. Upon successful completion of the request, a private connection is scheduled for creation. To query the private connection status, use the endpoints for the workspace group and workspace (if provided).
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/privateConnections (the `PostV1PrivateConnections` operationId).
+func (c *ClientWithResponses) PostV1PrivateConnectionsWithResponse(ctx context.Context, body PostV1PrivateConnectionsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1PrivateConnectionsResponse, error) {
+	rsp, err := c.PostV1PrivateConnections(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1PrivateConnectionsResponse(rsp)
+}
+
+// DeleteV1PrivateConnectionsConnectionIDWithResponse Deletes a private connection
+//
+// Deletes a private connection for the specified connection ID. Upon successful completion, a private connection is scheduled for deletion.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/privateConnections/{connectionID} (the `DeleteV1PrivateConnectionsConnectionID` operationId).
+func (c *ClientWithResponses) DeleteV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, reqEditors ...RequestEditorFn) (*DeleteV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.DeleteV1PrivateConnectionsConnectionID(ctx, connectionID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1PrivateConnectionsConnectionIDResponse(rsp)
+}
+
+// GetV1PrivateConnectionsConnectionIDWithResponse Gets information about a private connection
+//
+// Returns private connection information for the specified connection ID, in JSON format. You must specify the connection ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/privateConnections/{connectionID} (the `GetV1PrivateConnectionsConnectionID` operationId).
+func (c *ClientWithResponses) GetV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, params *GetV1PrivateConnectionsConnectionIDParams, reqEditors ...RequestEditorFn) (*GetV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.GetV1PrivateConnectionsConnectionID(ctx, connectionID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1PrivateConnectionsConnectionIDResponse(rsp)
+}
+
+// PatchV1PrivateConnectionsConnectionIDWithBodyWithResponse Updates a private connection
+//
+// Updates a private connection. You must specify the connection ID in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+func (c *ClientWithResponses) PatchV1PrivateConnectionsConnectionIDWithBodyWithResponse(ctx context.Context, connectionID ConnectionID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.PatchV1PrivateConnectionsConnectionIDWithBody(ctx, connectionID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp)
+}
+
+// PatchV1PrivateConnectionsConnectionIDWithResponse Updates a private connection
+//
+// Updates a private connection. You must specify the connection ID in the API call.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/privateConnections/{connectionID} (the `PatchV1PrivateConnectionsConnectionID` operationId).
+func (c *ClientWithResponses) PatchV1PrivateConnectionsConnectionIDWithResponse(ctx context.Context, connectionID ConnectionID, body PatchV1PrivateConnectionsConnectionIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1PrivateConnectionsConnectionIDResponse, error) {
+	rsp, err := c.PatchV1PrivateConnectionsConnectionID(ctx, connectionID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp)
+}
+
+// GetV1ProjectsWithResponse Lists the projects the user can access
+//
+// Returns a list of all of the projects accessible to the user.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/projects (the `GetV1Projects` operationId).
+func (c *ClientWithResponses) GetV1ProjectsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1ProjectsResponse, error) {
+	rsp, err := c.GetV1Projects(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1ProjectsResponse(rsp)
+}
+
+// PostV1ProjectsWithBodyWithResponse Creates a new project
+//
+// Creates a new project for the current user.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+func (c *ClientWithResponses) PostV1ProjectsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error) {
+	rsp, err := c.PostV1ProjectsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1ProjectsResponse(rsp)
+}
+
+// PostV1ProjectsWithResponse Creates a new project
+//
+// Creates a new project for the current user.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/projects (the `PostV1Projects` operationId).
+func (c *ClientWithResponses) PostV1ProjectsWithResponse(ctx context.Context, body PostV1ProjectsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1ProjectsResponse, error) {
+	rsp, err := c.PostV1Projects(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1ProjectsResponse(rsp)
+}
+
+// DeleteV1ProjectsProjectIDWithResponse Deletes a project
+//
+// Deletes a project with the specified project ID.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/projects/{projectID} (the `DeleteV1ProjectsProjectID` operationId).
+func (c *ClientWithResponses) DeleteV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*DeleteV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.DeleteV1ProjectsProjectID(ctx, projectID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1ProjectsProjectIDResponse(rsp)
+}
+
+// GetV1ProjectsProjectIDWithResponse Gets information about a project
+//
+// Returns information for the specified project ID in JSON format.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/projects/{projectID} (the `GetV1ProjectsProjectID` operationId).
+func (c *ClientWithResponses) GetV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, reqEditors ...RequestEditorFn) (*GetV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.GetV1ProjectsProjectID(ctx, projectID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1ProjectsProjectIDResponse(rsp)
+}
+
+// PatchV1ProjectsProjectIDWithBodyWithResponse Updates a project
+//
+// Updates the specified project. You can only update its name.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+func (c *ClientWithResponses) PatchV1ProjectsProjectIDWithBodyWithResponse(ctx context.Context, projectID ProjectID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.PatchV1ProjectsProjectIDWithBody(ctx, projectID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1ProjectsProjectIDResponse(rsp)
+}
+
+// PatchV1ProjectsProjectIDWithResponse Updates a project
+//
+// Updates the specified project. You can only update its name.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/projects/{projectID} (the `PatchV1ProjectsProjectID` operationId).
+func (c *ClientWithResponses) PatchV1ProjectsProjectIDWithResponse(ctx context.Context, projectID ProjectID, body PatchV1ProjectsProjectIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1ProjectsProjectIDResponse, error) {
+	rsp, err := c.PatchV1ProjectsProjectID(ctx, projectID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1ProjectsProjectIDResponse(rsp)
+}
+
+// GetV1RegionsWithResponse Lists all of the regions for the user that support workspaces
+//
+// **Note**: This endpoint is deprecated. Use `/v2/regions` instead.
+//
+// Returns a list of valid regions for the user that support workspaces, including the region ID and provider for each region.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/regions (the `GetV1Regions` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
+func (c *ClientWithResponses) GetV1RegionsWithResponse(ctx context.Context, params *GetV1RegionsParams, reqEditors ...RequestEditorFn) (*GetV1RegionsResponse, error) {
+	rsp, err := c.GetV1Regions(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1RegionsResponse(rsp)
+}
+
+// GetV1RegionsSharedtierWithResponse Lists all the regions that support Shared Edition deployments (starter workspaces) for the user
+//
+// Returns a list of valid regions that support Shared Edition deployments (starter workspaces) for the user, including the region code and provider for each region.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/regions/sharedtier (the `GetV1RegionsSharedtier` operationId).
+func (c *ClientWithResponses) GetV1RegionsSharedtierWithResponse(ctx context.Context, params *GetV1RegionsSharedtierParams, reqEditors ...RequestEditorFn) (*GetV1RegionsSharedtierResponse, error) {
+	rsp, err := c.GetV1RegionsSharedtier(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1RegionsSharedtierResponse(rsp)
+}
+
 // GetV1RolesResourceTypeWithResponse Lists all roles for the given resource type, including custom roles
 //
 // This route is currently not supported by BYOC.
@@ -20266,6 +37419,156 @@ func (c *ClientWithResponses) PutV1RolesResourceTypeRoleWithResponse(ctx context
 	return ParsePutV1RolesResourceTypeRoleResponse(rsp)
 }
 
+// GetV1SecretsWithResponse Lists the secrets the user can access.
+//
+// Returns a list of all of the secrets accessible to the user.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/secrets (the `GetV1Secrets` operationId).
+func (c *ClientWithResponses) GetV1SecretsWithResponse(ctx context.Context, params *GetV1SecretsParams, reqEditors ...RequestEditorFn) (*GetV1SecretsResponse, error) {
+	rsp, err := c.GetV1Secrets(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SecretsResponse(rsp)
+}
+
+// PostV1SecretsWithBodyWithResponse Creates a new secret
+//
+// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+func (c *ClientWithResponses) PostV1SecretsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error) {
+	rsp, err := c.PostV1SecretsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SecretsResponse(rsp)
+}
+
+// PostV1SecretsWithResponse Creates a new secret
+//
+// Creates a new secret, which can be used to store sensitive information such as passwords, API keys, and other credentials. You must specify a name and value for the secret in the API request body.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/secrets (the `PostV1Secrets` operationId).
+func (c *ClientWithResponses) PostV1SecretsWithResponse(ctx context.Context, body PostV1SecretsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SecretsResponse, error) {
+	rsp, err := c.PostV1Secrets(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SecretsResponse(rsp)
+}
+
+// DeleteV1SecretsSecretIDWithResponse Deletes a secret
+//
+// Deletes a secret with the specified ID. You must specify the secret ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/secrets/{secretID} (the `DeleteV1SecretsSecretID` operationId).
+func (c *ClientWithResponses) DeleteV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*DeleteV1SecretsSecretIDResponse, error) {
+	rsp, err := c.DeleteV1SecretsSecretID(ctx, secretID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1SecretsSecretIDResponse(rsp)
+}
+
+// GetV1SecretsSecretIDWithResponse Gets information about a secret
+//
+// Returns information for the specified secret ID, in JSON format. You must specify the secret ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/secrets/{secretID} (the `GetV1SecretsSecretID` operationId).
+func (c *ClientWithResponses) GetV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1SecretsSecretIDResponse, error) {
+	rsp, err := c.GetV1SecretsSecretID(ctx, secretID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SecretsSecretIDResponse(rsp)
+}
+
+// PatchV1SecretsSecretIDWithBodyWithResponse Updates the name or value of a secret
+//
+// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+func (c *ClientWithResponses) PatchV1SecretsSecretIDWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error) {
+	rsp, err := c.PatchV1SecretsSecretIDWithBody(ctx, secretID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SecretsSecretIDResponse(rsp)
+}
+
+// PatchV1SecretsSecretIDWithResponse Updates the name or value of a secret
+//
+// Updates the name or value for the specified secret ID. You must specify the secret ID in the API call and at least one parameter (name or value) in the request body.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/secrets/{secretID} (the `PatchV1SecretsSecretID` operationId).
+func (c *ClientWithResponses) PatchV1SecretsSecretIDWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDResponse, error) {
+	rsp, err := c.PatchV1SecretsSecretID(ctx, secretID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SecretsSecretIDResponse(rsp)
+}
+
+// GetV1SecretsSecretIDAccessControlsWithResponse Get RBAC access information about the secret
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/secrets/{secretID}/accessControls (the `GetV1SecretsSecretIDAccessControls` operationId).
+func (c *ClientWithResponses) GetV1SecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, reqEditors ...RequestEditorFn) (*GetV1SecretsSecretIDAccessControlsResponse, error) {
+	rsp, err := c.GetV1SecretsSecretIDAccessControls(ctx, secretID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SecretsSecretIDAccessControlsResponse(rsp)
+}
+
+// PatchV1SecretsSecretIDAccessControlsWithBodyWithResponse Update the RBAC grants on the secret
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1SecretsSecretIDAccessControlsWithBodyWithResponse(ctx context.Context, secretID SecretID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1SecretsSecretIDAccessControlsWithBody(ctx, secretID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SecretsSecretIDAccessControlsResponse(rsp)
+}
+
+// PatchV1SecretsSecretIDAccessControlsWithResponse Update the RBAC grants on the secret
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/secrets/{secretID}/accessControls (the `PatchV1SecretsSecretIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1SecretsSecretIDAccessControlsWithResponse(ctx context.Context, secretID SecretID, body PatchV1SecretsSecretIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SecretsSecretIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1SecretsSecretIDAccessControls(ctx, secretID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SecretsSecretIDAccessControlsResponse(rsp)
+}
+
 // PostV1ServiceAccountsWithBodyWithResponse Creates a service account in the current organization.
 //
 // Creates a service account in the current organization.
@@ -20349,6 +37652,1293 @@ func (c *ClientWithResponses) PatchV1ServiceAccountsServiceAccountIDWithResponse
 		return nil, err
 	}
 	return ParsePatchV1ServiceAccountsServiceAccountIDResponse(rsp)
+}
+
+// GetV1SharedtierVirtualWorkspacesWithResponse List all Shared Edition deployments (starter workspaces)
+//
+// Returns a list of all Shared Edition deployments (starter workspaces) for the current user.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/sharedtier/virtualWorkspaces (the `GetV1SharedtierVirtualWorkspaces` operationId).
+func (c *ClientWithResponses) GetV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV1SharedtierVirtualWorkspacesResponse, error) {
+	rsp, err := c.GetV1SharedtierVirtualWorkspaces(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SharedtierVirtualWorkspacesResponse(rsp)
+}
+
+// PostV1SharedtierVirtualWorkspacesWithBodyWithResponse Creates a new Shared Edition deployment (starter workspace)
+//
+// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+func (c *ClientWithResponses) PostV1SharedtierVirtualWorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error) {
+	rsp, err := c.PostV1SharedtierVirtualWorkspacesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SharedtierVirtualWorkspacesResponse(rsp)
+}
+
+// PostV1SharedtierVirtualWorkspacesWithResponse Creates a new Shared Edition deployment (starter workspace)
+//
+// Creates a new Shared Edition deployment (starter workspace) for the current user. You must specify a name, region ID, and firewall range(s) for the starter workspace in the API request body.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces (the `PostV1SharedtierVirtualWorkspaces` operationId).
+func (c *ClientWithResponses) PostV1SharedtierVirtualWorkspacesWithResponse(ctx context.Context, body PostV1SharedtierVirtualWorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesResponse, error) {
+	rsp, err := c.PostV1SharedtierVirtualWorkspaces(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SharedtierVirtualWorkspacesResponse(rsp)
+}
+
+// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse Deletes a Shared Edition deployment (starter workspace)
+//
+// Deletes a Shared Edition deployment (starter workspace) for the specified ID. You must specify the ID of the starter workspace in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+func (c *ClientWithResponses) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse, error) {
+	rsp, err := c.DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceID(ctx, virtualWorkspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse(rsp)
+}
+
+// GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse Returns information about a Shared Edition deployment (starter workspace)
+//
+// Returns information about a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID} (the `GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID` operationId).
+func (c *ClientWithResponses) GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse, error) {
+	rsp, err := c.GetV1SharedtierVirtualWorkspacesVirtualWorkspaceID(ctx, virtualWorkspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse(rsp)
+}
+
+// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBodyWithResponse Creates a new user in a Shared Edition deployment (starter workspace)
+//
+// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+func (c *ClientWithResponses) PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse, error) {
+	rsp, err := c.PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithBody(ctx, virtualWorkspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse(rsp)
+}
+
+// PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithResponse Creates a new user in a Shared Edition deployment (starter workspace)
+//
+// Creates a new user in a Shared Edition deployment (starter workspace) with the specified ID. You must specify the ID of the starter workspace in the API call. You can specify a password for the user in the request body. If a password is not specified, a password is automatically generated and returned in the API response.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users (the `PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers` operationId).
+func (c *ClientWithResponses) PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, body PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse, error) {
+	rsp, err := c.PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsers(ctx, virtualWorkspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse(rsp)
+}
+
+// DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse Deletes a user from a Shared Edition deployment (starter workspace)
+//
+// Deletes a user with the specified user ID from a Shared Edition deployment (starter workspace). You must specify the ID of the starter workspace and the user in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+func (c *ClientWithResponses) DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	rsp, err := c.DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx, virtualWorkspaceID, userID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp)
+}
+
+// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse Updates a user in a Shared Edition deployment (starter workspace)
+//
+// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+func (c *ClientWithResponses) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBodyWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	rsp, err := c.PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithBody(ctx, virtualWorkspaceID, userID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp)
+}
+
+// PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse Updates a user in a Shared Edition deployment (starter workspace)
+//
+// Updates a user in a Shared Edition deployment (starter workspace) with the specified user ID. You must specify the ID of the starter workspace and the user in the API call.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/sharedtier/virtualWorkspaces/{virtualWorkspaceID}/users/{userID} (the `PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID` operationId).
+func (c *ClientWithResponses) PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse(ctx context.Context, virtualWorkspaceID openapi_types.UUID, userID openapi_types.UUID, body PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	rsp, err := c.PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserID(ctx, virtualWorkspaceID, userID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp)
+}
+
+// GetV1StageDeploymentIDFsWithResponse Lists files and folders in the root folder.
+//
+// Returns a list of all files and folders located in the Stage's root folder of the specified deployment (either a workspace group or starter workspace).
+//
+// You must specify the `deploymentID`.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/stage/{deploymentID}/fs (the `GetV1StageDeploymentIDFs` operationId).
+func (c *ClientWithResponses) GetV1StageDeploymentIDFsWithResponse(ctx context.Context, deploymentID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsResponse, error) {
+	rsp, err := c.GetV1StageDeploymentIDFs(ctx, deploymentID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1StageDeploymentIDFsResponse(rsp)
+}
+
+// DeleteV1StageDeploymentIDFsPathWithResponse Deletes a file or folder
+//
+// Deletes the file or folder at the specified path in a Stage.
+//
+// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+//
+// - Delete a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Delete a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To delete a folder, ensure that the path includes a trailing slash.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/stage/{deploymentID}/fs/{path} (the `DeleteV1StageDeploymentIDFsPath` operationId).
+func (c *ClientWithResponses) DeleteV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, reqEditors ...RequestEditorFn) (*DeleteV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.DeleteV1StageDeploymentIDFsPath(ctx, deploymentID, path, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// GetV1StageDeploymentIDFsPathWithResponse Gets information about a folder or downloads a file
+//
+// If the specified path is a folder, the API returns the list of files and folders inside this folder in the Stage. If the specified path is a file, the API call is redirected to a download URL.
+//
+// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+//
+// - Get a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Get a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To Get a folder, ensure that the path includes a trailing slash.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/stage/{deploymentID}/fs/{path} (the `GetV1StageDeploymentIDFsPath` operationId).
+func (c *ClientWithResponses) GetV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, params *GetV1StageDeploymentIDFsPathParams, reqEditors ...RequestEditorFn) (*GetV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.GetV1StageDeploymentIDFsPath(ctx, deploymentID, path, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// PatchV1StageDeploymentIDFsPathWithBodyWithResponse Modifies a file or folder in a Stage
+//
+// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+//
+// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+//
+// - Modify a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Modify a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+func (c *ClientWithResponses) PatchV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.PatchV1StageDeploymentIDFsPathWithBody(ctx, deploymentID, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// PatchV1StageDeploymentIDFsPathWithResponse Modifies a file or folder in a Stage
+//
+// Modifies the path of the existing file or folder in a Stage to the new path specified in the request body.
+//
+// This endpoint supports both URL-encoded and regular URL paths, so both of the following examples are valid requests:
+//
+// - Modify a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Modify a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_file.txt
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_file.txt
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// ## Note: To modify the path of a folder, ensure that it includes a trailing slash.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/stage/{deploymentID}/fs/{path} (the `PatchV1StageDeploymentIDFsPath` operationId).
+func (c *ClientWithResponses) PatchV1StageDeploymentIDFsPathWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, body PatchV1StageDeploymentIDFsPathJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.PatchV1StageDeploymentIDFsPath(ctx, deploymentID, path, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// PutV1StageDeploymentIDFsPathWithBodyWithResponse Creates a new folder or uploads a file
+//
+// This endpoint allows you to create a new folder or upload a new file at a specified path within Stage. The behavior depends on the contents of the request body and the format of the path:
+//   - **File Upload:** If the request body contains a file, the file is uploaded to the specified path within the Stage.
+//   - **Folder Creation:** If the request body does not contain a file and the path ends with a trailing slash (`/`), a new folder is created at the specified path.
+//   - **Empty File Creation:** If the request body does not contain a file and the path does not end with a trailing slash, an empty file is created at the specified path.
+//
+// **Please ensure that the path is correctly formatted according to the desired action. Misformatted paths may lead to unexpected behavior.**
+//
+// This endpoint supports both URL-encoded and regular URL paths. Here are some examples of valid requests:
+//
+// - Create a folder:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2F
+//
+// - Upload a file:
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder/sample_folder/file.json
+//   - /v1/stage/68af2f46-0000-1000-9000-3f6f5365d878/fs/parent_folder%2Fsample_folder%2Ffile.json
+//
+// You must specify the `deploymentID` and the folder/file path in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PUT /v1/stage/{deploymentID}/fs/{path} (the `PutV1StageDeploymentIDFsPath` operationId).
+func (c *ClientWithResponses) PutV1StageDeploymentIDFsPathWithBodyWithResponse(ctx context.Context, deploymentID openapi_types.UUID, path string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PutV1StageDeploymentIDFsPathResponse, error) {
+	rsp, err := c.PutV1StageDeploymentIDFsPathWithBody(ctx, deploymentID, path, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePutV1StageDeploymentIDFsPathResponse(rsp)
+}
+
+// GetV1TeamsWithResponse Lists the teams defined for the current organization. Teams may be filtered by name or description. An empty list is returned if no teams match the filter.
+//
+// Returns a list of teams in the current organization.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/teams (the `GetV1Teams` operationId).
+func (c *ClientWithResponses) GetV1TeamsWithResponse(ctx context.Context, params *GetV1TeamsParams, reqEditors ...RequestEditorFn) (*GetV1TeamsResponse, error) {
+	rsp, err := c.GetV1Teams(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1TeamsResponse(rsp)
+}
+
+// PostV1TeamsWithBodyWithResponse Creates a new team
+//
+// Creates a new team. You must specify a name in the API request body.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+func (c *ClientWithResponses) PostV1TeamsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1TeamsResponse, error) {
+	rsp, err := c.PostV1TeamsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1TeamsResponse(rsp)
+}
+
+// PostV1TeamsWithResponse Creates a new team
+//
+// Creates a new team. You must specify a name in the API request body.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/teams (the `PostV1Teams` operationId).
+func (c *ClientWithResponses) PostV1TeamsWithResponse(ctx context.Context, body PostV1TeamsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1TeamsResponse, error) {
+	rsp, err := c.PostV1Teams(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1TeamsResponse(rsp)
+}
+
+// DeleteV1TeamsTeamIDWithResponse Deletes a team
+//
+// Deletes the specified team.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/teams/{teamID} (the `DeleteV1TeamsTeamID` operationId).
+func (c *ClientWithResponses) DeleteV1TeamsTeamIDWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*DeleteV1TeamsTeamIDResponse, error) {
+	rsp, err := c.DeleteV1TeamsTeamID(ctx, teamID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1TeamsTeamIDResponse(rsp)
+}
+
+// GetV1TeamsTeamIDWithResponse Gets information about a team.
+//
+// Returns information for the specified team.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/teams/{teamID} (the `GetV1TeamsTeamID` operationId).
+func (c *ClientWithResponses) GetV1TeamsTeamIDWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDResponse, error) {
+	rsp, err := c.GetV1TeamsTeamID(ctx, teamID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1TeamsTeamIDResponse(rsp)
+}
+
+// PatchV1TeamsTeamIDWithBodyWithResponse Updates the name, description, and/or members of a team
+//
+// Updates the name, description, and/or members for the specified team.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+func (c *ClientWithResponses) PatchV1TeamsTeamIDWithBodyWithResponse(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDResponse, error) {
+	rsp, err := c.PatchV1TeamsTeamIDWithBody(ctx, teamID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1TeamsTeamIDResponse(rsp)
+}
+
+// PatchV1TeamsTeamIDWithResponse Updates the name, description, and/or members of a team
+//
+// Updates the name, description, and/or members for the specified team.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/teams/{teamID} (the `PatchV1TeamsTeamID` operationId).
+func (c *ClientWithResponses) PatchV1TeamsTeamIDWithResponse(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDResponse, error) {
+	rsp, err := c.PatchV1TeamsTeamID(ctx, teamID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1TeamsTeamIDResponse(rsp)
+}
+
+// GetV1TeamsTeamIDAccessControlsWithResponse Get RBAC access information about the team
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/teams/{teamID}/accessControls (the `GetV1TeamsTeamIDAccessControls` operationId).
+func (c *ClientWithResponses) GetV1TeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDAccessControlsResponse, error) {
+	rsp, err := c.GetV1TeamsTeamIDAccessControls(ctx, teamID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1TeamsTeamIDAccessControlsResponse(rsp)
+}
+
+// PatchV1TeamsTeamIDAccessControlsWithBodyWithResponse Update the RBAC grants on the team
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1TeamsTeamIDAccessControlsWithBodyWithResponse(ctx context.Context, teamID TeamID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1TeamsTeamIDAccessControlsWithBody(ctx, teamID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1TeamsTeamIDAccessControlsResponse(rsp)
+}
+
+// PatchV1TeamsTeamIDAccessControlsWithResponse Update the RBAC grants on the team
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/teams/{teamID}/accessControls (the `PatchV1TeamsTeamIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1TeamsTeamIDAccessControlsWithResponse(ctx context.Context, teamID TeamID, body PatchV1TeamsTeamIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1TeamsTeamIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1TeamsTeamIDAccessControls(ctx, teamID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1TeamsTeamIDAccessControlsResponse(rsp)
+}
+
+// GetV1TeamsTeamIDIdentityRolesWithResponse Get granted roles to the team
+//
+// Return granted roles to the team.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/teams/{teamID}/identityRoles (the `GetV1TeamsTeamIDIdentityRoles` operationId).
+func (c *ClientWithResponses) GetV1TeamsTeamIDIdentityRolesWithResponse(ctx context.Context, teamID TeamID, params *GetV1TeamsTeamIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1TeamsTeamIDIdentityRolesResponse, error) {
+	rsp, err := c.GetV1TeamsTeamIDIdentityRoles(ctx, teamID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1TeamsTeamIDIdentityRolesResponse(rsp)
+}
+
+// GetV1UsersWithResponse Lists the users in the current organization.
+//
+// Returns a list of users in the current organization.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/users (the `GetV1Users` operationId).
+func (c *ClientWithResponses) GetV1UsersWithResponse(ctx context.Context, params *GetV1UsersParams, reqEditors ...RequestEditorFn) (*GetV1UsersResponse, error) {
+	rsp, err := c.GetV1Users(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1UsersResponse(rsp)
+}
+
+// PostV1UsersWithBodyWithResponse Adds an existing user to the current organization
+//
+// Adds a user already known to the portal to the current organization.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+func (c *ClientWithResponses) PostV1UsersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1UsersResponse, error) {
+	rsp, err := c.PostV1UsersWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1UsersResponse(rsp)
+}
+
+// PostV1UsersWithResponse Adds an existing user to the current organization
+//
+// Adds a user already known to the portal to the current organization.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/users (the `PostV1Users` operationId).
+func (c *ClientWithResponses) PostV1UsersWithResponse(ctx context.Context, body PostV1UsersJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1UsersResponse, error) {
+	rsp, err := c.PostV1Users(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1UsersResponse(rsp)
+}
+
+// GetV1UsersCurrentWithResponse Gets information about the current user
+//
+// Returns information about the current user (i.e., the user making the API call).
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/users/current (the `GetV1UsersCurrent` operationId).
+func (c *ClientWithResponses) GetV1UsersCurrentWithResponse(ctx context.Context, params *GetV1UsersCurrentParams, reqEditors ...RequestEditorFn) (*GetV1UsersCurrentResponse, error) {
+	rsp, err := c.GetV1UsersCurrent(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1UsersCurrentResponse(rsp)
+}
+
+// DeleteV1UsersUserIDWithResponse Removes a user from the organization
+//
+// Removes the specified user from the organization.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/users/{userID} (the `DeleteV1UsersUserID` operationId).
+func (c *ClientWithResponses) DeleteV1UsersUserIDWithResponse(ctx context.Context, userID UserID, reqEditors ...RequestEditorFn) (*DeleteV1UsersUserIDResponse, error) {
+	rsp, err := c.DeleteV1UsersUserID(ctx, userID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1UsersUserIDResponse(rsp)
+}
+
+// GetV1UsersUserIDWithResponse Gets information about a user.
+//
+// Returns information for the specified user.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/users/{userID} (the `GetV1UsersUserID` operationId).
+func (c *ClientWithResponses) GetV1UsersUserIDWithResponse(ctx context.Context, userID UserID, params *GetV1UsersUserIDParams, reqEditors ...RequestEditorFn) (*GetV1UsersUserIDResponse, error) {
+	rsp, err := c.GetV1UsersUserID(ctx, userID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1UsersUserIDResponse(rsp)
+}
+
+// GetV1UsersUserIDIdentityRolesWithResponse Get granted roles to the user
+//
+// Return granted roles to the user.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/users/{userID}/identityRoles (the `GetV1UsersUserIDIdentityRoles` operationId).
+func (c *ClientWithResponses) GetV1UsersUserIDIdentityRolesWithResponse(ctx context.Context, userID UserID, params *GetV1UsersUserIDIdentityRolesParams, reqEditors ...RequestEditorFn) (*GetV1UsersUserIDIdentityRolesResponse, error) {
+	rsp, err := c.GetV1UsersUserIDIdentityRoles(ctx, userID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1UsersUserIDIdentityRolesResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWithResponse Lists the workspace groups the user can access
+//
+// Returns a list of all of the workspace groups accessible to the user. Use the `includeTerminated` parameter to get a list of terminated workspace groups.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups (the `GetV1WorkspaceGroups` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWithResponse(ctx context.Context, params *GetV1WorkspaceGroupsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroups(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWithBodyWithResponse Creates a new workspace group
+//
+// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+//
+// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWithResponse Creates a new workspace group
+//
+// Creates a new workspace group for the current user. You must specify the name, region ID, and firewall ranges for the workspace group in the API request body.
+//
+// You may use the admin user password to connect with any workspace of the group. The admin user password can be specified in the request body. If the admin user password is not specified in the API request, a password is generated and returned in the response object.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaceGroups (the `PostV1WorkspaceGroups` operationId).
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWithResponse(ctx context.Context, body PostV1WorkspaceGroupsJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroups(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsResponse(rsp)
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse Terminates a workspace group
+//
+// Terminates a workspace group with the specified workspace group ID. You must specify the workspace group ID in the API call.
+//
+// By default, you may only terminate empty workspace groups (a workspace group without workspaces). To terminate a workspace group with active workspaces, use the `force` parameter.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID} (the `DeleteV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *ClientWithResponses) DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.DeleteV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse Gets information about a workspace group
+//
+// Returns information for the specified
+// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID} (the `GetV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse Updates a workspace group
+//
+// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse Updates a workspace group
+//
+// Updates workspace group information for the specified workspace group, including the name, admin password, and firewall ranges. Specify the workspace group's new parameters in the request body. You must specify the workspace group ID in the API call.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID} (the `PatchV1WorkspaceGroupsWorkspaceGroupID` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupID(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse Get RBAC access information about the workspace group
+//
+// # Return all the roles on the resource type, which include all grants of the given resource
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBodyWithResponse Update the RBAC grants on the workspace group
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse Update the RBAC grants on the workspace group
+//
+// Grant or revoke grants on roles of the resource.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/accessControls (the `PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControls(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp)
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse Removes entities that the workspace group's cloud workload identity can assume
+//
+// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx, workspaceGroupID, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse Removes entities that the workspace group's cloud workload identity can assume
+//
+// Removes customer-provided entities from the list of entities that the workspace group's cloud workload identity can assume. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesParams, body DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx, workspaceGroupID, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse Gets the list of entities that the workspace group's cloud workload identity can assume
+//
+// Returns the list of customer-provided entities, such as IAM roles, that the workspace group's cloud workload identity can assume to access customer resources.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse Adds entities that the workspace group's cloud workload identity can assume
+//
+// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse Adds entities that the workspace group's cloud workload identity can assume
+//
+// Adds customer-provided entities, such as IAM roles, to the list of entities that the workspace group's cloud workload identity can assume.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/delegatedEntities (the `PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntities(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse Get the workspace group's cloud workload identity information
+//
+// Returns the cloud workload identity information associated with the workspace group. The identity format is determined by the cloud provider where the workspace group is hosted. For example, on AWS it's an IAM role ARN.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/identity (the `GetV1WorkspaceGroupsWorkspaceGroupIDIdentity` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDIdentity(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse Gets private connection information for a workspace group
+//
+// Returns private connection information for the specified
+// workspace group ID, in JSON format. You must specify the workspace group ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/privateConnections (the `GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnections(ctx, workspaceGroupID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse Starts failback to the primary region
+//
+// You must specify the workspace group ID of the group in the standby (secondary) region from which you are triggering the failback.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failback (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailback(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse Starts failover to the secondary region
+//
+// You must specify the workspace group ID of the group in the inactive (primary) region from which you are triggering the failover.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/failover (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailover(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse Gets information about which regions you can setup as a disaster recovery backup
+//
+// Returns a list of regions with regions IDs in JSON format. You must specify the workspace group ID of the group you are setting up for disaster recovery.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/regions (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, params *GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegions(ctx, workspaceGroupID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBodyWithResponse Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+//
+// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse(rsp)
+}
+
+// PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse Sets up Storage DR for the workspace group. Backup region and selected databases to be replicated are provided as part of the request.
+//
+// You must specify the workspace group ID of the group you are setting up for disaster recovery and the region ID of your secondary region.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaceGroups/{workspaceGroupID}/storage/DR/setup (the `PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup` operationId).
+func (c *ClientWithResponses) PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error) {
+	rsp, err := c.PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetup(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionWithResponse Start pre-provisioning from primary region
+//
+// You must specify the workspace group ID of the group in the primary region from which you are requesting to start pre-provision.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/startPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvision(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse(rsp)
+}
+
+// GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse Gets information about the storage DR status of the workspace group
+//
+// Returns the replication status of each database and the status of the latest Storage DR operation (Failover, Failback, etc.). You must specify the workspace group ID of the group that you are requesting status information for.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaceGroups/{workspaceGroupID}/storage/DR/status (the `GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus` operationId).
+func (c *ClientWithResponses) GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse, error) {
+	rsp, err := c.GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatus(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionWithResponse Stops pre-provisioning from primary region
+//
+// You must specify the workspace group ID of the group in the primary region from which you are requesting to stop pre-provision.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/DR/stopPreProvision (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvision(ctx, workspaceGroupID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBodyWithResponse Updates the retention period for continuous backups
+//
+// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBodyWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithBody(ctx, workspaceGroupID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse(rsp)
+}
+
+// PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse Updates the retention period for continuous backups
+//
+// Updates the continuous backup retention period for all existing and future databases on a workspace group.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaceGroups/{workspaceGroupID}/storage/retentionPeriod (the `PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod` operationId).
+func (c *ClientWithResponses) PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse(ctx context.Context, workspaceGroupID WorkspaceGroupID, body PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error) {
+	rsp, err := c.PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriod(ctx, workspaceGroupID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse(rsp)
+}
+
+// GetV1WorkspacesWithResponse Lists the workspaces the user can access
+//
+// Returns a list of all of the workspaces accessible to the user in the specified workspace group. You must specify the workspace group ID in the API call to list the workspaces in the group. Use the `includeTerminated` parameter to list the terminated workspaces.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaces (the `GetV1Workspaces` operationId).
+func (c *ClientWithResponses) GetV1WorkspacesWithResponse(ctx context.Context, params *GetV1WorkspacesParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesResponse, error) {
+	rsp, err := c.GetV1Workspaces(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesResponse(rsp)
+}
+
+// PostV1WorkspacesWithBodyWithResponse Creates a new workspace
+//
+// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+// This API call does not take any request parameters.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+func (c *ClientWithResponses) PostV1WorkspacesWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error) {
+	rsp, err := c.PostV1WorkspacesWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesResponse(rsp)
+}
+
+// PostV1WorkspacesWithResponse Creates a new workspace
+//
+// Creates a new workspace for the current user in the specified workspace group. You must specify the name of the workspace and the workspace group ID in the request body. Once a workspace is created, you can neither change its name nor its workspace group. See [Workspaces](https://docs.singlestore.com/managed-service/en/reference/management-api.html#workspaces-729524) for more information.
+// This API call does not take any request parameters.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaces (the `PostV1Workspaces` operationId).
+func (c *ClientWithResponses) PostV1WorkspacesWithResponse(ctx context.Context, body PostV1WorkspacesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesResponse, error) {
+	rsp, err := c.PostV1Workspaces(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesResponse(rsp)
+}
+
+// DeleteV1WorkspacesWorkspaceIDWithResponse Terminates a workspace
+//
+// Terminates a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// All the databases attached to the workspace are detached when the workspace is terminated.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/workspaces/{workspaceID} (the `DeleteV1WorkspacesWorkspaceID` operationId).
+func (c *ClientWithResponses) DeleteV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.DeleteV1WorkspacesWorkspaceID(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDWithResponse Gets information about a workspace
+//
+// Returns workspace information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaces/{workspaceID} (the `GetV1WorkspacesWorkspaceID` operationId).
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceID(ctx, workspaceID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// PatchV1WorkspacesWorkspaceIDWithBodyWithResponse Updates information about a workspace
+//
+// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.PatchV1WorkspacesWorkspaceIDWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// PatchV1WorkspacesWorkspaceIDWithResponse Updates information about a workspace
+//
+// Updates workspace information for the specified workspace, including the size. Specify the workspace's new parameters in the request body. You must specify the workspace ID in the API call.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v1/workspaces/{workspaceID} (the `PatchV1WorkspacesWorkspaceID` operationId).
+func (c *ClientWithResponses) PatchV1WorkspacesWorkspaceIDWithResponse(ctx context.Context, workspaceID WorkspaceID, body PatchV1WorkspacesWorkspaceIDJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV1WorkspacesWorkspaceIDResponse, error) {
+	rsp, err := c.PatchV1WorkspacesWorkspaceID(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV1WorkspacesWorkspaceIDResponse(rsp)
+}
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse Removes entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx, workspaceID, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse Removes entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities DELETE endpoint. Removing entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group. Entities to remove can be specified in the request body, via query parameters, or both (values will be merged and deduplicated).
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with DELETE /v1/workspaces/{workspaceID}/delegatedEntities (the `DeleteV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, params *DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesParams, body DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.DeleteV1WorkspacesWorkspaceIDDelegatedEntities(ctx, workspaceID, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse Gets the list of entities that the workspace's cloud workload identity can assume
+//
+// Returns the same list of delegated entities as the workspace group delegated entities endpoint. The workspace inherits and operates on the delegated entities configuration from its parent workspace group.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/delegatedEntities (the `GetV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDDelegatedEntities(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse Adds entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse Adds entities that the workspace's cloud workload identity can assume
+//
+// Performs the same operation as the workspace group delegated entities POST endpoint. Adding entities through this workspace endpoint will update the delegated entities configuration for the entire workspace group.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/delegatedEntities (the `PostV1WorkspacesWorkspaceIDDelegatedEntities` operationId).
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDDelegatedEntitiesJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDDelegatedEntities(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDIdentityWithResponse Get the workspace's cloud workload identity information
+//
+// Returns the same cloud workload identity information as the workspace group's cloud workload identity endpoint. The workspace inherits the identity configuration from its parent workspace group.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/identity (the `GetV1WorkspacesWorkspaceIDIdentity` operationId).
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDIdentityWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDIdentityResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDIdentity(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDIdentityResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse Gets private connection information for a workspace
+//
+// Returns private connection information for the specified workspace ID, in JSON format. You must specify the workspace ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections (the `GetV1WorkspacesWorkspaceIDPrivateConnections` operationId).
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse(ctx context.Context, workspaceID WorkspaceID, params *GetV1WorkspacesWorkspaceIDPrivateConnectionsParams, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDPrivateConnections(ctx, workspaceID, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse Gets information to create private connection to SingleStore Kai for a workspace
+//
+// Returns the information needed to create private connection to SingleStore Kai.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/kai (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsKai` operationId).
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse(ctx context.Context, workspaceID openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDPrivateConnectionsKai(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse(rsp)
+}
+
+// GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse Gets the outbound allow list for a workspace
+//
+// Returns the account ID which must be allowed for outbound connections.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v1/workspaces/{workspaceID}/privateConnections/outboundAllowList (the `GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList` operationId).
+func (c *ClientWithResponses) GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error) {
+	rsp, err := c.GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowList(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse Resumes a workspace
+//
+// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithBodyWithResponse(ctx context.Context, workspaceID WorkspaceID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDResumeWithBody(ctx, workspaceID, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDResumeWithResponse Resumes a workspace
+//
+// Resumes a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/resume (the `PostV1WorkspacesWorkspaceIDResume` operationId).
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDResumeWithResponse(ctx context.Context, workspaceID WorkspaceID, body PostV1WorkspacesWorkspaceIDResumeJSONRequestBody, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDResume(ctx, workspaceID, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp)
+}
+
+// PostV1WorkspacesWorkspaceIDSuspendWithResponse Suspends a workspace
+//
+// Suspends a workspace with the specified workspace ID. You must specify the workspace ID in the API call.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with POST /v1/workspaces/{workspaceID}/suspend (the `PostV1WorkspacesWorkspaceIDSuspend` operationId).
+func (c *ClientWithResponses) PostV1WorkspacesWorkspaceIDSuspendWithResponse(ctx context.Context, workspaceID WorkspaceID, reqEditors ...RequestEditorFn) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error) {
+	rsp, err := c.PostV1WorkspacesWorkspaceIDSuspend(ctx, workspaceID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp)
 }
 
 // GetV2AccessControlTemplatesResourceTypeWithResponse Lists default grants for new clusters or databases
@@ -22526,6 +41116,124 @@ func (c *ClientWithResponses) GetV2UsersUserIDIdentityRolesWithResponse(ctx cont
 	return ParseGetV2UsersUserIDIdentityRolesResponse(rsp)
 }
 
+// ParseGetV1AuditLogsResponse parses an HTTP response from a GetV1AuditLogsWithResponse call
+func ParseGetV1AuditLogsResponse(rsp *http.Response) (*GetV1AuditLogsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1AuditLogsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			AuditLogs *[]AuditLog `json:"auditLogs,omitempty"`
+
+			// NextToken The nextToken value can be used in a subsequent query to guarantee any log entries are new since this query
+			NextToken *string `json:"nextToken,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1BillingUsageResponse parses an HTTP response from a GetV1BillingUsageWithResponse call
+func ParseGetV1BillingUsageResponse(rsp *http.Response) (*GetV1BillingUsageResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1BillingUsageResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			BillingUsage *[]BillingUsage `json:"billingUsage,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1BillingUsageSimulateResponse parses an HTTP response from a PostV1BillingUsageSimulateWithResponse call
+func ParsePostV1BillingUsageSimulateResponse(rsp *http.Response) (*PostV1BillingUsageSimulateResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1BillingUsageSimulateResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SimulateUsageResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
 // ParsePostV1CloudPrincipalsResponse parses an HTTP response from a PostV1CloudPrincipalsWithResponse call
 func ParsePostV1CloudPrincipalsResponse(rsp *http.Response) (*PostV1CloudPrincipalsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -22879,6 +41587,1298 @@ func ParseGetV1CloudfunctionsCloudfunctionIDTokenResponse(rsp *http.Response) (*
 	return response, nil
 }
 
+// ParseGetV1FilesFsLocationResponse parses an HTTP response from a GetV1FilesFsLocationWithResponse call
+func ParseGetV1FilesFsLocationResponse(rsp *http.Response) (*GetV1FilesFsLocationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FilesFsLocationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FileObjectMetadata
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 307:
+		break // No content-type
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1FilesFsLocationPathResponse parses an HTTP response from a DeleteV1FilesFsLocationPathWithResponse call
+func ParseDeleteV1FilesFsLocationPathResponse(rsp *http.Response) (*DeleteV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name filename.ipynb
+			Name *string `json:"name,omitempty"`
+
+			// Path /
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1FilesFsLocationPathResponse parses an HTTP response from a GetV1FilesFsLocationPathWithResponse call
+func ParseGetV1FilesFsLocationPathResponse(rsp *http.Response) (*GetV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FileObjectMetadata
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 307:
+		break // No content-type
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1FilesFsLocationPathResponse parses an HTTP response from a PatchV1FilesFsLocationPathWithResponse call
+func ParsePatchV1FilesFsLocationPathResponse(rsp *http.Response) (*PatchV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name filename.ipynb
+			Name *string `json:"name,omitempty"`
+
+			// Path /
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 307:
+		break // No content-type
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePutV1FilesFsLocationPathResponse parses an HTTP response from a PutV1FilesFsLocationPathWithResponse call
+func ParsePutV1FilesFsLocationPathResponse(rsp *http.Response) (*PutV1FilesFsLocationPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PutV1FilesFsLocationPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name Example: filename.ipynb
+			Name *string `json:"name,omitempty"`
+
+			// Path Example: /
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1FlowResponse parses an HTTP response from a GetV1FlowWithResponse call
+func ParseGetV1FlowResponse(rsp *http.Response) (*GetV1FlowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FlowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Flow
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1FlowResponse parses an HTTP response from a PostV1FlowWithResponse call
+func ParsePostV1FlowResponse(rsp *http.Response) (*PostV1FlowResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1FlowResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			FlowID openapi_types.UUID `json:"flowID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1FlowFlowIDResponse parses an HTTP response from a DeleteV1FlowFlowIDWithResponse call
+func ParseDeleteV1FlowFlowIDResponse(rsp *http.Response) (*DeleteV1FlowFlowIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1FlowFlowIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			FlowID openapi_types.UUID `json:"flowID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1FlowFlowIDResponse parses an HTTP response from a GetV1FlowFlowIDWithResponse call
+func ParseGetV1FlowFlowIDResponse(rsp *http.Response) (*GetV1FlowFlowIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1FlowFlowIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Flow
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1InvitationsResponse parses an HTTP response from a GetV1InvitationsWithResponse call
+func ParseGetV1InvitationsResponse(rsp *http.Response) (*GetV1InvitationsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1InvitationsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []UserInvitation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1InvitationsResponse parses an HTTP response from a PostV1InvitationsWithResponse call
+func ParsePostV1InvitationsResponse(rsp *http.Response) (*PostV1InvitationsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1InvitationsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UserInvitation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1InvitationsInvitationIDResponse parses an HTTP response from a DeleteV1InvitationsInvitationIDWithResponse call
+func ParseDeleteV1InvitationsInvitationIDResponse(rsp *http.Response) (*DeleteV1InvitationsInvitationIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1InvitationsInvitationIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			InvitationID openapi_types.UUID `json:"invitationID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1InvitationsInvitationIDResponse parses an HTTP response from a GetV1InvitationsInvitationIDWithResponse call
+func ParseGetV1InvitationsInvitationIDResponse(rsp *http.Response) (*GetV1InvitationsInvitationIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1InvitationsInvitationIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UserInvitation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1JobsResponse parses an HTTP response from a PostV1JobsWithResponse call
+func ParsePostV1JobsResponse(rsp *http.Response) (*PostV1JobsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1JobsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Job
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1JobsRuntimesResponse parses an HTTP response from a GetV1JobsRuntimesWithResponse call
+func ParseGetV1JobsRuntimesResponse(rsp *http.Response) (*GetV1JobsRuntimesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsRuntimesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RuntimesResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1JobsJobIDResponse parses an HTTP response from a DeleteV1JobsJobIDWithResponse call
+func ParseDeleteV1JobsJobIDResponse(rsp *http.Response) (*DeleteV1JobsJobIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1JobsJobIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1JobsJobIDResponse parses an HTTP response from a GetV1JobsJobIDWithResponse call
+func ParseGetV1JobsJobIDResponse(rsp *http.Response) (*GetV1JobsJobIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsJobIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Job
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1JobsJobIDExecutionsResponse parses an HTTP response from a GetV1JobsJobIDExecutionsWithResponse call
+func ParseGetV1JobsJobIDExecutionsResponse(rsp *http.Response) (*GetV1JobsJobIDExecutionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsJobIDExecutionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ExecutionsResult
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1JobsJobIDParametersResponse parses an HTTP response from a GetV1JobsJobIDParametersWithResponse call
+func ParseGetV1JobsJobIDParametersResponse(rsp *http.Response) (*GetV1JobsJobIDParametersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1JobsJobIDParametersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []JobParameter
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1OrganizationsCurrentResponse parses an HTTP response from a GetV1OrganizationsCurrentWithResponse call
+func ParseGetV1OrganizationsCurrentResponse(rsp *http.Response) (*GetV1OrganizationsCurrentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1OrganizationsCurrentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Organization
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1OrganizationsOrganizationIDAccessControlsResponse parses an HTTP response from a GetV1OrganizationsOrganizationIDAccessControlsWithResponse call
+func ParseGetV1OrganizationsOrganizationIDAccessControlsResponse(rsp *http.Response) (*GetV1OrganizationsOrganizationIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1OrganizationsOrganizationIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ResourceRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1OrganizationsOrganizationIDAccessControlsResponse parses an HTTP response from a PatchV1OrganizationsOrganizationIDAccessControlsWithResponse call
+func ParsePatchV1OrganizationsOrganizationIDAccessControlsResponse(rsp *http.Response) (*PatchV1OrganizationsOrganizationIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1OrganizationsOrganizationIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePostV1PrivateConnectionsResponse parses an HTTP response from a PostV1PrivateConnectionsWithResponse call
+func ParsePostV1PrivateConnectionsResponse(rsp *http.Response) (*PostV1PrivateConnectionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1PrivateConnectionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1PrivateConnectionsConnectionIDResponse parses an HTTP response from a DeleteV1PrivateConnectionsConnectionIDWithResponse call
+func ParseDeleteV1PrivateConnectionsConnectionIDResponse(rsp *http.Response) (*DeleteV1PrivateConnectionsConnectionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1PrivateConnectionsConnectionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1PrivateConnectionsConnectionIDResponse parses an HTTP response from a GetV1PrivateConnectionsConnectionIDWithResponse call
+func ParseGetV1PrivateConnectionsConnectionIDResponse(rsp *http.Response) (*GetV1PrivateConnectionsConnectionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1PrivateConnectionsConnectionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PrivateConnection
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1PrivateConnectionsConnectionIDResponse parses an HTTP response from a PatchV1PrivateConnectionsConnectionIDWithResponse call
+func ParsePatchV1PrivateConnectionsConnectionIDResponse(rsp *http.Response) (*PatchV1PrivateConnectionsConnectionIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1PrivateConnectionsConnectionIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			PrivateConnectionID openapi_types.UUID `json:"privateConnectionID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1ProjectsResponse parses an HTTP response from a GetV1ProjectsWithResponse call
+func ParseGetV1ProjectsResponse(rsp *http.Response) (*GetV1ProjectsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1ProjectsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Project
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1ProjectsResponse parses an HTTP response from a PostV1ProjectsWithResponse call
+func ParsePostV1ProjectsResponse(rsp *http.Response) (*PostV1ProjectsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1ProjectsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ProjectIDResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1ProjectsProjectIDResponse parses an HTTP response from a DeleteV1ProjectsProjectIDWithResponse call
+func ParseDeleteV1ProjectsProjectIDResponse(rsp *http.Response) (*DeleteV1ProjectsProjectIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1ProjectsProjectIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ProjectIDResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1ProjectsProjectIDResponse parses an HTTP response from a GetV1ProjectsProjectIDWithResponse call
+func ParseGetV1ProjectsProjectIDResponse(rsp *http.Response) (*GetV1ProjectsProjectIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1ProjectsProjectIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Project
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1ProjectsProjectIDResponse parses an HTTP response from a PatchV1ProjectsProjectIDWithResponse call
+func ParsePatchV1ProjectsProjectIDResponse(rsp *http.Response) (*PatchV1ProjectsProjectIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1ProjectsProjectIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ProjectIDResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1RegionsResponse parses an HTTP response from a GetV1RegionsWithResponse call
+func ParseGetV1RegionsResponse(rsp *http.Response) (*GetV1RegionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1RegionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1RegionsSharedtierResponse parses an HTTP response from a GetV1RegionsSharedtierWithResponse call
+func ParseGetV1RegionsSharedtierResponse(rsp *http.Response) (*GetV1RegionsSharedtierResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1RegionsSharedtierResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []RegionV2
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
 // ParseGetV1RolesResourceTypeResponse parses an HTTP response from a GetV1RolesResourceTypeWithResponse call
 func ParseGetV1RolesResourceTypeResponse(rsp *http.Response) (*GetV1RolesResourceTypeResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -23075,6 +43075,267 @@ func ParsePutV1RolesResourceTypeRoleResponse(rsp *http.Response) (*PutV1RolesRes
 	return response, nil
 }
 
+// ParseGetV1SecretsResponse parses an HTTP response from a GetV1SecretsWithResponse call
+func ParseGetV1SecretsResponse(rsp *http.Response) (*GetV1SecretsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SecretsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1SecretsResponse parses an HTTP response from a PostV1SecretsWithResponse call
+func ParsePostV1SecretsResponse(rsp *http.Response) (*PostV1SecretsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1SecretsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1SecretsSecretIDResponse parses an HTTP response from a DeleteV1SecretsSecretIDWithResponse call
+func ParseDeleteV1SecretsSecretIDResponse(rsp *http.Response) (*DeleteV1SecretsSecretIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1SecretsSecretIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			SecretID openapi_types.UUID `json:"secretID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1SecretsSecretIDResponse parses an HTTP response from a GetV1SecretsSecretIDWithResponse call
+func ParseGetV1SecretsSecretIDResponse(rsp *http.Response) (*GetV1SecretsSecretIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SecretsSecretIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1SecretsSecretIDResponse parses an HTTP response from a PatchV1SecretsSecretIDWithResponse call
+func ParsePatchV1SecretsSecretIDResponse(rsp *http.Response) (*PatchV1SecretsSecretIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1SecretsSecretIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Secret
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1SecretsSecretIDAccessControlsResponse parses an HTTP response from a GetV1SecretsSecretIDAccessControlsWithResponse call
+func ParseGetV1SecretsSecretIDAccessControlsResponse(rsp *http.Response) (*GetV1SecretsSecretIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SecretsSecretIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ResourceRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1SecretsSecretIDAccessControlsResponse parses an HTTP response from a PatchV1SecretsSecretIDAccessControlsWithResponse call
+func ParsePatchV1SecretsSecretIDAccessControlsResponse(rsp *http.Response) (*PatchV1SecretsSecretIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1SecretsSecretIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
 // ParsePostV1ServiceAccountsResponse parses an HTTP response from a PostV1ServiceAccountsWithResponse call
 func ParsePostV1ServiceAccountsResponse(rsp *http.Response) (*PostV1ServiceAccountsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -23173,6 +43434,2218 @@ func ParsePatchV1ServiceAccountsServiceAccountIDResponse(rsp *http.Response) (*P
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest ServiceAccount
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1SharedtierVirtualWorkspacesResponse parses an HTTP response from a GetV1SharedtierVirtualWorkspacesWithResponse call
+func ParseGetV1SharedtierVirtualWorkspacesResponse(rsp *http.Response) (*GetV1SharedtierVirtualWorkspacesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SharedtierVirtualWorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []SharedTierVirtualWorkspace
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1SharedtierVirtualWorkspacesResponse parses an HTTP response from a PostV1SharedtierVirtualWorkspacesWithResponse call
+func ParsePostV1SharedtierVirtualWorkspacesResponse(rsp *http.Response) (*PostV1SharedtierVirtualWorkspacesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1SharedtierVirtualWorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			VirtualWorkspaceID openapi_types.UUID `json:"virtualWorkspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse parses an HTTP response from a DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse call
+func ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse(rsp *http.Response) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse parses an HTTP response from a GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDWithResponse call
+func ParseGetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse(rsp *http.Response) (*GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1SharedtierVirtualWorkspacesVirtualWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SharedTierVirtualWorkspace
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse parses an HTTP response from a PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersWithResponse call
+func ParsePostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse(rsp *http.Response) (*PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Password string             `json:"password"`
+			UserID   openapi_types.UUID `json:"userID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse parses an HTTP response from a DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse call
+func ParseDeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp *http.Response) (*DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse parses an HTTP response from a PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDWithResponse call
+func ParsePatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse(rsp *http.Response) (*PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1SharedtierVirtualWorkspacesVirtualWorkspaceIDUsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest bool
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1StageDeploymentIDFsResponse parses an HTTP response from a GetV1StageDeploymentIDFsWithResponse call
+func ParseGetV1StageDeploymentIDFsResponse(rsp *http.Response) (*GetV1StageDeploymentIDFsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1StageDeploymentIDFsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FileObjectMetadata
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 307:
+		break // No content-type
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1StageDeploymentIDFsPathResponse parses an HTTP response from a DeleteV1StageDeploymentIDFsPathWithResponse call
+func ParseDeleteV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*DeleteV1StageDeploymentIDFsPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1StageDeploymentIDFsPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name sample_file.txt
+			Name *string `json:"name,omitempty"`
+
+			// Path parent_folder/sample_file.txt
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1StageDeploymentIDFsPathResponse parses an HTTP response from a GetV1StageDeploymentIDFsPathWithResponse call
+func ParseGetV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*GetV1StageDeploymentIDFsPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1StageDeploymentIDFsPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest FileObjectMetadata
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 307:
+		break // No content-type
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1StageDeploymentIDFsPathResponse parses an HTTP response from a PatchV1StageDeploymentIDFsPathWithResponse call
+func ParsePatchV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*PatchV1StageDeploymentIDFsPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1StageDeploymentIDFsPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name sample_file.txt
+			Name *string `json:"name,omitempty"`
+
+			// Path parent_folder/sample_file.txt
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 307:
+		break // No content-type
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePutV1StageDeploymentIDFsPathResponse parses an HTTP response from a PutV1StageDeploymentIDFsPathWithResponse call
+func ParsePutV1StageDeploymentIDFsPathResponse(rsp *http.Response) (*PutV1StageDeploymentIDFsPathResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PutV1StageDeploymentIDFsPathResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Name Example: file.json
+			Name *string `json:"name,omitempty"`
+
+			// Path Example: /parent_folder/sample_folder
+			Path *string `json:"path,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1TeamsResponse parses an HTTP response from a GetV1TeamsWithResponse call
+func ParseGetV1TeamsResponse(rsp *http.Response) (*GetV1TeamsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1TeamsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Team
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1TeamsResponse parses an HTTP response from a PostV1TeamsWithResponse call
+func ParsePostV1TeamsResponse(rsp *http.Response) (*PostV1TeamsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1TeamsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Team
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1TeamsTeamIDResponse parses an HTTP response from a DeleteV1TeamsTeamIDWithResponse call
+func ParseDeleteV1TeamsTeamIDResponse(rsp *http.Response) (*DeleteV1TeamsTeamIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1TeamsTeamIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			TeamID openapi_types.UUID `json:"teamID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1TeamsTeamIDResponse parses an HTTP response from a GetV1TeamsTeamIDWithResponse call
+func ParseGetV1TeamsTeamIDResponse(rsp *http.Response) (*GetV1TeamsTeamIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1TeamsTeamIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Team
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1TeamsTeamIDResponse parses an HTTP response from a PatchV1TeamsTeamIDWithResponse call
+func ParsePatchV1TeamsTeamIDResponse(rsp *http.Response) (*PatchV1TeamsTeamIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1TeamsTeamIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			TeamID openapi_types.UUID `json:"teamID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1TeamsTeamIDAccessControlsResponse parses an HTTP response from a GetV1TeamsTeamIDAccessControlsWithResponse call
+func ParseGetV1TeamsTeamIDAccessControlsResponse(rsp *http.Response) (*GetV1TeamsTeamIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1TeamsTeamIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ResourceRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1TeamsTeamIDAccessControlsResponse parses an HTTP response from a PatchV1TeamsTeamIDAccessControlsWithResponse call
+func ParsePatchV1TeamsTeamIDAccessControlsResponse(rsp *http.Response) (*PatchV1TeamsTeamIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1TeamsTeamIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1TeamsTeamIDIdentityRolesResponse parses an HTTP response from a GetV1TeamsTeamIDIdentityRolesWithResponse call
+func ParseGetV1TeamsTeamIDIdentityRolesResponse(rsp *http.Response) (*GetV1TeamsTeamIDIdentityRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1TeamsTeamIDIdentityRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []IdentityRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1UsersResponse parses an HTTP response from a GetV1UsersWithResponse call
+func ParseGetV1UsersResponse(rsp *http.Response) (*GetV1UsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1UsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []User
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1UsersResponse parses an HTTP response from a PostV1UsersWithResponse call
+func ParsePostV1UsersResponse(rsp *http.Response) (*PostV1UsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1UsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1UsersCurrentResponse parses an HTTP response from a GetV1UsersCurrentWithResponse call
+func ParseGetV1UsersCurrentResponse(rsp *http.Response) (*GetV1UsersCurrentResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1UsersCurrentResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest User
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1UsersUserIDResponse parses an HTTP response from a DeleteV1UsersUserIDWithResponse call
+func ParseDeleteV1UsersUserIDResponse(rsp *http.Response) (*DeleteV1UsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1UsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			UserID openapi_types.UUID `json:"userID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1UsersUserIDResponse parses an HTTP response from a GetV1UsersUserIDWithResponse call
+func ParseGetV1UsersUserIDResponse(rsp *http.Response) (*GetV1UsersUserIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1UsersUserIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest User
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1UsersUserIDIdentityRolesResponse parses an HTTP response from a GetV1UsersUserIDIdentityRolesWithResponse call
+func ParseGetV1UsersUserIDIdentityRolesResponse(rsp *http.Response) (*GetV1UsersUserIDIdentityRolesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1UsersUserIDIdentityRolesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []IdentityRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsResponse parses an HTTP response from a GetV1WorkspaceGroupsWithResponse call
+func ParseGetV1WorkspaceGroupsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []WorkspaceGroup
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspaceGroupsResponse parses an HTTP response from a PostV1WorkspaceGroupsWithResponse call
+func ParsePostV1WorkspaceGroupsResponse(rsp *http.Response) (*PostV1WorkspaceGroupsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			AdminPassword    *string            `json:"adminPassword,omitempty"`
+			WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDResponse parses an HTTP response from a DeleteV1WorkspaceGroupsWorkspaceGroupIDWithResponse call
+func ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspaceGroupsWorkspaceGroupIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest WorkspaceGroup
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceGroupID openapi_types.UUID `json:"workspaceGroupID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ResourceRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse parses an HTTP response from a DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse call
+func ParseDeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp *http.Response) (*DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 207:
+		var dest struct {
+			Deleted []string `json:"deleted"`
+			Failed  []string `json:"failed"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON207 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 403:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 403:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse parses an HTTP response from a PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesWithResponse call
+func ParsePostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse(rsp *http.Response) (*PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsWorkspaceGroupIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 403:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDIdentityWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDIdentityResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CloudWorkloadIdentity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDPrivateConnectionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PrivateConnection
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailbackResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRFailoverResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRRegionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Region
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse parses an HTTP response from a PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupWithResponse call
+func ParsePostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse(rsp *http.Response) (*PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspaceGroupsWorkspaceGroupIDStorageDRSetupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStartPreProvisionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse parses an HTTP response from a GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusWithResponse call
+func ParseGetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse(rsp *http.Response) (*GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspaceGroupsWorkspaceGroupIDStorageDRStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StorageDRStatus
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageDRStopPreProvisionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse parses an HTTP response from a PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodWithResponse call
+func ParsePatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse(rsp *http.Response) (*PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspaceGroupsWorkspaceGroupIDStorageRetentionPeriodResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesResponse parses an HTTP response from a GetV1WorkspacesWithResponse call
+func ParseGetV1WorkspacesResponse(rsp *http.Response) (*GetV1WorkspacesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []Workspace
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesResponse parses an HTTP response from a PostV1WorkspacesWithResponse call
+func ParsePostV1WorkspacesResponse(rsp *http.Response) (*PostV1WorkspacesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID openapi_types.UUID `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1WorkspacesWorkspaceIDResponse parses an HTTP response from a DeleteV1WorkspacesWorkspaceIDWithResponse call
+func ParseDeleteV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*DeleteV1WorkspacesWorkspaceIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspacesWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID openapi_types.UUID `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Workspace
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV1WorkspacesWorkspaceIDResponse parses an HTTP response from a PatchV1WorkspacesWorkspaceIDWithResponse call
+func ParsePatchV1WorkspacesWorkspaceIDResponse(rsp *http.Response) (*PatchV1WorkspacesWorkspaceIDResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV1WorkspacesWorkspaceIDResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID openapi_types.UUID `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse parses an HTTP response from a DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse call
+func ParseDeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp *http.Response) (*DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteV1WorkspacesWorkspaceIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case rsp.StatusCode == 204:
+		break // No content-type
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 207:
+		var dest struct {
+			Deleted []string `json:"deleted"`
+			Failed  []string `json:"failed"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON207 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 403:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 403:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDDelegatedEntitiesWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDDelegatedEntitiesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []DelegatedEntity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 403:
+		break // No content-type
+
+	case rsp.StatusCode == 409:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDIdentityResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDIdentityWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDIdentityResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDIdentityResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDIdentityResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CloudWorkloadIdentity
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDPrivateConnectionsWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDPrivateConnectionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PrivateConnection
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDPrivateConnectionsKaiResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest PrivateConnectionKaiInfo
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse parses an HTTP response from a GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListWithResponse call
+func ParseGetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse(rsp *http.Response) (*GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV1WorkspacesWorkspaceIDPrivateConnectionsOutboundAllowListResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []PrivateConnectionOutboundAllowList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDResumeResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDResumeWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDResumeResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDResumeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDResumeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID openapi_types.UUID `json:"workspaceID"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 404:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePostV1WorkspacesWorkspaceIDSuspendResponse parses an HTTP response from a PostV1WorkspacesWorkspaceIDSuspendWithResponse call
+func ParsePostV1WorkspacesWorkspaceIDSuspendResponse(rsp *http.Response) (*PostV1WorkspacesWorkspaceIDSuspendResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostV1WorkspacesWorkspaceIDSuspendResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			WorkspaceID openapi_types.UUID `json:"workspaceID"`
+		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

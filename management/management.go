@@ -3193,7 +3193,12 @@ type PostV2InvitationsJSONRequestBody = UserInvitationCreate
 // PostV2JobsJSONRequestBody defines body for PostV2Jobs for application/json ContentType.
 type PostV2JobsJSONRequestBody = JobCreateV2
 
+// PatchV2OrganizationAccessControlsJSONRequestBody defines body for PatchV2OrganizationAccessControls for application/json ContentType.
+type PatchV2OrganizationAccessControlsJSONRequestBody = ControlAccessAction
+
 // PatchV2OrganizationsOrganizationIDAccessControlsJSONRequestBody defines body for PatchV2OrganizationsOrganizationIDAccessControls for application/json ContentType.
+//
+// Deprecated: this type has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 type PatchV2OrganizationsOrganizationIDAccessControlsJSONRequestBody = ControlAccessAction
 
 // PostV2PrivateConnectionsJSONRequestBody defines body for PostV2PrivateConnections for application/json ContentType.
@@ -4005,6 +4010,13 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/clusters/{clusterID}/identity (the `GetV2ClustersClusterIDIdentity` operationId).
 	GetV2ClustersClusterIDIdentity(ctx context.Context, clusterID ClusterID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV2ClustersClusterIDMetrics Gets metrics for a cluster
+	//
+	// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
+	//
+	// Corresponds with GET /v2/clusters/{clusterID}/metrics (the `GetV2ClustersClusterIDMetrics` operationId).
+	GetV2ClustersClusterIDMetrics(ctx context.Context, clusterID ClusterID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV2ClustersClusterIDPrivateConnections Gets private connection information for a cluster
 	//
 	// Returns private connection information for the specified cluster ID, in JSON format.
@@ -4440,50 +4452,118 @@ type ClientInterface interface {
 	// Corresponds with GET /v2/jobs/{jobID}/parameters (the `GetV2JobsJobIDParameters` operationId).
 	GetV2JobsJobIDParameters(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetV2Organization Gets information about the current organization
+	//
+	// Returns information about the current organization.
+	//
+	// Corresponds with GET /v2/organization (the `GetV2Organization` operationId).
+	GetV2Organization(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetV2OrganizationAccessControls Get access controls for the organization
+	//
+	// Return all roles granted on the current organization.
+	//
+	// This route is currently not supported by BYOC.
+	//
+	// Corresponds with GET /v2/organization/accessControls (the `GetV2OrganizationAccessControls` operationId).
+	GetV2OrganizationAccessControls(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV2OrganizationAccessControlsWithBody Grant or revoke access to the organization
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
+	//
+	// Takes any type of body and a specified content type.
+	//
+	// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+	PatchV2OrganizationAccessControlsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PatchV2OrganizationAccessControls Grant or revoke access to the organization
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
+	//
+	// Takes a body of the `application/json` content type.
+	//
+	// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+	PatchV2OrganizationAccessControls(ctx context.Context, body PatchV2OrganizationAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetV2OrganizationsCurrent Gets information about the current organization
 	//
-	// Returns information about the current authorized user's organization.
+	// **Note**: This endpoint is deprecated. Use `GET /v2/organization` instead.
+	//
+	// Returns information about the current organization.
 	//
 	// Corresponds with GET /v2/organizations/current (the `GetV2OrganizationsCurrent` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetV2OrganizationsOrganizationIDAccessControls Get RBAC access information about the organization
+	// GetV2OrganizationsOrganizationIDAccessControls Get access controls for the organization
 	//
-	// Return all the roles on the resource type, which include all grants of the given resource
+	// **Note**: This endpoint is deprecated. Use `GET /v2/organization/accessControls` instead.
+	//
+	// Return all roles granted on the current organization.
+	//
+	// This route is currently not supported by BYOC.
 	//
 	// Corresponds with GET /v2/organizations/{organizationID}/accessControls (the `GetV2OrganizationsOrganizationIDAccessControls` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PatchV2OrganizationsOrganizationIDAccessControlsWithBody Update the RBAC grants on the organization
+	// PatchV2OrganizationsOrganizationIDAccessControlsWithBody Grant or revoke access to the organization
 	//
-	// Grant or revoke grants on roles of the resource.
+	// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
 	//
 	// Takes any type of body and a specified content type.
 	//
 	// Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	PatchV2OrganizationsOrganizationIDAccessControlsWithBody(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// PatchV2OrganizationsOrganizationIDAccessControls Update the RBAC grants on the organization
+	// PatchV2OrganizationsOrganizationIDAccessControls Grant or revoke access to the organization
 	//
-	// Grant or revoke grants on roles of the resource.
+	// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
 	//
 	// Takes a body of the `application/json` content type.
 	//
 	// Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	PatchV2OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, body PatchV2OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV2OrganizationsOrganizationIDClustersClusterIDMetrics Gets metrics for a cluster
 	//
-	// Returns metrics for the specified cluster ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and cluster ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+	// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+	//
+	// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 	//
 	// Corresponds with GET /v2/organizations/{organizationID}/clusters/{clusterID}/metrics (the `GetV2OrganizationsOrganizationIDClustersClusterIDMetrics` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsOrganizationIDClustersClusterIDMetrics(ctx context.Context, organizationID OrganizationID, clusterID ClusterID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics Gets metrics for a workspace group
 	//
-	// Returns metrics for the specified workspace group ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and workspace group ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+	// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+	//
+	// Returns metrics for the specified cluster group in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 	//
 	// Corresponds with GET /v2/organizations/{organizationID}/workspaceGroups/{workspaceGroupID}/metrics (the `GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// PostV2PrivateConnectionsWithBody Creates a new private connection
@@ -6094,6 +6174,23 @@ func (c *Client) GetV2ClustersClusterIDIdentity(ctx context.Context, clusterID C
 	return c.Client.Do(req)
 }
 
+// GetV2ClustersClusterIDMetrics Gets metrics for a cluster
+//
+// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
+//
+// Corresponds with GET /v2/clusters/{clusterID}/metrics (the `GetV2ClustersClusterIDMetrics` operationId).
+func (c *Client) GetV2ClustersClusterIDMetrics(ctx context.Context, clusterID ClusterID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2ClustersClusterIDMetricsRequest(c.Server, clusterID)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // GetV2ClustersClusterIDPrivateConnections Gets private connection information for a cluster
 //
 // Returns private connection information for the specified cluster ID, in JSON format.
@@ -6899,11 +6996,92 @@ func (c *Client) GetV2JobsJobIDParameters(ctx context.Context, jobID JobID, reqE
 	return c.Client.Do(req)
 }
 
+// GetV2Organization Gets information about the current organization
+//
+// Returns information about the current organization.
+//
+// Corresponds with GET /v2/organization (the `GetV2Organization` operationId).
+func (c *Client) GetV2Organization(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2OrganizationRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// GetV2OrganizationAccessControls Get access controls for the organization
+//
+// Return all roles granted on the current organization.
+//
+// This route is currently not supported by BYOC.
+//
+// Corresponds with GET /v2/organization/accessControls (the `GetV2OrganizationAccessControls` operationId).
+func (c *Client) GetV2OrganizationAccessControls(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV2OrganizationAccessControlsRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV2OrganizationAccessControlsWithBody Grant or revoke access to the organization
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
+//
+// Takes any type of body and a specified content type.
+//
+// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+func (c *Client) PatchV2OrganizationAccessControlsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV2OrganizationAccessControlsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+// PatchV2OrganizationAccessControls Grant or revoke access to the organization
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
+//
+// Takes a body of the `application/json` content type.
+//
+// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+func (c *Client) PatchV2OrganizationAccessControls(ctx context.Context, body PatchV2OrganizationAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPatchV2OrganizationAccessControlsRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 // GetV2OrganizationsCurrent Gets information about the current organization
 //
-// Returns information about the current authorized user's organization.
+// **Note**: This endpoint is deprecated. Use `GET /v2/organization` instead.
+//
+// Returns information about the current organization.
 //
 // Corresponds with GET /v2/organizations/current (the `GetV2OrganizationsCurrent` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetV2OrganizationsCurrent(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV2OrganizationsCurrentRequest(c.Server)
 	if err != nil {
@@ -6916,11 +7094,16 @@ func (c *Client) GetV2OrganizationsCurrent(ctx context.Context, reqEditors ...Re
 	return c.Client.Do(req)
 }
 
-// GetV2OrganizationsOrganizationIDAccessControls Get RBAC access information about the organization
+// GetV2OrganizationsOrganizationIDAccessControls Get access controls for the organization
 //
-// # Return all the roles on the resource type, which include all grants of the given resource
+// **Note**: This endpoint is deprecated. Use `GET /v2/organization/accessControls` instead.
+//
+// Return all roles granted on the current organization.
+//
+// This route is currently not supported by BYOC.
 //
 // Corresponds with GET /v2/organizations/{organizationID}/accessControls (the `GetV2OrganizationsOrganizationIDAccessControls` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetV2OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV2OrganizationsOrganizationIDAccessControlsRequest(c.Server, organizationID)
 	if err != nil {
@@ -6933,13 +7116,18 @@ func (c *Client) GetV2OrganizationsOrganizationIDAccessControls(ctx context.Cont
 	return c.Client.Do(req)
 }
 
-// PatchV2OrganizationsOrganizationIDAccessControlsWithBody Update the RBAC grants on the organization
+// PatchV2OrganizationsOrganizationIDAccessControlsWithBody Grant or revoke access to the organization
 //
-// Grant or revoke grants on roles of the resource.
+// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
 //
 // Takes any type of body and a specified content type.
 //
 // Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) PatchV2OrganizationsOrganizationIDAccessControlsWithBody(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV2OrganizationsOrganizationIDAccessControlsRequestWithBody(c.Server, organizationID, contentType, body)
 	if err != nil {
@@ -6952,13 +7140,18 @@ func (c *Client) PatchV2OrganizationsOrganizationIDAccessControlsWithBody(ctx co
 	return c.Client.Do(req)
 }
 
-// PatchV2OrganizationsOrganizationIDAccessControls Update the RBAC grants on the organization
+// PatchV2OrganizationsOrganizationIDAccessControls Grant or revoke access to the organization
 //
-// Grant or revoke grants on roles of the resource.
+// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
 //
 // Takes a body of the `application/json` content type.
 //
 // Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) PatchV2OrganizationsOrganizationIDAccessControls(ctx context.Context, organizationID OrganizationID, body PatchV2OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchV2OrganizationsOrganizationIDAccessControlsRequest(c.Server, organizationID, body)
 	if err != nil {
@@ -6973,9 +7166,12 @@ func (c *Client) PatchV2OrganizationsOrganizationIDAccessControls(ctx context.Co
 
 // GetV2OrganizationsOrganizationIDClustersClusterIDMetrics Gets metrics for a cluster
 //
-// Returns metrics for the specified cluster ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and cluster ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+//
+// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 //
 // Corresponds with GET /v2/organizations/{organizationID}/clusters/{clusterID}/metrics (the `GetV2OrganizationsOrganizationIDClustersClusterIDMetrics` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetV2OrganizationsOrganizationIDClustersClusterIDMetrics(ctx context.Context, organizationID OrganizationID, clusterID ClusterID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV2OrganizationsOrganizationIDClustersClusterIDMetricsRequest(c.Server, organizationID, clusterID)
 	if err != nil {
@@ -6990,9 +7186,12 @@ func (c *Client) GetV2OrganizationsOrganizationIDClustersClusterIDMetrics(ctx co
 
 // GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics Gets metrics for a workspace group
 //
-// Returns metrics for the specified workspace group ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and workspace group ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+//
+// Returns metrics for the specified cluster group in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 //
 // Corresponds with GET /v2/organizations/{organizationID}/workspaceGroups/{workspaceGroupID}/metrics (the `GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *Client) GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsRequest(c.Server, organizationID, workspaceGroupID)
 	if err != nil {
@@ -9994,6 +10193,40 @@ func NewGetV2ClustersClusterIDIdentityRequest(server string, clusterID ClusterID
 	return req, nil
 }
 
+// NewGetV2ClustersClusterIDMetricsRequest constructs an http.Request for the GetV2ClustersClusterIDMetrics method
+func NewGetV2ClustersClusterIDMetricsRequest(server string, clusterID ClusterID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "clusterID", clusterID, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: "uuid"})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/clusters/%s/metrics", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetV2ClustersClusterIDPrivateConnectionsRequest constructs an http.Request for the GetV2ClustersClusterIDPrivateConnections method
 func NewGetV2ClustersClusterIDPrivateConnectionsRequest(server string, clusterID ClusterID, params *GetV2ClustersClusterIDPrivateConnectionsParams) (*http.Request, error) {
 	var err error
@@ -11348,6 +11581,100 @@ func NewGetV2JobsJobIDParametersRequest(server string, jobID JobID) (*http.Reque
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewGetV2OrganizationRequest constructs an http.Request for the GetV2Organization method
+func NewGetV2OrganizationRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/organization")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetV2OrganizationAccessControlsRequest constructs an http.Request for the GetV2OrganizationAccessControls method
+func NewGetV2OrganizationAccessControlsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/organization/accessControls")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewPatchV2OrganizationAccessControlsRequest calls the generic PatchV2OrganizationAccessControls builder with application/json body
+func NewPatchV2OrganizationAccessControlsRequest(server string, body PatchV2OrganizationAccessControlsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPatchV2OrganizationAccessControlsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPatchV2OrganizationAccessControlsRequestWithBody constructs an http.Request for the PatchV2OrganizationAccessControls method, with any body, and a specified content type
+func NewPatchV2OrganizationAccessControlsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/organization/accessControls")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -13985,6 +14312,15 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v2/clusters/{clusterID}/identity (the `GetV2ClustersClusterIDIdentity` operationId).
 	GetV2ClustersClusterIDIdentityWithResponse(ctx context.Context, clusterID ClusterID, reqEditors ...RequestEditorFn) (*GetV2ClustersClusterIDIdentityResponse, error)
 
+	// GetV2ClustersClusterIDMetricsWithResponse Gets metrics for a cluster
+	//
+	// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/clusters/{clusterID}/metrics (the `GetV2ClustersClusterIDMetrics` operationId).
+	GetV2ClustersClusterIDMetricsWithResponse(ctx context.Context, clusterID ClusterID, reqEditors ...RequestEditorFn) (*GetV2ClustersClusterIDMetricsResponse, error)
+
 	// GetV2ClustersClusterIDPrivateConnectionsWithResponse Gets private connection information for a cluster
 	//
 	// Returns private connection information for the specified cluster ID, in JSON format.
@@ -14462,58 +14798,130 @@ type ClientWithResponsesInterface interface {
 	// Corresponds with GET /v2/jobs/{jobID}/parameters (the `GetV2JobsJobIDParameters` operationId).
 	GetV2JobsJobIDParametersWithResponse(ctx context.Context, jobID JobID, reqEditors ...RequestEditorFn) (*GetV2JobsJobIDParametersResponse, error)
 
+	// GetV2OrganizationWithResponse Gets information about the current organization
+	//
+	// Returns information about the current organization.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/organization (the `GetV2Organization` operationId).
+	GetV2OrganizationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2OrganizationResponse, error)
+
+	// GetV2OrganizationAccessControlsWithResponse Get access controls for the organization
+	//
+	// Return all roles granted on the current organization.
+	//
+	// This route is currently not supported by BYOC.
+	//
+	// Returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with GET /v2/organization/accessControls (the `GetV2OrganizationAccessControls` operationId).
+	GetV2OrganizationAccessControlsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2OrganizationAccessControlsResponse, error)
+
+	// PatchV2OrganizationAccessControlsWithBodyWithResponse Grant or revoke access to the organization
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
+	//
+	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+	PatchV2OrganizationAccessControlsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV2OrganizationAccessControlsResponse, error)
+
+	// PatchV2OrganizationAccessControlsWithResponse Grant or revoke access to the organization
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
+	//
+	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+	//
+	// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+	PatchV2OrganizationAccessControlsWithResponse(ctx context.Context, body PatchV2OrganizationAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV2OrganizationAccessControlsResponse, error)
+
 	// GetV2OrganizationsCurrentWithResponse Gets information about the current organization
 	//
-	// Returns information about the current authorized user's organization.
+	// **Note**: This endpoint is deprecated. Use `GET /v2/organization` instead.
+	//
+	// Returns information about the current organization.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /v2/organizations/current (the `GetV2OrganizationsCurrent` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2OrganizationsCurrentResponse, error)
 
-	// GetV2OrganizationsOrganizationIDAccessControlsWithResponse Get RBAC access information about the organization
+	// GetV2OrganizationsOrganizationIDAccessControlsWithResponse Get access controls for the organization
 	//
-	// Return all the roles on the resource type, which include all grants of the given resource
+	// **Note**: This endpoint is deprecated. Use `GET /v2/organization/accessControls` instead.
+	//
+	// Return all roles granted on the current organization.
+	//
+	// This route is currently not supported by BYOC.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /v2/organizations/{organizationID}/accessControls (the `GetV2OrganizationsOrganizationIDAccessControls` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDAccessControlsResponse, error)
 
-	// PatchV2OrganizationsOrganizationIDAccessControlsWithBodyWithResponse Update the RBAC grants on the organization
+	// PatchV2OrganizationsOrganizationIDAccessControlsWithBodyWithResponse Grant or revoke access to the organization
 	//
-	// Grant or revoke grants on roles of the resource.
+	// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
 	//
 	// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	PatchV2OrganizationsOrganizationIDAccessControlsWithBodyWithResponse(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV2OrganizationsOrganizationIDAccessControlsResponse, error)
 
-	// PatchV2OrganizationsOrganizationIDAccessControlsWithResponse Update the RBAC grants on the organization
+	// PatchV2OrganizationsOrganizationIDAccessControlsWithResponse Grant or revoke access to the organization
 	//
-	// Grant or revoke grants on roles of the resource.
+	// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+	//
+	// Grant or revoke roles to users or teams in the current organization.
+	//
+	// This route is currently not supported by BYOC.
 	//
 	// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	PatchV2OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, body PatchV2OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV2OrganizationsOrganizationIDAccessControlsResponse, error)
 
 	// GetV2OrganizationsOrganizationIDClustersClusterIDMetricsWithResponse Gets metrics for a cluster
 	//
-	// Returns metrics for the specified cluster ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and cluster ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+	// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+	//
+	// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /v2/organizations/{organizationID}/clusters/{clusterID}/metrics (the `GetV2OrganizationsOrganizationIDClustersClusterIDMetrics` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsOrganizationIDClustersClusterIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, clusterID ClusterID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDClustersClusterIDMetricsResponse, error)
 
 	// GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse Gets metrics for a workspace group
 	//
-	// Returns metrics for the specified workspace group ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and workspace group ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+	// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+	//
+	// Returns metrics for the specified cluster group in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 	//
 	// Returns a wrapper object for the known response body format(s).
 	//
 	// Corresponds with GET /v2/organizations/{organizationID}/workspaceGroups/{workspaceGroupID}/metrics (the `GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics` operationId).
+	//
+	// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 	GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error)
 
 	// PostV2PrivateConnectionsWithBodyWithResponse Creates a new private connection
@@ -16776,6 +17184,40 @@ func (r GetV2ClustersClusterIDIdentityResponse) ContentType() string {
 	return ""
 }
 
+type GetV2ClustersClusterIDMetricsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV2ClustersClusterIDMetricsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2ClustersClusterIDMetricsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2ClustersClusterIDMetricsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV2ClustersClusterIDMetricsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type GetV2ClustersClusterIDPrivateConnectionsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -18089,6 +18531,122 @@ func (r GetV2JobsJobIDParametersResponse) StatusCode() int {
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
 func (r GetV2JobsJobIDParametersResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV2OrganizationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *Organization
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV2OrganizationResponse) GetJSON200() *Organization {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV2OrganizationResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2OrganizationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2OrganizationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV2OrganizationResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetV2OrganizationAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	// JSON200 the response for an HTTP 200 `application/json` response
+	JSON200 *[]ResourceRole
+}
+
+// GetJSON200 returns the response for an HTTP 200 `application/json` response
+func (r GetV2OrganizationAccessControlsResponse) GetJSON200() *[]ResourceRole {
+	return r.JSON200
+}
+
+// GetBody returns the raw response body bytes
+func (r GetV2OrganizationAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r GetV2OrganizationAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetV2OrganizationAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetV2OrganizationAccessControlsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type PatchV2OrganizationAccessControlsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+}
+
+// GetBody returns the raw response body bytes
+func (r PatchV2OrganizationAccessControlsResponse) GetBody() []byte {
+	return r.Body
+}
+
+// Status returns HTTPResponse.Status
+func (r PatchV2OrganizationAccessControlsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PatchV2OrganizationAccessControlsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r PatchV2OrganizationAccessControlsResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -20863,6 +21421,21 @@ func (c *ClientWithResponses) GetV2ClustersClusterIDIdentityWithResponse(ctx con
 	return ParseGetV2ClustersClusterIDIdentityResponse(rsp)
 }
 
+// GetV2ClustersClusterIDMetricsWithResponse Gets metrics for a cluster
+//
+// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/clusters/{clusterID}/metrics (the `GetV2ClustersClusterIDMetrics` operationId).
+func (c *ClientWithResponses) GetV2ClustersClusterIDMetricsWithResponse(ctx context.Context, clusterID ClusterID, reqEditors ...RequestEditorFn) (*GetV2ClustersClusterIDMetricsResponse, error) {
+	rsp, err := c.GetV2ClustersClusterIDMetrics(ctx, clusterID, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2ClustersClusterIDMetricsResponse(rsp)
+}
+
 // GetV2ClustersClusterIDPrivateConnectionsWithResponse Gets private connection information for a cluster
 //
 // Returns private connection information for the specified cluster ID, in JSON format.
@@ -21562,13 +22135,83 @@ func (c *ClientWithResponses) GetV2JobsJobIDParametersWithResponse(ctx context.C
 	return ParseGetV2JobsJobIDParametersResponse(rsp)
 }
 
+// GetV2OrganizationWithResponse Gets information about the current organization
+//
+// Returns information about the current organization.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/organization (the `GetV2Organization` operationId).
+func (c *ClientWithResponses) GetV2OrganizationWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2OrganizationResponse, error) {
+	rsp, err := c.GetV2Organization(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2OrganizationResponse(rsp)
+}
+
+// GetV2OrganizationAccessControlsWithResponse Get access controls for the organization
+//
+// Return all roles granted on the current organization.
+//
+// This route is currently not supported by BYOC.
+//
+// Returns a wrapper object for the known response body format(s).
+//
+// Corresponds with GET /v2/organization/accessControls (the `GetV2OrganizationAccessControls` operationId).
+func (c *ClientWithResponses) GetV2OrganizationAccessControlsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2OrganizationAccessControlsResponse, error) {
+	rsp, err := c.GetV2OrganizationAccessControls(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetV2OrganizationAccessControlsResponse(rsp)
+}
+
+// PatchV2OrganizationAccessControlsWithBodyWithResponse Grant or revoke access to the organization
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
+//
+// Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+func (c *ClientWithResponses) PatchV2OrganizationAccessControlsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV2OrganizationAccessControlsResponse, error) {
+	rsp, err := c.PatchV2OrganizationAccessControlsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV2OrganizationAccessControlsResponse(rsp)
+}
+
+// PatchV2OrganizationAccessControlsWithResponse Grant or revoke access to the organization
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
+//
+// Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
+//
+// Corresponds with PATCH /v2/organization/accessControls (the `PatchV2OrganizationAccessControls` operationId).
+func (c *ClientWithResponses) PatchV2OrganizationAccessControlsWithResponse(ctx context.Context, body PatchV2OrganizationAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV2OrganizationAccessControlsResponse, error) {
+	rsp, err := c.PatchV2OrganizationAccessControls(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePatchV2OrganizationAccessControlsResponse(rsp)
+}
+
 // GetV2OrganizationsCurrentWithResponse Gets information about the current organization
 //
-// Returns information about the current authorized user's organization.
+// **Note**: This endpoint is deprecated. Use `GET /v2/organization` instead.
+//
+// Returns information about the current organization.
 //
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /v2/organizations/current (the `GetV2OrganizationsCurrent` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetV2OrganizationsCurrentWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetV2OrganizationsCurrentResponse, error) {
 	rsp, err := c.GetV2OrganizationsCurrent(ctx, reqEditors...)
 	if err != nil {
@@ -21577,13 +22220,19 @@ func (c *ClientWithResponses) GetV2OrganizationsCurrentWithResponse(ctx context.
 	return ParseGetV2OrganizationsCurrentResponse(rsp)
 }
 
-// GetV2OrganizationsOrganizationIDAccessControlsWithResponse Get RBAC access information about the organization
+// GetV2OrganizationsOrganizationIDAccessControlsWithResponse Get access controls for the organization
 //
-// # Return all the roles on the resource type, which include all grants of the given resource
+// **Note**: This endpoint is deprecated. Use `GET /v2/organization/accessControls` instead.
+//
+// Return all roles granted on the current organization.
+//
+// This route is currently not supported by BYOC.
 //
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /v2/organizations/{organizationID}/accessControls (the `GetV2OrganizationsOrganizationIDAccessControls` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDAccessControlsResponse, error) {
 	rsp, err := c.GetV2OrganizationsOrganizationIDAccessControls(ctx, organizationID, reqEditors...)
 	if err != nil {
@@ -21592,13 +22241,19 @@ func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDAccessControlsWith
 	return ParseGetV2OrganizationsOrganizationIDAccessControlsResponse(rsp)
 }
 
-// PatchV2OrganizationsOrganizationIDAccessControlsWithBodyWithResponse Update the RBAC grants on the organization
+// PatchV2OrganizationsOrganizationIDAccessControlsWithBodyWithResponse Grant or revoke access to the organization
 //
-// Grant or revoke grants on roles of the resource.
+// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
 //
 // Takes any type of body and a specified content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) PatchV2OrganizationsOrganizationIDAccessControlsWithBodyWithResponse(ctx context.Context, organizationID OrganizationID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PatchV2OrganizationsOrganizationIDAccessControlsResponse, error) {
 	rsp, err := c.PatchV2OrganizationsOrganizationIDAccessControlsWithBody(ctx, organizationID, contentType, body, reqEditors...)
 	if err != nil {
@@ -21607,13 +22262,18 @@ func (c *ClientWithResponses) PatchV2OrganizationsOrganizationIDAccessControlsWi
 	return ParsePatchV2OrganizationsOrganizationIDAccessControlsResponse(rsp)
 }
 
-// PatchV2OrganizationsOrganizationIDAccessControlsWithResponse Update the RBAC grants on the organization
+// PatchV2OrganizationsOrganizationIDAccessControlsWithResponse Grant or revoke access to the organization
 //
-// Grant or revoke grants on roles of the resource.
+// **Note**: This endpoint is deprecated. Use `PATCH /v2/organization/accessControls` instead.
+//
+// Grant or revoke roles to users or teams in the current organization.
+//
+// This route is currently not supported by BYOC.
 //
 // Takes a body of the `application/json` content type, and returns a wrapper object for the known response body format(s).
 //
 // Corresponds with PATCH /v2/organizations/{organizationID}/accessControls (the `PatchV2OrganizationsOrganizationIDAccessControls` operationId).
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) PatchV2OrganizationsOrganizationIDAccessControlsWithResponse(ctx context.Context, organizationID OrganizationID, body PatchV2OrganizationsOrganizationIDAccessControlsJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchV2OrganizationsOrganizationIDAccessControlsResponse, error) {
 	rsp, err := c.PatchV2OrganizationsOrganizationIDAccessControls(ctx, organizationID, body, reqEditors...)
 	if err != nil {
@@ -21624,11 +22284,15 @@ func (c *ClientWithResponses) PatchV2OrganizationsOrganizationIDAccessControlsWi
 
 // GetV2OrganizationsOrganizationIDClustersClusterIDMetricsWithResponse Gets metrics for a cluster
 //
-// Returns metrics for the specified cluster ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and cluster ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+//
+// Returns metrics for the specified cluster in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 //
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /v2/organizations/{organizationID}/clusters/{clusterID}/metrics (the `GetV2OrganizationsOrganizationIDClustersClusterIDMetrics` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDClustersClusterIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, clusterID ClusterID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDClustersClusterIDMetricsResponse, error) {
 	rsp, err := c.GetV2OrganizationsOrganizationIDClustersClusterIDMetrics(ctx, organizationID, clusterID, reqEditors...)
 	if err != nil {
@@ -21639,11 +22303,15 @@ func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDClustersClusterIDM
 
 // GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse Gets metrics for a workspace group
 //
-// Returns metrics for the specified workspace group ID, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. You must specify the organization ID and workspace group ID in the API call. To fetch the organization id use the /v1/organizations/current endpoint.
+// **Note**: This endpoint is deprecated. Use `GET /v2/clusters/{clusterID}/metrics` instead.
+//
+// Returns metrics for the specified cluster group in the current organization, in [OpenMetrics](https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md) compatible format. The returned metrics include metrics for all clusters in the group.
 //
 // Returns a wrapper object for the known response body format(s).
 //
 // Corresponds with GET /v2/organizations/{organizationID}/workspaceGroups/{workspaceGroupID}/metrics (the `GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics` operationId).
+//
+// Deprecated: this operation has been marked as deprecated upstream, but no `x-deprecated-reason` was set
 func (c *ClientWithResponses) GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsWithResponse(ctx context.Context, organizationID OrganizationID, workspaceGroupID WorkspaceGroupID, reqEditors ...RequestEditorFn) (*GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetricsResponse, error) {
 	rsp, err := c.GetV2OrganizationsOrganizationIDWorkspaceGroupsWorkspaceGroupIDMetrics(ctx, organizationID, workspaceGroupID, reqEditors...)
 	if err != nil {
@@ -24125,6 +24793,22 @@ func ParseGetV2ClustersClusterIDIdentityResponse(rsp *http.Response) (*GetV2Clus
 	return response, nil
 }
 
+// ParseGetV2ClustersClusterIDMetricsResponse parses an HTTP response from a GetV2ClustersClusterIDMetricsWithResponse call
+func ParseGetV2ClustersClusterIDMetricsResponse(rsp *http.Response) (*GetV2ClustersClusterIDMetricsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2ClustersClusterIDMetricsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	return response, nil
+}
+
 // ParseGetV2ClustersClusterIDPrivateConnectionsResponse parses an HTTP response from a GetV2ClustersClusterIDPrivateConnectionsWithResponse call
 func ParseGetV2ClustersClusterIDPrivateConnectionsResponse(rsp *http.Response) (*GetV2ClustersClusterIDPrivateConnectionsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -25340,6 +26024,98 @@ func ParseGetV2JobsJobIDParametersResponse(rsp *http.Response) (*GetV2JobsJobIDP
 	case rsp.StatusCode == 500:
 		break // No content-type
 
+	}
+
+	return response, nil
+}
+
+// ParseGetV2OrganizationResponse parses an HTTP response from a GetV2OrganizationWithResponse call
+func ParseGetV2OrganizationResponse(rsp *http.Response) (*GetV2OrganizationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2OrganizationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Organization
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParseGetV2OrganizationAccessControlsResponse parses an HTTP response from a GetV2OrganizationAccessControlsWithResponse call
+func ParseGetV2OrganizationAccessControlsResponse(rsp *http.Response) (*GetV2OrganizationAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetV2OrganizationAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest []ResourceRole
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case rsp.StatusCode == 400:
+		break // No content-type
+
+	case rsp.StatusCode == 401:
+		break // No content-type
+
+	case rsp.StatusCode == 429:
+		break // No content-type
+
+	case rsp.StatusCode == 500:
+		break // No content-type
+
+	}
+
+	return response, nil
+}
+
+// ParsePatchV2OrganizationAccessControlsResponse parses an HTTP response from a PatchV2OrganizationAccessControlsWithResponse call
+func ParsePatchV2OrganizationAccessControlsResponse(rsp *http.Response) (*PatchV2OrganizationAccessControlsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PatchV2OrganizationAccessControlsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
 	}
 
 	return response, nil

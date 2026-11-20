@@ -3704,7 +3704,7 @@ type ClientInterface interface {
 	//
 	// Returns the access-control template for the given resource type in the current organization.
 	// Templates define the default direct grants applied when a cluster or database is created.
-	// Requires the RBACRoleV2 feature flag. Available to all organization members.
+	// Available to all organization members when this API is enabled for the organization.
 	// `resourceType` must be `Cluster` or `Database`.
 	//
 	// This route is currently not supported by BYOC.
@@ -3715,7 +3715,7 @@ type ClientInterface interface {
 	// PatchV2AccessControlTemplatesResourceTypeWithBody Updates default grants for new clusters or databases
 	//
 	// Grants and/or revokes roles on the access-control template for the given resource type.
-	// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+	// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 	// `resourceType` must be `Cluster` or `Database`.
 	//
 	// This route is currently not supported by BYOC.
@@ -3728,7 +3728,7 @@ type ClientInterface interface {
 	// PatchV2AccessControlTemplatesResourceType Updates default grants for new clusters or databases
 	//
 	// Grants and/or revokes roles on the access-control template for the given resource type.
-	// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+	// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 	// `resourceType` must be `Cluster` or `Database`.
 	//
 	// This route is currently not supported by BYOC.
@@ -5566,7 +5566,7 @@ func (c *Client) PatchV1ServiceAccountsServiceAccountID(ctx context.Context, ser
 //
 // Returns the access-control template for the given resource type in the current organization.
 // Templates define the default direct grants applied when a cluster or database is created.
-// Requires the RBACRoleV2 feature flag. Available to all organization members.
+// Available to all organization members when this API is enabled for the organization.
 // `resourceType` must be `Cluster` or `Database`.
 //
 // This route is currently not supported by BYOC.
@@ -5587,7 +5587,7 @@ func (c *Client) GetV2AccessControlTemplatesResourceType(ctx context.Context, re
 // PatchV2AccessControlTemplatesResourceTypeWithBody Updates default grants for new clusters or databases
 //
 // Grants and/or revokes roles on the access-control template for the given resource type.
-// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 // `resourceType` must be `Cluster` or `Database`.
 //
 // This route is currently not supported by BYOC.
@@ -5610,7 +5610,7 @@ func (c *Client) PatchV2AccessControlTemplatesResourceTypeWithBody(ctx context.C
 // PatchV2AccessControlTemplatesResourceType Updates default grants for new clusters or databases
 //
 // Grants and/or revokes roles on the access-control template for the given resource type.
-// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 // `resourceType` must be `Cluster` or `Database`.
 //
 // This route is currently not supported by BYOC.
@@ -13978,7 +13978,7 @@ type ClientWithResponsesInterface interface {
 	//
 	// Returns the access-control template for the given resource type in the current organization.
 	// Templates define the default direct grants applied when a cluster or database is created.
-	// Requires the RBACRoleV2 feature flag. Available to all organization members.
+	// Available to all organization members when this API is enabled for the organization.
 	// `resourceType` must be `Cluster` or `Database`.
 	//
 	// This route is currently not supported by BYOC.
@@ -13991,7 +13991,7 @@ type ClientWithResponsesInterface interface {
 	// PatchV2AccessControlTemplatesResourceTypeWithBodyWithResponse Updates default grants for new clusters or databases
 	//
 	// Grants and/or revokes roles on the access-control template for the given resource type.
-	// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+	// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 	// `resourceType` must be `Cluster` or `Database`.
 	//
 	// This route is currently not supported by BYOC.
@@ -14004,7 +14004,7 @@ type ClientWithResponsesInterface interface {
 	// PatchV2AccessControlTemplatesResourceTypeWithResponse Updates default grants for new clusters or databases
 	//
 	// Grants and/or revokes roles on the access-control template for the given resource type.
-	// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+	// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 	// `resourceType` must be `Cluster` or `Database`.
 	//
 	// This route is currently not supported by BYOC.
@@ -20913,7 +20913,7 @@ func (c *ClientWithResponses) PatchV1ServiceAccountsServiceAccountIDWithResponse
 //
 // Returns the access-control template for the given resource type in the current organization.
 // Templates define the default direct grants applied when a cluster or database is created.
-// Requires the RBACRoleV2 feature flag. Available to all organization members.
+// Available to all organization members when this API is enabled for the organization.
 // `resourceType` must be `Cluster` or `Database`.
 //
 // This route is currently not supported by BYOC.
@@ -20932,7 +20932,7 @@ func (c *ClientWithResponses) GetV2AccessControlTemplatesResourceTypeWithRespons
 // PatchV2AccessControlTemplatesResourceTypeWithBodyWithResponse Updates default grants for new clusters or databases
 //
 // Grants and/or revokes roles on the access-control template for the given resource type.
-// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 // `resourceType` must be `Cluster` or `Database`.
 //
 // This route is currently not supported by BYOC.
@@ -20951,7 +20951,7 @@ func (c *ClientWithResponses) PatchV2AccessControlTemplatesResourceTypeWithBodyW
 // PatchV2AccessControlTemplatesResourceTypeWithResponse Updates default grants for new clusters or databases
 //
 // Grants and/or revokes roles on the access-control template for the given resource type.
-// Requires the RBACRoleV2 feature flag and OrganizationControlAccess permission.
+// Requires OrganizationControlAccess permission and that this API is enabled for the organization.
 // `resourceType` must be `Cluster` or `Database`.
 //
 // This route is currently not supported by BYOC.
